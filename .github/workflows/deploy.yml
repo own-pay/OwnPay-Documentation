@@ -1,0 +1,45 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy to learn.ownpay.org
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build VitePress site
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Deploy to server via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username:            ${{ secrets.DEPLOY_SSH_USER }}
+          server:              ${{ secrets.DEPLOY_SSH_HOST }}
+          port:                ${{ secrets.DEPLOY_SSH_PORT }}
+          ssh_private_key:     ${{ secrets.DEPLOY_SSH_KEY }}
+          local_path:          .vitepress/dist/*
+          remote_path:         ${{ secrets.DEPLOY_REMOTE_PATH }}
+          delete_remote_files: true
