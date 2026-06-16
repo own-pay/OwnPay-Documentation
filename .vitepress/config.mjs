@@ -6,18 +6,19 @@ export default defineConfig({
   description: 'Official Documentation for OwnPay — self-hosted, open-source payment infrastructure.',
 
   cleanUrls: true,
+  appearance: false,
 
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['meta', { name: 'theme-color', content: '#0066ff' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/ownpay-symbol.svg' }],
+    ['meta', { name: 'theme-color', content: '#112964' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', { href: 'https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap', rel: 'stylesheet' }],
+    ['link', { href: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap', rel: 'stylesheet' }],
   ],
 
   themeConfig: {
-    logo: '/ownpay-logo.svg',
-    siteTitle: false,
+    logo: '/ownpay-symbol.svg',
+    siteTitle: 'OwnPay',
 
     nav: [
       { text: 'User Guide',    link: '/user-guide/',  activeMatch: '/user-guide/' },

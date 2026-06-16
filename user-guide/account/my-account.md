@@ -16,6 +16,7 @@ The My Account settings page allows administrators and staff to update their dis
 ## Getting Here
 
 To access your personal account settings:
+
 1. Log in to the OwnPay admin dashboard.
 2. In the top navbar or the left sidebar navigation footer, click on your profile name.
 3. Select **My Account** or **Account Settings** from the dropdown menu.
@@ -27,20 +28,26 @@ To access your personal account settings:
 The Account Settings page consists of the following sections:
 
 ### 1. Profile Information
+
 Update your basic identification details:
+
 * **Name:** Your visual display name used throughout the platform audit logs.
 * **Email:** Your email address used for login and password resets.
 * **Update Profile:** Saves the profile edits.
 
 ### 2. Update Password
-Securely rotate your access credentials:
+
+Securely rotate your access credentials:\
+
 * **Current Password:** Required to authenticate changes.
 * **New Password:** Must be at least 8 characters.
 * **Confirm Password:** Must match the new password.
 * **Update Password:** Verifies and saves the new credentials, automatically logging out active sessions to enforce re-login.
 
 ### 3. Two-Factor Authentication (2FA) Setup
+
 Enforce multi-factor verification:
+
 * **Status Badge:** Shows `Enabled` (green) or `Disabled` (red).
 * **Setup/Manage 2FA Button:** Redirects to the two-factor authentication setup subpage.
 * **QR Code & Secret (Setup screen):** Authenticator app sync targets.
@@ -51,12 +58,14 @@ Enforce multi-factor verification:
 ## Fields & Options Reference
 
 ### Profile Settings Reference
+
 | Field Name | Type | Required? | Example / Default | Description |
 |---|---|---|---|---|
 | **Name** | Text Input | Yes | John Doe | Administrator display name. |
 | **Email** | Text Input | Yes | admin@example.com | Registered email address used for dashboard login. |
 
 ### Password Rotation Reference
+
 | Field Name | Type | Required? | Example / Default | Description |
 |---|---|---|---|---|
 | **Current Password** | Password Input | Yes | ••••••••• | Existing password to authenticate changes. |
