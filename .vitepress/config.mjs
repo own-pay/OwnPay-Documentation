@@ -6,7 +6,7 @@ export default defineConfig({
   description: 'Official Documentation for OwnPay — self-hosted, open-source payment Gateway.',
 
   cleanUrls: true,
-  appearance: true,
+  appearance: 'light',
   srcExclude: ['**/README.md'],
 
   sitemap: {
