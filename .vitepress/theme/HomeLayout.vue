@@ -1,8 +1,34 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { VPNavBarSearch } from 'vitepress/theme'
 
 const mobileMenuOpen = ref(false)
+const isDark = ref(false)
+let darkObserver = null
+
+onMounted(() => {
+  isDark.value = document.documentElement.classList.contains('dark')
+  darkObserver = new MutationObserver(() => {
+    isDark.value = document.documentElement.classList.contains('dark')
+  })
+  darkObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+})
+
+onUnmounted(() => {
+  if (darkObserver) darkObserver.disconnect()
+})
+
+const toggleTheme = () => {
+  const html = document.documentElement
+  const isCurrentlyDark = html.classList.contains('dark')
+  if (isCurrentlyDark) {
+    html.classList.remove('dark')
+    localStorage.setItem('vitepress-theme-appearance', 'light')
+  } else {
+    html.classList.add('dark')
+    localStorage.setItem('vitepress-theme-appearance', 'dark')
+  }
+}
 
 const triggerSearch = () => {
   const event = new KeyboardEvent('keydown', {
@@ -35,6 +61,8 @@ const icons = {
   search:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
   check:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
   dash:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+  sun:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`,
+  moon:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>`,
   github:   `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`,
   facebook: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>`,
   youtube:  `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.524 3.545 12 3.545 12 3.545s-7.525 0-9.387.508a3.003 3.003 0 0 0-2.11 2.11C0 8.025 0 12 0 12s0 3.975.503 5.837a3.003 3.003 0 0 0 2.11 2.11c1.862.508 9.387.508 9.387.508s7.525 0 9.387-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.975 24 12 24 12s0-3.975-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
@@ -79,7 +107,7 @@ const explore = [
     <header class="op-nav">
       <div class="op-nav__inner">
         <a class="op-nav__logo" href="/">
-          <img src="/light_mode.svg" class="op-nav__logo-img" alt="OwnPay Logo" style="height: 28px; width: auto; display: block;" />
+          <img :src="isDark ? '/dark_mode.svg' : '/light_mode.svg'" class="op-nav__logo-img" alt="OwnPay Logo" style="height: 28px; width: auto; display: block;" />
         </a>
         <nav class="op-nav__links">
           <a
@@ -100,6 +128,7 @@ const explore = [
           <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page" data-tooltip="Facebook Page"></a>
           <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group Community" data-tooltip="Facebook Group"></a>
           <a class="op-nav__icon-btn" href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel" data-tooltip="YouTube"></a>
+          <button class="op-nav__theme-btn" type="button" v-html="isDark ? icons.sun : icons.moon" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'" @click="toggleTheme"></button>
           <a class="op-nav__cta" href="/guide/installation">Installation</a>
           <button
             class="op-nav__burger"
@@ -130,6 +159,7 @@ const explore = [
           <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page" data-tooltip="Facebook Page"></a>
           <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group" data-tooltip="Facebook Group"></a>
           <a class="op-nav__icon-btn" href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel" data-tooltip="YouTube"></a>
+          <button class="op-nav__icon-btn" type="button" v-html="isDark ? icons.sun : icons.moon" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'" @click="toggleTheme"></button>
         </div>
       </div>
     </header>
@@ -152,10 +182,10 @@ const explore = [
             </p>
 
             <!-- Prominent documentation-centric search bar -->
-            <div class="op-hero__search-box" @click="triggerSearch" style="display: flex; align-items: center; gap: 12px; background: var(--op-surface); border: 1px solid var(--op-border-2); border-radius: 100px; padding: 14px 24px; margin-bottom: 24px; cursor: pointer; box-shadow: var(--op-shadow-sm); transition: all var(--op-transition); max-width: 480px;">
-              <span v-html="icons.search" style="width: 18px; height: 18px; color: var(--op-ink-3); flex-shrink: 0; display: inline-flex;"></span>
-              <span style="color: var(--op-ink-3); font-size: 14.5px; flex: 1; user-select: none;">Search documentation...</span>
-              <span style="font-family: var(--op-font-mono); font-size: 11px; color: var(--op-ink-3); background: var(--op-bg-alt); border: 1px solid var(--op-border); border-radius: 6px; padding: 2px 7px;">⌘K</span>
+            <div class="op-hero__search-box" @click="triggerSearch">
+              <span class="op-hero__search-box-icon" v-html="icons.search"></span>
+              <span class="op-hero__search-box-label">Search documentation...</span>
+              <span class="op-hero__search-box-kbd">⌘K</span>
             </div>
 
             <div class="op-hero__actions">
