@@ -202,6 +202,32 @@
 }
 .op-nav__icon-btn:hover { color: var(--op-ink); border-color: var(--op-ink-3); background: var(--op-surface); }
 .op-nav__icon-btn svg { width: 17px; height: 17px; }
+.op-nav__icon-btn {
+  position: relative;
+}
+.op-nav__icon-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--op-font-body);
+  white-space: nowrap;
+  color: #fff;
+  background: #1e293b;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 200;
+}
+.op-nav__icon-btn:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
 .op-root .op-nav__cta {
   font-size: 13.5px; font-weight: 600; background: var(--op-navy) !important; color: #ffffff !important;
   padding: 9px 19px; border-radius: 100px;
@@ -358,7 +384,7 @@
 /* ── BENTO FEATURES ─────────────────────────────────────── */
 .op-features { padding: 100px 0; }
 .op-bento {
-  display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 16px;
+  display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: auto; gap: 16px;
 }
 .op-bento__lg { grid-column: span 2; grid-row: span 2; }
 .op-tile {
@@ -537,7 +563,31 @@
   display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.6);
   transition: all var(--op-transition);
 }
-.op-footer__social a:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+.op-footer__social a {
+  position: relative;
+}
+.op-footer__social a::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--op-font-body);
+  white-space: nowrap;
+  color: #fff;
+  background: #1e293b;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.op-footer__social a:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
 .op-footer__social svg { width: 15px; height: 15px; }
 .op-footer__cols { flex: 1; display: flex; gap: 40px; flex-wrap: wrap; }
 .op-footer__col { display: flex; flex-direction: column; gap: 10px; min-width: 130px; }
@@ -575,11 +625,50 @@
   .op-how__inner { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
-  .op-nav__inner { padding: 0 16px; }
+  .op-nav__inner { padding: 0 12px; gap: 4px; }
   .op-nav__links { display: none; }
   .op-nav__right > .op-nav__icon-btn { display: none; }
   .op-nav__right > .op-nav__cta { display: none; }
   .op-nav__burger { display: flex; }
+  .op-nav__right { margin-left: 0; }
+  .VPNavBarSearch {
+    flex: 0 1 auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    margin-right: 8px !important;
+  }
+  .VPNavBarSearch .DocSearch-Button {
+    min-width: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid var(--op-border-2) !important;
+    background: transparent !important;
+  }
+  .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .VPNavBarSearch .DocSearch-Button .DocSearch-Search-Icon {
+    width: 16px;
+    height: 16px;
+    color: var(--op-ink-2);
+  }
+  .VPNavBarSearch .DocSearch-Button:hover {
+    color: var(--op-ink);
+    border-color: var(--op-ink-3) !important;
+    background: var(--op-surface) !important;
+  }
+  .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Placeholder,
+  .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Keys {
+    display: none !important;
+  }
   .op-hero { padding: 56px 0 64px; }
   .op-bento { grid-template-columns: 1fr; }
   .op-bento__lg { grid-column: span 1; }

@@ -96,10 +96,10 @@ const explore = [
         </nav>
         <VPNavBarSearch style="margin-left: auto; margin-right: 16px; flex: 1; max-width: 520px;" />
         <div class="op-nav__right">
-          <a class="op-nav__icon-btn" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub"></a>
-          <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page"></a>
-          <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group Community"></a>
-          <a class="op-nav__icon-btn" href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel"></a>
+          <a class="op-nav__icon-btn" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub" data-tooltip="GitHub"></a>
+          <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page" data-tooltip="Facebook Page"></a>
+          <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group Community" data-tooltip="Facebook Group"></a>
+          <a class="op-nav__icon-btn" href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel" data-tooltip="YouTube"></a>
           <a class="op-nav__cta" href="/guide/installation">Installation</a>
           <button
             class="op-nav__burger"
@@ -126,10 +126,10 @@ const explore = [
         </a>
         <div class="op-nav__mobile-actions">
           <a class="op-nav__cta op-nav__cta--block" href="/guide/installation" @click="mobileMenuOpen = false">Installation</a>
-          <a class="op-nav__icon-btn" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub"></a>
-          <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page"></a>
-          <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group"></a>
-          <a class="op-nav__icon-btn" href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel"></a>
+          <a class="op-nav__icon-btn" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub" data-tooltip="GitHub"></a>
+          <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page" data-tooltip="Facebook Page"></a>
+          <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group" data-tooltip="Facebook Group"></a>
+          <a class="op-nav__icon-btn" href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel" data-tooltip="YouTube"></a>
         </div>
       </div>
     </header>
@@ -299,10 +299,10 @@ const explore = [
             </div>
             <span class="op-footer__brand-sub">Self-hosted, open-source payment infrastructure.</span>
             <div class="op-footer__social">
-              <a href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub"></a>
-              <a href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page"></a>
-              <a href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group Community"></a>
-              <a href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel"></a>
+              <a href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub" data-tooltip="GitHub"></a>
+              <a href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page" data-tooltip="Facebook Page"></a>
+              <a href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group Community" data-tooltip="Facebook Group"></a>
+              <a href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel" data-tooltip="YouTube"></a>
             </div>
           </div>
           <div class="op-footer__cols">
