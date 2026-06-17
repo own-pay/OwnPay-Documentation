@@ -82,5 +82,5 @@ Build and publish custom payment gateway plugins using the OwnPay Plugin API.
 ## External References
 
 - [API Reference →](https://docs.ownpay.org) — Full OpenAPI spec with live try-it-out
-- [Plugin Catalog →](https://plugin.ownpay.org) — Browse community plugins
+- [Plugin Catalog →](https://plugins.ownpay.org) — Browse community plugins
 - [GitHub →](https://github.com/own-pay/OwnPay) — Source code and issues

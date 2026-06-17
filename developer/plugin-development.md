@@ -310,7 +310,7 @@ Once your plugin is ready:
 
 1. Host it as a public GitHub repository
 2. Add the `ownpay-plugin` topic to the repo
-3. Submit a Pull Request to [plugin.ownpay.org](https://plugin.ownpay.org) with your plugin metadata
+3. Submit a Pull Request to [plugin.ownpay.org](https://plugins.ownpay.org) with your plugin metadata
 4. After review, it appears in the community catalog
 
 The catalog entry requires: `plugin.json`, a `README.md`, a screenshot, and confirmation that the plugin passes OwnPay's basic test suite.

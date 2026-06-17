@@ -1,7 +1,22 @@
 <script setup>
 import { ref } from 'vue'
+import { VPNavBarSearch } from 'vitepress/theme'
 
 const mobileMenuOpen = ref(false)
+
+const triggerSearch = () => {
+  const event = new KeyboardEvent('keydown', {
+    key: 'k',
+    code: 'KeyK',
+    keyCode: 75,
+    which: 75,
+    ctrlKey: true,
+    metaKey: true,
+    bubbles: true,
+    cancelable: true
+  });
+  window.dispatchEvent(event);
+}
 
 const icons = {
   burger:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>`,
@@ -21,6 +36,9 @@ const icons = {
   check:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
   dash:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
   github:   `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`,
+  facebook: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>`,
+  youtube:  `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.524 3.545 12 3.545 12 3.545s-7.525 0-9.387.508a3.003 3.003 0 0 0-2.11 2.11C0 8.025 0 12 0 12s0 3.975.503 5.837a3.003 3.003 0 0 0 2.11 2.11c1.862.508 9.387.508 9.387.508s7.525 0 9.387-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.975 24 12 24 12s0-3.975-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
+  users:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
 }
 
 const navLinks = [
@@ -33,24 +51,11 @@ const navLinks = [
 const gateways = ['bKash', 'Nagad', 'Rocket', 'Upay', 'SSLCommerz', 'Stripe', 'PayPal', 'Razorpay', 'Flutterwave', 'Paystack', 'M-Pesa', 'USDT / Crypto']
 
 const bento = [
-  { icon: 'globe', large: true, badge: 'Industry First', title: 'White-Label Custom Domains', desc: 'Every brand runs on its own custom domain with its own SSL certificate. Your customers see your brand — never OwnPay.', domain: 'checkout.your-brand.com' },
-  { icon: 'puzzle',  title: 'Plugin Gateways',  desc: '123+ sandboxed gateway plugins — bKash, Stripe, Razorpay, crypto, and more.' },
-  { icon: 'ledger',  title: 'Double-Entry Ledger', desc: 'bcmath-precise, atomic, audit-complete bookkeeping for every transaction.' },
-  { icon: 'phone',   title: 'Mobile SMS Gateway', desc: 'Pair an Android device to auto-parse mobile banking SMS — zero API needed.' },
-  { icon: 'shield',  title: 'Enterprise Security', desc: 'AES-256-GCM encryption, Argon2id hashing, strict CSP, and granular RBAC.' },
-]
-
-const compareSelf = [
-  { yes: true,  text: 'Source code you fully own and can audit' },
-  { yes: true,  text: 'Zero per-transaction platform fees' },
-  { yes: true,  text: 'Unlimited brands on unlimited custom domains' },
-  { yes: true,  text: 'Your data stays on your own infrastructure' },
-]
-const compareSaas = [
-  { yes: false, text: 'Closed source, vendor-controlled roadmap' },
-  { yes: false, text: 'A cut of every transaction you process' },
-  { yes: false, text: 'Branding tied to the provider’s domain' },
-  { yes: false, text: 'Customer data lives on someone else’s servers' },
+  { icon: 'globe', large: true, badge: 'System Setup', title: 'White-Label Custom Domains', desc: 'Step-by-step guides on configuring isolated store domains and setting up TLS/SSL certificates per brand.', href: '/user-guide/system/domains', domain: 'learn.ownpay.org' },
+  { icon: 'puzzle',  title: 'Payment Gateway Integration',  desc: 'Configure bkash, Stripe, SSLCommerz, Rocket, and other sandboxed payment adapters.', href: '/user-guide/gateways/gateways' },
+  { icon: 'ledger',  title: 'Ledger Bookkeeping', desc: 'Understand the mechanics of double-entry ledger bookkeeping and precise transaction logging.', href: '/user-guide/payments/ledger' },
+  { icon: 'phone',   title: 'Android SMS Gateway', desc: 'Pair your Android device to automatically parse incoming bank transaction SMS.', href: '/user-guide/mobile-sms/devices' },
+  { icon: 'shield',  title: 'Authentication & API Keys', desc: 'Manage staff roles, two-factor authentication, and developer integration credentials.', href: '/user-guide/auth/login' },
 ]
 
 const steps = [
@@ -62,7 +67,7 @@ const steps = [
 const explore = [
   { icon: 'book',     title: 'User Guide',     desc: 'Admin panel walkthrough — gateways, brands, payments, reports, and settings.', href: '/user-guide/',              external: false },
   { icon: 'code',     title: 'Developer Docs', desc: 'PHP & Node.js integration, webhook setup, building custom payment plugins.',    href: '/developer/',               external: false },
-  { icon: 'cube',     title: 'Plugin Catalog', desc: 'Browse 123+ payment gateway plugins and community-built extensions.',           href: 'https://plugin.ownpay.org', external: true  },
+  { icon: 'cube',     title: 'Plugin Catalog', desc: 'Browse 123+ payment gateway plugins and community-built extensions.',           href: 'https://plugins.ownpay.org', external: true  },
   { icon: 'terminal', title: 'API Reference',  desc: 'Full OpenAPI specification with request/response schemas and live samples.',    href: 'https://docs.ownpay.org',   external: true  },
 ]
 </script>
@@ -74,9 +79,7 @@ const explore = [
     <header class="op-nav">
       <div class="op-nav__inner">
         <a class="op-nav__logo" href="/">
-          <img src="/ownpay-symbol.svg" class="op-nav__logo-img" alt="" />
-          <span class="op-nav__wordmark"><b>Own</b><span>pay</span></span>
-          <span class="op-nav__badge">Docs</span>
+          <img src="/light_mode.svg" class="op-nav__logo-img" alt="OwnPay Logo" style="height: 28px; width: auto; display: block;" />
         </a>
         <nav class="op-nav__links">
           <a
@@ -91,9 +94,13 @@ const explore = [
             <span v-if="l.external" class="op-nav__link-ext" v-html="icons.extarrow"></span>
           </a>
         </nav>
+        <VPNavBarSearch style="margin-left: auto; margin-right: 16px;" />
         <div class="op-nav__right">
           <a class="op-nav__icon-btn" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub"></a>
-          <a class="op-nav__cta" href="/user-guide/">Get Started</a>
+          <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page"></a>
+          <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group Community"></a>
+          <a class="op-nav__icon-btn" href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel"></a>
+          <a class="op-nav__cta" href="/guide/installation">Installation</a>
           <button
             class="op-nav__burger"
             type="button"
@@ -118,8 +125,11 @@ const explore = [
           <span v-if="l.external" class="op-nav__link-ext" v-html="icons.extarrow"></span>
         </a>
         <div class="op-nav__mobile-actions">
-          <a class="op-nav__cta op-nav__cta--block" href="/user-guide/" @click="mobileMenuOpen = false">Get Started</a>
+          <a class="op-nav__cta op-nav__cta--block" href="/guide/installation" @click="mobileMenuOpen = false">Installation</a>
           <a class="op-nav__icon-btn" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub"></a>
+          <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page"></a>
+          <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group"></a>
+          <a class="op-nav__icon-btn" href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel"></a>
         </div>
       </div>
     </header>
@@ -131,64 +141,48 @@ const explore = [
           <div>
             <a class="op-hero__pill" href="https://github.com/own-pay/OwnPay/releases/latest" target="_blank" rel="noopener">
               <span class="op-hero__pill-dot"></span>
-              Public Beta v0.1.0 — Out Now
+              Docs Hub — Public Beta v0.1.0
               <span v-html="icons.extarrow"></span>
             </a>
 
-            <h1 class="op-hero__h1">Payment infrastructure,<br><em>on your own server.</em></h1>
+            <h1 class="op-hero__h1">How can we<br><em>help you today?</em></h1>
 
             <p class="op-hero__sub">
-              123 gateways, multi-brand white-label domains, a double-entry ledger, and a full REST API —
-              self-hosted, open-source, and entirely yours.
+              Access comprehensive setup guides, integration modules, API reference docs, and troubleshooting resources for OwnPay self-hosted gateway.
             </p>
 
-            <div class="op-hero__actions">
-              <a class="op-btn op-btn--primary" href="/user-guide/">Read the Docs <span v-html="icons.arrow"></span></a>
-              <a class="op-btn op-btn--secondary" href="/developer/">Developer Guide</a>
-              <a class="op-btn op-btn--ghost" href="https://demo.ownpay.org" target="_blank" rel="noopener">Live Demo <span v-html="icons.extarrow"></span></a>
+            <!-- Prominent documentation-centric search bar -->
+            <div class="op-hero__search-box" @click="triggerSearch" style="display: flex; align-items: center; gap: 12px; background: var(--op-surface); border: 1px solid var(--op-border-2); border-radius: 100px; padding: 14px 24px; margin-bottom: 24px; cursor: pointer; box-shadow: var(--op-shadow-sm); transition: all var(--op-transition); max-width: 480px;">
+              <span v-html="icons.search" style="width: 18px; height: 18px; color: var(--op-ink-3); flex-shrink: 0; display: inline-flex;"></span>
+              <span style="color: var(--op-ink-3); font-size: 14.5px; flex: 1; user-select: none;">Search documentation...</span>
+              <span style="font-family: var(--op-font-mono); font-size: 11px; color: var(--op-ink-3); background: var(--op-bg-alt); border: 1px solid var(--op-border); border-radius: 6px; padding: 2px 7px;">⌘K</span>
             </div>
 
-            <div class="op-hero__chips">
-              <span class="op-chip">PHP 8.3+</span>
-              <span class="op-chip">AGPL-3.0 · Free Forever</span>
-              <span class="op-chip">PHPStan Level 9</span>
-              <span class="op-chip">Zero SaaS Fees</span>
+            <div class="op-hero__actions">
+              <a class="op-btn op-btn--primary" href="/guide/installation">Installation Guide <span v-html="icons.arrow"></span></a>
+              <a class="op-btn op-btn--secondary" href="/user-guide/">User Guide</a>
+              <a class="op-btn op-btn--ghost" href="https://docs.ownpay.org" target="_blank" rel="noopener">API Reference <span v-html="icons.extarrow"></span></a>
             </div>
           </div>
 
-          <div class="op-mock">
-            <div class="op-mock__bar">
-              <span class="op-mock__dot op-mock__dot--r"></span>
-              <span class="op-mock__dot op-mock__dot--y"></span>
-              <span class="op-mock__dot op-mock__dot--g"></span>
-              <span class="op-mock__url">dashboard.your-brand.com</span>
+          <!-- Quickstart Terminal on the right side of the hero -->
+          <div class="op-code">
+            <div class="op-code__bar">
+              <span class="op-dot op-dot--r"></span>
+              <span class="op-dot op-dot--y"></span>
+              <span class="op-dot op-dot--g"></span>
+              <span class="op-code__file">quickstart_install.sh</span>
             </div>
-            <div class="op-mock__body">
-              <div class="op-mock__stat-label">Today's Volume</div>
-              <div class="op-mock__stat-value">$ 482,310</div>
-              <div class="op-mock__stat-delta">↑ 12.4% vs yesterday</div>
-              <div class="op-mock__bars">
-                <span style="height:35%"></span><span style="height:55%"></span><span style="height:40%"></span>
-                <span style="height:70%"></span><span style="height:50%" class="is-active"></span>
-                <span style="height:85%" class="is-active"></span><span style="height:60%"></span><span style="height:90%" class="is-active"></span>
-              </div>
-              <div class="op-mock__row">
-                <span class="op-mock__row-id">pi_8af2…c19</span>
-                <span class="op-mock__row-amt">$ 1,500</span>
-                <span class="op-pill-status op-pill-status--paid">Paid</span>
-              </div>
-              <div class="op-mock__row">
-                <span class="op-mock__row-id">pi_77be…0d4</span>
-                <span class="op-mock__row-amt">$ 4,200</span>
-                <span class="op-pill-status op-pill-status--pending">Pending</span>
-              </div>
-              <div class="op-mock__row">
-                <span class="op-mock__row-id">pi_2c01…9aa</span>
-                <span class="op-mock__row-amt">$ 950</span>
-                <span class="op-pill-status op-pill-status--failed">Failed</span>
-              </div>
-            </div>
-            <div class="op-mock__float" v-html="icons.check + '<span>Webhook delivered</span>'"></div>
+            <pre class="op-code__pre"><code><span class="c-dim"># 1. Download and extract the latest release</span>
+<span class="c-cmd">curl</span> -L -o ownpay.zip \
+  https://github.com/own-pay/OwnPay/releases/latest/download/ownpay.zip
+<span class="c-cmd">unzip</span> ownpay.zip -d ownpay <span class="c-dim">&amp;&amp;</span> <span class="c-cmd">cd</span> ownpay
+
+<span class="c-dim"># 2. Point web root at public/ folder</span>
+<span class="c-dim">#    e.g., /var/www/ownpay/public</span>
+
+<span class="c-dim"># 3. Boot installer from the web domain</span>
+<span class="c-url">→  https://learn.ownpay.org/guide/installation</span></code></pre>
           </div>
         </div>
       </div>
@@ -207,100 +201,41 @@ const explore = [
     <!-- ── BENTO FEATURES ────────────────────────────────────── -->
     <section class="op-features">
       <div class="op-container">
-        <p class="op-eyebrow">Platform Capabilities</p>
-        <h2 class="op-h2">Everything you need.<br>Nothing you don't.</h2>
+        <p class="op-eyebrow">Documentation Areas</p>
+        <h2 class="op-h2">Navigate by component.</h2>
         <p class="op-lead">
-          Built for requirements off-the-shelf platforms can't solve — multi-brand domain isolation,
-          a sandboxed plugin engine, and a financial-grade ledger you own end-to-end.
+          Deep-dive into specific features, administrative workflows, and engineering specs. Select a category below to view detailed guides.
         </p>
 
         <div class="op-bento">
-          <div v-for="(f, i) in bento" :key="i" :class="['op-tile', f.large ? 'op-bento__lg' : '']">
+          <a v-for="(f, i) in bento" :key="i" :href="f.href" :class="['op-tile', f.large ? 'op-bento__lg' : '']">
             <span v-if="f.badge" class="op-tile__badge">{{ f.badge }}</span>
             <div class="op-tile__icon" v-html="icons[f.icon]"></div>
             <h3>{{ f.title }}</h3>
             <p>{{ f.desc }}</p>
             <div v-if="f.domain" class="op-bento__lg-domain" v-html="'<span>●</span> ' + f.domain"></div>
-          </div>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- ── COMPARE ───────────────────────────────────────────── -->
-    <section class="op-compare">
-      <div class="op-container">
-        <p class="op-eyebrow">Why Self-Host</p>
-        <h2 class="op-h2">Own the platform.<br>Not just an account on it.</h2>
-        <div class="op-compare__grid">
-          <div class="op-compare__col op-compare__col--hi">
-            <div class="op-compare__head">
-              <h4>OwnPay</h4>
-              <span>Self-Hosted</span>
-            </div>
-            <div class="op-compare__list">
-              <div v-for="(r, i) in compareSelf" :key="i" class="op-compare__row op-compare__row--yes">
-                <span v-html="icons.check"></span><span>{{ r.text }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="op-compare__col">
-            <div class="op-compare__head">
-              <h4>Typical Hosted Gateway</h4>
-              <span>SaaS</span>
-            </div>
-            <div class="op-compare__list">
-              <div v-for="(r, i) in compareSaas" :key="i" class="op-compare__row op-compare__row--no">
-                <span v-html="icons.dash"></span><span>{{ r.text }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- ── QUICKSTART ────────────────────────────────────────── -->
+
+    <!-- ── ARCHITECTURE FLOW ─────────────────────────────────── -->
     <section class="op-how">
-      <div class="op-container">
-        <div class="op-how__inner">
-          <div>
-            <p class="op-eyebrow">Quick Start</p>
-            <h2 class="op-h2">Deploy in three steps.</h2>
-
-            <div class="op-timeline">
-              <div v-for="(s, i) in steps" :key="i" class="op-tl-item">
-                <div class="op-tl-num">{{ i + 1 }}</div>
-                <div>
-                  <h3>{{ s.title }}</h3>
-                  <p>{{ s.desc }}</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="op-how__btns">
-              <a class="op-btn op-btn--primary" href="/user-guide/">Read the User Guide</a>
-              <a class="op-btn op-btn--ghost" href="/developer/">Developer Guide →</a>
-            </div>
-          </div>
-
-          <div class="op-code">
-            <div class="op-code__bar">
-              <span class="op-dot op-dot--r"></span>
-              <span class="op-dot op-dot--y"></span>
-              <span class="op-dot op-dot--g"></span>
-              <span class="op-code__file">terminal</span>
-            </div>
-            <pre class="op-code__pre"><code><span class="c-dim"># 1. Download and extract the latest release</span>
-<span class="c-cmd">curl</span> -L -o ownpay.zip \
-  https://github.com/own-pay/OwnPay/releases/latest/download/ownpay-v0.1.0.zip
-<span class="c-cmd">unzip</span> ownpay-v0.1.0.zip -d ownpay <span class="c-dim">&amp;&amp;</span> <span class="c-cmd">cd</span> ownpay
-
-<span class="c-dim"># 2. Point your web server document root at public/</span>
-<span class="c-dim">#    nginx: root /var/www/ownpay/public;</span>
-<span class="c-dim">#    apache: DocumentRoot /var/www/ownpay/public</span>
-
-<span class="c-dim"># 3. Open the browser installer</span>
-<span class="c-url">→  https://your-domain.com/install</span></code></pre>
-          </div>
+      <div class="op-container" style="text-align: center;">
+        <p class="op-eyebrow" style="justify-content: center;">System Flow</p>
+        <h2 class="op-h2">Architecture Overview</h2>
+        <p class="op-lead" style="margin: 0 auto 40px auto;">
+          Understand how isolated brand domains, the payment adapter manager, and the bcmath double-entry ledger cooperate on your server.
+        </p>
+        <div style="max-width: 800px; margin: 0 auto; background: var(--op-surface); padding: 32px; border-radius: var(--op-radius-lg); border: 1px solid var(--op-border); box-shadow: var(--op-shadow-sm); margin-bottom: 32px;">
+          <img src="/flow.svg" alt="Architecture Flow Diagram" style="width: 100%; height: auto; display: block;" />
+        </div>
+        <div>
+          <a class="op-btn op-btn--primary" href="https://github.com/own-pay/OwnPay/blob/main/docs/ARCHITECTURE.md" target="_blank" rel="noopener">
+            Deep-Dive Architecture <span v-html="icons.extarrow"></span>
+          </a>
         </div>
       </div>
     </section>
@@ -312,7 +247,7 @@ const explore = [
         <h2 class="op-h2">Find what you need, fast.</h2>
 
         <div class="op-palette">
-          <div class="op-palette__search">
+          <div class="op-palette__search" @click="triggerSearch" style="cursor: pointer;">
             <span v-html="icons.search"></span>
             <span>Search documentation…</span>
             <span class="op-palette__kbd">⌘K</span>
@@ -340,15 +275,14 @@ const explore = [
     <section class="op-cta">
       <div class="op-container">
         <div class="op-cta__inner">
-          <h2 class="op-cta__h2">Your infrastructure.<br>On your server, <em>forever free.</em></h2>
+          <h2 class="op-cta__h2">Still need help?</h2>
           <p class="op-cta__p">
-            AGPL-3.0 licensed. No license fees, no per-transaction cuts, no vendor lock-in.
-            Deploy today and own everything.
+            Explore our GitHub discussions, read developer installation docs, or open an issue for technical support.
           </p>
           <div class="op-cta__btns">
-            <a class="op-btn op-btn--white" href="/user-guide/">Start Reading the Docs</a>
+            <a class="op-btn op-btn--white" href="/user-guide/">Read User Guide</a>
             <a class="op-btn op-btn--outline-w" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener">
-              <span v-html="icons.github" style="width:16px;height:16px;display:inline-flex"></span> Star on GitHub
+              <span v-html="icons.github" style="width:16px;height:16px;display:inline-flex"></span> GitHub Community
             </a>
           </div>
         </div>
@@ -361,12 +295,14 @@ const explore = [
         <div class="op-footer__row">
           <div class="op-footer__brand">
             <div class="op-footer__brand-top">
-              <img src="/ownpay-symbol.svg" class="op-footer__logo-img" alt="" />
-              <span class="op-footer__brand-name">OwnPay</span>
+              <img src="/dark_mode.svg" class="op-footer__logo-img" alt="OwnPay Logo" style="height: 24px; width: auto; display: block;" />
             </div>
             <span class="op-footer__brand-sub">Self-hosted, open-source payment infrastructure.</span>
             <div class="op-footer__social">
               <a href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub"></a>
+              <a href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page"></a>
+              <a href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group Community"></a>
+              <a href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel"></a>
             </div>
           </div>
           <div class="op-footer__cols">

@@ -22,4 +22,16 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 .claude
+
+# Editor Local History
+.history/
+
+# OS / Windows system files
+desktop.ini
+ehthumbs.db
+
+# Other build outputs
+dist/

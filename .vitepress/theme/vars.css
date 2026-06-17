@@ -1,71 +1,94 @@
 /* ═══════════════════════════════════════════════════════════
    Default-theme overrides — keeps inner doc pages (sidebar,
-   content, search, code blocks) on the same warm-paper /
-   navy-blue brand palette as the custom home page, and forces
-   light mode regardless of OS/browser color-scheme.
+   content, search, code blocks) on the same premium white-shade /
+   gold-slate brand palette.
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  --vp-c-brand-1: #0d7fd1;
-  --vp-c-brand-2: #112964;
-  --vp-c-brand-3: #0a1c49;
+  --vp-c-brand-1: #0f97ed;
+  --vp-c-brand-2: #102963;
+  --vp-c-brand-3: #0b1c49;
   --vp-c-brand-soft: rgba(15, 151, 237, 0.14);
 
-  --vp-c-bg: #fbfaf6;
-  --vp-c-bg-alt: #f3efe5;
+  --vp-c-bg: #f8fafc;
+  --vp-c-bg-alt: #ffffff;
   --vp-c-bg-elv: #ffffff;
-  --vp-c-bg-soft: #f3efe5;
+  --vp-c-bg-soft: #f1f5f9;
 
-  --vp-c-text-1: #15192b;
-  --vp-c-text-2: #565b71;
-  --vp-c-text-3: #93927f;
+  --vp-c-text-1: #0f172a;
+  --vp-c-text-2: #475569;
+  --vp-c-text-3: #64748b;
 
-  --vp-c-divider: #e7e2d4;
-  --vp-c-gutter: #e7e2d4;
+  --vp-c-divider: #e2e8f0;
+  --vp-c-gutter: #e2e8f0;
 
-  --vp-c-default-1: #e7e2d4;
-  --vp-c-default-2: #efebde;
-  --vp-c-default-3: #f3efe5;
-  --vp-c-default-soft: rgba(217, 210, 189, 0.3);
+  --vp-c-default-1: #e2e8f0;
+  --vp-c-default-2: #f1f5f9;
+  --vp-c-default-3: #f8fafc;
+  --vp-c-default-soft: rgba(226, 232, 240, 0.4);
 
-  --vp-button-brand-bg: #112964;
-  --vp-button-brand-hover-bg: #0a1c49;
-  --vp-button-brand-active-bg: #0a1c49;
+  --vp-button-brand-bg: #102963;
+  --vp-button-brand-hover-bg: #0f97ed;
+  --vp-button-brand-active-bg: #0f97ed;
+  --vp-button-brand-text: #ffffff;
 
-  --vp-font-family-base: 'DM Sans', sans-serif;
-  --vp-font-family-mono: 'DM Mono', monospace;
+  --vp-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', monospace;
 
-  --vp-code-block-bg: #14182a;
-  --vp-code-bg: #f3efe5;
-  --vp-code-color: #0d7fd1;
+  --vp-code-block-bg: #0f172a;
+  --vp-code-bg: #f1f5f9;
+  --vp-code-color: #0f97ed;
 
-  --vp-nav-bg-color: rgba(251, 250, 246, 0.86);
-  --vp-sidebar-bg-color: #fbfaf6;
+  --vp-nav-bg-color: rgba(248, 250, 252, 0.86);
+  --vp-sidebar-bg-color: #f8fafc;
   --vp-local-search-bg: #ffffff;
+  
+  color-scheme: light;
 }
 
-/* Force light palette even if a stale .dark class is ever applied
-   (appearance: false already removes the toggle, this is a guard). */
+/* Premium dark slate mode for inner documentation pages */
 .dark {
-  --vp-c-bg: #fbfaf6;
-  --vp-c-bg-alt: #f3efe5;
-  --vp-c-bg-elv: #ffffff;
-  --vp-c-bg-soft: #f3efe5;
-  --vp-c-text-1: #15192b;
-  --vp-c-text-2: #565b71;
-  --vp-c-text-3: #93927f;
-  --vp-c-divider: #e7e2d4;
-  --vp-c-gutter: #e7e2d4;
-  color-scheme: light;
-}
+  --vp-c-brand-1: #0f97ed;
+  --vp-c-brand-2: #f8fafc;
+  --vp-c-brand-3: #e2e8f0;
+  --vp-c-brand-soft: rgba(15, 151, 237, 0.18);
 
-:root {
-  color-scheme: light;
+  --vp-c-bg: #0b0f19;
+  --vp-c-bg-alt: #080b12;
+  --vp-c-bg-elv: #111827;
+  --vp-c-bg-soft: #111827;
+
+  --vp-c-text-1: #f8fafc;
+  --vp-c-text-2: #94a3b8;
+  --vp-c-text-3: #64748b;
+
+  --vp-c-divider: #1e293b;
+  --vp-c-gutter: #1e293b;
+
+  --vp-c-default-1: #1e293b;
+  --vp-c-default-2: #111827;
+  --vp-c-default-3: #0b0f19;
+  --vp-c-default-soft: rgba(30, 41, 59, 0.5);
+
+  --vp-button-brand-bg: #f8fafc;
+  --vp-button-brand-hover-bg: #0f97ed;
+  --vp-button-brand-active-bg: #0f97ed;
+  --vp-button-brand-text: #0b0f19;
+
+  --vp-code-block-bg: #080b12;
+  --vp-code-bg: #111827;
+  --vp-code-color: #0f97ed;
+
+  --vp-nav-bg-color: rgba(11, 15, 25, 0.86);
+  --vp-sidebar-bg-color: #0b0f19;
+  --vp-local-search-bg: #111827;
+  
+  color-scheme: dark;
 }
 
 h1, h2, h3, h4, .VPHero .name, .VPHero .text {
-  font-family: 'Fraunces', serif;
-  letter-spacing: -0.01em;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 .VPNavBar, .VPSidebar, .VPDoc { background-color: var(--vp-c-bg) !important; }
