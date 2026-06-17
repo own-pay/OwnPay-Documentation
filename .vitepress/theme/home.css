@@ -1,48 +1,48 @@
 /* ═══════════════════════════════════════════════════════════
    OwnPay Documentation — Home page
-   A warm-paper, editorial-premium design.
-   Display: Fraunces · Body: DM Sans · Code: DM Mono
+   A premium, professional white shade design.
+   Display: Outfit · Body: Inter · Code: JetBrains Mono
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  --op-bg:          #fbfaf6;
-  --op-bg-alt:      #f3efe5;
+  --op-bg:          #f8fafc;
+  --op-bg-alt:      #f1f5f9;
   --op-surface:     #ffffff;
-  --op-border:      #e7e2d4;
-  --op-border-2:    #d9d2bd;
-  --op-ink:         #15192b;
-  --op-ink-2:       #565b71;
-  --op-ink-3:       #93927f;
+  --op-border:      #e2e8f0;
+  --op-border-2:    #cbd5e1;
+  --op-ink:         #0f172a;
+  --op-ink-2:       #475569;
+  --op-ink-3:       #64748b;
 
-  --op-navy:        #112964;
-  --op-navy-2:      #0a1c49;
+  --op-navy:        #102963;
+  --op-navy-2:      #0b1c49;
   --op-navy-soft:   #eef1f9;
   --op-navy-border: #c9d3ea;
 
-  --op-blue:        #0d7fd1;
+  --op-blue:        #0f97ed;
   --op-blue-bright: #0f97ed;
   --op-blue-soft:   #e8f3fc;
   --op-blue-border: #bfddf5;
 
-  --op-amber:       #b9762a;
-  --op-amber-soft:  #f8ecd9;
-  --op-amber-border:#ecd5ab;
+  --op-amber:       #0f97ed;
+  --op-amber-soft:  #e8f3fc;
+  --op-amber-border:#bfddf5;
 
-  --op-green:       #1d9a6c;
-  --op-red:         #c4453d;
+  --op-green:       #10b981;
+  --op-red:         #ef4444;
 
-  --op-font-display:'Fraunces', serif;
-  --op-font-body:   'DM Sans', sans-serif;
-  --op-font-mono:   'DM Mono', monospace;
+  --op-font-display:'Outfit', sans-serif;
+  --op-font-body:   'Inter', sans-serif;
+  --op-font-mono:   'JetBrains Mono', monospace;
 
   --op-radius:    12px;
   --op-radius-sm: 8px;
   --op-radius-lg: 18px;
   --op-radius-xl: 26px;
 
-  --op-shadow-sm: 0 1px 2px rgba(30,24,8,0.05);
-  --op-shadow:    0 1px 3px rgba(30,24,8,0.06), 0 6px 20px rgba(30,24,8,0.07);
-  --op-shadow-lg: 0 8px 16px rgba(20,16,5,0.08), 0 24px 56px rgba(20,16,5,0.12);
+  --op-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --op-shadow:    0 10px 20px -5px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.02);
+  --op-shadow-lg: 0 25px 50px -12px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(15, 23, 42, 0.03);
 
   --op-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --op-max: 1180px;
@@ -55,10 +55,20 @@
   background: var(--op-bg);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+.op-root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 1;
 }
 .op-root *, .op-root *::before, .op-root *::after { box-sizing: border-box; }
 .op-root a { color: inherit; text-decoration: none; }
-.op-container { max-width: var(--op-max); margin: 0 auto; padding: 0 28px; }
+.op-container { max-width: var(--op-max); margin: 0 auto; padding: 0 28px; position: relative; z-index: 2; }
 
 .op-eyebrow {
   font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em;
@@ -87,26 +97,30 @@
   transition: all var(--op-transition); text-decoration: none;
   cursor: pointer; white-space: nowrap; border: 1px solid transparent;
 }
-.op-btn--primary {
-  background: var(--op-navy); color: #fff;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1), 0 6px 18px rgba(17,41,100,0.22);
+.op-root .op-btn--primary {
+  background: var(--op-navy); color: #ffffff !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1), 0 6px 18px rgba(15,23,42,0.15);
 }
-.op-btn--primary:hover { background: var(--op-navy-2); transform: translateY(-1px); }
+.op-root .op-btn--primary:hover {
+  background: var(--op-blue); color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(202, 149, 12, 0.3);
+}
 
-.op-btn--secondary {
+.op-root .op-btn--secondary {
   background: var(--op-surface); color: var(--op-ink);
   border-color: var(--op-border-2); box-shadow: var(--op-shadow-sm);
 }
-.op-btn--secondary:hover { border-color: var(--op-ink-3); transform: translateY(-1px); }
+.op-root .op-btn--secondary:hover { border-color: var(--op-ink-3); transform: translateY(-1px); }
 
-.op-btn--ghost { background: transparent; color: var(--op-ink-2); padding-left: 4px; }
-.op-btn--ghost:hover { color: var(--op-ink); }
+.op-root .op-btn--ghost { background: transparent; color: var(--op-ink-2); padding-left: 4px; }
+.op-root .op-btn--ghost:hover { color: var(--op-ink); }
 
-.op-btn--white { background: #fff; color: var(--op-navy); font-weight: 700; }
-.op-btn--white:hover { background: var(--op-navy-soft); transform: translateY(-1px); }
+.op-root .op-btn--white { background: #fff; color: var(--op-navy); font-weight: 700; }
+.op-root .op-btn--white:hover { background: var(--op-navy-soft); transform: translateY(-1px); }
 
-.op-btn--outline-w { background: transparent; color: rgba(255,255,255,0.92); border-color: rgba(255,255,255,0.3); }
-.op-btn--outline-w:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.55); }
+.op-root .op-btn--outline-w { background: transparent; color: rgba(255,255,255,0.92); border-color: rgba(255,255,255,0.3); }
+.op-root .op-btn--outline-w:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.55); }
 
 /* ── NAV ────────────────────────────────────────────────── */
 .op-nav {
@@ -152,12 +166,12 @@
 }
 .op-nav__icon-btn:hover { color: var(--op-ink); border-color: var(--op-ink-3); background: var(--op-surface); }
 .op-nav__icon-btn svg { width: 17px; height: 17px; }
-.op-nav__cta {
-  font-size: 13.5px; font-weight: 600; background: var(--op-navy); color: #fff;
+.op-root .op-nav__cta {
+  font-size: 13.5px; font-weight: 600; background: var(--op-navy) !important; color: #ffffff !important;
   padding: 9px 19px; border-radius: 100px;
   transition: background var(--op-transition), transform var(--op-transition);
 }
-.op-nav__cta:hover { background: var(--op-navy-2); transform: translateY(-1px); }
+.op-root .op-nav__cta:hover { background: var(--op-blue) !important; color: #ffffff !important; transform: translateY(-1px); }
 .op-nav__cta--block { flex: 1; text-align: center; }
 
 .op-nav__burger {

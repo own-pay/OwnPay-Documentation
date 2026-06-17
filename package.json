@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Official Documentation for OwnPay self-hosted fintech infrastructure.",
   "private": true,
+  "engines": {
+    "node": "24.15.0"
+  },
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
@@ -10,5 +13,9 @@
   },
   "devDependencies": {
     "vitepress": "^1.6.4"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1",
+    "vite": "^6.4.3"
   }
 }
