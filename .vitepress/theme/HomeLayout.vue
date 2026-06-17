@@ -145,7 +145,7 @@ const explore = [
               <span v-html="icons.extarrow"></span>
             </a>
 
-            <h1 class="op-hero__h1">How can we<br><em>help you today?</em></h1>
+            <h1 class="op-hero__h1">Lets Setup<br><em>OwnPay today?</em></h1>
 
             <p class="op-hero__sub">
               Access comprehensive setup guides, integration modules, API reference docs, and troubleshooting resources for OwnPay self-hosted gateway.
