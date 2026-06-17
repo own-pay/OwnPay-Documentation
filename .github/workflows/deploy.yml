@@ -34,7 +34,7 @@ jobs:
           NODE_ENV: production
 
       - name: Deploy to server via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
           username:            ${{ secrets.DEPLOY_SSH_USER }}
           server:              ${{ secrets.DEPLOY_SSH_HOST }}
