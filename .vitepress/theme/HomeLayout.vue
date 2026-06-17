@@ -94,7 +94,7 @@ const explore = [
             <span v-if="l.external" class="op-nav__link-ext" v-html="icons.extarrow"></span>
           </a>
         </nav>
-        <VPNavBarSearch style="margin-left: auto; margin-right: 16px;" />
+        <VPNavBarSearch style="margin-left: auto; margin-right: 16px; flex: 1; max-width: 520px;" />
         <div class="op-nav__right">
           <a class="op-nav__icon-btn" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub"></a>
           <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page"></a>

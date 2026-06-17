@@ -21,6 +21,7 @@
 
   --vp-c-divider: #e2e8f0;
   --vp-c-gutter: #e2e8f0;
+  --vp-c-border: #e2e8f0;
 
   --vp-c-default-1: #e2e8f0;
   --vp-c-default-2: #f1f5f9;
@@ -41,49 +42,19 @@
 
   --vp-nav-bg-color: rgba(248, 250, 252, 0.86);
   --vp-sidebar-bg-color: #f8fafc;
+  --vp-local-nav-bg-color: #f8fafc;
+
+  /* Search modal - white only */
   --vp-local-search-bg: #ffffff;
+  --vp-local-search-result-bg: #ffffff;
+  --vp-local-search-result-border: #e2e8f0;
+  --vp-local-search-result-selected-bg: #f1f5f9;
+  --vp-local-search-result-selected-border: #0f97ed;
+  --vp-local-search-highlight-bg: #0f97ed;
+  --vp-local-search-highlight-text: #ffffff;
+  --vp-backdrop-bg-color: rgba(15, 23, 42, 0.5);
   
   color-scheme: light;
-}
-
-/* Premium dark slate mode for inner documentation pages */
-.dark {
-  --vp-c-brand-1: #0f97ed;
-  --vp-c-brand-2: #f8fafc;
-  --vp-c-brand-3: #e2e8f0;
-  --vp-c-brand-soft: rgba(15, 151, 237, 0.18);
-
-  --vp-c-bg: #0b0f19;
-  --vp-c-bg-alt: #080b12;
-  --vp-c-bg-elv: #111827;
-  --vp-c-bg-soft: #111827;
-
-  --vp-c-text-1: #f8fafc;
-  --vp-c-text-2: #94a3b8;
-  --vp-c-text-3: #64748b;
-
-  --vp-c-divider: #1e293b;
-  --vp-c-gutter: #1e293b;
-
-  --vp-c-default-1: #1e293b;
-  --vp-c-default-2: #111827;
-  --vp-c-default-3: #0b0f19;
-  --vp-c-default-soft: rgba(30, 41, 59, 0.5);
-
-  --vp-button-brand-bg: #f8fafc;
-  --vp-button-brand-hover-bg: #0f97ed;
-  --vp-button-brand-active-bg: #0f97ed;
-  --vp-button-brand-text: #0b0f19;
-
-  --vp-code-block-bg: #080b12;
-  --vp-code-bg: #111827;
-  --vp-code-color: #0f97ed;
-
-  --vp-nav-bg-color: rgba(11, 15, 25, 0.86);
-  --vp-sidebar-bg-color: #0b0f19;
-  --vp-local-search-bg: #111827;
-  
-  color-scheme: dark;
 }
 
 h1, h2, h3, h4, .VPHero .name, .VPHero .text {
