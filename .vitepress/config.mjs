@@ -7,6 +7,7 @@ export default defineConfig({
 
   cleanUrls: true,
   appearance: true,
+  srcExclude: ['**/README.md'],
 
   sitemap: {
     hostname: 'https://learn.ownpay.org'
