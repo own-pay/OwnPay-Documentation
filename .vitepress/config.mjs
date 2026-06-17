@@ -6,25 +6,62 @@ export default defineConfig({
   description: 'Official Documentation for OwnPay — self-hosted, open-source payment infrastructure.',
 
   cleanUrls: true,
-  appearance: false,
+  appearance: true,
+
+  sitemap: {
+    hostname: 'https://learn.ownpay.org'
+  },
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/ownpay-symbol.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', href: '/ownpay_icon.png' }],
+    ['link', { rel: 'apple-touch-icon', href: '/ownpay_icon.png' }],
     ['meta', { name: 'theme-color', content: '#112964' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', { href: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap', rel: 'stylesheet' }],
+    ['link', { href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap', rel: 'stylesheet' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:title', content: 'OwnPay Documentation — Help & Guides' }],
+    ['meta', { property: 'og:description', content: 'Official guides, developer integration, and API reference documentation for OwnPay, the self-hosted payment gateway platform.' }],
+    ['meta', { property: 'og:url', content: 'https://learn.ownpay.org/' }],
+    ['meta', { property: 'og:image', content: 'https://learn.ownpay.org/ownpay_icon.png' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: 'OwnPay Documentation — Help & Guides' }],
+    ['meta', { name: 'twitter:description', content: 'Official guides, developer integration, and API reference documentation for OwnPay, the self-hosted payment gateway platform.' }],
+    ['meta', { name: 'twitter:image', content: 'https://learn.ownpay.org/ownpay_icon.png' }],
+    [
+      'script',
+      { type: 'application/ld+json' },
+      JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        'name': 'OwnPay Documentation',
+        'url': 'https://learn.ownpay.org/',
+        'description': 'Official guides, developer integration, and API reference documentation for OwnPay, the self-hosted payment gateway platform.',
+        'publisher': {
+          '@type': 'Organization',
+          'name': 'OwnPay',
+          'logo': {
+            '@type': 'ImageObject',
+            'url': 'https://learn.ownpay.org/ownpay_icon.png'
+          }
+        }
+      })
+    ]
   ],
 
   themeConfig: {
-    logo: '/ownpay-symbol.svg',
-    siteTitle: 'OwnPay',
+    logo: {
+      light: '/light_mode.svg',
+      dark: '/dark_mode.svg'
+    },
+    siteTitle: false,
 
     nav: [
       { text: 'User Guide',    link: '/user-guide/',  activeMatch: '/user-guide/' },
       { text: 'Developer',     link: '/developer/',   activeMatch: '/developer/' },
       { text: 'API Reference', link: 'https://docs.ownpay.org' },
-      { text: 'Plugins',       link: 'https://plugin.ownpay.org' },
+      { text: 'Plugins',       link: 'https://plugins.ownpay.org' },
     ],
 
     sidebar: {
@@ -182,7 +219,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the AGPL-3.0 License.',
-      copyright: 'Copyright © 2024-present OwnPay',
+      copyright: 'Copyright © 2026-present OwnPay',
     },
 
     editLink: {

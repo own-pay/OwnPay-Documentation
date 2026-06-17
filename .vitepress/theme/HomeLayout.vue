@@ -27,7 +27,7 @@ const navLinks = [
   { text: 'User Guide',    href: '/user-guide/',               external: false },
   { text: 'Developer',     href: '/developer/',                external: false },
   { text: 'API Reference', href: 'https://docs.ownpay.org',    external: true  },
-  { text: 'Plugins',       href: 'https://plugin.ownpay.org',  external: true  },
+  { text: 'Plugins',       href: 'https://plugins.ownpay.org',  external: true  },
 ]
 
 const gateways = ['bKash', 'Nagad', 'Rocket', 'Upay', 'SSLCommerz', 'Stripe', 'PayPal', 'Razorpay', 'Flutterwave', 'Paystack', 'M-Pesa', 'USDT / Crypto']
@@ -165,7 +165,7 @@ const explore = [
             </div>
             <div class="op-mock__body">
               <div class="op-mock__stat-label">Today's Volume</div>
-              <div class="op-mock__stat-value">৳ 482,310</div>
+              <div class="op-mock__stat-value">$ 482,310</div>
               <div class="op-mock__stat-delta">↑ 12.4% vs yesterday</div>
               <div class="op-mock__bars">
                 <span style="height:35%"></span><span style="height:55%"></span><span style="height:40%"></span>
@@ -174,17 +174,17 @@ const explore = [
               </div>
               <div class="op-mock__row">
                 <span class="op-mock__row-id">pi_8af2…c19</span>
-                <span class="op-mock__row-amt">৳ 1,500</span>
+                <span class="op-mock__row-amt">$ 1,500</span>
                 <span class="op-pill-status op-pill-status--paid">Paid</span>
               </div>
               <div class="op-mock__row">
                 <span class="op-mock__row-id">pi_77be…0d4</span>
-                <span class="op-mock__row-amt">৳ 4,200</span>
+                <span class="op-mock__row-amt">$ 4,200</span>
                 <span class="op-pill-status op-pill-status--pending">Pending</span>
               </div>
               <div class="op-mock__row">
                 <span class="op-mock__row-id">pi_2c01…9aa</span>
-                <span class="op-mock__row-amt">৳ 950</span>
+                <span class="op-mock__row-amt">$ 950</span>
                 <span class="op-pill-status op-pill-status--failed">Failed</span>
               </div>
             </div>
@@ -291,8 +291,8 @@ const explore = [
             </div>
             <pre class="op-code__pre"><code><span class="c-dim"># 1. Download and extract the latest release</span>
 <span class="c-cmd">curl</span> -L -o ownpay.zip \
-  https://github.com/own-pay/OwnPay/releases/latest/download/ownpay.zip
-<span class="c-cmd">unzip</span> ownpay.zip -d ownpay <span class="c-dim">&amp;&amp;</span> <span class="c-cmd">cd</span> ownpay
+  https://github.com/own-pay/OwnPay/releases/latest/download/ownpay-v0.1.0.zip
+<span class="c-cmd">unzip</span> ownpay-v0.1.0.zip -d ownpay <span class="c-dim">&amp;&amp;</span> <span class="c-cmd">cd</span> ownpay
 
 <span class="c-dim"># 2. Point your web server document root at public/</span>
 <span class="c-dim">#    nginx: root /var/www/ownpay/public;</span>
@@ -387,13 +387,13 @@ const explore = [
             <div class="op-footer__col">
               <strong>References</strong>
               <a href="https://docs.ownpay.org" target="_blank" rel="noopener">API Reference ↗</a>
-              <a href="https://plugin.ownpay.org" target="_blank" rel="noopener">Plugin Catalog ↗</a>
+              <a href="https://plugins.ownpay.org" target="_blank" rel="noopener">Plugin Catalog ↗</a>
               <a href="https://demo.ownpay.org" target="_blank" rel="noopener">Live Demo ↗</a>
             </div>
           </div>
         </div>
         <div class="op-footer__bottom">
-          <span class="op-footer__copy">© 2024–2026 OwnPay</span>
+          <span class="op-footer__copy">© 2026 OwnPay</span>
           <span class="op-footer__license">AGPL-3.0 Licensed</span>
         </div>
       </div>
