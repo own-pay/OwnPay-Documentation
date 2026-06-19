@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { VPNavBarSearch } from 'vitepress/theme'
+import Footer from './Footer.vue'
 
 const mobileMenuOpen = ref(false)
 const isDark = ref(false)
@@ -98,6 +99,37 @@ const explore = [
   { icon: 'cube',     title: 'Plugin Catalog', desc: 'Browse 123+ payment gateway plugins and community-built extensions.',           href: 'https://plugins.ownpay.org', external: true  },
   { icon: 'terminal', title: 'API Reference',  desc: 'Full OpenAPI specification with request/response schemas and live samples.',    href: 'https://docs.ownpay.org',   external: true  },
 ]
+
+const helpChannels = [
+  {
+    title: 'Support Forum',
+    desc: 'Ask questions and collaborate in our GitHub Discussions.',
+    linkText: 'Go to Discussions',
+    href: 'https://github.com/own-pay/OwnPay/discussions',
+    external: true
+  },
+  {
+    title: 'Developer Guides',
+    desc: 'Read developer integration guides and REST API reference.',
+    linkText: 'Start Integrating',
+    href: '/developer/',
+    external: false
+  },
+  {
+    title: 'Content Suggestions',
+    desc: 'Report typos or suggest edits in the documentation issue tracker.',
+    linkText: 'Open an Issue',
+    href: 'https://github.com/own-pay/OwnPay/issues',
+    external: true
+  },
+  {
+    title: 'Get Involved',
+    desc: 'Learn about the team and how to contribute code or plugins.',
+    linkText: 'How to Contribute',
+    href: 'https://github.com/own-pay/OwnPay/blob/main/CONTRIBUTING.md',
+    external: true
+  }
+]
 </script>
 
 <template>
@@ -129,7 +161,7 @@ const explore = [
           <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group Community" data-tooltip="Facebook Group"></a>
           <a class="op-nav__icon-btn" href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel" data-tooltip="YouTube"></a>
           <button class="op-nav__theme-btn" type="button" v-html="isDark ? icons.sun : icons.moon" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'" @click="toggleTheme"></button>
-          <a class="op-nav__cta" href="/guide/installation">Installation</a>
+          <a class="op-nav__cta" href="/user-guide/installation">Installation</a>
           <button
             class="op-nav__burger"
             type="button"
@@ -154,7 +186,7 @@ const explore = [
           <span v-if="l.external" class="op-nav__link-ext" v-html="icons.extarrow"></span>
         </a>
         <div class="op-nav__mobile-actions">
-          <a class="op-nav__cta op-nav__cta--block" href="/guide/installation" @click="mobileMenuOpen = false">Installation</a>
+          <a class="op-nav__cta op-nav__cta--block" href="/user-guide/installation" @click="mobileMenuOpen = false">Installation</a>
           <a class="op-nav__icon-btn" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub" data-tooltip="GitHub"></a>
           <a class="op-nav__icon-btn" href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page" data-tooltip="Facebook Page"></a>
           <a class="op-nav__icon-btn" href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group" data-tooltip="Facebook Group"></a>
@@ -189,7 +221,7 @@ const explore = [
             </div>
 
             <div class="op-hero__actions">
-              <a class="op-btn op-btn--primary" href="/guide/installation">Installation Guide <span v-html="icons.arrow"></span></a>
+              <a class="op-btn op-btn--primary" href="/user-guide/installation">Installation Guide <span v-html="icons.arrow"></span></a>
               <a class="op-btn op-btn--secondary" href="/user-guide/">User Guide</a>
               <a class="op-btn op-btn--ghost" href="https://docs.ownpay.org" target="_blank" rel="noopener">API Reference <span v-html="icons.extarrow"></span></a>
             </div>
@@ -212,7 +244,7 @@ const explore = [
 <span class="c-dim">#    e.g., /var/www/ownpay/public</span>
 
 <span class="c-dim"># 3. Boot installer from the web domain</span>
-<span class="c-url">→  https://learn.ownpay.org/guide/installation</span></code></pre>
+<span class="c-url">→  https://learn.ownpay.org/user-guide/installation</span></code></pre>
           </div>
         </div>
       </div>
@@ -305,65 +337,40 @@ const explore = [
     <section class="op-cta">
       <div class="op-container">
         <div class="op-cta__inner">
-          <h2 class="op-cta__h2">Still need help?</h2>
+          <h2 class="op-cta__h2">Get more help</h2>
           <p class="op-cta__p">
-            Explore our GitHub discussions, read developer installation docs, or open an issue for technical support.
+            Search our documentation portal or browse help channels below.
           </p>
-          <div class="op-cta__btns">
-            <a class="op-btn op-btn--white" href="/user-guide/">Read User Guide</a>
-            <a class="op-btn op-btn--outline-w" href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener">
-              <span v-html="icons.github" style="width:16px;height:16px;display:inline-flex"></span> GitHub Community
-            </a>
+
+          <!-- Centered Premium Search Bar -->
+          <div class="op-cta__search-box" @click="triggerSearch">
+            <span class="op-cta__search-box-icon" v-html="icons.search"></span>
+            <span class="op-cta__search-box-label">Search documentation...</span>
+            <span class="op-cta__search-box-kbd">⌘K</span>
+          </div>
+
+          <!-- Help Channels Grid -->
+          <div class="op-cta__grid">
+            <div v-for="c in helpChannels" :key="c.title" class="op-cta__col">
+              <h3 class="op-cta__col-title">{{ c.title }}</h3>
+              <p class="op-cta__col-desc">{{ c.desc }}</p>
+              <a
+                :href="c.href"
+                :target="c.external ? '_blank' : undefined"
+                :rel="c.external ? 'noopener' : undefined"
+                class="op-cta__col-link"
+              >
+                {{ c.linkText }}
+                <span v-html="c.external ? icons.extarrow : icons.arrow" style="width:12px;height:12px;display:inline-flex"></span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ── FOOTER ────────────────────────────────────────────── -->
-    <footer class="op-footer">
-      <div class="op-container">
-        <div class="op-footer__row">
-          <div class="op-footer__brand">
-            <div class="op-footer__brand-top">
-              <img src="/dark_mode.svg" class="op-footer__logo-img" alt="OwnPay Logo" style="height: 24px; width: auto; display: block;" />
-            </div>
-            <span class="op-footer__brand-sub">Self-hosted, open-source payment infrastructure.</span>
-            <div class="op-footer__social">
-              <a href="https://github.com/own-pay/OwnPay" target="_blank" rel="noopener" v-html="icons.github" aria-label="GitHub" data-tooltip="GitHub"></a>
-              <a href="https://fb.com/ownpay.org" target="_blank" rel="noopener" v-html="icons.facebook" aria-label="Facebook Page" data-tooltip="Facebook Page"></a>
-              <a href="https://fb.com/groups/ownpay.org" target="_blank" rel="noopener" v-html="icons.users" aria-label="Facebook Group Community" data-tooltip="Facebook Group"></a>
-              <a href="https://youtube.com/@ownpayorg" target="_blank" rel="noopener" v-html="icons.youtube" aria-label="YouTube Channel" data-tooltip="YouTube"></a>
-            </div>
-          </div>
-          <div class="op-footer__cols">
-            <div class="op-footer__col">
-              <strong>Learn</strong>
-              <a href="/user-guide/">User Guide</a>
-              <a href="/user-guide/auth/login">Authentication</a>
-              <a href="/user-guide/payments/payment-links">Payment Links</a>
-              <a href="/user-guide/gateways/gateways">Gateways</a>
-            </div>
-            <div class="op-footer__col">
-              <strong>Developer</strong>
-              <a href="/developer/">Overview</a>
-              <a href="/developer/integration/php">PHP Integration</a>
-              <a href="/developer/integration/nodejs">Node.js Integration</a>
-              <a href="/developer/webhooks">Webhooks</a>
-            </div>
-            <div class="op-footer__col">
-              <strong>References</strong>
-              <a href="https://docs.ownpay.org" target="_blank" rel="noopener">API Reference ↗</a>
-              <a href="https://plugins.ownpay.org" target="_blank" rel="noopener">Plugin Catalog ↗</a>
-              <a href="https://demo.ownpay.org" target="_blank" rel="noopener">Live Demo ↗</a>
-            </div>
-          </div>
-        </div>
-        <div class="op-footer__bottom">
-          <span class="op-footer__copy">© 2026 OwnPay</span>
-          <span class="op-footer__license">AGPL-3.0 Licensed</span>
-        </div>
-      </div>
-    </footer>
+    <Footer />
 
   </div>
 </template>

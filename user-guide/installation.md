@@ -178,6 +178,6 @@ Re-run the `chown` command from Step 8.
 
 ## Next Steps
 
-- [Architecture Overview →](/guide/architecture)
+- [Architecture Overview →](/user-guide/architecture)
 - [Creating Your First Brand →](/user-guide/people/brands)
 - [Configuring Payment Gateways →](/user-guide/gateways/gateways)

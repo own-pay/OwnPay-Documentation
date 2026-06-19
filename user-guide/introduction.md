@@ -34,7 +34,7 @@ Connect local Android phones to dynamically parse mobile-banking SMS alerts (e.g
 
 ## Quick Start
 
-1. [Install OwnPay](/guide/installation) on your server
+1. [Install OwnPay](/user-guide/installation) on your server
 2. Log in as the master administrator
 3. Create your first [Brand](/user-guide/people/brands)
 4. Configure a [Payment Gateway](/user-guide/gateways/gateways)
@@ -42,6 +42,6 @@ Connect local Android phones to dynamically parse mobile-banking SMS alerts (e.g
 
 ## Next Steps
 
-- [Architecture Overview →](/guide/architecture)
-- [Installation Guide →](/guide/installation)
+- [Architecture Overview →](/user-guide/architecture)
+- [Installation Guide →](/user-guide/installation)
 - [API Reference →](/api-reference/)

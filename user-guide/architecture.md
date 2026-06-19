@@ -117,5 +117,5 @@ PaymentIntentController
 
 ## Next Steps
 
-- [Installation Guide →](/guide/installation)
+- [Installation Guide →](/user-guide/installation)
 - [API Reference →](/api-reference/)

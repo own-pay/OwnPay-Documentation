@@ -69,9 +69,19 @@ export default defineConfig({
     sidebar: {
       '/user-guide/': [
         {
+          text: 'Getting Started',
+          items: [
+            { text: 'Introduction', link: '/user-guide/introduction' },
+            { text: 'Architecture', link: '/user-guide/architecture' },
+            { text: 'Installation', link: '/user-guide/installation' },
+          ],
+        },
+        {
           text: 'User Guide',
           items: [
             { text: 'Overview', link: '/user-guide/' },
+            { text: 'Requirements', link: '/user-guide/requirements' },
+            { text: 'Change Log', link: '/user-guide/changelog' },
           ],
         },
         {
@@ -199,17 +209,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Building Plugins', link: '/developer/plugin-development' },
-          ],
-        },
-      ],
-
-      '/guide/': [
-        {
-          text: 'Getting Started',
-          items: [
-            { text: 'Introduction', link: '/guide/introduction' },
-            { text: 'Architecture', link: '/guide/architecture' },
-            { text: 'Installation', link: '/guide/installation' },
+            { text: 'Hook Reference', link: '/developer/hooks-reference' },
           ],
         },
       ],
@@ -220,11 +220,6 @@ export default defineConfig({
       { icon: 'facebook', link: 'https://fb.com/ownpay.org' },
       { icon: 'youtube', link: 'https://youtube.com/@ownpayorg' },
     ],
-
-    footer: {
-      message: 'Released under the AGPL-3.0 License.',
-      copyright: 'Copyright © 2026-present OwnPay',
-    },
 
     editLink: {
       pattern: 'https://github.com/own-pay/OwnPay-Documentation/edit/main/:path',
@@ -242,6 +237,7 @@ export default defineConfig({
 
   markdown: {
     lineNumbers: true,
+    theme: 'github-dark'
   },
   vite: {
     build: {

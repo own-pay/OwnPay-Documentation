@@ -14,6 +14,10 @@ Setting up a new store on OwnPay involves five steps:
 
 ## Sections
 
+### Overview & Setup
+- [System Requirements](/user-guide/requirements)
+- [Change Log](/user-guide/changelog)
+
 ### Authentication
 - [Login](/user-guide/auth/login)
 - [Forgot Password](/user-guide/auth/forgot-password)
