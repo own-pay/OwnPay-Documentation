@@ -6,6 +6,8 @@ import Footer from './Footer.vue'
 const mobileMenuOpen = ref(false)
 const isDark = ref(false)
 let darkObserver = null
+const marqueeWrapRef = ref(null)
+const marqueeTrackRef = ref(null)
 
 onMounted(() => {
   isDark.value = document.documentElement.classList.contains('dark')
@@ -13,6 +15,70 @@ onMounted(() => {
     isDark.value = document.documentElement.classList.contains('dark')
   })
   darkObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+
+  // ── SVG Path Marquee Animation ──
+  const wrap = marqueeWrapRef.value
+  const track = marqueeTrackRef.value
+  if (!wrap || !track) return
+
+  const items = track.querySelectorAll('.op-marquee__path-item')
+  const totalItems = items.length
+  if (!totalItems) return
+
+  const baseVelocity = 0.03
+  const slowdownVelocity = 0.008
+  const dragSensitivity = 0.05
+  let progress = 0
+  let currentVelocity = baseVelocity
+  let targetVelocity = baseVelocity
+  let isDragging = false
+  let startX = 0
+  let animId = null
+
+  function animate() {
+    currentVelocity += (targetVelocity - currentVelocity) * 0.1
+    if (!isDragging) {
+      progress += currentVelocity
+    }
+    if (progress >= 100) progress -= 100
+    if (progress < 0) progress += 100
+
+    items.forEach((item, index) => {
+      const offset = (progress + (index * (100 / totalItems))) % 100
+      item.style.offsetDistance = `${offset}%`
+    })
+
+    animId = requestAnimationFrame(animate)
+  }
+
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => { targetVelocity = slowdownVelocity })
+    item.addEventListener('mouseleave', () => { targetVelocity = baseVelocity })
+  })
+
+  wrap.addEventListener('pointerdown', (e) => {
+    isDragging = true
+    startX = e.clientX
+    wrap.style.cursor = 'grabbing'
+  })
+
+  window.addEventListener('pointermove', (e) => {
+    if (!isDragging) return
+    progress -= (e.clientX - startX) * dragSensitivity
+    startX = e.clientX
+  })
+
+  window.addEventListener('pointerup', () => {
+    isDragging = false
+    if (wrap) wrap.style.cursor = 'grab'
+  })
+
+  window.addEventListener('pointercancel', () => {
+    isDragging = false
+    if (wrap) wrap.style.cursor = 'grab'
+  })
+
+  animate()
 })
 
 onUnmounted(() => {
@@ -43,6 +109,12 @@ const triggerSearch = () => {
     cancelable: true
   });
   window.dispatchEvent(event);
+}
+
+const copyCode = () => {
+  const text = `curl -L -o ownpay.zip https://github.com/own-pay/OwnPay/releases/latest/download/ownpay.zip
+unzip ownpay.zip -d ownpay && cd ownpay`
+  navigator.clipboard.writeText(text)
 }
 
 const icons = {
@@ -77,7 +149,12 @@ const navLinks = [
   { text: 'Plugins',       href: 'https://plugins.ownpay.org',  external: true  },
 ]
 
-const gateways = ['bKash', 'Nagad', 'Rocket', 'Upay', 'SSLCommerz', 'Stripe', 'PayPal', 'Razorpay', 'Flutterwave', 'Paystack', 'M-Pesa', 'USDT / Crypto']
+const gateways = [
+  'bKash', 'Nagad', 'Rocket', 'Upay', 'SSLCommerz', 'Stripe', 'PayPal', 'Razorpay',
+  'Flutterwave', 'Paystack', 'M-Pesa', 'USDT / Crypto', 'Square', 'Adyen',
+  'Braintree', 'Klarna', 'Mercado Pago', 'GoCardless', 'Checkout.com', 'Mollie',
+]
+const repeatedGateways = [...gateways, ...gateways]
 
 const bento = [
   { icon: 'globe', large: true, badge: 'System Setup', title: 'White-Label Custom Domains', desc: 'Step-by-step guides on configuring isolated store domains and setting up TLS/SSL certificates per brand.', href: '/user-guide/system/domains', domain: 'learn.ownpay.org' },
@@ -230,15 +307,18 @@ const helpChannels = [
           <!-- Quickstart Terminal on the right side of the hero -->
           <div class="op-code">
             <div class="op-code__bar">
-              <span class="op-dot op-dot--r"></span>
-              <span class="op-dot op-dot--y"></span>
-              <span class="op-dot op-dot--g"></span>
+              <div class="op-code__dots">
+                <span class="op-dot op-dot--r"></span>
+                <span class="op-dot op-dot--y"></span>
+                <span class="op-dot op-dot--g"></span>
+              </div>
               <span class="op-code__file">quickstart_install.sh</span>
+              <span class="op-code__copy" @click="copyCode">Copy</span>
             </div>
             <pre class="op-code__pre"><code><span class="c-dim"># 1. Download and extract the latest release</span>
-<span class="c-cmd">curl</span> -L -o ownpay.zip \
+<span class="c-cmd">$</span> curl -L -o ownpay.zip \
   https://github.com/own-pay/OwnPay/releases/latest/download/ownpay.zip
-<span class="c-cmd">unzip</span> ownpay.zip -d ownpay <span class="c-dim">&amp;&amp;</span> <span class="c-cmd">cd</span> ownpay
+<span class="c-cmd">$</span> unzip ownpay.zip -d ownpay <span class="c-dim">&amp;&amp;</span> cd ownpay
 
 <span class="c-dim"># 2. Point web root at public/ folder</span>
 <span class="c-dim">#    e.g., /var/www/ownpay/public</span>
@@ -253,9 +333,9 @@ const helpChannels = [
     <!-- ── MARQUEE ───────────────────────────────────────────── -->
     <div class="op-marquee">
       <p class="op-marquee__label">PLUGS INTO 123+ PAYMENT GATEWAYS</p>
-      <div class="op-marquee__track-wrap">
-        <div class="op-marquee__track">
-          <span v-for="(g, i) in [...gateways, ...gateways]" :key="i" class="op-marquee__item">{{ g }}</span>
+      <div class="op-marquee__path-wrap" ref="marqueeWrapRef">
+        <div class="op-marquee__path-track" ref="marqueeTrackRef">
+          <span v-for="(g, i) in repeatedGateways" :key="i" class="op-marquee__path-item">{{ g }}</span>
         </div>
       </div>
     </div>
