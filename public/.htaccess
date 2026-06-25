@@ -5,6 +5,11 @@
   RewriteCond %{THE_REQUEST} \s/+(.+)\.html[\s?] [NC]
   RewriteRule ^ /%1 [R=301,L]
 
+  # If a directory is requested and it does not have an index.html file, serve the 404 page
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_FILENAME}/index.html !-f
+  RewriteRule ^ /404.html [L]
+
   # If the request is not for a physical directory or file
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
