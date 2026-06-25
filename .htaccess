@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([^/]+)/?$ $1.html [L]
