@@ -5,8 +5,8 @@
   RewriteCond %{THE_REQUEST} \s/+(.+)\.html[\s?] [NC]
   RewriteRule ^ /%1 [R=301,L]
 
-  # Redirect trailing slash to non-trailing slash if the corresponding .html file exists
-  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  # Redirect trailing slash to non-trailing slash if it is not a directory
+  RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^(.*)/$ /$1 [R=301,L]
 
   # If a directory is requested and it does not have an index.html file, serve the 404 page
