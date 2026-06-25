@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Redirect any request containing .html extension to its clean URL counterpart (excluding physical files)
+  RewriteCond %{THE_REQUEST} \s/+(.+)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # If the request is not for a physical directory or file
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+
+  # If appending .html results in a physical file, rewrite internally to it
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# Handle directory index
+DirectoryIndex index.html
+
+# Prevent directory listing
+Options -Indexes
+
+# Map 403 Forbidden and 404 Not Found to the custom VitePress 404 page
+ErrorDocument 403 /404.html
+ErrorDocument 404 /404.html

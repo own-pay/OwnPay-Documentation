@@ -1,5 +1,89 @@
 import { defineConfig } from 'vitepress'
 
+// Helper function to extract a neat description from the HTML content if no frontmatter description is present
+function getPageDescription(context) {
+  if (context.pageData.frontmatter && context.pageData.frontmatter.description) {
+    return context.pageData.frontmatter.description;
+  }
+  
+  const htmlContent = context.content || '';
+  if (!htmlContent) {
+    return context.description || '';
+  }
+
+  // Extract the main article content wrapper first to avoid headers/footers
+  const mainMatch = htmlContent.match(/<main[^>]*>([\s\S]*?)<\/main>/i) || htmlContent.match(/<div class="vp-doc[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+  const articleHtml = mainMatch ? mainMatch[1] : htmlContent;
+
+  // Find the first blockquote or paragraph inside the article body
+  const blockquoteMatch = articleHtml.match(/<blockquote[^>]*>([\s\S]*?)<\/blockquote>/i);
+  let candidateText = '';
+  if (blockquoteMatch && blockquoteMatch[1]) {
+    candidateText = blockquoteMatch[1];
+  } else {
+    // Look for the first non-empty paragraph that doesn't start with "Purpose:"
+    const paragraphs = articleHtml.match(/<p[^>]*>([\s\S]*?)<\/p>/gi) || [];
+    for (const p of paragraphs) {
+      const cleanP = p.replace(/<[^>]+>/g, '').trim();
+      if (cleanP && !cleanP.startsWith('Purpose:')) {
+        candidateText = p;
+        break;
+      }
+    }
+  }
+
+  if (candidateText) {
+    // Strip HTML tags
+    let text = candidateText.replace(/<[^>]+>/g, ' ');
+    
+    // Decode common entities and normalize spaces
+    text = text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Clean up "Purpose:" label if it came from a blockquote
+    text = text.replace(/^Purpose:\s*/i, '');
+
+    if (text) {
+      if (text.length > 160) {
+        text = text.substring(0, 157) + '...';
+      }
+      return text;
+    }
+  }
+
+  return context.description || '';
+}
+
+// Helper function to extract the first image in compiled HTML and resolve it to a full URL
+function getPageImage(context) {
+  const htmlContent = context.content || '';
+  if (!htmlContent) {
+    return 'https://learn.ownpay.org/ownpay_og.png';
+  }
+
+  // Extract the main article content wrapper first to avoid logo images in headers
+  const mainMatch = htmlContent.match(/<main[^>]*>([\s\S]*?)<\/main>/i) || htmlContent.match(/<div class="vp-doc[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+  const articleHtml = mainMatch ? mainMatch[1] : htmlContent;
+
+  const imgMatch = articleHtml.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (imgMatch && imgMatch[1]) {
+    const imgPath = imgMatch[1];
+    if (/^https?:\/\//i.test(imgPath)) {
+      return imgPath;
+    }
+    return `https://learn.ownpay.org${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
+  }
+
+  return 'https://learn.ownpay.org/ownpay_og.png';
+}
+
 export default defineConfig({
   lang: 'en-US',
   title: 'OwnPay Documentation — Help & Guides',
@@ -21,35 +105,8 @@ export default defineConfig({
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap', rel: 'stylesheet' }],
-    ['meta', { property: 'og:site_name', content: 'OwnPay' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:title', content: 'OwnPay Documentation — Help & Guides' }],
-    ['meta', { property: 'og:description', content: 'Official guides, developer integration, and API reference for OwnPay, the self-hosted payment gateway platform.' }],
-    ['meta', { property: 'og:url', content: 'https://learn.ownpay.org/' }],
-    ['meta', { property: 'og:image', content: 'https://learn.ownpay.org/ownpay_og.png' }],
-    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:title', content: 'OwnPay Documentation — Help & Guides' }],
-    ['meta', { name: 'twitter:description', content: 'Official guides, developer integration, and API reference for OwnPay, the self-hosted payment gateway platform.' }],
-    ['meta', { name: 'twitter:image', content: 'https://learn.ownpay.org/ownpay_og.png' }],
-    [
-      'script',
-      { type: 'application/ld+json' },
-      JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        'name': 'OwnPay Documentation',
-        'url': 'https://learn.ownpay.org/',
-        'description': 'Official guides, developer integration, and API reference documentation for OwnPay, the open source self-hosted payment gateway platform.',
-        'publisher': {
-          '@type': 'Organization',
-          'name': 'OwnPay',
-          'logo': {
-            '@type': 'ImageObject',
-            'url': 'https://learn.ownpay.org/ownpay_logo.png'
-          }
-        }
-      })
-    ]
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }]
   ],
 
   themeConfig: {
@@ -251,5 +308,91 @@ export default defineConfig({
         target: 'esnext'
       }
     }
+  },
+  async transformHead(context) {
+    if (context.page === '404.md') {
+      return [];
+    }
+
+    const { relativePath } = context.pageData;
+    
+    // Normalize relative path to clean URL path
+    let canonicalPath = relativePath.replace(/\.md$/, '');
+    if (canonicalPath === 'index') {
+      canonicalPath = '';
+    } else if (canonicalPath.endsWith('/index')) {
+      canonicalPath = canonicalPath.slice(0, -5);
+    }
+    const cleanPath = canonicalPath ? '/' + canonicalPath : '/';
+    const pageUrl = `https://learn.ownpay.org${cleanPath}`;
+
+    // Resolve Page Title, Description, and OG Image
+    const isHome = cleanPath === '/';
+    const siteName = 'OwnPay';
+    
+    // context.title contains the resolved page title (e.g. "Transactions | OwnPay Documentation — Help & Guides")
+    const pageTitle = isHome ? context.siteData.title : context.title;
+    const pageDescription = isHome ? context.siteData.description : getPageDescription(context);
+    const pageImage = isHome ? 'https://learn.ownpay.org/ownpay_og.png' : getPageImage(context);
+
+    // Build standard SEO tags
+    const headTags = [
+      ['link', { rel: 'canonical', href: pageUrl }],
+      ['meta', { property: 'og:site_name', content: siteName }],
+      ['meta', { property: 'og:title', content: pageTitle }],
+      ['meta', { property: 'og:description', content: pageDescription }],
+      ['meta', { property: 'og:url', content: pageUrl }],
+      ['meta', { property: 'og:image', content: pageImage }],
+      ['meta', { name: 'twitter:title', content: pageTitle }],
+      ['meta', { name: 'twitter:description', content: pageDescription }],
+      ['meta', { name: 'twitter:image', content: pageImage }],
+    ];
+
+    // Build dynamic JSON-LD structured data
+    let schema = {};
+    if (isHome) {
+      schema = {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        'name': 'OwnPay Documentation',
+        'url': pageUrl,
+        'description': pageDescription,
+        'publisher': {
+          '@type': 'Organization',
+          'name': siteName,
+          'logo': {
+            '@type': 'ImageObject',
+            'url': 'https://learn.ownpay.org/ownpay-symbol.svg'
+          }
+        }
+      };
+    } else {
+      schema = {
+        '@context': 'https://schema.org',
+        '@type': 'TechArticle',
+        'headline': pageTitle,
+        'description': pageDescription,
+        'url': pageUrl,
+        'image': pageImage,
+        'inLanguage': 'en-US',
+        'mainEntityOfPage': pageUrl,
+        'publisher': {
+          '@type': 'Organization',
+          'name': siteName,
+          'logo': {
+            '@type': 'ImageObject',
+            'url': 'https://learn.ownpay.org/ownpay-symbol.svg'
+          }
+        }
+      };
+    }
+
+    headTags.push([
+      'script',
+      { type: 'application/ld+json' },
+      JSON.stringify(schema)
+    ]);
+
+    return headTags;
   }
 })

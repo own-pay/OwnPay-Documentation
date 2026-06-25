@@ -1,9 +1,0 @@
-RewriteEngine On
-
-# If the file or directory does not exist directly
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Hit will redirect by checking if there is a .html file at the end of the URL.
-RewriteCond %{DOCUMENT_ROOT}/$1.html -f
-RewriteRule ^(.*)$ $1.html [L]
