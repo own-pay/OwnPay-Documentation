@@ -40,6 +40,6 @@ jobs:
           server:              ${{ secrets.DEPLOY_SSH_HOST }}
           port:                ${{ secrets.DEPLOY_SSH_PORT }}
           ssh_private_key:     ${{ secrets.DEPLOY_SSH_KEY }}
-          local_path:          .vitepress/dist/*
+          local_path:          .vitepress/dist/
           remote_path:         ${{ secrets.DEPLOY_REMOTE_PATH }}
           delete_remote_files: true
