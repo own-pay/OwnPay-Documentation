@@ -44,13 +44,13 @@ The following targets apply to a standard single-server deployment with Redis en
 
 ## Cache System
 
-OwnPay has two built-in cache drivers, selectable via `CACHE_DRIVER` in `.env`. The driver is resolved at container boot in [`config/services.php`](file:///C:/laragon/www/ownpay/config/services.php) and bound as the singleton `CacheInterface`.
+OwnPay has two built-in cache drivers, selectable via `CACHE_DRIVER` in `.env`. The driver is resolved at container boot in [`config/services.php`] and bound as the singleton `CacheInterface`.
 
 ### Drivers
 
 #### File Cache (default - shared hosting)
 
-**Class:** [`OwnPay/Cache/FileCache`](file:///C:/laragon/www/ownpay/src/Cache/FileCache.php)  
+**Class:** [`OwnPay/Cache/FileCache`]  
 **Storage:** `storage/cache/` (subdirectory-namespaced `.cache` files)  
 **Mechanism:** Atomic write via `rename()` after `LOCK_EX` to prevent torn reads.  
 **GC strategy:** Lazy expiry - expired files are deleted on next read.  
@@ -64,7 +64,7 @@ CACHE_TTL=3600
 
 #### Redis Cache (recommended - VPS/cloud)
 
-**Class:** [`OwnPay/Cache/RedisCache`](file:///C:/laragon/www/ownpay/src/Cache/RedisCache.php)  
+**Class:** [`OwnPay/Cache/RedisCache`]  
 **Database:** Redis DB 0 (DB 1 is reserved for the queue)  
 **Key prefix:** `op:` (configurable via `REDIS_PREFIX`)  
 **Flush scope:** Uses `SCAN` + prefix pattern - never `FLUSHALL`. Safe to share a Redis instance.
@@ -98,7 +98,7 @@ redis:
 
 ### What OwnPay Caches
 
-**`SettingsRepository`** ([`src/Repository/SettingsRepository.php`](file:///C:/laragon/www/ownpay/src/Repository/SettingsRepository.php)) maintains a **per-request in-memory memoization** of resolved setting groups and individual keys. Since settings are read dozens of times per page render (brand theme, checkout timer, fee rules, email preferences), every write/delete automatically invalidates the affected group. After out-of-band database writes (e.g. installer imports), call `SettingsRepository::flushCache()` to clear the memoized state.
+**`SettingsRepository`** ([`src/Repository/SettingsRepository.php`]) maintains a **per-request in-memory memoization** of resolved setting groups and individual keys. Since settings are read dozens of times per page render (brand theme, checkout timer, fee rules, email preferences), every write/delete automatically invalidates the affected group. After out-of-band database writes (e.g. installer imports), call `SettingsRepository::flushCache()` to clear the memoized state.
 
 **What is memoized per request:**
 
@@ -107,7 +107,7 @@ redis:
 
 ### OPcache (PHP Bytecode Cache)
 
-OwnPay ships a production-tuned OPcache configuration in [`.docker/php.ini`](file:///C:/laragon/www/ownpay/.docker/php.ini):
+OwnPay ships a production-tuned OPcache configuration in [`.docker/php.ini`]:
 
 ```ini
 opcache.enable                  = 1
@@ -145,13 +145,13 @@ $twig = new \Twig\Environment($loader, [
 
 ## Queue System
 
-OwnPay has two built-in queue drivers selectable via `QUEUE_DRIVER` in `.env`. The driver is bound as `QueueInterface` in [`config/services.php`](file:///C:/laragon/www/ownpay/config/services.php).
+OwnPay has two built-in queue drivers selectable via `QUEUE_DRIVER` in `.env`. The driver is bound as `QueueInterface` in [`config/services.php`].
 
 ### Drivers
 
 #### File Queue (default - shared hosting)
 
-**Class:** [`OwnPay/Queue/FileQueue`](file:///C:/laragon/www/ownpay/src/Queue/FileQueue.php)  
+**Class:** [`OwnPay/Queue/FileQueue`]  
 **Storage:** `storage/queue/{queue-name}/` (JSON files, `flock` concurrency control)  
 **Job naming:** `{timestamp}_{uuid}.json` - sorted chronologically for FIFO processing.  
 **Concurrency:** Non-blocking `LOCK_EX | LOCK_NB` prevents double-processing by multiple workers.  
@@ -159,7 +159,7 @@ OwnPay has two built-in queue drivers selectable via `QUEUE_DRIVER` in `.env`. T
 
 #### Redis Queue (recommended - VPS/cloud)
 
-**Class:** [`OwnPay\Queue\RedisQueue`(src/Queue/RedisQueue.php)  
+**Class:** [`OwnPay\Queue\RedisQueue`]  
 **Database:** Redis DB 1 (separate from the cache on DB 0)  
 **Key prefix:** `op:queue:` (configurable via `REDIS_PREFIX`)  
 **Delayed jobs:** Stored in a Redis sorted-set (`op:queue:{name}:delayed`), migrated to the ready list at pop time.  
@@ -176,7 +176,7 @@ REDIS_PREFIX=op:queue:
 
 ### Cron-driven Queue Worker
 
-The queue is processed by [`QueueWorkerJob`](file:///C:/laragon/www/ownpay/src/Cron/QueueWorkerJob.php) running as a scheduled cron task. Key characteristics:
+The queue is processed by [`QueueWorkerJob`] running as a scheduled cron task. Key characteristics:
 
 - **Batch size:** 20 jobs per invocation (configurable via `run(int $batchSize = 20)`)
 - **Max retries:** 3 (`MAX_ATTEMPTS = 3`)  
@@ -187,7 +187,7 @@ The queue is processed by [`QueueWorkerJob`](file:///C:/laragon/www/ownpay/src/C
 
 ### Cron Schedule Reference
 
-All cron jobs are managed by [`CronJobRunner`](file:///C:/laragon/www/ownpay/src/Cron/CronJobRunner.php), which uses file-based `flock` locking (`.lock` + `.running.lock` per job in `storage/cron/`) to prevent concurrent execution.
+All cron jobs are managed by [`CronJobRunner`], which uses file-based `flock` locking (`.lock` + `.running.lock` per job in `storage/cron/`) to prevent concurrent execution.
 
 | Job Class | Schedule | Purpose |
 |---|---|---|
@@ -322,7 +322,7 @@ innodb_buffer_pool_instances = 8
 
 ### Connection Retry Logic
 
-OwnPay's PDO factory ([`config/services.php`](file:///C:/laragon/www/ownpay/config/services.php) automatically retries transient connection failures (too many connections, connection refused, server gone away) with **linear backoff**:
+OwnPay's PDO factory ([`config/services.php`] automatically retries transient connection failures (too many connections, connection refused, server gone away) with **linear backoff**:
 
 ```php
 // Configurable via DB_CONNECT_RETRIES env var (default: 3)
@@ -401,7 +401,7 @@ docker exec ownpay_db sh -c \
 
 ## PHP-FPM Optimization
 
-OwnPay's production PHP-FPM pool is configured in [`.docker/php-fpm-ownpay.conf`](file:///C:/laragon/www/ownpay/.docker/php-fpm-ownpay.conf):
+OwnPay's production PHP-FPM pool is configured in [`.docker/php-fpm-ownpay.conf`]:
 
 ```ini
 [ownpay]
@@ -451,7 +451,7 @@ bcmath.scale = 10
 
 ## Rate Limiting
 
-OwnPay's [`RateLimiterMiddleware`](file:///C:/laragon/www/ownpay/src/Middleware/RateLimiterMiddleware.php) uses a **sliding-window algorithm** backed by Redis (primary) or the `op_rate_limits` database table (fallback). It injects `X-RateLimit-Limit` and `X-RateLimit-Remaining` headers on every response.
+OwnPay's [`RateLimiterMiddleware`] uses a **sliding-window algorithm** backed by Redis (primary) or the `op_rate_limits` database table (fallback). It injects `X-RateLimit-Limit` and `X-RateLimit-Remaining` headers on every response.
 
 ### Default Limits (from `config/app.php`)
 
@@ -498,7 +498,7 @@ Trusted IPs (e.g. internal monitoring servers, load balancer health checks) can 
 
 ## Web Server (Nginx)
 
-OwnPay ships a production Nginx config in [`.docker/nginx-site.conf`](file:///C:/laragon/www/ownpay/.docker/nginx-site.conf). Key settings:
+OwnPay ships a production Nginx config in [`.docker/nginx-site.conf`]. Key settings:
 
 ```nginx
 server {
@@ -717,7 +717,7 @@ REDIS_PORT=6379
 
 ## Idempotency
 
-OwnPay implements idempotency for all mutating API endpoints (`POST`, `PUT`, `PATCH`) via [`IdempotencyMiddleware`](file:///C:/laragon/www/ownpay/src/Middleware/IdempotencyMiddleware.php). This is critical for scaling because it prevents duplicate payments when requests are retried by clients or load balancers on network failure.
+OwnPay implements idempotency for all mutating API endpoints (`POST`, `PUT`, `PATCH`) via [`IdempotencyMiddleware`]. This is critical for scaling because it prevents duplicate payments when requests are retried by clients or load balancers on network failure.
 
 **How it works:**
 
@@ -742,7 +742,7 @@ curl -X POST https://pay.example.com/api/v1/payments \
 
 ## Security Headers (Performance Impact)
 
-[`SecurityHeadersMiddleware`](file:///C:/laragon/www/ownpay/src/Middleware/SecurityHeadersMiddleware.php) runs on every request and generates a **per-request CSP nonce** (`base64(random_bytes(16))`). It also builds the Content-Security-Policy from active gateway manifests only - not all 100+ bundled gateways - to keep the header under the 7,500-byte safety limit (previously exceeding 8 KB caused FastCGI worker crashes).
+[`SecurityHeadersMiddleware`] runs on every request and generates a **per-request CSP nonce** (`base64(random_bytes(16))`). It also builds the Content-Security-Policy from active gateway manifests only - not all 100+ bundled gateways - to keep the header under the 7,500-byte safety limit (previously exceeding 8 KB caused FastCGI worker crashes).
 
 **Headers applied to all responses:**
 
