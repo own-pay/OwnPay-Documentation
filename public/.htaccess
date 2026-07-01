@@ -43,10 +43,21 @@ ErrorDocument 404 /404.html
     Header set Pragma "no-cache"
     Header set Expires "0"
 
+    # Bypass LiteSpeed server-side cache (fixes "x-cache: HIT from Backend")
+    # LiteSpeed is the backend cache on this hosting environment
+    Header set X-LiteSpeed-Cache-Control "no-cache"
+
     # Cache static assets (VitePress assets are hashed and immutable)
     <FilesMatch "\.(css|js|woff2?|eot|ttf|otf|png|jpg|jpeg|gif|svg|ico)$">
         Header set Cache-Control "max-age=31536000, public, immutable"
         Header unset Pragma
         Header unset Expires
+        Header unset X-LiteSpeed-Cache-Control
     </FilesMatch>
+</IfModule>
+
+# LiteSpeed Cache: disable page caching for HTML/clean-URL responses
+# These directives are natively read by the LiteSpeed web server cache module
+<IfModule LiteSpeed>
+    CacheLookup off
 </IfModule>

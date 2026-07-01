@@ -55,7 +55,19 @@ jobs:
           username:    ${{ secrets.DEPLOY_SSH_USER }}
           key:         ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            # Touch all HTML files so their mtime changes - this invalidates
-            # any server-side proxy/page cache (Nginx proxy_cache, etc.)
+            # Touch all HTML files so their mtime changes - forces backend
+            # caches (Nginx proxy_cache, LiteSpeed, Varnish) to re-validate
             find ${{ secrets.DEPLOY_REMOTE_PATH }} -name "*.html" -exec touch {} \;
-            echo "Cache busted: $(date)"
+
+            # Clear LiteSpeed page cache if it exists
+            # LiteSpeed stores cached pages in a .lscache or lscache directory
+            if [ -d "${{ secrets.DEPLOY_REMOTE_PATH }}/.lscache" ]; then
+              rm -rf ${{ secrets.DEPLOY_REMOTE_PATH }}/.lscache/*
+              echo "LiteSpeed .lscache cleared"
+            fi
+            if [ -d "${{ secrets.DEPLOY_REMOTE_PATH }}/lscache" ]; then
+              rm -rf ${{ secrets.DEPLOY_REMOTE_PATH }}/lscache/*
+              echo "LiteSpeed lscache cleared"
+            fi
+
+            echo "Cache bust complete: $(date)"
