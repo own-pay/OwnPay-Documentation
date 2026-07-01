@@ -2,7 +2,7 @@
   RewriteEngine On
 
   # Redirect old installation guide URL to the new one
-  # RewriteRule ^user-guide/installation(\.html)?$ /getting-started/installation [R=301,L,NC]
+  RewriteRule ^user-guide/installation(\.html)?$ /getting-started/installation [R=301,L,NC]
 
   # Redirect any request containing .html extension to its clean URL counterpart (excluding physical files)
   RewriteCond %{THE_REQUEST} \s/+(.+)\.html[\s?] [NC]
