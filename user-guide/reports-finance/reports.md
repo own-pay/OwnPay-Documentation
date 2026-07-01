@@ -1,4 +1,4 @@
-# Reports
+﻿# Reports
 
 > **Purpose:** Monitor business performance metrics, analyze transaction volumes, audit gateway fees, and export data.
 
@@ -52,7 +52,7 @@ Displays detailed conversion metrics. If no transactions are registered in the s
 | **From Date** | Date Picker | 1st of current month | The start of the reporting period. |
 | **To Date** | Date Picker | Current Date | The end of the reporting period. |
 | **Gateway** | Select | All Gateways | Filter analytics to a specific payment gateway. |
-| **Export CSV** | Link | — | Download option for raw spreadsheet data. |
+| **Export CSV** | Link | - | Download option for raw spreadsheet data. |
 
 ---
 
@@ -98,6 +98,6 @@ Displays detailed conversion metrics. If no transactions are registered in the s
 
 ## Related Pages
 
-- [Transactions](../payments/transactions.md) — Review individual customer invoices and payments.
-- [Ledger](../payments/ledger.md) — View double-entry debit and credit lines.
-- [Audit Log](./audit-log.md) — Track actions performed by staff users.
+- [Transactions](../payments/transactions.md) - Review individual customer invoices and payments.
+- [Ledger](../payments/ledger.md) - View double-entry debit and credit lines.
+- [Audit Log](./audit-log.md) - Track actions performed by staff users.

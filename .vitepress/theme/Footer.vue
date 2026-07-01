@@ -41,7 +41,7 @@ const footerColumns = [
     { text: 'Developer Docs', href: '/developer/' },
     { text: 'API Reference', href: 'https://docs.ownpay.org' },
     { text: 'SDK & Plugins', href: 'https://ownpay.org/sdk-and-plugins' },
-    { text: 'Plugin Development', href: '/developer/plugin-development' },
+    { text: 'Plugin Development', href: '/developer/plugin-types/gateway-development' },
     { text: 'Hook Reference', href: '/developer/hooks-reference' }
   ]
 ]

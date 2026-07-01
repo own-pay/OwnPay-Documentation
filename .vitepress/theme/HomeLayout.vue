@@ -167,11 +167,11 @@ const bento = [
 const steps = [
   { title: 'Download & deploy',        desc: 'Extract the release, point your web server root at public/, then open the browser and visit /install.' },
   { title: 'Create brands & gateways', desc: 'Spin up fully isolated merchant brands, assign custom domains, and activate gateway plugins per brand.' },
-  { title: 'Start collecting payments', desc: 'Generate payment links, issue invoices, or call the REST API — every transaction hits the ledger automatically.' },
+  { title: 'Start collecting payments', desc: 'Generate payment links, issue invoices, or call the REST API - every transaction hits the ledger automatically.' },
 ]
 
 const explore = [
-  { icon: 'book',     title: 'User Guide',     desc: 'Admin panel walkthrough — gateways, brands, payments, reports, and settings.', href: '/user-guide/',              external: false },
+  { icon: 'book',     title: 'User Guide',     desc: 'Admin panel walkthrough - gateways, brands, payments, reports, and settings.', href: '/user-guide/',              external: false },
   { icon: 'code',     title: 'Developer Docs', desc: 'PHP & Node.js integration, webhook setup, building custom payment plugins.',    href: '/developer/',               external: false },
   { icon: 'cube',     title: 'Plugin Catalog', desc: 'Browse 123+ payment gateway plugins and community-built extensions.',           href: 'https://plugins.ownpay.org', external: true  },
   { icon: 'terminal', title: 'API Reference',  desc: 'Full OpenAPI specification with request/response schemas and live samples.',    href: 'https://docs.ownpay.org',   external: true  },
@@ -280,7 +280,7 @@ const helpChannels = [
           <div>
             <a class="op-hero__pill" href="https://github.com/own-pay/OwnPay/releases/latest" target="_blank" rel="noopener">
               <span class="op-hero__pill-dot"></span>
-              Docs Hub — Public Beta v0.1.0
+              Docs Hub - Public Beta v0.1.0
               <span v-html="icons.extarrow"></span>
             </a>
 

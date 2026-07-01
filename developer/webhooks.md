@@ -1,10 +1,10 @@
----
+﻿---
 title: Webhooks & Events
 ---
 
 # Webhooks & Events
 
-OwnPay sends HTTP POST requests to your server whenever a payment event occurs. Webhooks let you react to events in real time — fulfil orders, send receipts, update balances — without polling the API.
+OwnPay sends HTTP POST requests to your server whenever a payment event occurs. Webhooks let you react to events in real time - fulfil orders, send receipts, update balances - without polling the API.
 
 ## How Webhooks Work
 
@@ -26,7 +26,7 @@ OwnPay considers delivery successful when your endpoint returns **HTTP 2xx** wit
 2. Click **Add Endpoint**
 3. Enter your URL: `https://your-store.com/webhooks/ownpay`
 4. Select the events you want to receive (or **All events**)
-5. Copy the **Webhook Secret** — you'll need it to verify signatures
+5. Copy the **Webhook Secret** - you'll need it to verify signatures
 
 ::: tip HTTPS Required
 OwnPay only sends webhooks to `https://` endpoints. Use a service like [ngrok](https://ngrok.com/) for local development.
@@ -214,7 +214,7 @@ Signature verification must run against the **raw, unparsed request body**. If y
 
 ## Idempotency
 
-Webhook delivery is **at-least-once** — your handler may receive the same event more than once in rare cases (e.g. if your server timed out before returning 200). Make all handlers idempotent:
+Webhook delivery is **at-least-once** - your handler may receive the same event more than once in rare cases (e.g. if your server timed out before returning 200). Make all handlers idempotent:
 
 ```php
 function handlePaymentPaid(array $data): void

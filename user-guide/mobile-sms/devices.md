@@ -1,4 +1,4 @@
-# Paired Devices
+﻿# Paired Devices
 
 > **Purpose:** Connect Android companion devices to OwnPay using secure, temporary pairing codes to forward incoming transaction SMS alerts.
 
@@ -53,8 +53,8 @@ Displays all authenticated hardware:
 ### Pairing Options Reference
 | Control Option | Type | Expiry | Description |
 |---|---|---|---|
-| **Pair New Device** | Button | — | Toggle visibility of the device pairing panel. |
-| **Generate Pairing Code** | Button | — | Generates a 6-digit OTP code to insert into the mobile app. |
+| **Pair New Device** | Button | - | Toggle visibility of the device pairing panel. |
+| **Generate Pairing Code** | Button | - | Generates a 6-digit OTP code to insert into the mobile app. |
 | **6-Digit OTP** | Output Code | 5 Minutes | The security token to type into the companion app. |
 | **Revoke** | Button | Immediate | Invalidates the device's JWT token, blocking all future API calls. |
 
@@ -103,6 +103,6 @@ Displays all authenticated hardware:
 
 ## Related Pages
 
-- [SMS Center](./sms-templates.md) — Create regex rules to parse forwarded messages.
-- [SMS Data](./sms-logs.md) — View forwarded raw SMS logs.
-- [Payment Gateways](../gateways/gateways.md) — Enable SMS verification on manual wallets.
+- [SMS Center](./sms-templates.md) - Create regex rules to parse forwarded messages.
+- [SMS Data](./sms-logs.md) - View forwarded raw SMS logs.
+- [Payment Gateways](../gateways/gateways.md) - Enable SMS verification on manual wallets.

@@ -88,7 +88,7 @@ const allPages = computed(() => {
       { title: 'Introduction', link: '/user-guide/introduction' },
       { title: 'Payment Gateways', link: '/user-guide/gateways/gateways' },
       { title: 'Webhooks Setup', link: '/developer/webhooks' },
-      { title: 'Plugin Development', link: '/developer/plugin-development' }
+      { title: 'Plugin Development', link: '/developer/plugin-types/gateway-development' }
     ]
   }
 

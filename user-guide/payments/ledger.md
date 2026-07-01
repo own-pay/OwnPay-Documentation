@@ -1,4 +1,4 @@
-# Ledger & Accounting
+﻿# Ledger & Accounting
 
 > **Purpose:** Detailed log of double-entry ledger bookkeeping entries, asset/liability balances, and transaction audit trails.
 
@@ -112,6 +112,6 @@ Lists all matched ledger entries in chronological order:
 
 ## Related Pages
 
-- [Transactions](./transactions.md) — View customer details and payment gateway statuses.
-- [Invoices](./invoices.md) — Bill customers and track payment status.
-- [Balance Verification](../reports-finance/balance-verification.md) — Audit and verify physical ledger balances.
+- [Transactions](./transactions.md) - View customer details and payment gateway statuses.
+- [Invoices](./invoices.md) - Bill customers and track payment status.
+- [Balance Verification](../reports-finance/balance-verification.md) - Audit and verify physical ledger balances.

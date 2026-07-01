@@ -1,4 +1,4 @@
-# Invoices
+﻿# Invoices
 
 > **Purpose:** Detailed billing tool to create, customize, and issue itemized invoices to customers for custom goods or services.
 
@@ -50,13 +50,13 @@ Accessed by clicking the **+ Create Invoice** button:
 ### Invoice Form Fields
 | Field / Option | Type | Required? | Default | Description |
 |---|---|---|---|---|
-| **Invoice Number** | Text Input | Yes | — | Unique billing serial number (e.g. `INV-0001`). |
-| **Customer** | Select | Yes | — | Dropdown listing registered customers. You must register a customer before invoicing them. |
+| **Invoice Number** | Text Input | Yes | - | Unique billing serial number (e.g. `INV-0001`). |
+| **Customer** | Select | Yes | - | Dropdown listing registered customers. You must register a customer before invoicing them. |
 | **Currency** | Select | Yes | BDT | Currency in which the customer will be billed. |
-| **Due Date** | Date Picker | Yes | — | The final date by which the payment is expected. |
-| **Notes** | Text Area | No | — | Custom instructions, bank details, or checkout terms shown to the customer. |
-| **+ Add** | Button | No | — | Inserts a new line item row in the invoice. |
-| **Description** | Text Input | Yes | — | Summary of the specific product or service rendered. |
+| **Due Date** | Date Picker | Yes | - | The final date by which the payment is expected. |
+| **Notes** | Text Area | No | - | Custom instructions, bank details, or checkout terms shown to the customer. |
+| **+ Add** | Button | No | - | Inserts a new line item row in the invoice. |
+| **Description** | Text Input | Yes | - | Summary of the specific product or service rendered. |
 | **Quantity** | Spinbutton | Yes | 1 | Number of units billed. |
 | **Amount** | Spinbutton | Yes | 0.00 | Unit price of the specific item. |
 
@@ -124,6 +124,6 @@ Accessed by clicking the **+ Create Invoice** button:
 
 ## Related Pages
 
-- [Customers](../people/customers.md) — Register new customers to bill.
-- [Transactions](./transactions.md) — View payments resulting from paid invoices.
-- [Checkout](./../public/checkout.md) — The customer invoice payment experience.
+- [Customers](../people/customers.md) - Register new customers to bill.
+- [Transactions](./transactions.md) - View payments resulting from paid invoices.
+- [Checkout](./../public/checkout.md) - The customer invoice payment experience.

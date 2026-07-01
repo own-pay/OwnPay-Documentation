@@ -1,4 +1,4 @@
-# Addons
+﻿# Addons
 
 > **Purpose:** Activate and manage secondary non-gateway utility plugins (like Email wrappers, SMS senders, or Telegram bots).
 
@@ -56,6 +56,6 @@ Lists all functional helper modules:
 
 ## Related Pages
 
-- [Plugins](./plugins.md) — View and manage all platform extensions.
-- [System Settings](./settings.md) — Configure general localization settings.
-- [System Update](./system-update.md) — Perform core system code updates.
+- [Plugins](./plugins.md) - View and manage all platform extensions.
+- [System Settings](./settings.md) - Configure general localization settings.
+- [System Update](./system-update.md) - Perform core system code updates.

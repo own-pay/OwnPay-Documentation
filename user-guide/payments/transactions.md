@@ -1,4 +1,4 @@
-# Transactions
+﻿# Transactions
 
 > **Purpose:** Detailed view of all incoming payments, payment attempts, and refunds processed through your gateways.
 
@@ -57,10 +57,10 @@ Accessed by clicking **View** on a transaction. It provides in-depth data:
 ### Filters & Controls
 | Field / Option | Type | Required? | Default | Description |
 |---|---|---|---|---|
-| **Search Box** | Text Input | No | — | Enter a search term (TrxID or partial amount) to quickly search records. |
+| **Search Box** | Text Input | No | - | Enter a search term (TrxID or partial amount) to quickly search records. |
 | **Gateway Dropdown** | Select | No | All Gateways | Filter by the payment processor that processed the transaction. |
-| **From / To Date** | Date Picker | No | — | Filter transactions within a specific date range. |
-| **Filter Button** | Button | Yes | — | Executes the filter query on the table. |
+| **From / To Date** | Date Picker | No | - | Filter transactions within a specific date range. |
+| **Filter Button** | Button | Yes | - | Executes the filter query on the table. |
 
 ### Detail Page Reference
 | Field / Label | Type | Description |
@@ -132,6 +132,6 @@ Accessed by clicking **View** on a transaction. It provides in-depth data:
 
 ## Related Pages
 
-- [Dashboard](../dashboard/dashboard.md) — Real-time overview of transaction volumes.
-- [Ledger](./ledger.md) — Financial movements audit trails.
-- [Invoices](./invoices.md) — Requesting payments through structured invoices.
+- [Dashboard](../dashboard/dashboard.md) - Real-time overview of transaction volumes.
+- [Ledger](./ledger.md) - Financial movements audit trails.
+- [Invoices](./invoices.md) - Requesting payments through structured invoices.

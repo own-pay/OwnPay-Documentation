@@ -1,4 +1,4 @@
-# Branding Settings
+﻿# Branding Settings
 
 > **Purpose:** Customize the administrative title, upload global logos and favicons, and manage site identity settings.
 
@@ -46,7 +46,7 @@ The Branding Settings panel is split into two sections:
 | **Site Logo** | File Upload | PNG, SVG, JPEG, WebP | Main dashboard header visual brand logo. |
 | **Favicon** | File Upload | ICO, PNG, SVG | Small icon shown in browser tab headers. |
 | **Admin Panel Title** | Text Input | Own Pay Admin | Browser title for administrative views. |
-| **Site Title (SEO)** | Text Input | Own Pay — Secure Payments | Browser title for public landing views. |
+| **Site Title (SEO)** | Text Input | Own Pay - Secure Payments | Browser title for public landing views. |
 | **Site Meta Description** | Text Area | Self-hosted payment gateway... | Description shown in search engine results. |
 | **Site Keywords** | Text Input | payment gateway, fintech | Meta keywords index. |
 | **Brand Tagline** | Text Input | Payments you actually own | Visual brand tagline. |
@@ -86,6 +86,6 @@ The Branding Settings panel is split into two sections:
 
 ## Related Pages
 
-- [Landing Page Settings](./landing-page.md) — Manage hero text and FAQ cards.
-- [Themes](./themes.md) — Choose visual templates for checkouts.
-- [System Settings](../system/settings.md) — General site configurations.
+- [Landing Page Settings](./landing-page.md) - Manage hero text and FAQ cards.
+- [Themes](./themes.md) - Choose visual templates for checkouts.
+- [System Settings](../system/settings.md) - General site configurations.

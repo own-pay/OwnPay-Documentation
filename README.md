@@ -22,9 +22,9 @@
 
 ## What is OwnPay?
 
-**OwnPay** is a self-hosted, open-source payment infrastructure designed to run entirely on your own server. Unlike standard payment processors or SaaS gateways, OwnPay provides complete control over your transaction ledger, isolated white-label store domains, sandboxed plugin gateways (supporting 123+ platforms including bKash, Nagad, Stripe, and PayPal), and native Android SMS parsing.
+**OwnPay** is a self-hosted, open-source payment infrastructure designed to run entirely on your own server. Unlike standard payment processors or SaaS gateways, OwnPay provides complete control over your transaction ledger, isolated white-label store domains, sandboxed plugin gateways, and native Android SMS parsing.
 
-This repository contains the source code for the official OwnPay documentation portal hosted at [learn.ownpay.org](https://learn.ownpay.org).
+This repository contains the source code for the official OwnPay documentation portal hosted at [learn.ownpay.org](https://learn.ownpay.org), built on top of **VitePress**.
 
 - **Main Repository:** [own-pay/OwnPay](https://github.com/own-pay/OwnPay)
 - **Official Website:** [ownpay.org](https://ownpay.org)
@@ -59,6 +59,27 @@ Generates statically compiled files in `.vitepress/dist/` along with a dynamic `
 
 ---
 
+## Repository Structure
+
+```
+ownpay-documentation/
+├── .vitepress/          # VitePress configuration, theme setup, and assets
+│   ├── config.mjs       # Main configuration (sidebar, navigation, SEO settings)
+│   ├── theme/           # Layout overrides, custom footers, and styles
+│   │   ├── vars.css     # CSS variable color system (light/dark theme tokens)
+│   │   └── index.js     # Theme entry point
+│   └── dist/            # Statically generated production build output
+├── public/              # Global static assets (logos, icons, and SVGs)
+├── getting-started/     # Getting started, introduction, requirements, and installation
+├── core-concepts/       # Core concepts (multi-branding, payment flow, gateways, etc.)
+├── user-guide/          # Operator guide (payments, gateways, settings, dashboards)
+├── developer/           # Integration quickstarts, SDKs, and plugin system guides
+├── advanced-topics/     # Troubleshooting, scaling, security, and FAQ
+└── resources/           # Architecture maps, features, setup, and integrations
+```
+
+---
+
 ## Contribution & Writing Guide
 
 We welcome improvements and additions to the guides. Follow the instructions below to add or modify content.
@@ -66,12 +87,12 @@ We welcome improvements and additions to the guides. Follow the instructions bel
 ### How to Update an Existing Guide
 
 1. Find the target Markdown (`.md`) file inside the workspace (e.g., inside `user-guide/` or `developer/`).
-2. Implement your edits following the standard Markdown syntax.
+2. Implement your edits following standard Markdown syntax.
 3. Verify your layout and formatting look correct on the local development server before staging.
 
 ### How to Add a New Guide
 
-1. Create a new `.md` file in the appropriate directory (e.g., `user-guide/new-section/guide-name.md`).
+1. Create a new `.md` file in the appropriate directory (e.g., `user-guide/payments/new-guide.md`).
 2. Add standard Markdown headings (`#`, `##`, etc.). Use a single `<h1>` title at the top of the file.
 3. Open [.vitepress/config.mjs](.vitepress/config.mjs) and register your new guide inside the `sidebar` array under the correct navigation block so that it appears in the sidebar menu.
 
@@ -86,6 +107,7 @@ To maintain premium quality, high readability, and technical accuracy, all docum
 - **Use do-follow links:** Ensure all links pointing to any `ownpay.org` domain or subdomain are standard do-follow links (no `rel="nofollow"` attributes).
 - **Clear Headings:** Use clean, structured headings to allow readers to scan pages easily.
 - **VitePress Features:** Utilize built-in VitePress alerts (`::: info`, `::: warning`, `::: danger`) to highlight important warnings.
+- **Hyphens instead of em-dashes:** Never use em-dashes (`—`) in text or code. Use standard hyphens (`-`) instead.
 
 ### 👎 What Not to Do
 

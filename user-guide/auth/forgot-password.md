@@ -1,4 +1,4 @@
-# Forgot Password
+﻿# Forgot Password
 
 > **Purpose:** Interface to log a password reset request and get instructions to recover account access.
 
@@ -36,9 +36,9 @@ Contains the email address field to request recovery and instructions.
 
 | Field / Option | Type | Required? | Default | Description |
 |---|---|---|---|---|
-| **Email** | Text / Email | Yes | — | Enter the registered email address of the account you want to recover. |
-| **Send Reset Link** | Button | Yes | — | Submits the request and registers the recovery entry. |
-| **← Back to Login** | Link | No | — | Navigates back to the main login form. |
+| **Email** | Text / Email | Yes | - | Enter the registered email address of the account you want to recover. |
+| **Send Reset Link** | Button | Yes | - | Submits the request and registers the recovery entry. |
+| **← Back to Login** | Link | No | - | Navigates back to the main login form. |
 
 ---
 
@@ -92,4 +92,4 @@ Contains the email address field to request recovery and instructions.
 
 ## Related Pages
 
-- [Login](./login.md) — The main login form.
+- [Login](./login.md) - The main login form.

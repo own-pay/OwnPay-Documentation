@@ -1,4 +1,4 @@
-# Customers
+﻿# Customers
 
 > **Purpose:** Browse and manage customer profiles, monitor transaction histories, and audit total customer spending.
 
@@ -93,6 +93,6 @@ Accessed by clicking the **Add Customer** button:
 
 ## Related Pages
 
-- [Transactions](../payments/transactions.md) — Inspect customer payments.
-- [Invoices](../payments/invoices.md) — Create and send invoices to customer profiles.
-- [Staff](./staff.md) — Manage team members handling customer queries.
+- [Transactions](../payments/transactions.md) - Inspect customer payments.
+- [Invoices](../payments/invoices.md) - Create and send invoices to customer profiles.
+- [Staff](./staff.md) - Manage team members handling customer queries.

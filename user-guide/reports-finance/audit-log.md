@@ -1,4 +1,4 @@
-# Audit Log
+﻿# Audit Log
 
 > **Purpose:** Track administrative actions, staff logins, config changes, and security events.
 
@@ -91,6 +91,6 @@ Located at the bottom of the table, showing **Page X of Y** and a **Next →** l
 
 ## Related Pages
 
-- [Staff](../people/staff.md) — Manage administrative user accounts.
-- [Reports](./reports.md) — Analyze payment conversion data.
-- [Developer Hub](../developers/developer-hub.md) — Monitor API and webhook logs.
+- [Staff](../people/staff.md) - Manage administrative user accounts.
+- [Reports](./reports.md) - Analyze payment conversion data.
+- [Developer Hub](../developers/developer-hub.md) - Monitor API and webhook logs.

@@ -1,4 +1,4 @@
----
+﻿---
 title: PHP Integration
 ---
 
@@ -129,13 +129,13 @@ exit;
 |-------|------|----------|-------------|
 | `amount` | integer | ✓ | Amount in minor currency units |
 | `currency` | string | ✓ | ISO 4217 currency code (e.g. `BDT`, `USD`) |
-| `description` | string | — | Human-readable description |
-| `customer.name` | string | — | Customer's full name |
-| `customer.email` | string | — | Customer's email address |
-| `customer.phone` | string | — | Customer's phone number |
-| `metadata` | object | — | Arbitrary key/value pairs (returned in webhooks) |
+| `description` | string | - | Human-readable description |
+| `customer.name` | string | - | Customer's full name |
+| `customer.email` | string | - | Customer's email address |
+| `customer.phone` | string | - | Customer's phone number |
+| `metadata` | object | - | Arbitrary key/value pairs (returned in webhooks) |
 | `redirect_url` | string | ✓ | URL to redirect after successful payment |
-| `cancel_url` | string | — | URL to redirect if the customer cancels |
+| `cancel_url` | string | - | URL to redirect if the customer cancels |
 
 ## Retrieving a Payment Intent
 
@@ -155,7 +155,7 @@ if ($status === 'paid') {
 
 ## Generating a Payment Link
 
-Payment links are reusable shareable URLs — no customer data required up-front:
+Payment links are reusable shareable URLs - no customer data required up-front:
 
 ```php
 $response = $client->post('payment-links', [
@@ -228,5 +228,5 @@ $client = new OwnPayClient(
 
 ## Next Steps
 
-- [Webhook verification →](/developer/webhooks) — Receive and verify payment events server-side
-- [API Reference →](https://docs.ownpay.org) — Full endpoint list with schemas
+- [Webhook verification →](/developer/webhooks) - Receive and verify payment events server-side
+- [API Reference →](https://docs.ownpay.org) - Full endpoint list with schemas

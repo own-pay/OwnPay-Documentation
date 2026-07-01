@@ -1,4 +1,4 @@
-# Themes
+﻿# Themes
 
 > **Purpose:** Select visual themes, activate checkout template structures, and upload custom stylesheets.
 
@@ -27,8 +27,8 @@ The Themes dashboard displays:
 ### 1. Active Theme Cards
 Cards displaying details for each theme package discovered on the file system:
 * **Theme Name:** The display title (e.g. `Own Pay Theme`).
-* **Version & Author:** Package version and developer credits (e.g. `v2.0.0 — Own Pay`).
-* **Description:** Details outlining features of the theme (e.g. "Default Own Pay checkout theme — premium, responsive, multi-gateway").
+* **Version & Author:** Package version and developer credits (e.g. `v2.0.0 - Own Pay`).
+* **Description:** Details outlining features of the theme (e.g. "Default Own Pay checkout theme - premium, responsive, multi-gateway").
 * **Controls:** Click **Activate** to make this the active global checkout theme, or **Remove** to delete the files from the server.
 
 ### 2. Install Theme
@@ -67,6 +67,6 @@ Located at the top header by clicking the **+ Install Theme** link:
 
 ## Related Pages
 
-- [Branding Settings](./branding-settings.md) — Customize logo assets.
-- [Landing Page Settings](./landing-page.md) — Modify public home text blocks.
-- [Payment Gateways](../gateways/gateways.md) — Configure manual and API payment rules.
+- [Branding Settings](./branding-settings.md) - Customize logo assets.
+- [Landing Page Settings](./landing-page.md) - Modify public home text blocks.
+- [Payment Gateways](../gateways/gateways.md) - Configure manual and API payment rules.

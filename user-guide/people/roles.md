@@ -1,4 +1,4 @@
-# Roles & Permissions
+﻿# Roles & Permissions
 
 > **Purpose:** Configure user role categories (RBAC) and map granular capability flags across system modules.
 
@@ -54,7 +54,7 @@ Slide-out or inline forms to create new roles or edit existing ones, including t
 |---|---|---|---|---|
 | **Role Name** | Text Input | Yes | e.g. Finance Manager | The display title of the role. |
 | **Description** | Text Input | No | Brief description | Explain what staff in this role do. |
-| **Assign Permissions** | Checkboxes | No | — | Check individual nodes to map them to the role. |
+| **Assign Permissions** | Checkboxes | No | - | Check individual nodes to map them to the role. |
 
 ---
 
@@ -101,5 +101,5 @@ Slide-out or inline forms to create new roles or edit existing ones, including t
 
 ## Related Pages
 
-- [Staff](./staff.md) — Map staff members to roles.
-- [Audit Log](../reports-finance/audit-log.md) — Audit actions performed by different roles.
+- [Staff](./staff.md) - Map staff members to roles.
+- [Audit Log](../reports-finance/audit-log.md) - Audit actions performed by different roles.

@@ -1,6 +1,6 @@
-# Installation
+﻿# Installation Guide
 
-OwnPay comes with a **built-in web installer**. Once you upload the files and create a database, just visit your domain and the installer will guide you through the rest — no command-line knowledge required.
+OwnPay comes with a **built-in web installer**. Once you upload the files and create a database, just visit your domain and the installer will guide you through the rest - no command-line knowledge required.
 
 Choose your hosting type below to get started:
 
@@ -17,7 +17,7 @@ Shared hosting is the easiest way to get started. Most popular hosts like Hostin
 Make sure your hosting plan supports **PHP 8.3** and **MySQL**. Almost all modern shared hosting plans do.
 :::
 
-### Step 1 — Download OwnPay
+### Step 1 - Download OwnPay
 
 1. Go to the [OwnPay GitHub Releases page](https://github.com/own-pay/OwnPay/releases/)
 2. Find the **latest release** at the top of the list
@@ -27,7 +27,7 @@ Make sure your hosting plan supports **PHP 8.3** and **MySQL**. Almost all moder
 
 ---
 
-### Step 2 — Upload the ZIP to Your Hosting
+### Step 2 - Upload the ZIP to Your Hosting
 
 How you upload depends on your control panel. All methods below lead to the same result.
 
@@ -35,7 +35,7 @@ How you upload depends on your control panel. All methods below lead to the same
 
 1. Log in to your hosting control panel (e.g. `yourdomain.com/cpanel`)
 2. Open **File Manager**
-3. Navigate to your website's root folder — usually `public_html` or a subfolder like `public_html/pay`
+3. Navigate to your website's root folder - usually `public_html` or a subfolder like `public_html/pay`
 4. Click **Upload** at the top
 5. Choose the OwnPay `.zip` file you downloaded and wait for the upload to complete
 
@@ -63,7 +63,7 @@ If your host does not have a built-in file manager, use an FTP client:
 
 ---
 
-### Step 3 — Extract (Unzip) the Files
+### Step 3 - Extract (Unzip) the Files
 
 After uploading, you need to extract the ZIP on the server.
 
@@ -71,7 +71,7 @@ After uploading, you need to extract the ZIP on the server.
 
 1. Click on the uploaded `.zip` file to select it
 2. Click **Extract** in the toolbar at the top
-3. A dialog will appear — click **Extract File(s)**
+3. A dialog will appear - click **Extract File(s)**
 4. The files will be extracted into the current folder
 
 After extracting, you should see folders like `public/`, `src/`, `config/`, `storage/`, etc.
@@ -86,7 +86,7 @@ After extracting, make sure you don't have a **double-nested folder** like `publ
 
 ---
 
-### Step 4 — Create a MySQL Database
+### Step 4 - Create a MySQL Database
 
 You need an empty database for OwnPay to store its data.
 
@@ -95,7 +95,7 @@ You need an empty database for OwnPay to store its data.
 1. From cPanel home, click **MySQL Databases**
 2. Under **Create New Database**, type a name (e.g. `ownpay_db`) and click **Create Database**
 3. Scroll down to **MySQL Users** → **Add New User**
-4. Enter a username (e.g. `ownpay_user`) and a **strong password** — write these down, you will need them later
+4. Enter a username (e.g. `ownpay_user`) and a **strong password** - write these down, you will need them later
 5. Click **Create User**
 6. Scroll down to **Add User To Database**
 7. Select your new user and your new database, click **Add**
@@ -130,7 +130,7 @@ You will enter these into the installer in the next steps.
 
 ---
 
-### Step 5 — Set PHP Version to 8.3
+### Step 5 - Set PHP Version to 8.3
 
 OwnPay requires PHP 8.3. Most hosts let you change this per-domain.
 
@@ -159,7 +159,7 @@ If you skip this step or use an older PHP version, OwnPay will not start. PHP 8.
 
 ---
 
-### Step 6 — Run the Web Installer
+### Step 6 - Run the Web Installer
 
 Everything is ready. Now open your browser and visit your domain:
 
@@ -169,7 +169,7 @@ https://yourdomain.com/install
 
 The OwnPay installer will open automatically. It is a simple multi-step wizard:
 
-#### Installer Step 1 — Requirements Check
+#### Installer Step 1 - Requirements Check
 
 The installer checks if your server has everything OwnPay needs (PHP version, extensions, folder permissions).
 
@@ -186,7 +186,7 @@ The installer checks if your server has everything OwnPay needs (PHP version, ex
 
 Once all items are green, click **Continue**.
 
-#### Installer Step 2 — Database Configuration
+#### Installer Step 2 - Database Configuration
 
 Enter the database details you created in Step 4:
 
@@ -197,9 +197,9 @@ Enter the database details you created in Step 4:
 - **Database Password**: the password you set
 - **Table Prefix**: leave as `op_` (recommended)
 
-Click **Test Connection** — if everything is correct, you will see a success message. Then click **Continue**.
+Click **Test Connection** - if everything is correct, you will see a success message. Then click **Continue**.
 
-#### Installer Step 3 — Admin Account
+#### Installer Step 3 - Admin Account
 
 Create your administrator account:
 
@@ -207,7 +207,7 @@ Create your administrator account:
 - **Email**: Your email address (used to log in)
 - **Password**: Choose a strong password (at least 12 characters)
 
-#### Installer Step 4 — Application Settings
+#### Installer Step 4 - Application Settings
 
 - **App Name**: Give your OwnPay installation a name (e.g. "My Payment Gateway")
 - **App URL**: Your full domain URL (e.g. `https://yourdomain.com`)
@@ -215,7 +215,7 @@ Create your administrator account:
 
 Click **Install** and wait a few seconds. OwnPay will set up the database tables and write your configuration.
 
-#### Done — Installation Complete! 🎉
+#### Done - Installation Complete! 🎉
 
 The installer will show a success screen with a link to log in. Your login page is at:
 
@@ -230,12 +230,12 @@ After logging in for the first time:
 
 1. Go to **Settings → General** and review your configuration
 2. Enable **Two-Factor Authentication** under your profile
-3. The installer is automatically disabled after installation — no action needed
+3. The installer is automatically disabled after installation - no action needed
 :::
 
 ---
 
-### Step 7 — Set Up the Cron Job (Required)
+### Step 7 - Set Up the Cron Job (Required)
 
 The cron job runs background tasks like checking payment status, sending notifications, and processing queues. **Without it, many features will not work properly.**
 
@@ -294,7 +294,7 @@ A VPS gives you full control, better performance, and the ability to use Redis f
 
 ---
 
-### Step 1 — Connect to Your Server
+### Step 1 - Connect to Your Server
 
 Open your terminal and connect via SSH:
 
@@ -310,7 +310,7 @@ ssh your_username@YOUR_SERVER_IP
 
 ---
 
-### Step 2 — Update the System
+### Step 2 - Update the System
 
 Always start by updating your server's software:
 
@@ -320,7 +320,7 @@ sudo apt update && sudo apt upgrade -y
 
 ---
 
-### Step 3 — Install Required Software
+### Step 3 - Install Required Software
 
 Install PHP 8.3, MySQL, Nginx, and all required extensions in one command:
 
@@ -352,7 +352,7 @@ sudo systemctl enable nginx mysql php8.3-fpm
 
 ---
 
-### Step 4 — Set Up the Database
+### Step 4 - Set Up the Database
 
 #### Secure MySQL
 
@@ -384,7 +384,7 @@ EXIT;
 
 ---
 
-### Step 5 — Download and Extract OwnPay
+### Step 5 - Download and Extract OwnPay
 
 1. Go to the [OwnPay GitHub Releases page](https://github.com/own-pay/OwnPay/releases/) in your browser
 2. Copy the download URL for the latest `.zip` file (right-click → Copy Link)
@@ -402,7 +402,7 @@ sudo rm ownpay-vX.X.X.zip
 
 ---
 
-### Step 6 — Set File Permissions
+### Step 6 - Set File Permissions
 
 OwnPay needs write access to the `storage/` folder:
 
@@ -414,7 +414,7 @@ sudo chmod -R 775 /var/www/ownpay/storage
 
 ---
 
-### Step 7 — Configure Nginx
+### Step 7 - Configure Nginx
 
 Create a new Nginx configuration file for your site:
 
@@ -422,7 +422,7 @@ Create a new Nginx configuration file for your site:
 sudo nano /etc/nginx/sites-available/ownpay
 ```
 
-Paste the following — replace `yourdomain.com` with your actual domain:
+Paste the following - replace `yourdomain.com` with your actual domain:
 
 ```nginx
 server {
@@ -456,7 +456,7 @@ server {
         deny all;
     }
 
-    # PHP processing — only index.php runs as PHP
+    # PHP processing - only index.php runs as PHP
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/run/php/php8.3-fpm.sock;
@@ -491,7 +491,7 @@ You should see: `syntax is ok` and `test is successful`.
 
 ---
 
-### Step 8 — Install an SSL Certificate (HTTPS)
+### Step 8 - Install an SSL Certificate (HTTPS)
 
 HTTPS is mandatory for a payment gateway. Install a free Let's Encrypt certificate:
 
@@ -504,7 +504,7 @@ Follow the on-screen prompts. Certbot will automatically update your Nginx confi
 
 ---
 
-### Step 9 — Run the Web Installer
+### Step 9 - Run the Web Installer
 
 Open your browser and go to:
 
@@ -522,7 +522,7 @@ The same multi-step installer described in the [Shared Hosting section](#step-6-
 
 ---
 
-### Step 10 — Set Up the Cron Job
+### Step 10 - Set Up the Cron Job
 
 The cron job is required for background tasks. Add it to the system scheduler:
 
@@ -546,7 +546,7 @@ sudo crontab -u www-data -l
 
 ---
 
-### (Optional) Step 11 — Install Redis for Better Performance
+### (Optional) Step 11 - Install Redis for Better Performance
 
 Redis improves caching and background queue speed. Recommended for high-traffic setups:
 
@@ -566,10 +566,10 @@ Once installed, log in to your OwnPay admin panel at `https://yourdomain.com/log
 
 **Do these things right after logging in:**
 
-1. **Change your password** — Go to your profile and update it to something strong
-2. **Enable Two-Factor Authentication** — Strongly recommended for a payment platform
-3. **Create your first Brand** — Go to **People → Brands** from the All Brand.
-4. **Connect a Payment Gateway** — Go to **Gateways** and add your payment provider
+1. **Change your password** - Go to your profile and update it to something strong
+2. **Enable Two-Factor Authentication** - Strongly recommended for a payment platform
+3. **Create your first Brand** - Go to **People → Brands** from the admin menu
+4. **Connect a Payment Gateway** - Go to **Gateways** and add your payment provider
 
 ---
 
@@ -578,12 +578,12 @@ Once installed, log in to your OwnPay admin panel at `https://yourdomain.com/log
 ### The installer won't open or I see a blank page
 
 - Make sure PHP 8.3 is active for your domain (see Step 5 for shared hosting)
-- On shared hosting, verify `mod_rewrite` is enabled — contact support if unsure
+- On shared hosting, verify `mod_rewrite` is enabled - contact support if unsure
 - Check that all OwnPay files are in the correct folder (the `public/` folder must be inside your web root)
 
 ### Database connection failed in the installer
 
-- Double-check the database name, username, and password — they must match exactly what you created
+- Double-check the database name, username, and password - they must match exactly what you created
 - On shared hosting, the host is almost always `localhost`
 - Make sure the database user has **All Privileges** on the database
 
@@ -606,6 +606,6 @@ OwnPay creates a lock file after a successful installation to prevent accidental
 
 ## Next Steps
 
-- [Requirements →](/user-guide/requirements)
+- [System Requirements](/getting-started/)
 - [Creating Your First Brand →](/user-guide/people/brands)
 - [Configuring Payment Gateways →](/user-guide/gateways/gateways)

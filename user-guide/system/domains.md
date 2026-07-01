@@ -1,4 +1,4 @@
-# Custom Domains
+﻿# Custom Domains
 
 > **Purpose:** Map your own custom domain (e.g. `pay.yourbusiness.com`) to a brand's checkout and payment pages for white-labeled branding.
 
@@ -140,9 +140,9 @@ Triggered by clicking the **+ Add Domain** button in the header, containing the 
 
 ## Related Pages
 
-- [Brands](../people/brands.md) — Create and manage brands mapped to custom domains.
-- [Branding Settings](../appearance/branding-settings.md) — Upload logos and visual details for your brand context.
-- [System Settings](./settings.md) — Configure global application name and fallback URL parameters.
+- [Brands](../people/brands.md) - Create and manage brands mapped to custom domains.
+- [Branding Settings](../appearance/branding-settings.md) - Upload logos and visual details for your brand context.
+- [System Settings](./settings.md) - Configure global application name and fallback URL parameters.
 
 ---
 

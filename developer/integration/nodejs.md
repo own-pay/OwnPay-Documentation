@@ -1,4 +1,4 @@
----
+﻿---
 title: Node.js Integration
 ---
 
@@ -172,7 +172,7 @@ app.post('/checkout', async (req, res) => {
 
 ## Handling the Callback
 
-After payment, OwnPay redirects to `redirect_url?intent_id=<id>&status=paid`. Verify by fetching the intent server-side — never trust query parameters alone:
+After payment, OwnPay redirects to `redirect_url?intent_id=<id>&status=paid`. Verify by fetching the intent server-side - never trust query parameters alone:
 
 ```typescript
 app.get('/payment/callback', async (req, res) => {
@@ -221,7 +221,7 @@ async function safeCreateIntent(client: OwnPayClient, input: CreatePaymentIntent
 If you're not using ESM, substitute `import`/`export` with `require`:
 
 ```javascript
-// No TypeScript — plain Node.js with require
+// No TypeScript - plain Node.js with require
 const { OwnPayClient } = require('./ownpay.client.cjs')
 
 const client = new OwnPayClient(
@@ -233,7 +233,7 @@ const client = new OwnPayClient(
 ## Environment Variables
 
 ```bash
-# .env — never commit
+# .env - never commit
 OWNPAY_BASE_URL=https://pay.your-domain.com
 OWNPAY_API_KEY=op_live_xxxxxxxxxxxxxxxxxxxxxxxx
 APP_URL=https://your-store.com
@@ -243,5 +243,5 @@ Load with [dotenv](https://www.npmjs.com/package/dotenv) or your framework's bui
 
 ## Next Steps
 
-- [Webhook verification →](/developer/webhooks) — Receive server-push payment events
-- [API Reference →](https://docs.ownpay.org) — Full OpenAPI spec
+- [Webhook verification →](/developer/webhooks) - Receive server-push payment events
+- [API Reference →](https://docs.ownpay.org) - Full OpenAPI spec

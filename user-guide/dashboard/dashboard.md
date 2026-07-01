@@ -1,4 +1,4 @@
-# Admin Dashboard
+﻿# Admin Dashboard
 
 > **Purpose:** Command center presenting a real-time overview of transaction volumes, revenues, customer counts, and brand-wide statistics.
 
@@ -56,7 +56,7 @@ Shows the most recent payment attempts, allowing quick verification of incoming 
 |---|---|---|---|---|
 | **Brand Selector** | Dropdown | Yes | Global View | Filter all dashboard cards and transaction lists to a specific brand context. |
 | **Time Range Selector** | Dropdown | Yes | Today | Filter the metric cards. Options include: `Today`, `Last 7 Days`, `Last 30 Days`, and `All Time`. |
-| **View All** | Link | No | — | Redirects to the complete Transactions List page. |
+| **View All** | Link | No | - | Redirects to the complete Transactions List page. |
 
 ---
 
@@ -115,6 +115,6 @@ Shows the most recent payment attempts, allowing quick verification of incoming 
 
 ## Related Pages
 
-- [Transactions](../payments/transactions.md) — View and manage the complete list of transactions.
-- [Ledger](../payments/ledger.md) — Detailed double-entry financial accounts.
-- [Brands](../people/brands.md) — Set up and configure brand settings.
+- [Transactions](../payments/transactions.md) - View and manage the complete list of transactions.
+- [Ledger](../payments/ledger.md) - Detailed double-entry financial accounts.
+- [Brands](../people/brands.md) - Set up and configure brand settings.

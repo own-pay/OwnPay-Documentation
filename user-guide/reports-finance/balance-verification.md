@@ -1,4 +1,4 @@
-# Balance Verification
+﻿# Balance Verification
 
 > **Purpose:** Reconcile and verify internal database transaction ledgers against actual payment processor states to prevent financial discrepancies.
 
@@ -91,6 +91,6 @@ Displays verification metrics:
 
 ## Related Pages
 
-- [Ledger](../payments/ledger.md) — Inspect individual accounting ledger sheets.
-- [Transactions](../payments/transactions.md) — Monitor real-time transaction updates.
-- [Audit Log](./audit-log.md) — Check modification actions history.
+- [Ledger](../payments/ledger.md) - Inspect individual accounting ledger sheets.
+- [Transactions](../payments/transactions.md) - Monitor real-time transaction updates.
+- [Audit Log](./audit-log.md) - Check modification actions history.

@@ -1,4 +1,4 @@
-# Payment Gateways
+﻿# Payment Gateways
 
 > **Purpose:** Connect API-based payment processors (like Stripe or PayPal) and set up local manual wallet gateways (like bKash Personal or Nagad Personal).
 
@@ -47,16 +47,16 @@ Located by clicking the **Add Manual Gateway** button:
 ### Manual Gateway Form Fields
 | Field / Control | Type | Required? | Default | Description |
 |---|---|---|---|---|
-| **Gateway Name** | Text Input | Yes | — | The display name shown to customers (e.g. `Nagad Personal`). |
-| **Slug** | Text Input | Yes | — | Lowercase alphanumeric code with hyphens used by API endpoints. |
-| **Payment Instructions** | Text Area | No | — | Explanatory steps shown to customers at checkout. |
-| **Logo** | File Upload | No | — | Icon representing the gateway in checkout screens. Prefix logo paths with `/storage/` when referencing. |
-| **QR Code** | File Upload | No | — | Optional QR code scanned by customers to execute payment. |
+| **Gateway Name** | Text Input | Yes | - | The display name shown to customers (e.g. `Nagad Personal`). |
+| **Slug** | Text Input | Yes | - | Lowercase alphanumeric code with hyphens used by API endpoints. |
+| **Payment Instructions** | Text Area | No | - | Explanatory steps shown to customers at checkout. |
+| **Logo** | File Upload | No | - | Icon representing the gateway in checkout screens. Prefix logo paths with `/storage/` when referencing. |
+| **QR Code** | File Upload | No | - | Optional QR code scanned by customers to execute payment. |
 | **Primary/Secondary Color** | Color Picker | No | `#e2136e` | Custom colors matching the wallet provider brand. |
 | **Min Amount** | Number | No | `0` | Minimum transaction limit. Set to `0` for unlimited. |
 | **Max Amount** | Number | No | `0` | Maximum transaction limit. Set to `0` for unlimited. |
 | **Enable SMS Verification** | Checkbox | No | Unchecked | If enabled, routes transactions for auto-verification via paired devices. |
-| **+ Add Field** | Button | No | — | Dynamically appends extra text/number fields for customer checkout inputs. |
+| **+ Add Field** | Button | No | - | Dynamically appends extra text/number fields for customer checkout inputs. |
 
 ---
 
@@ -125,6 +125,6 @@ Located by clicking the **Add Manual Gateway** button:
 
 ## Related Pages
 
-- [Transactions](../payments/transactions.md) — View and approve incoming payments.
-- [Paired Devices](../mobile-sms/devices.md) — Connect mobile device for SMS auto-verification.
-- [SMS Center](../mobile-sms/sms-templates.md) — Set up SMS parsing heuristics.
+- [Transactions](../payments/transactions.md) - View and approve incoming payments.
+- [Paired Devices](../mobile-sms/devices.md) - Connect mobile device for SMS auto-verification.
+- [SMS Center](../mobile-sms/sms-templates.md) - Set up SMS parsing heuristics.

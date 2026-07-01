@@ -5,7 +5,7 @@ function getPageDescription(context) {
   if (context.pageData.frontmatter && context.pageData.frontmatter.description) {
     return context.pageData.frontmatter.description;
   }
-  
+
   const htmlContent = context.content || '';
   if (!htmlContent) {
     return context.description || '';
@@ -35,7 +35,7 @@ function getPageDescription(context) {
   if (candidateText) {
     // Strip HTML tags
     let text = candidateText.replace(/<[^>]+>/g, ' ');
-    
+
     // Decode common entities and normalize spaces
     text = text
       .replace(/&nbsp;/g, ' ')
@@ -86,8 +86,8 @@ function getPageImage(context) {
 
 export default defineConfig({
   lang: 'en-US',
-  title: 'OwnPay Documentation — Help & Guides',
-  description: 'Official Documentation for OwnPay — self-hosted, open-source payment Gateway.',
+  title: 'OwnPay Academy - Guides & Documentation',
+  description: 'OwnPay Academy: Official documentation, guides, integrations, and resources for the self-hosted payment gateway platform.',
 
   cleanUrls: true,
   appearance: true,
@@ -117,27 +117,51 @@ export default defineConfig({
     siteTitle: false,
 
     nav: [
+      { text: 'Getting Started', link: '/getting-started/', activeMatch: '/getting-started/' },
+      { text: 'Core Concepts', link: '/core-concepts/', activeMatch: '/core-concepts/' },
       { text: 'User Guide', link: '/user-guide/', activeMatch: '/user-guide/' },
       { text: 'Developer', link: '/developer/', activeMatch: '/developer/' },
-      { text: 'API Reference', link: 'https://docs.ownpay.org' },
-      { text: 'Plugins', link: 'https://plugins.ownpay.org' },
+      { text: 'Advanced Topics', link: '/advanced-topics/', activeMatch: '/advanced-topics/' },
+      { text: 'Resources', link: '/resources/', activeMatch: '/resources/' },
+      { text: 'API Docs', link: 'https://docs.ownpay.org', target: '_blank' },
     ],
 
     sidebar: {
-      '/user-guide/': [
+      '/getting-started/': [
         {
           text: 'Getting Started',
+          collapsed: false,
           items: [
-            { text: 'Introduction', link: '/user-guide/introduction' },
-            { text: 'Architecture', link: '/user-guide/architecture' },
-            { text: 'Installation', link: '/user-guide/installation' },
+            { text: 'Overview', link: '/getting-started/' },
+            { text: 'What is OwnPay?', link: '/getting-started/introduction' },
+            { text: 'System Requirements', link: '/getting-started/requirements' },
+            { text: 'Installation', link: '/getting-started/installation' },
+            { text: 'First Steps', link: '/getting-started/first-steps' },
           ],
         },
+      ],
+
+      '/core-concepts/': [
         {
-          text: 'User Guide',
+          text: 'Core Concepts',
+          collapsed: false,
           items: [
-            { text: 'Overview', link: '/user-guide/' },
-            { text: 'Requirements', link: '/user-guide/requirements' },
+            { text: 'Overview', link: '/core-concepts/' },
+            { text: 'Brands and Stores', link: '/core-concepts/brands-and-stores' },
+            { text: 'Payment Flow', link: '/core-concepts/payment-flow' },
+            { text: 'User Roles & Permissions', link: '/core-concepts/user-roles-permissions' },
+            { text: 'Payment Gateways', link: '/core-concepts/gateways' },
+            { text: 'Webhooks & Events', link: '/core-concepts/webhooks-events' },
+          ],
+        },
+      ],
+
+      '/user-guide/': [
+        {
+          text: 'Overview',
+          items: [
+            { text: 'User Guide', link: '/user-guide/' },
+            { text: 'System Architecture', link: '/resources/architecture' },
             { text: 'Change Log', link: '/user-guide/changelog' },
           ],
         },
@@ -158,20 +182,20 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Payments & Finance',
+          text: 'Managing Payments',
           collapsed: false,
           items: [
             { text: 'Transactions', link: '/user-guide/payments/transactions' },
             { text: 'Invoices', link: '/user-guide/payments/invoices' },
             { text: 'Payment Links', link: '/user-guide/payments/payment-links' },
-            { text: 'Ledger Bookkeeping', link: '/user-guide/payments/ledger' },
+            { text: 'Ledger & Bookkeeping', link: '/user-guide/payments/ledger' },
           ],
         },
         {
-          text: 'Gateways & Localization',
+          text: 'Payment Gateways',
           collapsed: false,
           items: [
-            { text: 'Payment Gateways', link: '/user-guide/gateways/gateways' },
+            { text: 'Gateway Setup', link: '/user-guide/gateways/gateways' },
             { text: 'Currencies & Rates', link: '/user-guide/gateways/currencies' },
           ],
         },
@@ -224,7 +248,7 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Account',
+          text: 'Account Settings',
           collapsed: true,
           items: [
             { text: 'My Account', link: '/user-guide/account/my-account' },
@@ -237,44 +261,125 @@ export default defineConfig({
             { text: 'Checkout Experience', link: '/user-guide/public/checkout' },
           ],
         },
+        {
+          text: 'Developer Hub',
+          collapsed: true,
+          items: [
+            { text: 'API Keys & Webhooks', link: '/user-guide/developers/developer-hub' },
+          ],
+        },
       ],
 
       '/developer/': [
         {
           text: 'Developer Guide',
-          items: [
-            { text: 'Overview', link: '/developer/' },
-          ],
-        },
-        {
-          text: 'Integration',
           collapsed: false,
           items: [
-            { text: 'PHP', link: '/developer/integration/php' },
-            { text: 'Node.js', link: '/developer/integration/nodejs' },
+            { text: 'Overview', link: '/developer/' },
+            { text: 'Quickstart', link: '/developer/quickstart' },
           ],
         },
         {
-          text: 'Webhooks',
+          text: 'SDK Integration',
+          collapsed: false,
+          items: [
+            { text: 'PHP SDK', link: '/developer/integration/php' },
+            { text: 'Node.js SDK', link: '/developer/integration/nodejs' },
+            { text: 'WordPress WooCommerce', link: '/developer/integration/woocommerce' },
+            { text: 'More SDKs →', link: '/resources/integrations/' },
+          ],
+        },
+        {
+          text: 'Webhooks & Events',
           collapsed: false,
           items: [
             { text: 'Setup & Verification', link: '/developer/webhooks' },
           ],
         },
         {
-          text: 'Plugin Development',
+          text: 'Plugin System',
           collapsed: false,
           items: [
-            { text: 'Building Plugins', link: '/developer/plugin-development' },
-            { text: 'Hook Reference', link: '/developer/hooks-reference' },
+            { text: 'Plugin Overview', link: '/developer/plugins/overview' },
+            { text: 'Gateway Development', link: '/developer/plugin-types/gateway-development' },
+            { text: 'Addon Development', link: '/developer/plugin-types/addon-development' },
+            { text: 'Theme Development', link: '/developer/plugin-types/theme-development' },
+            { text: 'Hooks Reference', link: '/developer/plugins/hooks' },
+            { text: 'Events Reference', link: '/developer/plugins/events' },
+            { text: 'Capabilities & Permissions', link: '/developer/plugins/capabilities' },
+          ],
+        },
+      ],
+
+      '/advanced-topics/': [
+        {
+          text: 'Advanced Topics',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/advanced-topics/' },
+            { text: 'Troubleshooting', link: '/advanced-topics/troubleshooting' },
+            { text: 'FAQ', link: '/advanced-topics/faq' },
+            { text: 'Security & Compliance', link: '/advanced-topics/security-compliance' },
+            { text: 'Performance & Scaling', link: '/advanced-topics/performance-scaling' },
+          ],
+        },
+      ],
+
+      '/resources/': [
+        {
+          text: 'Resources & References',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/resources/' },
+            { text: 'Architecture', link: '/resources/architecture' },
+            { text: 'Features & Capabilities', link: '/resources/features' },
+            { text: 'Local Setup', link: '/resources/local-setup' },
+            { text: 'Contributing', link: '/resources/contributing' },
+            { text: 'Roadmap', link: '/resources/roadmap' },
+          ],
+        },
+        {
+          text: 'Integration Guides',
+          collapsed: true,
+          items: [
+            { text: 'Overview', link: '/resources/integrations/' },
+            { text: 'REST API', link: '/resources/integrations/rest-api' },
+            { text: 'Python', link: '/resources/integrations/python' },
+            { text: 'Java', link: '/resources/integrations/java' },
+            { text: 'Go', link: '/resources/integrations/go' },
+            { text: 'Ruby', link: '/resources/integrations/ruby' },
+            { text: 'JavaScript/TypeScript', link: '/resources/integrations/javascript' },
+            { text: '.NET / C#', link: '/resources/integrations/dotnet' },
+            { text: 'Mobile (iOS/Android)', link: '/resources/integrations/mobile' },
+          ],
+        },
+        {
+          text: 'Additional Resources',
+          collapsed: true,
+          items: [
+            { text: 'Glossary', link: '/resources/glossary' },
+            { text: 'Code Examples', link: '/resources/code-examples' },
+          ],
+        },
+        {
+          text: 'External Services',
+          collapsed: true,
+          items: [
+            { text: 'Overview', link: '/resources/external-services/' },
+            { text: 'Main Website', link: '/resources/external-services/main-website' },
+            { text: 'Plugin Marketplace', link: '/resources/external-services/plugin-marketplace' },
+            { text: 'Blog & News', link: '/resources/external-services/blog' },
+            { text: 'Live Demo', link: '/resources/external-services/demo' },
+            { text: 'Version Registry', link: '/resources/external-services/version-registry' },
+            { text: 'Enterprise Support', link: '/resources/external-services/enterprise-support' },
           ],
         },
       ],
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/own-pay/OwnPay-Documentation' },
-      { icon: 'facebook', link: 'https://fb.com/ownpay.org' },
+      { icon: 'github', link: 'https://github.com/own-pay/OwnPay' },
+      { icon: 'facebook', link: 'https://facebook.com/group/ownpay.org' },
       { icon: 'youtube', link: 'https://youtube.com/@ownpayorg' },
     ],
 
@@ -294,11 +399,24 @@ export default defineConfig({
 
   markdown: {
     lineNumbers: true,
-    theme: 'github-dark'
+    theme: {
+      light: 'github-light',
+      dark: 'github-dark'
+    }
   },
   vite: {
     build: {
-      target: 'esnext'
+      target: 'esnext',
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('shiki') || id.includes('@shikijs')) {
+              return 'shiki'
+            }
+          }
+        }
+      }
     },
     esbuild: {
       target: 'esnext'
@@ -315,7 +433,7 @@ export default defineConfig({
     }
 
     const { relativePath } = context.pageData;
-    
+
     // Normalize relative path to clean URL path
     let canonicalPath = relativePath.replace(/\.md$/, '');
     if (canonicalPath === 'index') {
@@ -329,8 +447,8 @@ export default defineConfig({
     // Resolve Page Title, Description, and OG Image
     const isHome = cleanPath === '/';
     const siteName = 'OwnPay';
-    
-    // context.title contains the resolved page title (e.g. "Transactions | OwnPay Documentation — Help & Guides")
+
+    // context.title contains the resolved page title (e.g. "Transactions | OwnPay Documentation - Help & Guides")
     const pageTitle = isHome ? context.siteData.title : context.title;
     const pageDescription = isHome ? context.siteData.description : getPageDescription(context);
     const pageImage = isHome ? 'https://learn.ownpay.org/ownpay_og.png' : getPageImage(context);

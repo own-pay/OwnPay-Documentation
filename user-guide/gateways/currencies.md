@@ -1,4 +1,4 @@
-# Currencies & Rates
+﻿# Currencies & Rates
 
 > **Purpose:** Set the brand default currency, configure automatic exchange rates, and manage payment session expiry durations.
 
@@ -26,11 +26,11 @@ The payment settings panel provides the following configurations:
 
 ### 1. Currency & Exchange Rates
 * **Default Currency:** The base currency used to invoice customers and credit your ledger. Supported default options include:
-  * `BDT — Bangladeshi Taka`
-  * `USD — US Dollar`
-  * `EUR — Euro`
-  * `GBP — British Pound`
-  * `INR — Indian Rupee`
+  * `BDT - Bangladeshi Taka`
+  * `USD - US Dollar`
+  * `EUR - Euro`
+  * `GBP - British Pound`
+  * `INR - Indian Rupee`
 * **Exchange Rate Update:** Choose how multi-currency checkouts calculate rates:
   * **Automatic:** Periodically updates currency conversion factors using public rates APIs.
   * **Manual:** Let's you hardcode static rates for your conversions under the settings database.
@@ -60,7 +60,7 @@ The payment settings panel provides the following configurations:
 ### Changing Your Base Currency
 1. Navigate to the **Currencies & Rates** panel.
 2. Open the **Default Currency** dropdown.
-3. Select your desired base currency (e.g., `USD — US Dollar`).
+3. Select your desired base currency (e.g., `USD - US Dollar`).
 4. Click **Save Settings** to persist the change.
 
 ### Adjusting Checkout Session Lifespans
@@ -110,5 +110,5 @@ The payment settings panel provides the following configurations:
 
 ## Related Pages
 
-- [Payment Gateways](./gateways.md) — Configure gateway credentials and manual wallets.
-- [SMS Center](../mobile-sms/sms-templates.md) — Map notification structures for auto-approvals.
+- [Payment Gateways](./gateways.md) - Configure gateway credentials and manual wallets.
+- [SMS Center](../mobile-sms/sms-templates.md) - Map notification structures for auto-approvals.

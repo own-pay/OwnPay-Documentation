@@ -1,21 +1,27 @@
-# User Guide
+﻿# User Guide
 
-Welcome to the **OwnPay Platform User Guide**. This documentation covers every feature available in the OwnPay admin panel, from authentication to system management.
+Welcome to the **OwnPay Admin Panel User Guide**. This documentation covers every feature and workflow available to administrators managing brands, payments, users, gateways, and system settings.
 
-## Quick Start for New Installations
+## For First-Time Users
 
-Setting up a new store on OwnPay involves five steps:
+**Start here:** [First Steps for Administrators →](/getting-started/first-steps)
 
-1. **Create a Brand** — [People → Brands](/user-guide/people/brands)
-2. **Map a Custom Domain** (optional) — [System → Domains](/user-guide/system/domains)
-3. **Configure Payment Gateways** — [Gateways → Payment Gateways](/user-guide/gateways/gateways)
-4. **Link an Android Device** (for SMS automation) — [Mobile & SMS → Devices](/user-guide/mobile-sms/devices)
-5. **Create Payment Links or Invoices** — [Payments → Payment Links](/user-guide/payments/payment-links)
+Follow role-based guidance to set up your first brand, configure gateways, and process your first payment in just 15 minutes.
 
-## Sections
+## Quick Setup Checklist
+
+Getting a new OwnPay store live involves these five steps:
+
+1. **[Create a Brand](/user-guide/people/brands)** - Set up a brand with name, currency, and timezone
+2. **[Configure Payment Gateways](/user-guide/gateways/gateways)** - Connect your payment processor
+3. **[Create Payment Links](/user-guide/payments/payment-links)** - Start accepting payments
+4. **[Map Custom Domains](/user-guide/system/domains)** (optional) - White-label the checkout page
+5. **[Set Up Mobile Devices](/user-guide/mobile-sms/devices)** (optional) - Enable SMS automation
+
+## Features Overview
 
 ### Overview & Setup
-- [System Requirements](/user-guide/requirements)
+- [System Requirements](/getting-started/requirements)
 - [Change Log](/user-guide/changelog)
 
 ### Authentication

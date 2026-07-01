@@ -1,4 +1,4 @@
-# SMS Center & Parsing Templates
+﻿# SMS Center & Parsing Templates
 
 > **Purpose:** Create and manage regex rules and heuristic patterns to parse incoming payment SMS messages from mobile wallets.
 
@@ -110,6 +110,6 @@ A testing sandbox where you can paste a sample SMS, enter a regex string, select
 
 ## Related Pages
 
-- [Paired Devices](./devices.md) — Connect mobile companion apps.
-- [SMS Data](./sms-logs.md) — Monitor real-time parsed SMS logs.
-- [Payment Gateways](../gateways/gateways.md) — Bind manual gateways to SMS parsing triggers.
+- [Paired Devices](./devices.md) - Connect mobile companion apps.
+- [SMS Data](./sms-logs.md) - Monitor real-time parsed SMS logs.
+- [Payment Gateways](../gateways/gateways.md) - Bind manual gateways to SMS parsing triggers.

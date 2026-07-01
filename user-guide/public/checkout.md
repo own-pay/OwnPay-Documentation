@@ -1,4 +1,4 @@
-# Public Checkout & Payment Flow
+﻿# Public Checkout & Payment Flow
 
 > **Purpose:** The customer-facing checkout screen where users enter billing amounts, select payment methods, and complete payments.
 
@@ -119,6 +119,6 @@ After payment processing completes, the customer is routed to one of four status
 
 ## Related Pages
 
-- [Transactions](../payments/transactions.md) — View and audit customer payment statuses from the admin panel.
-- [Payment Links](../payments/payment-links.md) — Configure the slugs and bounds for payment links.
-- [Gateways](../gateways/gateways.md) — Manage the payment providers available on the checkout screen.
+- [Transactions](../payments/transactions.md) - View and audit customer payment statuses from the admin panel.
+- [Payment Links](../payments/payment-links.md) - Configure the slugs and bounds for payment links.
+- [Gateways](../gateways/gateways.md) - Manage the payment providers available on the checkout screen.

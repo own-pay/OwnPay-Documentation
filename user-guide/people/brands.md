@@ -1,4 +1,4 @@
-# Brands
+﻿# Brands
 
 > **Purpose:** Setup and configure white-label brand/store fronts, custom domains, visual templates, and localized currencies.
 
@@ -49,20 +49,20 @@ Accessed by clicking the **+ Add Brand** button:
 ### Brand Settings Field Reference
 | Field / Input | Type | Required? | Default | Description |
 |---|---|---|---|---|
-| **Business Name** | Text Input | Yes | — | The public facing name of the store. |
-| **Contact Email** | Text Input | No | — | General business contact email address. |
-| **Phone** | Text Input | No | — | General business contact phone number. |
+| **Business Name** | Text Input | Yes | - | The public facing name of the store. |
+| **Contact Email** | Text Input | No | - | General business contact email address. |
+| **Phone** | Text Input | No | - | General business contact phone number. |
 | **Status** | Select | Yes | Active | Options: `Active` (online), `Suspended` (blocks checkout), `Pending`. |
 | **Timezone** | Select | Yes | Asia/Dhaka | Set timezone for reports and date offsets. |
 | **Default Currency** | Text Input | Yes | BDT | Currency symbol for transactions and ledgers. |
-| **Custom Domain** | Text Input | No | — | Fully qualified domain name mapping to this brand context. |
-| **Brand Logo** | File Upload | No | — | Upload file for the checkout brand logo. Recommended: 200x60px PNG. |
-| **Brand Favicon** | File Upload | No | — | Browser tab icon. Recommended: 32x32px ICO/PNG. |
+| **Custom Domain** | Text Input | No | - | Fully qualified domain name mapping to this brand context. |
+| **Brand Logo** | File Upload | No | - | Upload file for the checkout brand logo. Recommended: 200x60px PNG. |
+| **Brand Favicon** | File Upload | No | - | Browser tab icon. Recommended: 32x32px ICO/PNG. |
 | **Primary Theme Color** | Color Picker | No | `#0d9488` | Theme color for major buttons and accents. |
 | **Accent Theme Color** | Color Picker | No | `#0f766e` | Theme color for button hover states. |
-| **Support Contact Email** | Text Input | No | — | Customer queries from checkout will route here. |
-| **Custom CSS Overrides** | Text Area | No | — | Stylesheet rule overrides loaded on the checkout page. |
-| **Custom JavaScript** | Text Area | No | — | Script overrides loaded on checkout. |
+| **Support Contact Email** | Text Input | No | - | Customer queries from checkout will route here. |
+| **Custom CSS Overrides** | Text Area | No | - | Stylesheet rule overrides loaded on the checkout page. |
+| **Custom JavaScript** | Text Area | No | - | Script overrides loaded on checkout. |
 
 ---
 
@@ -105,6 +105,6 @@ Accessed by clicking the **+ Add Brand** button:
 
 ## Related Pages
 
-- [Domains](../system/domains.md) — Manage DNS checks and domains.
-- [Staff](./staff.md) — Create and assign staff to brands.
-- [Themes](../appearance/themes.md) — Switch brand visual templates.
+- [Domains](../system/domains.md) - Manage DNS checks and domains.
+- [Staff](./staff.md) - Create and assign staff to brands.
+- [Themes](../appearance/themes.md) - Switch brand visual templates.

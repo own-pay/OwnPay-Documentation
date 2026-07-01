@@ -1,4 +1,4 @@
-# System Settings
+﻿# System Settings
 
 > **Purpose:** Manage global system settings, configure timezones, adjust public base URLs, and toggle maintenance mode.
 
@@ -84,6 +84,6 @@ The General settings panel is divided into two sections:
 
 ## Related Pages
 
-- [Branding Settings](../appearance/branding-settings.md) — Upload logos and favicons.
-- [Landing Page Settings](../appearance/landing-page.md) — Manage public home page content.
-- [Domains](./domains.md) — Setup custom domains.
+- [Branding Settings](../appearance/branding-settings.md) - Upload logos and favicons.
+- [Landing Page Settings](../appearance/landing-page.md) - Manage public home page content.
+- [Domains](./domains.md) - Setup custom domains.

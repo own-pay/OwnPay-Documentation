@@ -1,4 +1,4 @@
-# Developer Hub
+﻿# Developer Hub
 
 > **Purpose:** Generate integration API keys, configure outbound webhook/IPN endpoints, and manage API rate limits.
 
@@ -47,7 +47,7 @@ Defines rate-limit settings to prevent API abuse, setting threshold constraints 
 | Field Name | Type | Required? | Example | Description |
 |---|---|---|---|---|
 | **Key Label** | Text Input | Yes | WooCommerce Plugin | Identify where this key is deployed. |
-| **Generate Key** | Button | Yes | — | Generates the Bearer token credentials. |
+| **Generate Key** | Button | Yes | - | Generates the Bearer token credentials. |
 
 ---
 
@@ -94,6 +94,6 @@ Defines rate-limit settings to prevent API abuse, setting threshold constraints 
 
 ## Related Pages
 
-- [Audit Log](../reports-finance/audit-log.md) — Monitor administrative access.
-- [System Settings](../system/settings.md) — Configure general server timezones.
-- [Payment Gateways](../gateways/gateways.md) — Configure manual and API gateway structures.
+- [Audit Log](../reports-finance/audit-log.md) - Monitor administrative access.
+- [System Settings](../system/settings.md) - Configure general server timezones.
+- [Payment Gateways](../gateways/gateways.md) - Configure manual and API gateway structures.

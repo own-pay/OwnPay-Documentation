@@ -1,4 +1,4 @@
-# Plugins
+﻿# Plugins
 
 > **Purpose:** Manage modular platform extensions, install custom addons, and toggle gateway services.
 
@@ -78,6 +78,6 @@ Located by clicking the **Upload Plugin** link in the header:
 
 ## Related Pages
 
-- [Payment Gateways](../gateways/gateways.md) — Configure credentials for activated gateways.
-- [Themes](../appearance/themes.md) — Manage active visual styles.
-- [System Update](./system-update.md) — Upload master platform core updates.
+- [Payment Gateways](../gateways/gateways.md) - Configure credentials for activated gateways.
+- [Themes](../appearance/themes.md) - Manage active visual styles.
+- [System Update](./system-update.md) - Upload master platform core updates.

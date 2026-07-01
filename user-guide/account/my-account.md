@@ -1,4 +1,4 @@
-# My Account
+﻿# My Account
 
 > **Purpose:** Manage personal profile details, update passwords, and secure your account using Multi-Factor Authentication (2FA).
 
@@ -136,8 +136,8 @@ Enforce multi-factor verification:
 
 ## Related Pages
 
-- [Staff](../people/staff.md) — Create and manage administrator and team profiles.
-- [Roles & Permissions](../people/roles.md) — Assign specific permission matrices to staff accounts.
+- [Staff](../people/staff.md) - Create and manage administrator and team profiles.
+- [Roles & Permissions](../people/roles.md) - Assign specific permission matrices to staff accounts.
 
 ---
 

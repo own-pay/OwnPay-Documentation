@@ -1,4 +1,4 @@
-# Staff
+﻿# Staff
 
 > **Purpose:** Add team members, assign administrative roles, configure fine-grained permission scopes, and monitor activity logs.
 
@@ -96,6 +96,6 @@ Accessed by clicking the **+ Add Staff** button:
 
 ## Related Pages
 
-- [Roles & Permissions](./roles.md) — Manage group permission mappings.
-- [My Account](../account/my-account.md) — Setup 2FA and edit personal profiles.
-- [Audit Log](../reports-finance/audit-log.md) — Monitor staff actions and log activity history.
+- [Roles & Permissions](./roles.md) - Manage group permission mappings.
+- [My Account](../account/my-account.md) - Setup 2FA and edit personal profiles.
+- [Audit Log](../reports-finance/audit-log.md) - Monitor staff actions and log activity history.

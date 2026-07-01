@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   Default-theme overrides — keeps inner doc pages (sidebar,
+   Default-theme overrides - keeps inner doc pages (sidebar,
    content, search, code blocks) on the same premium white-shade /
    gold-slate brand palette.
    ═══════════════════════════════════════════════════════════ */
@@ -10,7 +10,7 @@
   --vp-c-brand-3: #0b1c49;
   --vp-c-brand-soft: rgba(15, 151, 237, 0.14);
 
-  --vp-c-bg: #f8fafc;
+  --vp-c-bg: #ffffff;
   --vp-c-bg-alt: #ffffff;
   --vp-c-bg-elv: #ffffff;
   --vp-c-bg-soft: #f1f5f9;
@@ -25,7 +25,7 @@
 
   --vp-c-default-1: #e2e8f0;
   --vp-c-default-2: #f1f5f9;
-  --vp-c-default-3: #f8fafc;
+  --vp-c-default-3: #ffffff;
   --vp-c-default-soft: rgba(226, 232, 240, 0.4);
 
   --vp-button-brand-bg: #102963;
@@ -36,13 +36,13 @@
   --vp-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --vp-font-family-mono: 'JetBrains Mono', monospace;
 
-  --vp-code-block-bg: #0f172a;
+  --vp-code-block-bg: #ffffff;
   --vp-code-bg: #f1f5f9;
   --vp-code-color: #0f97ed;
 
-  --vp-nav-bg-color: rgba(248, 250, 252, 0.86);
-  --vp-sidebar-bg-color: #f8fafc;
-  --vp-local-nav-bg-color: #f8fafc;
+  --vp-nav-bg-color: rgba(255, 255, 255, 0.86);
+  --vp-sidebar-bg-color: #ffffff;
+  --vp-local-nav-bg-color: #ffffff;
 
   /* Search modal - white only */
   --vp-local-search-bg: #ffffff;
@@ -53,18 +53,29 @@
   --vp-local-search-highlight-bg: #0f97ed;
   --vp-local-search-highlight-text: #ffffff;
   --vp-backdrop-bg-color: rgba(15, 23, 42, 0.5);
-  
+
   color-scheme: light;
 }
 
-h1, h2, h3, h4, .VPHero .name, .VPHero .text {
+h1,
+h2,
+h3,
+h4,
+.VPHero .name,
+.VPHero .text {
   font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   letter-spacing: -0.02em;
 }
 
-.VPNavBar, .VPSidebar, .VPDoc { background-color: var(--vp-c-bg) !important; }
+.VPNavBar,
+.VPSidebar,
+.VPDoc {
+  background-color: var(--vp-c-bg) !important;
+}
 
-.VPNavBar.has-sidebar .curtain { background-color: var(--vp-c-bg); }
+.VPNavBar.has-sidebar .curtain {
+  background-color: var(--vp-c-bg);
+}
 
 /* Premium dark slate mode for inner documentation pages */
 .dark {
@@ -104,4 +115,110 @@ h1, h2, h3, h4, .VPHero .name, .VPHero .text {
   --vp-local-search-bg: #111827;
 
   color-scheme: dark;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   IDE-Style Code Block Styling
+   ═══════════════════════════════════════════════════════════ */
+
+/* Light theme code blocks */
+:root {
+  --vp-code-block-border: #e2e8f0;
+}
+
+/* Light theme: white background with subtle border */
+div[class*='language-'] {
+  border: 1px solid var(--vp-code-block-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Dark theme code blocks */
+.dark {
+  --vp-code-block-border: #1e293b;
+}
+
+/* Dark theme: ensure proper contrast */
+.dark div[class*='language-'] {
+  border: 1px solid var(--vp-code-block-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #0f172a !important;
+}
+
+/* Code block copy button styling */
+.copy-code-button {
+  background: var(--vp-c-bg-soft) !important;
+}
+
+.dark .copy-code-button {
+  background: #1e293b !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Sponsors Section Styling
+   ═══════════════════════════════════════════════════════════ */
+.sponsors-container {
+  margin-top: 50px;
+  padding: 30px 0;
+  text-align: center;
+}
+
+.sponsors-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-2);
+  margin-bottom: 24px;
+}
+
+.sponsors-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.sponsor-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 40px;
+  min-width: 180px;
+  transition: opacity 0.2s;
+}
+
+.sponsor-link:hover {
+  opacity: 0.8;
+}
+
+.sponsor-logo {
+  height: 32px;
+  width: auto;
+  max-width: 100%;
+  display: block;
+}
+
+.dark .sponsor-logo {
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
+.sponsor-divider {
+  width: 1px;
+  height: 35px;
+  background-color: var(--vp-c-divider);
+}
+
+@media (max-width: 640px) {
+  .sponsors-grid {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .sponsor-divider {
+    display: none;
+  }
 }

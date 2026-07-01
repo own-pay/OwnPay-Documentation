@@ -1,4 +1,4 @@
-# Login
+﻿# Login
 
 > **Purpose:** Secure entrance gateway for super-administrators and authorized staff members to access the OwnPay admin panel.
 
@@ -36,11 +36,11 @@ Contains fields to input your administrative credentials, a toggle to stay signe
 
 | Field / Option | Type | Required? | Default | Description |
 |---|---|---|---|---|
-| **Email or Username** | Text | Yes | — | The pre-registered email address or username associated with your user account. |
-| **Password** | Password | Yes | — | The secure password associated with your account. Case-sensitive. |
+| **Email or Username** | Text | Yes | - | The pre-registered email address or username associated with your user account. |
+| **Password** | Password | Yes | - | The secure password associated with your account. Case-sensitive. |
 | **Remember me** | Toggle / Checkbox | No | Unchecked | Keeps your session active for a longer duration so you do not have to log in repeatedly. |
-| **Sign In** | Button | Yes | — | Submits your credentials to verify and logs you into the dashboard. |
-| **Forgot password?** | Link | No | — | Redirects you to the password recovery request instructions page. |
+| **Sign In** | Button | Yes | - | Submits your credentials to verify and logs you into the dashboard. |
+| **Forgot password?** | Link | No | - | Redirects you to the password recovery request instructions page. |
 
 ---
 
@@ -95,5 +95,5 @@ The path and access rules of the login screen can be customized by the super-adm
 
 ## Related Pages
 
-- [Forgot Password](./forgot-password.md) — Request password reset instructions.
-- [Two-Factor Authentication](./two-factor.md) — The next step in the login flow if 2FA is active.
+- [Forgot Password](./forgot-password.md) - Request password reset instructions.
+- [Two-Factor Authentication](./two-factor.md) - The next step in the login flow if 2FA is active.

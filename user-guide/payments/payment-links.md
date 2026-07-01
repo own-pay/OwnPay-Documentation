@@ -1,4 +1,4 @@
-# Payment Links
+﻿# Payment Links
 
 > **Purpose:** Generate shareable payment URLs with optional custom input fields to collect one-off or recurring payments directly from customers.
 
@@ -48,12 +48,12 @@ Accessed by clicking the **+ Create Link** button:
 
 | Field / Option | Type | Required? | Default | Description |
 |---|---|---|---|---|
-| **Title** | Text Input | Yes | — | The name of the product or service. Visible to customers. |
-| **Description** | Text Area | No | — | Explanatory note or instructions shown on the checkout screen. |
-| **Amount** | Spinbutton | No | — | Leave blank to allow customers to input any amount. Enter a value to lock the checkout price. |
+| **Title** | Text Input | Yes | - | The name of the product or service. Visible to customers. |
+| **Description** | Text Area | No | - | Explanatory note or instructions shown on the checkout screen. |
+| **Amount** | Spinbutton | No | - | Leave blank to allow customers to input any amount. Enter a value to lock the checkout price. |
 | **Currency** | Select | Yes | BDT | Currency to bill the customer. |
 | **Max Uses** | Spinbutton | No | 0 | Limit how many times the link can be used. Set to `0` for unlimited uses. |
-| **Expires At** | Date & Time | No | — | Set a date/time after which the link automatically deactivates. |
+| **Expires At** | Date & Time | No | - | Set a date/time after which the link automatically deactivates. |
 | **Require Shipping Address** | Checkbox | No | Unchecked | Enforces shipping address collection fields on the checkout screen. |
 
 ---
@@ -117,6 +117,6 @@ Accessed by clicking the **+ Create Link** button:
 
 ## Related Pages
 
-- [Gateways](../gateways/gateways.md) — Configure payment processors.
-- [Transactions](./transactions.md) — Inspect payments completed via links.
-- [Payment Link Checkout](./../public/checkout.md) — Customer payment experience.
+- [Gateways](../gateways/gateways.md) - Configure payment processors.
+- [Transactions](./transactions.md) - Inspect payments completed via links.
+- [Payment Link Checkout](./../public/checkout.md) - Customer payment experience.

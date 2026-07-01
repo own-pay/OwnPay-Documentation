@@ -1,4 +1,4 @@
-# Landing Page Settings
+﻿# Landing Page Settings
 
 > **Purpose:** Configure public home screen components, hero CTA buttons, feature cards, and modify the secure admin login path.
 
@@ -86,6 +86,6 @@ The Landing Page settings dashboard is divided into three key panels:
 
 ## Related Pages
 
-- [Branding Settings](./branding-settings.md) — Customize SEO titles and company logos.
-- [System Settings](../system/settings.md) — Manage timezones and base URL parameters.
-- [Domains](../system/domains.md) — Setup custom white-label hostnames.
+- [Branding Settings](./branding-settings.md) - Customize SEO titles and company logos.
+- [System Settings](../system/settings.md) - Manage timezones and base URL parameters.
+- [Domains](../system/domains.md) - Setup custom white-label hostnames.

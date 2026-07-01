@@ -1,4 +1,4 @@
-# System Update
+﻿# System Update
 
 > **Purpose:** View the current platform version, check for new releases, install core system updates, and view installation history.
 
@@ -116,8 +116,8 @@ Contains configuration options for automating system updates:
 
 ## Related Pages
 
-- [Plugins](./plugins.md) — Install and activate modular gateway or addon extensions.
-- [System Settings](./settings.md) — Adjust global runtime settings and localized timezone offsets.
+- [Plugins](./plugins.md) - Install and activate modular gateway or addon extensions.
+- [System Settings](./settings.md) - Adjust global runtime settings and localized timezone offsets.
 
 ---
 

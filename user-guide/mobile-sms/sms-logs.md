@@ -1,4 +1,4 @@
-# SMS Data Logs
+﻿# SMS Data Logs
 
 > **Purpose:** Review raw forwarded SMS messages, check parser extraction statuses, and manually resolve unmatched payments.
 
@@ -96,6 +96,6 @@ Displays individual logs:
 
 ## Related Pages
 
-- [SMS Center](./sms-templates.md) — Configure the parsing patterns that populate these logs.
-- [Paired Devices](./devices.md) — Connect the companion phones that forward these messages.
-- [Transactions](../payments/transactions.md) — Manually approve payments.
+- [SMS Center](./sms-templates.md) - Configure the parsing patterns that populate these logs.
+- [Paired Devices](./devices.md) - Connect the companion phones that forward these messages.
+- [Transactions](../payments/transactions.md) - Manually approve payments.
