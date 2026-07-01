@@ -1,6 +1,9 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Redirect old installation guide URL to the new one
+  # RewriteRule ^user-guide/installation(\.html)?$ /getting-started/installation [R=301,L,NC]
+
   # Redirect any request containing .html extension to its clean URL counterpart (excluding physical files)
   RewriteCond %{THE_REQUEST} \s/+(.+)\.html[\s?] [NC]
   RewriteRule ^ /%1 [R=301,L]
@@ -33,16 +36,17 @@ Options -Indexes
 ErrorDocument 403 /404.html
 ErrorDocument 404 /404.html
 
-# Cache-Control settings: prevent HTML caching, cache hashed assets
+# Cache-Control settings: prevent HTML/clean URL caching, cache hashed assets
 <IfModule mod_headers.c>
-    # Disable caching for HTML files to prevent stale SPA layouts
-    <FilesMatch "\.(html|htm)$">
-        Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-        Header set Pragma "no-cache"
-    </FilesMatch>
+    # By default, set no-cache for everything (including clean URLs) to prevent stale layouts
+    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
 
     # Cache static assets (VitePress assets are hashed and immutable)
     <FilesMatch "\.(css|js|woff2?|eot|ttf|otf|png|jpg|jpeg|gif|svg|ico)$">
         Header set Cache-Control "max-age=31536000, public, immutable"
+        Header unset Pragma
+        Header unset Expires
     </FilesMatch>
 </IfModule>

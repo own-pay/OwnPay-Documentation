@@ -43,6 +43,19 @@ jobs:
           server:              ${{ secrets.DEPLOY_SSH_HOST }}
           port:                ${{ secrets.DEPLOY_SSH_PORT }}
           ssh_private_key:     ${{ secrets.DEPLOY_SSH_KEY }}
-          local_path:          ./.vitepress/dist/*
+          local_path:          ./.vitepress/dist/
           remote_path:         ${{ secrets.DEPLOY_REMOTE_PATH }}
           delete_remote_files: true
+
+      - name: Bust server-side cache after deploy
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host:        ${{ secrets.DEPLOY_SSH_HOST }}
+          port:        ${{ secrets.DEPLOY_SSH_PORT }}
+          username:    ${{ secrets.DEPLOY_SSH_USER }}
+          key:         ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            # Touch all HTML files so their mtime changes - this invalidates
+            # any server-side proxy/page cache (Nginx proxy_cache, etc.)
+            find ${{ secrets.DEPLOY_REMOTE_PATH }} -name "*.html" -exec touch {} \;
+            echo "Cache busted: $(date)"

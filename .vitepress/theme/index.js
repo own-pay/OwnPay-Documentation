@@ -25,4 +25,11 @@ const CustomLayout = defineComponent({
 export default {
   extends: DefaultTheme,
   Layout: CustomLayout,
+  enhanceApp({ router }) {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('vite:preloadError', (event) => {
+        window.location.reload()
+      })
+    }
+  }
 }
