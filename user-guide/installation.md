@@ -119,6 +119,7 @@ You need an empty database for OwnPay to store its data.
 
 ::: tip Save Your Database Details
 Write down (or copy to a notepad) your:
+
 - **Database name**
 - **Database username**
 - **Database password**
@@ -226,6 +227,7 @@ Log in with the admin email and password you set in Installer Step 3.
 
 ::: warning Secure Your Installation
 After logging in for the first time:
+
 1. Go to **Settings → General** and review your configuration
 2. Enable **Two-Factor Authentication** under your profile
 3. The installer is automatically disabled after installation — no action needed
@@ -249,13 +251,15 @@ php /home/YOUR_USERNAME/public_html/public/index.php cron
 
 > Replace `YOUR_USERNAME` with your actual cPanel username, and adjust the path if OwnPay is not in `public_html`.
 
-4. Click **Add New Cron Job**
+1. Click **Add New Cron Job**
 
 ::: tip Find Your PHP Path
 Some hosts need the full PHP binary path. To find it, go to **Terminal** in cPanel and run `which php`. You might need:
+
 ```bash
 /usr/local/bin/php /home/YOUR_USERNAME/public_html/public/index.php cron
 ```
+
 :::
 
 #### In DirectAdmin
@@ -329,11 +333,13 @@ sudo apt install -y nginx mysql-server \
 
 ::: info If PHP 8.3 Is Not Found
 On some systems, you may need to add the PHP repository first:
+
 ```bash
 sudo apt install -y software-properties-common
 sudo add-apt-repository ppa:ondrej/php -y
 sudo apt update
 ```
+
 Then re-run the install command above.
 :::
 
@@ -509,6 +515,7 @@ https://yourdomain.com/install
 The same multi-step installer described in the [Shared Hosting section](#step-6-run-the-web-installer) will appear. Follow Installer Steps 1 through 4 to complete the setup.
 
 ::: info VPS-Specific Tips for the Installer
+
 - **Database Host**: Use `127.0.0.1` instead of `localhost` for better reliability on VPS
 - **App URL**: Enter the full URL including `https://` (e.g. `https://yourdomain.com`)
 :::
