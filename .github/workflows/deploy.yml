@@ -47,7 +47,7 @@ jobs:
           remote_path:         ${{ secrets.DEPLOY_REMOTE_PATH }}
           delete_remote_files: true
 
-      - name: Bust server-side cache after deploy
+      - name: Bust Nginx proxy_cache after deploy
         uses: appleboy/ssh-action@v1.2.0
         with:
           host:        ${{ secrets.DEPLOY_SSH_HOST }}
@@ -55,19 +55,17 @@ jobs:
           username:    ${{ secrets.DEPLOY_SSH_USER }}
           key:         ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            # Touch all HTML files so their mtime changes - forces backend
-            # caches (Nginx proxy_cache, LiteSpeed, Varnish) to re-validate
+            # 1. Touch all HTML files - updates mtime so Nginx proxy_cache
+            #    considers them stale and re-fetches from Apache on next request
             find ${{ secrets.DEPLOY_REMOTE_PATH }} -name "*.html" -exec touch {} \;
+            echo "Touched all HTML files"
 
-            # Clear LiteSpeed page cache if it exists
-            # LiteSpeed stores cached pages in a .lscache or lscache directory
-            if [ -d "${{ secrets.DEPLOY_REMOTE_PATH }}/.lscache" ]; then
-              rm -rf ${{ secrets.DEPLOY_REMOTE_PATH }}/.lscache/*
-              echo "LiteSpeed .lscache cleared"
-            fi
-            if [ -d "${{ secrets.DEPLOY_REMOTE_PATH }}/lscache" ]; then
-              rm -rf ${{ secrets.DEPLOY_REMOTE_PATH }}/lscache/*
-              echo "LiteSpeed lscache cleared"
-            fi
+            # 2. Purge Nginx proxy_cache directories (common locations)
+            #    Nginx stores proxy cache as files under the configured cache zone path
+            for CACHE_DIR in /var/cache/nginx /tmp/nginx-cache /tmp/nginx /var/tmp/nginx; do
+              if [ -d "$CACHE_DIR" ]; then
+                find "$CACHE_DIR" -type f -delete 2>/dev/null && echo "Cleared Nginx cache: $CACHE_DIR" || true
+              fi
+            done
 
-            echo "Cache bust complete: $(date)"
+            echo "Deploy cache bust complete: $(date)"

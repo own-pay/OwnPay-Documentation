@@ -36,28 +36,24 @@ Options -Indexes
 ErrorDocument 403 /404.html
 ErrorDocument 404 /404.html
 
-# Cache-Control settings: prevent HTML/clean URL caching, cache hashed assets
+# Cache-Control: prevent stale HTML/clean-URL responses from Nginx proxy_cache and browsers
 <IfModule mod_headers.c>
-    # By default, set no-cache for everything (including clean URLs) to prevent stale layouts
+    # Tell Nginx proxy_cache NOT to cache this response
+    # X-Accel-Expires: 0 is Nginx's own header - it overrides proxy_cache_valid
+    # and prevents the proxy from storing or serving a stale cached copy
+    Header set X-Accel-Expires "0"
+
+    # Tell the browser not to cache HTML/clean-URL pages either
     Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
     Header set Pragma "no-cache"
     Header set Expires "0"
 
-    # Bypass LiteSpeed server-side cache (fixes "x-cache: HIT from Backend")
-    # LiteSpeed is the backend cache on this hosting environment
-    Header set X-LiteSpeed-Cache-Control "no-cache"
-
-    # Cache static assets (VitePress assets are hashed and immutable)
-    <FilesMatch "\.(css|js|woff2?|eot|ttf|otf|png|jpg|jpeg|gif|svg|ico)$">
+    # Static assets are content-hashed by VitePress - safe to cache forever
+    <FilesMatch "\.(css|js|woff2?|eot|ttf|otf|png|jpg|jpeg|gif|svg|ico|webp)$">
+        # Allow Nginx proxy and browser to cache immutable hashed assets
+        Header set X-Accel-Expires "31536000"
         Header set Cache-Control "max-age=31536000, public, immutable"
         Header unset Pragma
         Header unset Expires
-        Header unset X-LiteSpeed-Cache-Control
     </FilesMatch>
-</IfModule>
-
-# LiteSpeed Cache: disable page caching for HTML/clean-URL responses
-# These directives are natively read by the LiteSpeed web server cache module
-<IfModule LiteSpeed>
-    CacheLookup off
 </IfModule>
