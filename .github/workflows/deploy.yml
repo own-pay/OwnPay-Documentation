@@ -48,7 +48,7 @@ jobs:
           delete_remote_files: true
 
       - name: Bust Nginx proxy_cache after deploy
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host:        ${{ secrets.DEPLOY_SSH_HOST }}
           port:        ${{ secrets.DEPLOY_SSH_PORT }}
