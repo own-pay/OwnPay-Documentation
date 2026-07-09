@@ -1,6 +1,6 @@
 ---
 title: "Architecture"
-description: "A developer's guide to how OwnPay is built"
+description: "Developer-oriented tour of OwnPay's Laravel core, multi-brand middleware, plugin loader, queue workers, and repository directory layout."
 ---
 
 OwnPay is a **self-hosted, single-owner, multi-brand payment orchestrator** written in modern PHP (8.3+). One administrator runs the platform and creates multiple **brands** (stores); each brand has its own domain, gateways, customers, and ledgers, all isolated inside a single MySQL database by a `merchant_id` column.
