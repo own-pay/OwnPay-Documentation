@@ -1,0 +1,52 @@
+---
+title: "SMS Data Logs"
+description: "Review raw forwarded SMS messages, check parser extraction statuses, and manually resolve unmatched payments"
+---
+
+The SMS Data Logs page displays all text messages forwarded from your paired Android devices. It acts as an audit trail for your automated manual gateway verification system.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **MOBILE & SMS** section in the left sidebar, click **SMS Data**
+
+## Page sections
+
+### 1. Match filters dropdown
+
+- **All:** Shows all forwarded SMS records
+- **Matched:** Displays SMS messages that successfully matched a customer's transaction ID
+- **Unmatched:** Displays forwarded SMS messages that did not map to any active checkout transaction
+- **Pending:** Displays forwarded SMS messages awaiting template mapping or manual checkups
+
+### 2. Parsed SMS table
+
+- **SENDER:** The source phone number or sender ID
+- **AMOUNT:** Visual display of the cash amount parsed from the message
+- **TRX ID:** The extracted Transaction ID
+- **GATEWAY:** The manual gateway slug associated with the template
+- **STATUS:** Visual status badge (`matched` in green, `unmatched` in red, `pending` in yellow)
+- **RECEIVED:** Exact timestamp when the forwarded SMS reached the server
+
+## SMS status states
+
+- `matched`: The transaction ID extracted from the SMS matched a pending transaction record
+- `unmatched`: The SMS was parsed, but the transaction ID did not match any active checkout transaction
+- `pending`: The SMS is queued for parsing or lacks a matching template pattern
+
+## Best practices
+
+- Regularly monitor **Unmatched** logs to see if customers are inputting incorrect transaction IDs at checkout
+- Verify the raw SMS body text in the log before executing manual approvals
+- Do not manually delete SMS data logs unless performing system maintenance
+- Do not worry if spam SMS messages appear as `unmatched`; the parser will ignore any messages that do not contain matching wallet templates
+
+<Warning>
+Always cast transaction IDs to strings. If writing a custom script to query these logs, do not treat UUIDs or TrxIDs as numbers to prevent query failure.
+</Warning>
+
+## Related pages
+
+- [SMS Center](/user-guide/mobile-sms/sms-templates) - Configure the parsing patterns
+- [Paired Devices](/user-guide/mobile-sms/devices) - Connect the companion phones
+- [Transactions](/user-guide/payments/transactions) - Manually approve payments

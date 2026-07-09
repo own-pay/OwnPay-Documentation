@@ -1,0 +1,103 @@
+---
+title: "Plugin system"
+description: "OwnPay's WordPress-style plugin architecture"
+---
+
+OwnPay uses a plugin system to extend functionality without modifying core code. Plugins reside in `modules/` and register callbacks via the `EventManager` hook loop.
+
+## Plugin types
+
+### Gateway plugins
+
+Add new payment methods (Stripe, bKash, bank transfer, crypto). Provides payment processing, settlement management, webhook handling, and refund logic.
+
+### Addon plugins
+
+Add features like advanced reporting, subscription management, inventory sync, CRM integration, or email customization. Provides admin pages, API endpoints, scheduled jobs, and UI components.
+
+### Theme plugins
+
+Customize the checkout experience with custom templates, CSS, JavaScript, and branding. Provides Twig templates, stylesheets, and asset management.
+
+## Plugin lifecycle
+
+```
+Discover -> Manifest Validate -> Footgun Scan -> PSR-4 Register -> register() -> boot()
+```
+
+1. **Discovery** - Plugin loader scans `modules/` directory
+2. **Registration** - Plugin class loaded and registered
+3. **Configuration** - Config files read and validated
+4. **Activation** - Plugin hooks registered
+5. **Runtime** - Plugin responds to events
+6. **Deactivation** - Plugin hooks unregistered
+
+## Plugin structure
+
+```
+modules/
++-- gateways/
+|   +-- stripe/
+|       +-- manifest.json
+|       +-- src/
+|       |   +-- StripeGateway.php
+|       |   +-- Hooks.php
+|       +-- resources/
+|           +-- views/
+```
+
+### manifest.json
+
+```json
+{
+  "slug": "stripe",
+  "name": "Stripe Payment Gateway",
+  "version": "1.0.0",
+  "type": "gateway",
+  "entrypoint": "src/StripeGateway.php",
+  "namespace": "OwnPay\\Gateways\\Stripe"
+}
+```
+
+## Hooks system
+
+**Pre-execution hooks** (modify behavior):
+
+```php
+$amount = Hook::apply('payment.amount', $amount, $payment);
+```
+
+**Post-execution hooks** (react to events):
+
+```php
+Hook::do('payment.completed', $payment);
+```
+
+Over 60 hooks available across OwnPay.
+
+## Events system
+
+```php
+Event::listen('payment.completed', function ($payment) {
+    SendConfirmationEmail::dispatch($payment);
+});
+```
+
+Available event categories: `payment.*`, `customer.*`, `gateway.*`, `webhook.*`, `user.*`, `system.*`.
+
+## Trust model
+
+Plugin upload is restricted to the platform owner. Installed plugins run with full application trust through the PSR-11 container - the same model as WordPress. The real security boundary is owner-only upload, not in-process isolation.
+
+The footgun scanner blocks only `eval` and direct OS command execution. Ordinary PHP (reflection, callbacks, file I/O) is permitted.
+
+## Best practices
+
+- Follow OwnPay coding standards
+- Include tests and documentation
+- Validate all input and escape output
+- Use parameterized queries
+- Respect permissions
+- Store secrets in config
+- Use caching and optimize queries
+- Queue heavy tasks

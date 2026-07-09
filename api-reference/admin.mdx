@@ -1,0 +1,38 @@
+---
+title: "Admin API"
+description: "Brand administrative API for SMS templates, devices, and domain management"
+---
+
+The Admin API provides administrative endpoints for managing SMS templates, outbound SMS queues, paired devices, and domain verification. This API is only accessible on the master domain.
+
+## Base URL
+
+```
+https://{master_domain}/api/admin/v1
+```
+
+<Warning>
+  The Admin API is only accessible on the master domain (`APP_DOMAIN`). It cannot be accessed through custom brand domains.
+</Warning>
+
+## Authentication
+
+All endpoints require a Bearer token with `admin` scope:
+
+```
+Authorization: Bearer YOUR_ADMIN_API_KEY
+```
+
+## Key Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /sms-templates` | List SMS templates |
+| `PUT /sms-templates` | Update SMS template |
+| `GET /sms-queue` | List outbound SMS queue |
+| `GET /devices` | List paired devices |
+| `POST /domains/verify` | Verify custom domain DNS |
+
+<Note>
+  Full API documentation is auto-generated from the OpenAPI specification.
+</Note>

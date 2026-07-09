@@ -1,0 +1,179 @@
+---
+title: "API overview"
+description: "Integrate OwnPay with your applications"
+---
+
+OwnPay provides a REST API for programmatic access to payments, transactions, and webhooks. This page covers authentication, endpoints, and quick examples.
+
+## Base URL
+
+```
+https://yourdomain.com/api/v1
+```
+
+## Authentication
+
+All API requests require a Bearer token in the Authorization header:
+
+```bash
+curl -H "Authorization: Bearer op_live_your_api_key" \
+     https://yourdomain.com/api/v1/payments
+```
+
+See [Authentication](/api/authentication) for key management and security best practices.
+
+## Create a payment
+
+<CodeGroup>
+```bash cURL
+curl -X POST https://yourdomain.com/api/v1/payments \
+  -H "Authorization: Bearer op_live_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 5000,
+    "currency": "USD",
+    "customer_email": "customer@example.com",
+    "description": "Order #123"
+  }'
+```
+
+```php PHP
+$client = new \OwnPay\SDK\Client(
+    publicKey: $_ENV['OWNPAY_PUBLIC_KEY'],
+    secretKey: $_ENV['OWNPAY_SECRET_KEY'],
+    baseUrl: 'https://yourdomain.com/api/v1'
+);
+
+$payment = $client->payments()->create([
+    'amount' => 5000,
+    'currency' => 'USD',
+    'customer_email' => 'customer@example.com',
+    'description' => 'Order #123'
+]);
+```
+
+```javascript Node.js
+import OwnPay from 'ownpay';
+
+const ownpay = new OwnPay({
+  publicKey: process.env.OWNPAY_PUBLIC_KEY,
+  secretKey: process.env.OWNPAY_SECRET_KEY,
+  baseUrl: 'https://yourdomain.com/api/v1'
+});
+
+const payment = await ownpay.payments.create({
+  amount: 5000,
+  currency: 'USD',
+  customer_email: 'customer@example.com',
+  description: 'Order #123'
+});
+```
+</CodeGroup>
+
+## Response format
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "pay_abc123...",
+    "amount": 5000,
+    "currency": "USD",
+    "status": "pending",
+    "checkout_url": "https://yourdomain.com/checkout/pay_abc123",
+    "customer_email": "customer@example.com"
+  }
+}
+```
+
+The `checkout_url` is where your customer completes the payment.
+
+## Core endpoints
+
+### Payments
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/payments` | POST | Create a payment |
+| `/payments/{id}` | GET | Get payment details |
+| `/payments/{id}` | PATCH | Update payment metadata |
+
+### Transactions
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/transactions` | GET | List transactions |
+| `/transactions/{id}` | GET | Get transaction details |
+
+### Payment Links
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/payment-links` | POST | Create a payment link |
+| `/payment-links` | GET | List payment links |
+| `/payment-links/{id}` | GET | Get payment link details |
+
+### Customers
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/customers` | GET | List customers |
+| `/customers/{id}` | GET | Get customer details |
+
+## Webhooks
+
+Receive real-time notifications when payment events occur. See [Webhooks](/api/webhooks) for setup and signature verification.
+
+```json
+{
+  "event": "payment.paid",
+  "data": {
+    "id": "pay_abc123",
+    "amount": 5000,
+    "currency": "USD",
+    "status": "paid"
+  }
+}
+```
+
+## Rate limiting
+
+| Tier | Requests/minute |
+|------|----------------|
+| Standard | 60 |
+| Premium | 300 |
+
+Rate limit headers:
+
+```
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+X-RateLimit-Reset: 1718000060
+```
+
+## Error handling
+
+All errors return a consistent JSON structure:
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "invalid_amount",
+    "message": "Amount must be greater than 0"
+  }
+}
+```
+
+See [Error codes](/api/errors) for the full reference.
+
+## SDKs
+
+<CardGroup cols={2}>
+  <Card title="PHP SDK" icon="code" href="/developer/integration/php">
+    `composer require ownpay/php-sdk`
+  </Card>
+  <Card title="Node.js SDK" icon="brackets" href="/developer/integration/nodejs">
+    `npm install ownpay`
+  </Card>
+</CardGroup>

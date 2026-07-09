@@ -1,0 +1,53 @@
+---
+title: "Merchant API"
+description: "REST API for merchants to manage payments, customers, refunds, and webhooks"
+---
+
+The Merchant API is the primary API for integrating payment processing into your application. It provides endpoints for creating payments, managing customers, handling refunds, and configuring webhooks.
+
+## Base URL
+
+```
+https://{brand_domain}/api/v1
+```
+
+## Authentication
+
+All endpoints require a Bearer token in the Authorization header:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+API keys can have the following scopes:
+- `read` - Read-only access to resources
+- `write` - Create and modify resources
+- `admin` - Full administrative access
+
+## Key Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /payment-intents` | Create a new payment intent |
+| `GET /payment-intents/{id}` | Retrieve a payment intent |
+| `POST /refunds` | Create a refund |
+| `GET /customers` | List customers |
+| `POST /webhooks` | Register a webhook endpoint |
+| `GET /health` | System health check |
+
+## Quick Start
+
+```bash
+curl -X POST https://pay.example.com/api/v1/payment-intents \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 1500,
+    "currency": "USD",
+    "description": "Order #1042"
+  }'
+```
+
+<Note>
+  Full API documentation is auto-generated from the OpenAPI specification. Browse the sidebar for detailed endpoint documentation.
+</Note>

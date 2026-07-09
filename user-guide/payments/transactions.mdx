@@ -1,0 +1,93 @@
+---
+title: "Transactions"
+description: "Detailed view of all incoming payments, payment attempts, and refunds processed through your gateways"
+---
+
+The Transactions page allows you to search, monitor, and filter every financial movement on the OwnPay gateway. You can view payment details, trace customer information, check the routing gateway, and review the transaction lifecycle state.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **PAYMENTS** section in the left sidebar, click **Transactions**
+
+## Page sections
+
+### 1. Filter toolbar
+
+- **Status Tab Filters:** Quick tabs to view `All`, `Completed`, `Pending`, `Failed`, `Refunded`, or `Canceled` transactions
+- **Search Input:** Match transactions by Transaction ID (TrxID) or payment amount
+- **Gateway Filter:** Dropdown to filter by specific payment gateways
+- **Date Range Pickers:** Filter by **From Date** and **To Date**
+- **Filter Button:** Applies the search and date range filters
+
+### 2. Transactions table
+
+Lists all matched transactions:
+
+- **TRX ID:** Unique transaction code
+- **Customer:** Email or phone number of the customer
+- **Amount:** Transaction value and currency
+- **Gateway:** The processor used
+- **Status:** Visual badge indicating status (Completed in green, Pending in yellow, Cancelled/Failed in red)
+- **Date:** The exact creation timestamp
+- **Actions:** Click **View** to open the detailed panel
+
+### 3. Transaction details page
+
+Accessed by clicking **View** on a transaction:
+
+- **Details Block:** Status, Amount, Gateway Fee, Net Amount, Gateway Transaction ID, and timestamps
+- **Customer Block:** Customer name, email, phone number, and IP address
+- **Ledger Entries:** Correlated double-entry journal movements showing debits and credits
+
+## Fields and options reference
+
+### Filters and controls
+
+| Field / Option | Type | Required | Default | Description |
+|---|---|---|---|---|
+| **Search Box** | Text Input | No | - | Enter a search term (TrxID or partial amount) |
+| **Gateway Dropdown** | Select | No | All Gateways | Filter by the payment processor |
+| **From / To Date** | Date Picker | No | - | Filter transactions within a specific date range |
+| **Filter Button** | Button | Yes | - | Executes the filter query |
+
+### Detail page reference
+
+| Field / Label | Type | Description |
+|---|---|---|
+| **Status** | Badge | `COMPLETED`, `PENDING`, `FAILED`, `REFUNDED`, `CANCELLED` |
+| **Amount** | Currency | The total amount paid by the customer |
+| **Fee** | Currency | Processing fee charged by the gateway |
+| **Net** | Currency | Amount credited to your ledger (Amount minus Fee) |
+| **Gateway TRX** | Text | The transaction ID returned by the payment processor |
+
+## Transaction status lifecycle
+
+- `pending`: The customer opened the checkout screen but has not completed payment
+- `completed`: The payment was successfully processed, and the funds have been registered
+- `failed`: The payment processor rejected the transaction
+- `refunded`: The funds were returned to the customer
+- `cancelled`: The checkout expired or was explicitly cancelled by the customer
+
+## Best practices
+
+- Verify the **Gateway TRX ID** against your physical bank/wallet statements before delivering high-value goods
+- Monitor **Failed** transactions to determine if customers are facing issues with specific payment gateways
+- Do not manually verify or force-complete a transaction unless you have absolute proof of receipt
+
+<Warning>
+Before refunding a transaction, verify that the reversing debit ledger entry will not push your merchant account balance below zero.
+</Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Likely Cause | Fix |
+|---|---|---|
+| No transactions show up | You are in "Global View" but have no global permissions, or you switched to a brand with no transactions | Double-check the **Brand Context** in the top header and switch to the correct brand |
+| Status remains `pending` after customer claims to have paid | The webhook callback from the gateway failed, or the SMS parsing device is offline | Check the Developer Webhook logs or the Paired Devices screen |
+
+## Related pages
+
+- [Dashboard](/user-guide/dashboard) - Real-time overview of transaction volumes
+- [Ledger](/user-guide/payments/ledger) - Financial movements audit trails
+- [Invoices](/user-guide/payments/invoices) - Requesting payments through structured invoices

@@ -1,0 +1,61 @@
+---
+title: "Balance Verification"
+description: "Reconcile and verify internal database transaction ledgers against actual payment processor states"
+---
+
+The Balance Verification page provides administrators with a direct financial reconciliation tool. It compares your internal double-entry ledger database states (**Expected Internal**) against the actual processed cash data retrieved directly from the payment gateway APIs (**Actual Gateway**).
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **REPORTS & FINANCE** section in the left sidebar, click **Balance Verification**
+
+## Page sections
+
+### 1. Verification controls
+
+- **Currency Dropdown:** Select the target currency context to run the reconciliation on
+- **Run Verification Button:** Triggers database queries and external gateway checks
+
+### 2. Reconciliation results table
+
+- **CURRENCY:** Audited currency code
+- **EXPECTED (INTERNAL):** Net total calculated from internal double-entry ledger entries
+- **ACTUAL (GATEWAY):** Net total compiled from transaction logs registered across payment gateways
+- **VARIANCE:** The mathematical variance (Expected minus Actual). Ideally, this should show `0.00`
+- **STATUS:** Audit state indicator (`Balanced` in green, or `Discrepancy` in red)
+
+## Fields and options reference
+
+| Table Header | Type | Description |
+|---|---|---|
+| **CURRENCY** | Label | The currency denominator of the balance being checked |
+| **EXPECTED (INTERNAL)** | Currency | Aggregate balance computed from internal ledger entries |
+| **ACTUAL (GATEWAY)** | Currency | Aggregate balance compiled from physical transaction tables |
+| **VARIANCE** | Currency | The discrepancy delta. Any non-zero value indicates a balance drift |
+| **STATUS** | Badge | Indicates whether the ledger balances match: `Balanced` or `Variance Detected` |
+
+## Step-by-step: running a balance audit
+
+1. Navigate to the **Balance Verification** page
+2. Open the **Currency** dropdown and select the currency to verify
+3. Click the **Run Verification** button
+4. Scan the table for the **STATUS** badge:
+   - If it shows **Balanced** with `0.00` variance, your accounting system is aligned
+   - If it shows **Variance Detected**, look at the **VARIANCE** column value
+
+## Best practices
+
+- Run balance verifications before making settlements or payout distributions
+- Perform audits during low-traffic periods to ensure pending checkout sessions do not cause temporary variance fluctuations
+- Do not ignore non-zero variance values, even if they are minor
+
+<Warning>
+Always post ledger transactions within a database transaction block. If writing custom plugins or addons that interact with balances, utilize the double-entry repository to preserve balance integrity.
+</Warning>
+
+## Related pages
+
+- [Ledger](/user-guide/payments/ledger) - Inspect individual accounting ledger sheets
+- [Transactions](/user-guide/payments/transactions) - Monitor real-time transaction updates
+- [Audit Log](/user-guide/reports-finance/audit-log) - Check modification actions history

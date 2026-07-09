@@ -1,0 +1,114 @@
+---
+title: "Local Setup"
+description: "Get OwnPay running on your machine for development and contribution"
+---
+
+Get OwnPay running on your machine for development and contribution - on Windows, macOS, or Linux. The fast path takes about 2 minutes after the prerequisites are installed.
+
+## Prerequisites
+
+| Tool | Version | Why | Get it |
+|------|---------|-----|--------|
+| **PHP** | **8.3+** with `bcmath`, `json`, `mbstring`, `openssl`, `pdo_mysql`, `curl` | Runtime | [php.net/downloads](https://www.php.net/downloads) |
+| **Composer** | 2.x | PHP dependencies | [getcomposer.org/download](https://getcomposer.org/download/) |
+| **MySQL** or **MariaDB** | MySQL 8.0+ / MariaDB 10.4+ | Database | [dev.mysql.com](https://dev.mysql.com/downloads/mysql/) |
+| **Git** | any | Clone the repo | [git-scm.com/downloads](https://git-scm.com/downloads) |
+| **Node.js** (optional) | 20+ | Only for JS/CSS linting | [nodejs.org](https://nodejs.org/en/download) |
+
+Check your PHP version and extensions:
+
+```bash
+php -v
+php -m
+```
+
+## Quick start - all platforms (~2 minutes)
+
+```bash
+# 1. Clone
+git clone https://github.com/own-pay/OwnPay.git
+cd OwnPay
+
+# 2. Install PHP dependencies
+composer install
+
+# 3. Create an empty database
+mysql -u root -p -e "CREATE DATABASE ownpay CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+# 4. Serve the public/ directory
+php -S localhost:8000 -t public
+```
+
+Now open **http://localhost:8000** in your browser. You'll be redirected to the **/install** wizard - it generates your `.env`, imports the schema, and creates your admin account.
+
+## Platform-specific all-in-one stacks
+
+### Windows - Laragon (recommended)
+
+1. Install [Laragon](https://laragon.org/download/) and start it
+2. Make sure the bundled PHP is 8.3+
+3. Put the project in Laragon's `www` folder
+4. Laragon auto-creates the vhost
+5. Create the database in HeidiSQL
+6. Visit **http://ownpay.test** - the installer wizard runs
+
+### macOS - Laravel Herd (recommended)
+
+1. Install [Herd](https://herd.laravel.com/)
+2. Add the project folder as a **Parked** path
+3. Start MySQL with [DBngin](https://dbngin.com/) or Homebrew
+4. Visit **https://ownpay.test** - the installer wizard runs
+
+### Linux - native packages
+
+```bash
+sudo apt update
+sudo apt install -y php8.3-cli php8.3-mysql php8.3-mbstring php8.3-bcmath \
+                    php8.3-curl php8.3-xml unzip mariadb-server composer
+
+sudo systemctl start mariadb
+sudo mysql -e "CREATE DATABASE ownpay CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+git clone https://github.com/own-pay/OwnPay.git && cd OwnPay
+composer install
+php -S localhost:8000 -t public
+```
+
+## After install - verify your setup
+
+```bash
+composer test       # PHPUnit
+composer analyse    # PHPStan (level 9)
+composer lint       # Twig + JS + CSS lint
+```
+
+## Optional: local payment-gateway callbacks
+
+External gateways can't reach `localhost`. To test real redirects/webhooks, use ngrok:
+
+```bash
+ngrok http 8000
+# In .env: GATEWAY_CALLBACK_URL=https://<your-id>.ngrok-free.app
+```
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---------|-----|
+| `/install` says an extension is missing | Install the listed `php-*` extension |
+| `composer install` fails on `ext-*` | Your CLI PHP lacks an extension |
+| "Could not connect to database" | Confirm MySQL is running and the DB exists |
+| Blank page / 500 | Set `APP_DEBUG=true` in `.env` |
+| Installer keeps redirecting | Delete `storage/.installed` only if you intend to reinstall |
+| Permissions errors | Ensure `storage/` is writable |
+
+## Production deployment
+
+1. Test thoroughly locally
+2. Push to staging environment
+3. Run full test suite on staging
+4. Verify backups work
+5. Deploy to production
+6. Monitor logs and metrics
+
+[Full deployment guide](/advanced-topics/performance-scaling)

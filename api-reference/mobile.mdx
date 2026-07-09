@@ -1,0 +1,40 @@
+---
+title: "Mobile API"
+description: "API for the OwnPay mobile companion app - SMS verification and device pairing"
+---
+
+The Mobile API enables the OwnPay mobile companion app to pair devices, receive SMS notifications, and verify payments through mobile banking alerts.
+
+## Base URL
+
+```
+https://{brand_domain}
+```
+
+## Authentication
+
+Most endpoints require JWT authentication. Device pairing and token refresh are exempt.
+
+```
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+## Key Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /api/mobile/v1/devices` | Pair a mobile device with pairing code |
+| `GET /api/mobile/v1/devices` | List paired devices |
+| `POST /api/mobile/v1/sms/incoming` | Receive incoming SMS for verification |
+| `GET /api/mobile/v1/notifications` | Get pending notifications |
+
+## Device Pairing Flow
+
+1. Generate a pairing code from the OwnPay admin dashboard
+2. Enter the code in the mobile app
+3. App receives an AES-256 encryption key and JWT tokens
+4. Device is now paired and can receive SMS notifications
+
+<Note>
+  Full API documentation is auto-generated from the OpenAPI specification.
+</Note>

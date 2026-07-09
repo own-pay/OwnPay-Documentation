@@ -1,0 +1,66 @@
+---
+title: "Device pairing"
+description: "Pair Android devices with OwnPay"
+---
+
+This guide covers pairing an Android device with your OwnPay installation.
+
+## Prerequisites
+
+- OwnPay installed and running
+- Android device with the OwnPay Companion app
+- Admin access to OwnPay
+
+## Pairing process
+
+### Step 1: Generate OTP
+
+1. Log in to OwnPay admin
+2. Go to **Mobile & SMS > Pair Device**
+3. Click **Generate OTP**
+4. A 6-digit code appears (valid for 5 minutes)
+
+### Step 2: Pair the device
+
+1. Open the OwnPay Companion app
+2. Tap **Pair Device**
+3. Enter the 6-digit OTP
+4. Tap **Pair**
+
+### Step 3: Verify pairing
+
+1. Go to **Mobile & SMS > Devices**
+2. Your device should appear as **Online**
+3. Status shows **Active**
+
+## Device states
+
+| State | Description |
+|-------|-------------|
+| **Active** | Device is paired and functional |
+| **Idle** | Device paired but no heartbeat in 3 minutes |
+| **Revoked** | Device access has been revoked |
+
+## Security
+
+- OTP expires after 5 minutes
+- Rate limited to 5 pairing requests per 5 minutes per admin
+- New OTP invalidates all previous unused OTPs
+- JWT tokens expire after 24 hours
+- Revoked devices immediately lose API access
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| OTP rejected | Generate a new OTP, enter within 5 minutes |
+| Rate limited | Wait 5 minutes before requesting new OTP |
+| Device not showing | Check device status in Mobile > Devices |
+| 401 on API | Re-pair the device (token may have expired) |
+
+## Revoking a device
+
+1. Go to **Mobile & SMS > Devices**
+2. Find the device
+3. Click **Revoke**
+4. Device immediately loses access

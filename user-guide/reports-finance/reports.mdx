@@ -1,0 +1,57 @@
+---
+title: "Reports"
+description: "Monitor business performance metrics, analyze transaction volumes, audit gateway fees, and export data"
+---
+
+The Reports page compiles analytics for your active brand. It provides visual summary cards for key performance indicators (KPIs) like Total Revenue, Transactions Count, Average Transaction value, and Total Gateway Fees.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **REPORTS & FINANCE** section in the left sidebar, click **Reports**
+
+## Page sections
+
+### 1. Filter control bar
+
+- **From Date:** Start date of the audit window
+- **To Date:** End date of the audit window
+- **Gateway Dropdown:** Select a specific API or manual gateway, or select `All Gateways`
+- **Generate Report Button:** Refreshes page calculations
+- **Export CSV Link:** Generates and downloads the filtered raw transaction ledger list
+
+### 2. Summary KPI cards
+
+- **Total Revenue:** The total value of all completed payments
+- **Transactions:** The total number of completed payments
+- **Avg Transaction:** The average ticket size
+- **Total Fees:** The cumulative transaction fees processed by payment gateways
+
+### 3. Detailed analytics chart / table
+
+Displays detailed conversion metrics. If no transactions are registered in the selected window, it displays "No transaction data for this period".
+
+## Fields and options reference
+
+| Query Field | Type | Default | Description |
+|---|---|---|---|
+| **From Date** | Date Picker | 1st of current month | The start of the reporting period |
+| **To Date** | Date Picker | Current Date | The end of the reporting period |
+| **Gateway** | Select | All Gateways | Filter analytics to a specific payment gateway |
+| **Export CSV** | Link | - | Download option for raw spreadsheet data |
+
+## Best practices
+
+- Regularly export CSV logs and archive them to secure local servers for bookkeeping backup
+- Compare **Total Fees** metrics against your physical statements to ensure gateway fee percentages are configured correctly
+- Do not select excessively wide date ranges (more than 1 year) if your brand processes thousands of transactions daily
+
+<Warning>
+Double-check that your base default currency matches your report expectations. If your brand context defaults to BDT, all amounts shown in the reports cards represent BDT values.
+</Warning>
+
+## Related pages
+
+- [Transactions](/user-guide/payments/transactions) - Review individual customer invoices and payments
+- [Ledger](/user-guide/payments/ledger) - View double-entry debit and credit lines
+- [Audit Log](/user-guide/reports-finance/audit-log) - Track actions performed by staff users

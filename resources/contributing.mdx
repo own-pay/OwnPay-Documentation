@@ -1,0 +1,95 @@
+---
+title: "Contributing"
+description: "How to contribute to OwnPay"
+---
+
+Thank you for considering a contribution to OwnPay! Whether it's a bug report, a new payment gateway, a translation, a documentation fix, or a feature, every contribution helps make self-hosted, open-source payment infrastructure better for everyone.
+
+## Code of conduct
+
+This project is governed by our [Code of Conduct](https://github.com/own-pay/OwnPay/blob/main/CODE_OF_CONDUCT.md). Report unacceptable behavior to ping@ownpay.org.
+
+## Ways to contribute
+
+- **Report bugs** - open a clear, reproducible [issue](https://github.com/own-pay/OwnPay/issues)
+- **Suggest features** - start a [discussion](https://github.com/own-pay/OwnPay/discussions)
+- **Build a gateway/plugin** - add a payment gateway or add-on
+- **Translate** - add or improve a language catalog
+- **Improve docs** - fix typos, clarify guides, expand examples
+- **Improve code** - fix bugs, add tests, refactor with care
+
+> Not sure where to start? Look for issues labelled `good first issue` or `help wanted`.
+
+## Getting set up
+
+1. **Fork** the repository and clone your fork
+2. Follow [Local Setup](/resources/local-setup) to get a local instance running
+3. Create a feature branch from `dev`:
+
+```bash
+git checkout dev
+git checkout -b feat/short-description
+```
+
+**Requirements:** PHP 8.3+ (`bcmath`, `json`, `mbstring`, `openssl`, `pdo_mysql`, `curl`), Composer 2, MySQL 8 / MariaDB 10.4+.
+
+## Development workflow
+
+1. Make your changes in a focused branch (one logical change per PR)
+2. Add or update tests for any behavior you change
+3. Run the full local check suite:
+
+```bash
+composer test       # PHPUnit - all tests must pass
+composer analyse    # PHPStan - must stay clean at level 9
+composer lint       # Twig + JS + CSS linting
+```
+
+4. Commit with a clear message and a **DCO sign-off**
+5. Push to your fork and open a Pull Request against `dev`
+
+## Coding standards
+
+- **Strict types everywhere.** Every PHP file starts with `declare(strict_types=1);`
+- **PHPStan level 9 must stay green.**
+- **Money is always bcmath strings, never floats.**
+- **Tenant scoping is mandatory.** Never run a scoped query without `forTenant()`
+- **Build URLs via `DomainUrlService`** - never hardcode a host
+- **CSRF tokens via `SecurityHelpers::csrfToken()`**
+- **Prepared statements only.** No string-interpolated SQL
+- **Escape output.** Twig autoescaping stays on
+- **Keep it lean.** No new heavyweight dependencies without discussion
+
+## Contributing a payment gateway or plugin
+
+1. Create `modules/gateways/<slug>/` with a `manifest.json`
+2. Add an adapter class implementing `GatewayAdapterInterface`
+3. Declare `supportedCurrencies()` accurately
+4. Keep the plugin within sandbox rules
+5. Test the full flow locally
+
+See the [Gateway Developer Guide](/developer/plugin-types/gateway-development) for the full contract.
+
+## Commit messages and DCO sign-off
+
+We use the [Developer Certificate of Origin](https://developercertificate.org/). Add a sign-off line to every commit:
+
+```bash
+git commit -s -m "feat(gateway): add Acme Pay adapter"
+```
+
+We encourage [Conventional Commits](https://www.conventionalcommits.org/) style (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`).
+
+## Pull request guidelines
+
+- Keep PRs focused - one logical change each
+- Fill out the PR description: what changed, why, and how to test
+- Link the related issue
+- Update documentation and tests alongside code
+- Ensure all CI checks are green
+
+## Licensing
+
+OwnPay is licensed under [GNU AGPL-3.0](https://github.com/own-pay/OwnPay/blob/main/LICENSE). By submitting a contribution, you agree that your work is licensed under the same AGPL-3.0 license.
+
+Questions? Reach out at ping@ownpay.org or open a [discussion](https://github.com/own-pay/OwnPay/discussions).

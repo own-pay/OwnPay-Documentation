@@ -1,0 +1,62 @@
+---
+title: "Roadmap"
+description: "Where OwnPay is headed from Public Beta to stable 1.0 and beyond"
+---
+
+This roadmap shows where OwnPay is headed on the path from **Public Beta v0.1.0** to a stable **1.0** and beyond. It's a living document - priorities shift with community feedback.
+
+> Have an idea or a priority you care about? Open a [discussion](https://github.com/own-pay/OwnPay/discussions) or [feature request](https://github.com/own-pay/OwnPay/issues).
+
+**Legend:** Shipped | In Progress | Planned
+
+## Shipped - Public Beta v0.1.0
+
+The foundation is live and self-hostable today:
+
+- Multi-brand (multi-store) architecture with full tenant isolation
+- 120+ payment gateway integrations (plugin-based)
+- Hosted checkout, payment links, invoices and payment intents
+- Refunds with atomic, balance-validated reversals
+- Double-entry ledger engine (bcmath precision)
+- White-label custom-domain checkout + per-brand theming
+- Sandboxed plugin/add-on system with a domain hook engine
+- REST API (merchant / mobile / admin) + webhooks
+- Mobile companion app foundation (device pairing, JWT, SMS verification)
+- Full internationalization (admin panel + customer checkout)
+- Staff RBAC - granular roles and permissions
+- Signed, atomic, rollback-safe self-update engine
+- Security hardening - AES-256-GCM PII, Argon2id, CSRF, CSP, rate limiting, SSRF guards
+- Quality gates - PHPStan level 9 + automated test suite
+
+## Now - Stabilizing the Beta (road to 1.0)
+
+- Real-world feedback loop - triaging issues from beta self-hosters
+- Public live demo at demo.ownpay.org
+- Expanded API documentation at docs.ownpay.org
+- Guides and tutorials at learn.ownpay.org
+- Hardening, edge-case validation, and performance tuning
+- Broader gateway coverage and gateway-specific test coverage
+
+## Next - Toward 1.0 Stable
+
+- 1.0 stable release once the quality bar and feedback goals are met
+- Plugin marketplace at plugin.ownpay.org
+- Mobile companion app general availability
+- One-click / scripted deployment tooling (VPS provisioning, container images)
+- Enhanced reporting, analytics and reconciliation dashboards
+- Expanded webhook event catalog and developer SDKs
+
+## Later - Beyond 1.0
+
+- Marketplace ecosystem with third-party plugin publishing
+- Additional regional payment methods and MFS coverage
+- Advanced fraud/risk tooling and configurable rules
+- Broader governance - a distributed maintainer team
+
+## A note on timing
+
+OwnPay handles real money. We do **not** commit to calendar dates - features ship when they meet our security and quality bar, not before. Star and watch the repository to be notified the moment new releases drop.
+
+> This document reflects current intentions, not promises. Anything here may change as we learn from the community.
+
+*Source: [ROADMAP.md on GitHub](https://github.com/own-pay/OwnPay/blob/main/ROADMAP.md)*

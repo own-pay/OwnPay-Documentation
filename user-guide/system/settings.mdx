@@ -1,0 +1,53 @@
+---
+title: "System Settings"
+description: "Manage global system settings, configure timezones, adjust public base URLs, and toggle maintenance mode"
+---
+
+The System Settings panel is the master configuration board for your OwnPay platform. It handles localization, email support mappings, dashboard titles, public base URLs, and platform maintenance controls.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard as the super-administrator
+2. Under the **SYSTEM** section in the left sidebar, click **Settings**
+
+## Page sections
+
+### 1. Application settings
+
+- **App Name:** The visual name of the platform (e.g., `Own Pay`)
+- **Base URL:** The primary domain name where OwnPay is hosted
+- **Timezone:** Dropdown to select the default system timezone
+- **Support Email:** The global support email address displayed on checkout flows
+- **Footer Text:** Custom copyright or company text shown at the bottom of the admin panel
+
+### 2. Maintenance mode control
+
+- **Maintenance Mode Toggle:** When enabled, all customer-facing checkout screens and landing pages are blocked, returning an HTTP 503 page. The administrative dashboard remains fully accessible to logged-in staff
+
+## Fields and options reference
+
+| Field Name | Type | Required | Example / Default | Description |
+|---|---|---|---|---|
+| **App Name** | Text Input | Yes | Own Pay | Platform visual name |
+| **Base URL** | Text Input | No | https://pay.example.com | Main server access URL |
+| **Timezone** | Select | Yes | Asia/Dhaka | Sets localized reporting offsets |
+| **Support Email** | Text Input | Yes | support@example.com | Customer contact for support issues |
+| **Footer Text** | Text Input | No | (c) 2026 Your Company... | Copyright footer text |
+| **Maintenance Mode** | Switch | No | Disabled | Block public checkout routes for audits |
+
+## Best practices
+
+- Verify that the **Base URL** matches your SSL certificate protocol (`https://`)
+- Enable **Maintenance Mode** when uploading platform updates or refactoring database structures
+- Do not change the timezone frequently, as it can cause visual anomalies in daily reporting charts
+- Do not enter a trailing slash `/` at the end of your Base URL field
+
+<Warning>
+Runtime settings are saved in the `op_system_settings` table under the `runtime` group. Bypassing settings API calls by writing raw database queries can lead to cache mismatch errors. Always edit settings through this panel or the `EnvironmentService::get()` container wrappers.
+</Warning>
+
+## Related pages
+
+- [Branding Settings](/user-guide/appearance/branding-settings) - Upload logos and favicons
+- [Landing Page Settings](/user-guide/appearance/landing-page) - Manage public home page content
+- [Domains](/user-guide/system/domains) - Setup custom domains

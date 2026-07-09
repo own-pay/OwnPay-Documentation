@@ -1,0 +1,210 @@
+---
+title: "Performance and Scaling"
+description: "Optimize OwnPay performance and scale for high-volume payment operations"
+---
+
+A technical guide to optimizing OwnPay performance and scaling for high-volume payment operations.
+
+## Performance benchmarks
+
+### Baseline performance (single server)
+
+| Operation | Target | Notes |
+|---|---|---|
+| Payment creation | < 150ms | Includes fee rule resolution + ledger write |
+| Checkout page load | < 300ms | Brand theme + CSP build from active gateways only |
+| Transaction list (100 items) | < 200ms | Composite index used |
+| Invoice/payment link lookup | < 50ms | Stored generated column + index |
+| Report generation | 1-5 seconds | Depends on data volume |
+| API response | < 200ms | Redis rate limiter adds < 5ms |
+| Webhook delivery | < 1 second | Sync delivery |
+
+### Capacity tiers
+
+| Tier | Setup | Capacity |
+|---|---|---|
+| Tier 1 | Single server, 4 GB RAM | 5,000-8,000 payments/day |
+| Scale threshold | > 1,000 payments/day | Switch to Redis cache/queue |
+| Scale threshold | > 5,000 payments/day | Tune PHP-FPM, increase InnoDB buffer |
+| Scale threshold | > 10,000 payments/day | Add dedicated database server |
+| Scale threshold | > 50,000 payments/day | Read replica + Redis Cluster |
+| Scale threshold | > 100,000 payments/day | Horizontal app scaling + load balancer |
+
+## Cache system
+
+### File cache (default - shared hosting)
+
+```ini
+# .env
+CACHE_DRIVER=file
+CACHE_TTL=3600
+```
+
+### Redis cache (recommended - VPS/cloud)
+
+```ini
+# .env
+CACHE_DRIVER=redis
+CACHE_TTL=3600
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+REDIS_DB=0
+REDIS_PREFIX=op:
+```
+
+### OPcache
+
+```ini
+opcache.enable                  = 1
+opcache.memory_consumption      = 128
+opcache.interned_strings_buffer = 16
+opcache.max_accelerated_files   = 10000
+opcache.revalidate_freq         = 0
+opcache.validate_timestamps     = 0
+opcache.jit                     = tracing
+opcache.jit_buffer_size         = 64M
+```
+
+## Queue system
+
+### File queue (default)
+
+```ini
+QUEUE_DRIVER=file
+```
+
+### Redis queue (recommended)
+
+```ini
+QUEUE_DRIVER=redis
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+REDIS_PREFIX=op:queue:
+```
+
+### Cron schedule reference
+
+| Job | Schedule | Purpose |
+|---|---|---|
+| `QueueWorkerJob` | every_minute | Process email, webhook, async jobs |
+| `WebhookRetryCron` | every_5min | Retry failed webhook deliveries |
+| `SmsVerificationJob` | every_minute | Match parsed SMS to pending transactions |
+| `DnsVerificationJob` | hourly | Verify custom domain DNS records |
+| `CurrencyUpdateJob` | every_6h | Fetch exchange rate updates |
+| `BalanceVerificationJob` | daily | Cross-check ledger vs transaction aggregates |
+
+**System cron setup:**
+
+```bash
+* * * * * php /var/www/ownpay/public/index.php cron/run >> /dev/null 2>&1
+```
+
+## Database optimization
+
+### Schema design for performance
+
+OwnPay uses MySQL Stored Generated Columns to eliminate JSON extraction overhead:
+
+```sql
+CREATE TABLE `op_transactions` (
+  `metadata` JSON DEFAULT NULL,
+  `invoice_id` BIGINT UNSIGNED GENERATED ALWAYS AS (
+    CAST(JSON_UNQUOTE(JSON_EXTRACT(`metadata`, '$.invoice_id')) AS UNSIGNED)
+  ) STORED,
+  KEY `idx_merchant_status`  (`merchant_id`, `status`),
+  KEY `idx_merchant_created` (`merchant_id`, `created_at`),
+  KEY `idx_invoice_id`       (`invoice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### MariaDB production configuration
+
+```ini
+[mysqld]
+innodb_buffer_pool_size    = 256M
+innodb_flush_log_at_trx_commit = 1
+innodb_flush_method            = O_DIRECT
+max_connections     = 100
+wait_timeout        = 600
+slow_query_log       = 1
+long_query_time      = 2
+```
+
+## PHP-FPM optimization
+
+```ini
+[ownpay]
+pm                   = dynamic
+pm.max_children      = 20
+pm.start_servers     = 4
+pm.min_spare_servers = 2
+pm.max_spare_servers = 8
+pm.max_requests      = 500
+slowlog                  = storage/logs/php-fpm-slow.log
+request_slowlog_timeout  = 10s
+```
+
+## Rate limiting
+
+```ini
+# .env
+RATE_LIMIT_PER_MINUTE=60
+RATE_LIMIT_BURST=20
+```
+
+Default limits:
+- API: 60 requests/minute per key
+- Login: 10 attempts per 5 minutes
+- Global: 120 requests/minute per IP
+
+## Scaling architecture
+
+### Architecture 1: Single server (default)
+
+```
++-- App Container (PHP-FPM + Nginx)
+|   +-- 20 max workers, 500 req/recycle
+|   +-- OPcache: 128MB + JIT
++-- MariaDB (256M buffer, ACID+strict)
++-- Redis (256MB LRU, DB0=cache, DB1=queue)
+```
+
+### Architecture 2: Dedicated database + app server
+
+```
+App Server                    DB Server
++-- PHP-FPM 8.3    --------> MariaDB 10.11
++-- Nginx                   innodb_buffer: 5G+
++-- Redis (local)           max_connections: 300
+```
+
+### Architecture 3: Horizontal scaling with load balancer
+
+```
+Load Balancer (Nginx/HAProxy)
+    +-- App Server 1 (stateless)
+    +-- App Server 2 (stateless)
+    +-- MariaDB Primary -> MariaDB Read Replica
+    +-- Redis Cluster (3+ nodes)
+```
+
+## Monitoring
+
+### Key metrics
+
+| Metric | Target | Where to check |
+|---|---|---|
+| PHP-FPM active workers | < 80% of pm.max_children | /fpm-status |
+| OPcache hit rate | > 95% | opcache_get_status() |
+| Slow queries | 0/min | SHOW GLOBAL STATUS LIKE 'Slow_queries' |
+| Buffer pool hit rate | > 95% | SHOW STATUS LIKE 'Innodb_buffer_pool_read_requests' |
+
+### Scaling decision matrix
+
+| Signal | Action |
+|---|---|
+| PHP-FPM listen queue > 0 | Increase pm.max_children |
+| Server RAM > 85% sustained | Upgrade RAM or add app server |
+| MariaDB Threads_connected > 80 | Enable connection pooling or add read replica |
+| OPcache hit rate < 90% | Increase opcache.max_accelerated_files |
+| Redis evicted_keys > 0/min | Increase Redis maxmemory |

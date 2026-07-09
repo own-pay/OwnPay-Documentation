@@ -1,0 +1,93 @@
+---
+title: "Public Checkout and Payment Flow"
+description: "The customer-facing checkout screen where users enter billing amounts, select payment methods, and complete payments"
+---
+
+The Public Checkout and Payment flow is the customer-facing side of the OwnPay platform. It is fully white-labeled under the brand's custom domain and theme settings.
+
+## The checkout journey
+
+Customers can reach the checkout interface through two primary methods:
+
+1. **Direct API Checkout Redirect:** When an external shop initiates a transaction via the API, the customer is redirected to `/checkout/{trx_id}`
+2. **Public Payment Links:** Visiting a payment link URL `/pay/{slug}` generated in the administrative panel
+
+## Page sections
+
+### 1. Left panel (order summary)
+
+- **Brand Branding:** Displays the active Brand's uploaded logo and name
+- **Payment Reference:** Displays the unique Transaction ID and the purchase description
+- **Line Items Breakdown:** (When paying an invoice) Lists each line item, quantity, and unit price
+- **Total Summary:** The total amount and currency to be charged
+
+### 2. Right panel (payment terminal)
+
+- **Brand Header:** Links to the brand support email
+- **Session Expiry Timer:** A ticking countdown showing remaining time to complete the transaction
+- **Express Checkout Area:** If configured, displays quick payment buttons
+- **Payment Methods Tabs:** Grouped tabs for different gateway classifications
+- **Gateway Selection Grid:** Selecting a payment option redirects the customer to the secure processor portal
+
+## Step-by-step customer flows
+
+### Flow A: Dynamic payment link (amount entry)
+
+1. The customer visits a variable-amount payment link
+2. The customer is presented with the **Enter Amount** page
+3. The customer types the desired amount
+4. The customer clicks **Continue to Payment** and is redirected to the active transaction checkout room
+
+### Flow B: Secure checkout (standard payment)
+
+1. On the checkout screen, the customer reviews their order details in the left panel
+2. In the payment terminal on the right, they select their preferred payment method
+3. They click the specific provider logo
+4. **Gateway Redirect:** The system securely redirects the customer to the gateway's payment processing page
+5. **Gateway Return:** After completing payment, the gateway redirects the customer back to the OwnPay checkout status page
+
+### Flow C: Manual payment flow
+
+1. The customer selects the **Manual Payment** tab
+2. They select the specific manual gateway
+3. The page displays step-by-step instructions configured by the brand
+4. The customer performs the transaction on their mobile device or banking app
+5. Once completed, the customer inputs the requested details (Sender Account, Transaction ID)
+6. The customer clicks **Submit Payment**
+7. The transaction status is updated to `Pending Verification`
+
+## Checkout status pages
+
+| Status Screen | Description | Customer Action |
+|---|---|---|
+| **Success** | Payment verified by the gateway | Click **Return to Merchant** or download invoice |
+| **Pending Verification** | Appears for manual payments | Customer can close the page |
+| **Failed** | Payment was declined | Click **Try Again** |
+| **Expired** | Countdown timer hit 0 | Request a new payment link |
+
+## Security and anti-tampering
+
+- OwnPay uses high-security HMAC verification (`checkout_hash`) computed using `HMAC_KEY` or `APP_KEY`
+- All customer interfaces block Search Engine indexing (`noindex,nofollow` meta tags)
+
+<Warning>
+To comply with PCI-DSS standards, the checkout templates and assets do not store credit card details or bank passwords on the local server. All card forms must be served securely using gateway tokens or offsite redirects.
+</Warning>
+
+## Troubleshooting
+
+### Checkout page shows "HMAC_KEY or APP_KEY must be configured"
+
+- **Cause:** The platform configuration is missing secure signing keys
+- **Solution:** Ensure `APP_KEY` is set in the main `.env` configuration file
+
+### Transaction timer expires instantly
+
+- **Cause:** The server time is out of sync with the user's local device time
+- **Solution:** Verify the server timezone settings and configure NTP time synchronization
+
+## Related pages
+
+- [Transactions](/user-guide/payments/transactions) - View and audit customer payment statuses
+- [Payment Links](/user-guide/payments/payment-links) - Configure the slugs and bounds for payment links
+- [Gateways](/user-guide/gateways/gateways) - Manage the payment providers available on checkout

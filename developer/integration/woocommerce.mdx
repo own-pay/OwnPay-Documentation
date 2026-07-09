@@ -1,0 +1,151 @@
+---
+title: "WordPress WooCommerce Integration"
+description: "Integrate OwnPay as a payment gateway in WooCommerce"
+---
+
+This guide explains how to integrate OwnPay as a payment gateway in a **WordPress WooCommerce** store using the OwnPay Gateway Plugin for WooCommerce.
+
+## Prerequisites
+
+- WordPress 6.0+
+- WooCommerce 8.0+
+- PHP 8.2+
+- An OwnPay instance with a valid API key
+- OwnPay Gateway Plugin for WooCommerce - download from [GitHub Releases](https://github.com/own-pay/OwnPay-WordPress/releases/)
+
+## How it works
+
+```
+Customer Checkout
+       |
+       v
+ WooCommerce Order Created
+       |
+       v
+ OwnPay Plugin -> POST /api/v1/payment-intents
+       |
+       v
+ Customer Redirected -> OwnPay Checkout Page
+       |
+       v
+ Payment Completed / Failed
+       |
+       v
+ OwnPay Webhook -> WooCommerce Order Status Updated
+```
+
+## Installation
+
+### Step 1: Install the plugin
+
+**Option A: Upload ZIP manually**
+
+1. Download the latest plugin ZIP from [GitHub Releases](https://github.com/own-pay/OwnPay-WordPress/releases/)
+2. Go to **WordPress Admin > Plugins > Add New > Upload Plugin**
+3. Upload the ZIP and click **Install Now**
+4. Click **Activate Plugin**
+
+**Option B: Install via WP-CLI**
+
+```bash
+wp plugin install ownpay-woocommerce --activate
+```
+
+### Step 2: Configure the gateway
+
+1. Go to **WooCommerce > Settings > Payments**
+2. Find **OwnPay** and click **Manage**
+3. Fill in:
+
+| Field | Description |
+|-------|-------------|
+| **Enable/Disable** | Toggle to enable OwnPay at checkout |
+| **Title** | Payment method label shown to customers |
+| **Description** | Short description shown on checkout page |
+| **API Base URL** | Your OwnPay instance URL |
+| **API Key** | Your OwnPay API key from Admin > Developer Hub |
+| **Brand ID** | Your OwnPay brand/store ID |
+| **Webhook Secret** | Secret key for verifying incoming webhooks |
+| **Test Mode** | Enable to use sandbox environment |
+
+4. Click **Save Changes**
+
+### Step 3: Configure webhooks in OwnPay
+
+1. Log in to your OwnPay Admin panel
+2. Go to **Developer Hub > Webhooks**
+3. Add a new webhook endpoint:
+
+```
+https://yourstore.com/?wc-api=ownpay_gateway
+```
+
+4. Select events: `payment.transaction.completed`, `payment.transaction.failed`, `payment.transaction.cancelled`
+5. Copy the **Webhook Secret** and paste it into WooCommerce plugin settings
+
+## Order status mapping
+
+| OwnPay Event | WooCommerce Status |
+|---|---|
+| `payment.transaction.completed` | `processing` (or `completed` for virtual products) |
+| `payment.transaction.failed` | `failed` |
+| `payment.transaction.cancelled` | `cancelled` |
+| `payment.intent.expired` | `cancelled` |
+
+## Customization
+
+### Change redirect behavior
+
+```php
+add_filter('ownpay_redirect_url', function (string $url, \WC_Order $order): string {
+    return add_query_arg('ref', $order->get_order_key(), $url);
+}, 10, 2);
+```
+
+### Customize payment intent payload
+
+```php
+add_filter('ownpay_payment_intent_payload', function (array $payload, \WC_Order $order): array {
+    $payload['metadata']['wc_order_id'] = $order->get_id();
+    $payload['metadata']['customer_note'] = $order->get_customer_note();
+    return $payload;
+}, 10, 2);
+```
+
+### Customize order status on completion
+
+```php
+add_filter('ownpay_completed_order_status', function (string $status, \WC_Order $order): string {
+    if ($order->has_downloadable_item()) {
+        return 'completed';
+    }
+    return $status;
+}, 10, 2);
+```
+
+## Troubleshooting
+
+### Webhooks not received
+
+- Ensure your OwnPay instance can reach `https://yourstore.com/?wc-api=ownpay_gateway`
+- Check **WooCommerce > Status > Logs** and filter by `ownpay`
+- Verify the Webhook Secret matches in both systems
+
+### Orders stuck in "Pending Payment"
+
+This usually means the webhook was not delivered. You can manually sync:
+
+1. Open the order in WooCommerce Admin
+2. Click **OwnPay > Sync Payment Status**
+
+Or via WP-CLI:
+
+```bash
+wp ownpay sync-order --order-id=1234
+```
+
+## See Also
+
+- [PHP SDK Integration](/developer/integration/php)
+- [Node.js SDK Integration](/developer/integration/nodejs)
+- [Webhooks Setup](/developer/webhooks)

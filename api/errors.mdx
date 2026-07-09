@@ -1,0 +1,99 @@
+---
+title: "Error codes"
+description: "API error reference"
+---
+
+OwnPay API returns consistent error responses across all endpoints.
+
+## Error response format
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "invalid_amount",
+    "message": "Amount must be greater than 0"
+  }
+}
+```
+
+## HTTP status codes
+
+| Code | Meaning |
+|------|---------|
+| 200 | Success |
+| 201 | Created |
+| 400 | Bad request (validation error) |
+| 401 | Unauthorized (invalid API key) |
+| 403 | Forbidden (insufficient permissions) |
+| 404 | Resource not found |
+| 409 | Conflict (duplicate resource) |
+| 422 | Unprocessable entity (business logic error) |
+| 429 | Rate limit exceeded |
+| 500 | Internal server error |
+
+## Common error codes
+
+### Authentication errors
+
+| Code | Description |
+|------|-------------|
+| `invalid_api_key` | API key not found or malformed |
+| `expired_api_key` | API key has expired |
+| `revoked_api_key` | API key has been revoked |
+| `insufficient_permissions` | Key lacks required access level |
+
+### Payment errors
+
+| Code | Description |
+|------|-------------|
+| `invalid_amount` | Amount must be greater than 0 |
+| `invalid_currency` | Unsupported currency code |
+| `gateway_unavailable` | Payment gateway is down |
+| `payment_declined` | Gateway declined the payment |
+| `insufficient_funds` | Customer account has insufficient funds |
+| `expired_card` | Card has expired |
+| `invalid_card` | Card details are invalid |
+
+### Resource errors
+
+| Code | Description |
+|------|-------------|
+| `not_found` | Resource does not exist |
+| `already_exists` | Resource already exists |
+| `invalid_state` | Resource is in an invalid state for this operation |
+
+### Webhook errors
+
+| Code | Description |
+|------|-------------|
+| `invalid_webhook_url` | URL is not valid or not HTTPS |
+| `webhook_secret_missing` | Webhook secret not configured |
+| `signature_mismatch` | Webhook signature verification failed |
+
+## Handling errors
+
+### Best practices
+
+1. Check the `success` field first
+2. Use the `error.code` for programmatic handling
+3. Display `error.message` to users (it's human-readable)
+4. Implement retry logic for 5xx errors
+5. Log all errors for debugging
+
+### Example error handling
+
+```php
+$response = $client->payments()->create([...]);
+
+if (!$response['success']) {
+    $code = $response['error']['code'];
+    $message = $response['error']['message'];
+    
+    match ($code) {
+        'invalid_amount' => handleInvalidAmount(),
+        'gateway_unavailable' => retryLater(),
+        default => logError($code, $message),
+    };
+}
+```

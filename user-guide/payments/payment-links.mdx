@@ -1,0 +1,75 @@
+---
+title: "Payment Links"
+description: "Generate shareable payment URLs with optional custom input fields to collect one-off or recurring payments"
+---
+
+Payment Links are reusable checkout URLs designed to collect payments without generating a formal invoice. You can create a link for a fixed product price or leave the amount open so customers can input their own values (e.g., for donations or dynamic service fees).
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **PAYMENTS** section in the left sidebar, click **Payment Links**
+
+## Page sections
+
+### 1. Payment links dashboard
+
+- **Title:** Description shown to the customer on checkout
+- **Amount:** BDT price or listed as `Custom` if customer-defined
+- **Uses:** Counter showing how many times the link has been paid
+- **Status:** Current availability (`active`, `inactive`, `expired`)
+- **Link:** The relative public path
+- **Actions:** Edit details or copy the complete public checkout link
+
+### 2. Create link form
+
+Accessed by clicking the **+ Create Link** button:
+
+- **Link Details:** Title, Description, Amount, Currency
+- **Settings:** Max Uses, Expiry Date, Require Shipping Address
+
+## Fields and options reference
+
+| Field / Option | Type | Required | Default | Description |
+|---|---|---|---|---|
+| **Title** | Text Input | Yes | - | The name of the product or service |
+| **Description** | Text Area | No | - | Explanatory note or instructions shown on checkout |
+| **Amount** | Spinbutton | No | - | Leave blank for customer-defined amount. Enter a value to lock the price |
+| **Currency** | Select | Yes | BDT | Currency to bill the customer |
+| **Max Uses** | Spinbutton | No | 0 | Limit how many times the link can be used. `0` for unlimited |
+| **Expires At** | Date & Time | No | - | Date/time after which the link auto-deactivates |
+| **Require Shipping Address** | Checkbox | No | Unchecked | Enforces shipping address collection fields on checkout |
+
+## Step-by-step: creating a reusable payment link
+
+1. Click the **+ Create Link** button
+2. Enter a descriptive **Title** (e.g., `Hosting Setup Fee`)
+3. Provide details in the **Description** box
+4. Input a fixed **Amount** (e.g., `2500`). Leave blank for customer-defined amounts
+5. Select the **Currency** (e.g., `BDT`)
+6. Set **Max Uses** to `0` for unlimited checkouts
+7. Click **Create Link**
+8. Locate the link on your dashboard and click **Copy Link**
+
+## Best practices
+
+- Set a **Max Uses** value (e.g., `1`) if generating a single-use payment link for a specific customer
+- Enforce **Require Shipping Address** if you are selling physical goods that need to be delivered
+- Do not change the slug of a payment link after sharing it, as this will break existing URLs
+
+<Warning>
+Ensure that your manual gateways or API gateways are active before sharing a payment link, or customers will see an error when trying to choose a payment method.
+</Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Likely Cause | Fix |
+|---|---|---|
+| Customer sees `Link Expired` error | The link reached its **Max Uses** limit or the **Expires At** date has passed | Edit the link and increase the max uses or extend/remove the expiry date |
+| Customer cannot select a payment method | No payment gateways are active for the selected currency | Navigate to **Payment Gateways** and activate at least one gateway |
+
+## Related pages
+
+- [Gateways](/user-guide/gateways/gateways) - Configure payment processors
+- [Transactions](/user-guide/payments/transactions) - Inspect payments completed via links
+- [Checkout](/user-guide/public/checkout) - Customer payment experience

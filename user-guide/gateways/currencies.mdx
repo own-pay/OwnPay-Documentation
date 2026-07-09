@@ -1,0 +1,59 @@
+---
+title: "Currencies and Rates"
+description: "Set the brand default currency, configure automatic exchange rates, and manage payment session expiry durations"
+---
+
+The Currencies & Rates settings panel controls how currency translation is handled on your checkouts, how long customers have to pay before a checkout session expires, and how transaction matching triggers automated verification workflows.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **GATEWAYS** section in the left sidebar, click **Currencies & Rates**
+
+## Page sections
+
+### 1. Currency and exchange rates
+
+- **Default Currency:** The base currency used to invoice customers and credit your ledger. Supported options include `BDT`, `USD`, `EUR`, `GBP`, `INR`
+- **Exchange Rate Update:** Choose how multi-currency checkouts calculate rates:
+  - **Automatic:** Periodically updates currency conversion factors using public rates APIs
+  - **Manual:** Lets you hardcode static rates for your conversions
+
+### 2. Lifecycles and verification
+
+- **Payment Expiry (minutes):** Defines the active lifespan (between 5 and 1440 minutes, defaulting to 30) of an unpaid checkout page
+- **Invoice Due Days (default):** Automatically sets the payment deadline (between 1 and 365 days, defaulting to 7) for newly generated customer invoices
+- **Auto-approve verified payments:** Toggle to authorize checkout checkups. When enabled, transactions that match an incoming parsed SMS transaction ID are completed automatically
+
+## Fields and options reference
+
+| Setting Field | Type | Options / Range | Default | Description |
+|---|---|---|---|---|
+| **Default Currency** | Select | BDT, USD, EUR, GBP, INR | BDT | The pricing currency for checkout flows |
+| **Exchange Rate Update** | Select | Automatic, Manual | Automatic | Method of retrieving conversion rates |
+| **Payment Expiry (minutes)** | Spin Button | 5 to 1440 | 30 | Life of a checkout session before auto-cancellation |
+| **Invoice Due Days** | Spin Button | 1 to 365 | 7 | Grace period in days before invoices become overdue |
+| **Auto-approve payments** | Switch / Label | Enabled / Disabled | Enabled | Toggle SMS-matched transaction auto-completion |
+
+## Best practices
+
+- Keep the **Payment Expiry** duration long enough for customers to navigate their banking apps (usually 15 to 30 minutes)
+- Enable **Auto-approve verified payments** if using a paired SMS parsing Android device to reduce manual auditing workloads
+- Do not change the default currency frequently, as it will affect historical reporting and ledger balances across different periods
+- Do not set invoice due days to more than 90 days unless offering custom commercial terms
+
+<Warning>
+Ensure the server cron job scheduler is running if you set **Exchange Rate Update** to **Automatic** to prevent stale conversion rate calculations.
+</Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Likely Cause | Fix |
+|---|---|---|
+| Checkout page times out too fast for customers | The payment expiry duration is set too low (e.g., 5 minutes) | Increase the expiry duration to at least 15 or 30 minutes and save settings |
+| Automatic rates are not updating | Stale cache or the external exchange rates service API is blocked by system firewalls | Switch the setting to **Manual** to override values temporarily, or check developer error logs |
+
+## Related pages
+
+- [Payment Gateways](/user-guide/gateways/gateways) - Configure gateway credentials and manual wallets
+- [SMS Center](/user-guide/mobile-sms/sms-templates) - Map notification structures for auto-approvals

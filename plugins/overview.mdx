@@ -1,0 +1,113 @@
+---
+title: "Plugin overview"
+description: "OwnPay plugin architecture and lifecycle"
+---
+
+OwnPay uses a WordPress-style plugin system to extend functionality. Plugins reside in `modules/` and register callbacks via the `EventManager` hook loop.
+
+## Plugin types
+
+| Type | Purpose | Location |
+|------|---------|----------|
+| **Gateway** | Payment method integrations | `modules/gateways/` |
+| **Addon** | Feature extensions | `modules/addons/` |
+| **Theme** | Checkout/UI customization | `modules/themes/` |
+
+## Plugin lifecycle
+
+```
+Discover -> Manifest Validate -> Footgun Scan -> PSR-4 Register -> register() -> boot()
+```
+
+1. **Discovery** - `PluginLoader::discover()` scans `modules/{gateways,themes,addons}/*/manifest.json`
+2. **Validation** - `PluginManifest::validate()` enforces slug regex, entrypoint, type whitelist
+3. **Footgun scan** - Blocks `eval` and direct OS command execution
+4. **PSR-4 Register** - Autoloader maps plugin namespace to directory
+5. **register()** - Plugin registers hooks, routes, events
+6. **boot()** - Plugin initializes runtime behavior
+
+## Trust model
+
+Plugin upload is restricted to the platform owner only (`PluginController::upload` requires global view). Installed plugins run with **full application trust** - the same model as WordPress.
+
+The footgun scanner catches accidents and obvious abuse, not untrusted code isolation.
+
+## Plugin structure
+
+```
+modules/gateways/stripe/
++-- manifest.json
++-- src/
+|   +-- StripeGateway.php
+|   +-- Hooks.php
++-- resources/
+|   +-- views/
+|       +-- settings.twig
++-- migrations/
++-- README.md
+```
+
+## manifest.json
+
+```json
+{
+  "slug": "stripe",
+  "name": "Stripe Payment Gateway",
+  "version": "1.0.0",
+  "type": "gateway",
+  "entrypoint": "src/StripeGateway.php",
+  "namespace": "OwnPay\\Gateways\\Stripe",
+  "icon": "stripe.svg",
+  "csp": "https://js.stripe.com"
+}
+```
+
+## Plugin API
+
+```php
+// Access services
+$paymentService = Plugin::service('payment');
+$config = Plugin::config('stripe');
+Plugin::log('Something happened', 'info');
+$user = Plugin::user();
+
+// Access database
+$payments = Database::query("SELECT * FROM payments");
+$results = Database::table('payments')
+    ->where('status', 'completed')
+    ->get();
+
+// Register routes
+Route::post('my-plugin/action', 'MyController@action');
+
+// Add admin pages
+Menu::add('Dashboard', 'my-plugin', '/admin/my-plugin');
+```
+
+## Managing plugins
+
+### Via admin panel
+
+Go to **System > Plugins** to view, enable, or disable plugins.
+
+### Via CLI
+
+```bash
+php public/index.php plugin:list
+php public/index.php plugin:enable my-plugin
+php public/index.php plugin:disable my-plugin
+php public/index.php plugin:test my-plugin
+```
+
+## Debugging
+
+```bash
+# Enable debug logging
+APP_DEBUG=true
+
+# Check plugin logs
+tail -f storage/logs/plugins.log
+
+# List active plugins
+php public/index.php plugin:list
+```

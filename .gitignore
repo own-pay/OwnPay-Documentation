@@ -1,0 +1,8 @@
+node_modules/
+.mintlify/
+.mimocode/
+.agents/
+docs/superpowers/
+.mcp.json
+skills-lock.json
+*.log

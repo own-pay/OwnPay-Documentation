@@ -1,0 +1,116 @@
+---
+title: "Hooks reference"
+description: "Available hooks and filters in OwnPay"
+---
+
+OwnPay provides over 60 hooks for modifying behavior and reacting to events.
+
+## Hook types
+
+### Pre-execution hooks (filters)
+
+Modify data before it's processed:
+
+```php
+$amount = Hook::apply('payment.amount', $amount, $payment);
+$data = Hook::apply('payment.data', $data, $payment);
+```
+
+### Post-execution hooks (actions)
+
+React to events after they occur:
+
+```php
+Hook::do('payment.created', $payment);
+Hook::do('payment.completed', $payment);
+```
+
+## Payment hooks
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `payment.amount` | Filter | Modify payment amount before processing |
+| `payment.data` | Filter | Modify payment data before save |
+| `payment.created` | Action | After payment is created |
+| `payment.completed` | Action | After payment is successful |
+| `payment.failed` | Action | After payment fails |
+| `payment.refunded` | Action | After refund is processed |
+
+## Gateway hooks
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `gateway.methods` | Filter | Add/modify available gateways |
+| `gateway.config` | Filter | Modify gateway configuration |
+| `gateway.currencies` | Filter | Modify supported currencies |
+
+## Checkout hooks
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `checkout.head` | Action | Inject into checkout page head |
+| `checkout.footer` | Action | Inject into checkout page footer |
+| `checkout.csp.sources` | Filter | Add CSP sources for checkout |
+
+## Admin hooks
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `admin.menu.register` | Action | Register admin menu items |
+| `admin.dashboard.widgets` | Filter | Add dashboard widgets |
+
+## System hooks
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `system.boot` | Action | After system initialization |
+| `system.shutdown` | Action | Before request ends |
+| `system.middleware.pipeline` | Filter | Modify middleware stack |
+
+## Email hooks
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `email.before_send` | Filter | Modify email before sending |
+| `email.after_send` | Action | After email is sent |
+
+## Custom hooks
+
+Register your own hooks:
+
+```php
+// Fire a custom hook
+Hook::do('my-plugin.payment_processed', $data);
+
+// Listen to a custom hook
+Hook::add('my-plugin.payment_processed', function ($data) {
+    // Handle the hook
+});
+```
+
+## Usage examples
+
+### Modify checkout appearance
+
+```php
+Hook::add('checkout.head', function () {
+    echo '<style>.checkout-form { background: #f8f9fa; }</style>';
+});
+```
+
+### Add fee to payments
+
+```php
+Hook::add('payment.amount', function ($amount, $payment) {
+    $fee = $amount * 0.029; // 2.9% fee
+    return $amount + $fee;
+}, 10, 2);
+```
+
+### Send notification on payment
+
+```php
+Hook::add('payment.completed', function ($payment) {
+    NotificationService::send($payment['customer_email'], 'Payment received!');
+});
+```

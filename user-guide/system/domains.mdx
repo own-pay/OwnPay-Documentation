@@ -1,0 +1,102 @@
+---
+title: "Custom Domains"
+description: "Map your own custom domain to a brand's checkout and payment pages for white-labeled branding"
+---
+
+The Custom Domains management screen allows administrators to configure custom hostnames for different brands under the same OwnPay instance. Setting up custom domains hides the master OwnPay platform domain, providing a fully white-labeled billing and checkout interface to customers.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard as the super-administrator
+2. Under the **SYSTEM** section in the left sidebar, click **Domains**
+
+## Page sections
+
+### 1. DNS setup guide
+
+A collapsible instructional card detailing the steps required to link your domain:
+
+- **TXT Verification record:** Details to authenticate domain ownership
+- **A record:** Details to point traffic to the OwnPay server IP address
+- **Provider-specific Quick Tips:** Cloudflare, GoDaddy, and Namecheap zone manager shortcuts
+
+### 2. Your domains table
+
+Lists all mapped hostnames for the active brand context:
+
+- **Domain:** Shows the domain name, along with a **Visit** link for verified active domains
+- **Brand:** Displays the specific Brand to which the domain is mapped
+- **TXT Verification Token:** The unique verification code required to authorize ownership in DNS
+- **Status:** Badges indicating the domain state:
+  - `Verified` (green): Fully configured, active, and accessible
+  - `Pending DNS` (yellow): Domain added, waiting for DNS records to propagate
+  - `Error/Invalid` (red): DNS check failed or verification is incomplete
+- **Actions:** Verify DNS or Remove the domain mapping
+
+### 3. Add custom domain modal
+
+Triggered by clicking the **+ Add Domain** button in the header.
+
+## Step-by-step: mapping and verifying a new custom domain
+
+### Step 1: Register the domain in OwnPay
+
+1. Navigate to **SYSTEM > Domains**
+2. Click **+ Add Domain** in the top-right corner
+3. Enter your hostname (e.g., `pay.mybrand.com`) in the **Domain Name** field
+4. Click **Add Domain**
+5. The domain will appear in the table with a `Pending DNS` status badge and a unique verification token
+
+### Step 2: Configure TXT record (ownership verification)
+
+1. Log in to your DNS registrar or provider
+2. Go to your domain's DNS Zone Editor or DNS Management panel
+3. Add a new **TXT** record with:
+   - **Name / Host:** `_ownpay-verify` (or full FQDN: `_ownpay-verify.pay.mybrand.com`)
+   - **Value:** `ownpay-verify={your-verification-token}`
+   - **TTL:** `3600`
+
+### Step 3: Configure A record (traffic routing)
+
+1. In the same DNS registrar panel, add a new **A** record:
+   - **Name / Host:** `pay` (or `@` if mapping root domain)
+   - **Points to / Value:** Enter the platform's Server IP
+   - **TTL:** `3600`
+
+### Step 4: Verify and activate
+
+1. Wait 5 to 60 minutes for DNS records to propagate
+2. Return to the **SYSTEM > Domains** panel
+3. Click **Verify DNS** in the actions column
+4. If records match, the status badge will update to `Verified`
+
+## Best practices
+
+- Use a subdomain (like `pay.yourdomain.com`) instead of the root apex domain when possible
+- Verify propagation on third-party tools like `dnschecker.org` before clicking the platform Verify button
+- Do not map the same domain to multiple brands, as hostname mapping must be 1:1
+- Do not enable Cloudflare proxy status (orange cloud) for the TXT verification record
+
+<Warning>
+Always verify the domain's TXT record before routing traffic. Bypassing DNS verification runs the risk of routing errors or broken checkout sessions.
+</Warning>
+
+## Troubleshooting
+
+### Domain status remains "Pending DNS" after clicking Verify
+
+- **Cause:** DNS propagation delays
+- **Solution:** Wait up to 1 hour and try again
+- **Cause:** Incorrect Host/Name value
+- **Solution:** Some registrars append your root domain automatically. Check the exact values using a DNS Lookup tool
+
+### Accessing Custom Domain returns a 404 page
+
+- **Cause:** The A record is not pointed to the correct server IP, or the domain has not been verified yet
+- **Solution:** Verify the A record configuration and run verification in the admin panel
+
+## Related pages
+
+- [Brands](/user-guide/people/brands) - Create and manage brands mapped to custom domains
+- [Branding Settings](/user-guide/appearance/branding-settings) - Upload logos and visual details
+- [System Settings](/user-guide/system/settings) - Configure global application name and fallback URL parameters

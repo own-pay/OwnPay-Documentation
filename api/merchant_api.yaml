@@ -1,0 +1,1329 @@
+openapi: 3.1.0
+info:
+  title: OwnPay Merchant API
+  description: |
+    The OwnPay Merchant API enables merchants to programmatically interface with their white-labeled payment gateway.
+    It exposes endpoints to initiate payments (creating payment intents), query transaction statuses, issue full or partial refunds, manage customer profiles securely in compliance with GDPR and OWASP, generate and revoke API keys, and test/audit webhook delivery attempts.
+    
+    ### Authentication
+    Authentication is performed via HTTP Bearer token in the `Authorization` header.
+    ```http
+    Authorization: Bearer your_api_key_here
+    ```
+    API keys carry specific privilege scopes (e.g., `read`, `write`, `admin`).
+    Some administrative operations (like listing/generating API keys) require **both** `write` and `admin` scopes, as well as passing a valid platform super-administrator's email address in the `X-Super-Admin-Email` header for safety.
+  version: 1.0.0
+servers:
+  - url: https://{brand_domain}/api/v1
+    description: Sandbox or Production white-labeled brand gateway API server.
+    variables:
+      brand_domain:
+        default: ownpay.org
+        description: The custom domain configured for your white-labeled brand.
+paths:
+  /health:
+    get:
+      summary: System Health Check
+      description: |
+        Performs a system-wide diagnostic check. Checks database connectivity, active gateways configuration,
+        and counts the active paired mobile companion devices (devices that posted a heartbeat within the last 10 minutes).
+      operationId: checkSystemHealth
+      responses:
+        "200":
+          description: System is fully operational and healthy.
+          headers:
+            X-API-Version:
+              schema:
+                type: string
+              description: The active application core version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResponse'
+        "503":
+          description: System is degraded (e.g. database connectivity has failed).
+          headers:
+            X-API-Version:
+              schema:
+                type: string
+              description: The active application core version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResponse'
+
+  /payments:
+    post:
+      summary: Initiate Payment Intent
+      description: |
+        Initiates a new payment session by creating a payment intent. Returns a secure, white-labeled checkout URL
+        where customers can choose from the brand's active payment methods (such as Mobile Financial Services (MFS) e.g., bKash, Nagad, Rocket).
+        Validates callback URLs against transport safety regulations, truncates customer PII properties to fit database constraints,
+        and resolves/creates customer profile bindings.
+      operationId: initiatePayment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiatePaymentRequest'
+      responses:
+        "201":
+          description: Payment session initiated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiatePaymentResponse'
+        "422":
+          description: Validation failed (e.g. invalid amount format, unsupported currency, or invalid URL schemes).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorsResponse'
+        "500":
+          description: Payment processing/initiation failed on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+
+  /payments/{payment_id}:
+    get:
+      summary: Retrieve Payment Details
+      description: |
+        Lookup a payment intent and its associated transaction state by its unique payment intent UUID.
+        If a transaction has already been established/completed against the intent, the response returns details
+        of that transaction. Otherwise, it returns the details of the pending intent.
+      operationId: retrievePayment
+      parameters:
+        - name: payment_id
+          in: path
+          required: true
+          description: The unique UUID string of the payment intent.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Detailed payment status retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentDetailsResponse'
+        "422":
+          description: Invalid payment ID format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "404":
+          description: Payment intent not found or belongs to another merchant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+
+  /transactions:
+    get:
+      summary: List Transactions
+      description: |
+        Retrieves a filtered, paginated list of transactions processed under the brand.
+        Applies strict brand-level tenant isolation checks (merchant_id scoping) and outputs safe fields, filtering out sensitive internal routing metadata.
+      operationId: listTransactions
+      parameters:
+        - name: page
+          in: query
+          description: Page number to retrieve.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: per_page
+          in: query
+          description: Maximum transaction records per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 25
+        - name: status
+          in: query
+          description: Filter by transaction status (e.g., `completed`, `pending`, `failed`, `cancelled`, `processing`).
+          required: false
+          schema:
+            type: string
+        - name: gateway
+          in: query
+          description: Filter by gateway adapter slug.
+          required: false
+          schema:
+            type: string
+        - name: from
+          in: query
+          description: Starting date boundary (YYYY-MM-DD) for filtering transactions by creation time.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          description: Ending date boundary (YYYY-MM-DD) for filtering transactions by creation time.
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Paginated transaction list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTransactionsResponse'
+
+  /transactions/{trx_id}:
+    get:
+      summary: Retrieve Transaction
+      description: |
+        Looks up details for a single transaction. The lookup checks the OwnPay transaction ID (prefixed `OP-` or `OP_`)
+        first, and falls back to searching by gateway transaction ID.
+      operationId: retrieveTransaction
+      parameters:
+        - name: trx_id
+          in: path
+          required: true
+          description: Unique transaction reference (OwnPay trx_id or Gateway transaction ID).
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Transaction details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        "422":
+          description: Missing transaction reference parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "404":
+          description: Transaction not found under the brand's scope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+
+  /refunds:
+    get:
+      summary: List Refunds
+      description: |
+        Retrieves a filtered, paginated list of processed refund logs for the active brand.
+      operationId: listRefunds
+      parameters:
+        - name: page
+          in: query
+          description: Page number to retrieve.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: per_page
+          in: query
+          description: Maximum records per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 25
+        - name: status
+          in: query
+          description: Filter by refund status (e.g. `completed`, `pending`, `failed`).
+          required: false
+          schema:
+            type: string
+        - name: trx_id
+          in: query
+          description: Filter by original transaction reference code.
+          required: false
+          schema:
+            type: string
+        - name: transaction_id
+          in: query
+          description: Filter by internal transaction integer ID.
+          required: false
+          schema:
+            type: integer
+        - name: from
+          in: query
+          description: Start boundary (YYYY-MM-DD) for creation date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          description: End boundary (YYYY-MM-DD) for creation date.
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Paginated refunds list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRefundsResponse'
+    post:
+      summary: Request Transaction Refund
+      description: |
+        Requests a refund (full or partial) for a completed transaction.
+        Verifies and validates that the requested refund amount does not exceed the remaining refundable balance of the original transaction.
+      operationId: requestRefund
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRefundRequest'
+      responses:
+        "201":
+          description: Refund requested and processed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundResponse'
+        "400":
+          description: Invalid refund parameters (e.g., refund amount exceeds transaction total, or transaction status is not refundable).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "422":
+          description: Missing required fields (e.g., trx_id/transaction_id is empty).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "404":
+          description: Original transaction not found under the brand scope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "500":
+          description: Internal processing failure during refund execution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+
+  /refunds/{trx_id}:
+    get:
+      summary: Retrieve Refund
+      description: |
+        Retrieves the latest refund record associated with a specific transaction, queried by the transaction's unique ID or gateway reference.
+      operationId: retrieveRefund
+      parameters:
+        - name: trx_id
+          in: path
+          required: true
+          description: The transaction identifier (OwnPay trx_id or Gateway transaction ID).
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Refund details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundResponse'
+        "422":
+          description: Transaction reference missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "404":
+          description: Transaction not found, or no refund records exist for this transaction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+
+  /customers:
+    get:
+      summary: List Customers
+      description: |
+        Retrieves a paginated list of customer records for the active brand.
+        PII values (name, email, phone) are securely processed. Masked helper fields are provided for general display lists.
+      operationId: listCustomers
+      parameters:
+        - name: page
+          in: query
+          description: Page number to retrieve.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: per_page
+          in: query
+          description: Records per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 25
+      responses:
+        "200":
+          description: Paginated customers list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomersResponse'
+    post:
+      summary: Create Customer
+      description: |
+        Creates a new customer profile under the active brand. Checks for email uniqueness under this brand scope,
+        and encrypts PII values at rest for GDPR and OWASP compliance.
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerRequest'
+      responses:
+        "201":
+          description: Customer record created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCustomerResponse'
+        "409":
+          description: A customer with this email already exists under this brand.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "422":
+          description: Validation failure (e.g. missing name).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorsResponse'
+        "500":
+          description: Server error occurred during encryption or database operations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+
+  /customers/{identifier}:
+    get:
+      summary: Retrieve Customer
+      description: |
+        Looks up a customer profile by an identifier (email address or phone number).
+        The controller auto-detects the type: if the identifier contains '@', it searches by email hash; otherwise, it searches by phone number hash.
+        On success, returns the fully decrypted PII details of the customer.
+      operationId: retrieveCustomer
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          description: The URL-encoded email address or phone number of the customer.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Customer decrypted details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDetailsResponse'
+        "422":
+          description: Identifier was empty or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "404":
+          description: Customer not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+
+  /api-keys:
+    get:
+      summary: List API Keys
+      description: |
+        Lists metadata for all API keys created for the brand. Full key secrets are hashed and never returned in list metadata for security.
+        **Requires special admin authorization**: API key must possess `write` and `admin` scopes, and the `X-Super-Admin-Email` header
+        must identify an active superadmin user.
+      operationId: listApiKeys
+      parameters:
+        - name: X-Super-Admin-Email
+          in: header
+          required: true
+          description: Email of an active platform super-administrator.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: API key metadata objects list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeysListResponse'
+        "400":
+          description: Missing superadmin email header.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "401":
+          description: Unauthorized request (e.g. missing API key).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "403":
+          description: Insufficient privileges (key lacks scopes or email is not an active superadmin).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+    post:
+      summary: Generate API Key
+      description: |
+        Generates a new API key for the active brand. Displays the generated plain key exactly once.
+        **Requires special admin authorization**: API key must possess `write` and `admin` scopes, and the `X-Super-Admin-Email` header
+        must identify an active superadmin user.
+      operationId: generateApiKey
+      parameters:
+        - name: X-Super-Admin-Email
+          in: header
+          required: true
+          description: Email of an active platform super-administrator.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateApiKeyRequest'
+      responses:
+        "201":
+          description: API key generated successfully. Plain key secret is returned in the response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateApiKeyResponse'
+        "422":
+          description: Invalid key scopes requested.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorsResponse'
+        "400":
+          description: Missing superadmin email header.
+        "403":
+          description: Insufficient privileges.
+
+  /api-keys/{id}:
+    delete:
+      summary: Revoke API Key
+      description: |
+        Revokes an API key, rendering it immediately inactive.
+        **Requires special admin authorization**: API key must possess `write` and `admin` scopes, and the `X-Super-Admin-Email` header
+        must identify an active superadmin.
+      operationId: revokeApiKey
+      parameters:
+        - name: X-Super-Admin-Email
+          in: header
+          required: true
+          description: Email of an active platform super-administrator.
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          description: The integer ID of the API key to revoke.
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Key revoked successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        "404":
+          description: API key not found or belongs to another merchant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+        "400":
+          description: Revocation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+
+  /webhooks/tests:
+    post:
+      summary: Dispatch Test Webhook
+      description: |
+        Triggers a test webhook payload containing sample payment details and dispatches it to the configured brand webhook/callback URL.
+      operationId: testWebhookDispatch
+      responses:
+        "200":
+          description: Webhook dispatch completed. The response details the destination status code.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookTestResponse'
+        "400":
+          description: Webhook dispatch failed (e.g. connection timeout or DNS resolution failure).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSingleErrorResponse'
+
+  /webhooks/deliveries:
+    get:
+      summary: Webhook Delivery Log
+      description: |
+        Retrieves the 50 most recent webhook delivery attempts logged for this brand. Useful for auditing and debugging integrations.
+      operationId: listWebhookDeliveries
+      responses:
+        "200":
+          description: Webhook delivery logs array retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookDeliveriesResponse'
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Provide the Bearer API Key generated for your brand.
+  schemas:
+    HealthCheckResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [healthy, degraded]
+              example: healthy
+            version:
+              type: string
+              example: 0.1.0
+            db:
+              type: string
+              enum: [connected, error]
+              example: connected
+            mobile:
+              type: object
+              properties:
+                connected:
+                  type: boolean
+                  description: True if at least one paired device heartbeat was recorded within 10 minutes.
+                  example: true
+                active_devices:
+                  type: integer
+                  description: Total count of active paired companion devices under status active.
+                  example: 2
+            gateways:
+              type: integer
+              description: Count of active payment gateways configured.
+              example: 3
+            customers:
+              type: integer
+              description: Total customers registered.
+              example: 142
+            time:
+              type: string
+              format: date-time
+              example: "2026-06-23T14:15:45Z"
+
+    InitiatePaymentRequest:
+      type: object
+      required:
+        - amount
+        - currency
+      properties:
+        amount:
+          type: string
+          description: Positive numeric string representing the transaction volume (2 decimal places).
+          example: "500.00"
+        currency:
+          type: string
+          description: 3-letter ISO currency code. Must be registered and supported by the platform (e.g. BDT, USD).
+          example: "BDT"
+        callback_url:
+          type: string
+          format: uri
+          description: Webhook payload URL where transaction completion callbacks are POSTed. Must use HTTP or HTTPS.
+          example: "https://my-store.com/webhooks/ownpay"
+        redirect_url:
+          type: string
+          format: uri
+          description: Redirection target URL where the user is returned after a successful checkout session.
+          example: "https://my-store.com/checkout/success"
+        cancel_url:
+          type: string
+          format: uri
+          description: Redirection target URL where the user is returned if they cancel the payment session.
+          example: "https://my-store.com/checkout/cancel"
+        customer_email:
+          type: string
+          format: email
+          description: Customer email address. Used for identity verification and mapping.
+          example: "customer@example.com"
+        customer_name:
+          type: string
+          description: Customer full name (max 150 characters).
+          example: "John Doe"
+        customer_phone:
+          type: string
+          description: Customer phone number (max 30 characters).
+          example: "+8801700000000"
+        reference:
+          type: string
+          description: Internal order reference or invoice identifier.
+          example: "INV-10029"
+        gateway:
+          type: string
+          description: Request routing through a specific payment gateway slug (optional).
+          example: "bkash-merchant"
+        metadata:
+          type: object
+          description: Key-value map for merchant custom details.
+          example:
+            store_id: "dhaka-branch"
+            item_categories: ["electronics", "peripherals"]
+
+    InitiatePaymentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            payment_id:
+              type: string
+              format: uuid
+              description: Unique UUID identifier of the generated payment intent.
+              example: "a810b445-564a-4e20-80a5-f1261d7b328a"
+            token:
+              type: string
+              description: Short-lived payment checkout token string.
+              example: "tok_4821a8f902bd3f46"
+            checkout_url:
+              type: string
+              format: uri
+              description: Secure white-labeled URL redirection target to launch the user payment screen.
+              example: "https://ownpay.org/checkout/tok_4821a8f902bd3f46"
+            status:
+              type: string
+              example: "created"
+
+    PaymentDetailsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              nullable: true
+              description: Transaction primary key ID if completed, else null.
+              example: 45
+            trx_id:
+              type: string
+              nullable: true
+              description: OwnPay transaction reference string if completed, else null.
+              example: "OP-481029304"
+            gateway_trx_id:
+              type: string
+              nullable: true
+              description: Gateway provider transaction identifier reference string.
+              example: "A8K9D2J3S"
+            amount:
+              type: string
+              example: "500.00"
+            currency:
+              type: string
+              example: "BDT"
+            fee:
+              type: string
+              example: "7.50"
+            status:
+              type: string
+              example: "completed"
+            gateway:
+              type: string
+              nullable: true
+              example: "bkash"
+            method:
+              type: string
+              nullable: true
+              example: "app"
+            reference:
+              type: string
+              nullable: true
+              example: "INV-10029"
+            created_at:
+              type: string
+              format: date-time
+              example: "2026-06-23T14:15:45Z"
+            completed_at:
+              type: string
+              format: date-time
+              nullable: true
+              example: "2026-06-23T14:17:12Z"
+            customer:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "John Doe"
+                email:
+                  type: string
+                  example: "customer@example.com"
+
+    TransactionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 45
+            trx_id:
+              type: string
+              example: "OP-481029304"
+            gateway_trx_id:
+              type: string
+              nullable: true
+              example: "A8K9D2J3S"
+            amount:
+              type: string
+              example: "500.00"
+            currency:
+              type: string
+              example: "BDT"
+            fee:
+              type: string
+              example: "7.50"
+            net_amount:
+              type: string
+              nullable: true
+              example: "492.50"
+            status:
+              type: string
+              example: "completed"
+            gateway:
+              type: string
+              nullable: true
+              example: "bkash"
+            method:
+              type: string
+              nullable: true
+              example: "app"
+            reference:
+              type: string
+              nullable: true
+              example: "INV-10029"
+            created_at:
+              type: string
+              format: date-time
+              example: "2026-06-23T14:15:45Z"
+            updated_at:
+              type: string
+              format: date-time
+              nullable: true
+              example: "2026-06-23T14:17:15Z"
+
+    PaginatedTransactionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionResponse/properties/data'
+        meta:
+          type: object
+          properties:
+            page:
+              type: integer
+              example: 1
+            per_page:
+              type: integer
+              example: 25
+            total:
+              type: integer
+              example: 120
+            total_pages:
+              type: integer
+              example: 5
+
+    CreateRefundRequest:
+      type: object
+      required:
+        - trx_id
+      properties:
+        trx_id:
+          type: string
+          description: OwnPay transaction reference code (e.g. `OP-12345`) or gateway transaction ID.
+          example: "OP-481029304"
+        transaction_id:
+          type: integer
+          description: Alternative key using the internal transaction integer ID.
+          example: 45
+        amount:
+          type: string
+          description: Optional positive numeric string to issue a partial refund. If omitted, a full refund is requested.
+          example: "150.00"
+        reason:
+          type: string
+          description: Refund reason justification.
+          example: "Customer requested return"
+
+    RefundResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              nullable: true
+              example: 12
+            uuid:
+              type: string
+              nullable: true
+              format: uuid
+              example: "d2f44778-d421-4f1e-9271-70bf8e3b123a"
+            transaction_id:
+              type: integer
+              nullable: true
+              example: 45
+            trx_id:
+              type: string
+              nullable: true
+              example: "OP-481029304"
+            gateway_trx_id:
+              type: string
+              nullable: true
+              example: "A8K9D2J3S"
+            amount:
+              type: string
+              example: "150.00"
+            reason:
+              type: string
+              nullable: true
+              example: "Customer requested return"
+            status:
+              type: string
+              example: "completed"
+            processed_at:
+              type: string
+              format: date-time
+              nullable: true
+              example: "2026-06-23T14:20:00Z"
+            created_at:
+              type: string
+              format: date-time
+              example: "2026-06-23T14:19:55Z"
+
+    PaginatedRefundsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RefundResponse/properties/data'
+        meta:
+          type: object
+          properties:
+            page:
+              type: integer
+              example: 1
+            per_page:
+              type: integer
+              example: 25
+            total:
+              type: integer
+              example: 3
+            total_pages:
+              type: integer
+              example: 1
+
+    CreateCustomerRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Customer full display name.
+          example: "Alice Smith"
+        email:
+          type: string
+          format: email
+          description: Customer email. Must be unique per brand.
+          example: "alice@example.com"
+        phone:
+          type: string
+          description: Customer phone.
+          example: "+8801800000000"
+
+    CreateCustomerResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 58
+            uuid:
+              type: string
+              format: uuid
+              example: "83b9c9d2-b2f4-4df1-bc1e-b810d1c810d1"
+
+    CustomerDetailsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 58
+            uuid:
+              type: string
+              format: uuid
+              example: "83b9c9d2-b2f4-4df1-bc1e-b810d1c810d1"
+            name:
+              type: string
+              example: "Alice Smith"
+            email:
+              type: string
+              format: email
+              example: "alice@example.com"
+            phone:
+              type: string
+              example: "+8801800000000"
+            created_at:
+              type: string
+              format: date-time
+              example: "2026-06-23T14:15:45Z"
+
+    PaginatedCustomersResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 58
+              uuid:
+                type: string
+                format: uuid
+                example: "83b9c9d2-b2f4-4df1-bc1e-b810d1c810d1"
+              name:
+                type: string
+                example: "Alice Smith"
+              email:
+                type: string
+                nullable: true
+                example: "alice@example.com"
+              phone:
+                type: string
+                nullable: true
+                example: "+8801800000000"
+              email_masked:
+                type: string
+                nullable: true
+                example: "a***e@example.com"
+              phone_masked:
+                type: string
+                nullable: true
+                example: "+88018******00"
+              created_at:
+                type: string
+                format: date-time
+                example: "2026-06-23T14:15:45Z"
+        meta:
+          type: object
+          properties:
+            page:
+              type: integer
+              example: 1
+            per_page:
+              type: integer
+              example: 25
+            total:
+              type: integer
+              example: 98
+
+    GenerateApiKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Friendly identifier label for the key.
+          example: "POS-System-Integration"
+        scopes:
+          type: array
+          items:
+            type: string
+            enum: [read, write, admin]
+          default: [read, write]
+          example: [read, write]
+
+    GenerateApiKeyResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            key:
+              type: string
+              description: The full generated API key secret. You must copy and store this; it is never visible again.
+              example: "op_live_5gH2k8S3m9F0a1D2..."
+            prefix:
+              type: string
+              description: Safe prefix string used to identify the key in reports.
+              example: "op_live_5gH2"
+            warning:
+              type: string
+              example: "Store this key securely. It cannot be retrieved again."
+
+    ApiKeysListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 4
+              name:
+                type: string
+                example: "POS-System-Integration"
+              prefix:
+                type: string
+                example: "op_live_5gH2"
+              status:
+                type: string
+                example: "active"
+              last_used:
+                type: string
+                format: date-time
+                nullable: true
+                example: "2026-06-23T14:18:22Z"
+              expires_at:
+                type: string
+                format: date-time
+                nullable: true
+                example: null
+              created_at:
+                type: string
+                format: date-time
+                example: "2026-06-21T09:00:00Z"
+
+    WebhookTestResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            status_code:
+              type: integer
+              nullable: true
+              description: HTTP response status code received from the merchant endpoint (e.g. 200).
+              example: 200
+            response_time_ms:
+              type: integer
+              nullable: true
+              description: Roundtrip latency of the dispatch in milliseconds.
+              example: 245
+
+    WebhookDeliveriesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1024
+              transaction_id:
+                type: integer
+                example: 45
+              event:
+                type: string
+                example: "payment.completed"
+              url:
+                type: string
+                format: uri
+                example: "https://my-store.com/webhooks/ownpay"
+              payload:
+                type: string
+                description: JSON string payload containing notification data.
+                example: '{"event":"payment.completed","data":{"trx_id":"OP-481029304","amount":"500.00"}}'
+              response_status:
+                type: integer
+                example: 200
+              response_body:
+                type: string
+                example: "OK"
+              attempts:
+                type: integer
+                example: 1
+              status:
+                type: string
+                example: "success"
+              created_at:
+                type: string
+                format: date-time
+                example: "2026-06-23T14:17:15Z"
+
+    MessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Key revoked"
+
+    ApiSingleErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          example: "Payment not found"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: "PAYMENT_NOT_FOUND"
+              message:
+                type: string
+                example: "Payment not found"
+              field:
+                type: string
+                nullable: true
+                example: null
+        request_id:
+          type: string
+          example: "8f5a2e9b0c7d4e5f"
+
+    ApiErrorsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          example: "amount must be a positive number"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: "INVALID_AMOUNT"
+              message:
+                type: string
+                example: "amount must be a positive number"
+              field:
+                type: string
+                example: "amount"
+        request_id:
+          type: string
+          example: "8f5a2e9b0c7d4e5f"

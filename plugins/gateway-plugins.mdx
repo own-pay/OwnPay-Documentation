@@ -1,0 +1,188 @@
+---
+title: "Gateway plugins"
+description: "Build payment gateway plugins"
+---
+
+Gateway plugins add new payment methods to OwnPay. This guide covers building a custom gateway plugin.
+
+## Gateway adapter interface
+
+All gateway plugins must implement `GatewayAdapterInterface`:
+
+```php
+interface GatewayAdapterInterface
+{
+    public function initiatePayment(array $data): array;
+    public function handleCallback(array $payload): array;
+    public function refund(array $data): array;
+    public function supportedCurrencies(): array;
+}
+```
+
+## Required methods
+
+### initiatePayment
+
+Called when a customer starts a payment:
+
+```php
+public function initiatePayment(array $data): array
+{
+    // $data contains: amount, currency, description, customer, metadata
+    
+    // Call your gateway API
+    $response = $this->api->createPayment([
+        'amount' => $data['amount'],
+        'currency' => $data['currency'],
+    ]);
+    
+    return [
+        'success' => true,
+        'checkout_url' => $response['redirect_url'],
+        'transaction_id' => $response['id'],
+    ];
+}
+```
+
+### handleCallback
+
+Process incoming webhook/callback from your gateway:
+
+```php
+public function handleCallback(array $payload): array
+{
+    // Verify the webhook signature
+    if (!$this->verifySignature($payload)) {
+        throw new \InvalidArgumentException('Invalid signature');
+    }
+    
+    // Determine status
+    $status = match ($payload['status']) {
+        'succeeded' => 'completed',
+        'failed' => 'failed',
+        default => 'pending',
+    };
+    
+    return [
+        'status' => $status,
+        'transaction_id' => $payload['id'],
+        'amount' => $payload['amount'],
+    ];
+}
+```
+
+### refund
+
+Process a refund through your gateway:
+
+```php
+public function refund(array $data): array
+{
+    $response = $this->api->createRefund([
+        'payment_id' => $data['provider_trx_id'],
+        'amount' => $data['amount'],
+    ]);
+    
+    return [
+        'success' => true,
+        'refund_id' => $response['id'],
+    ];
+}
+```
+
+### supportedCurrencies
+
+Declare which currencies your gateway supports:
+
+```php
+public function supportedCurrencies(): array
+{
+    return ['USD', 'EUR', 'GBP']; // Empty array = any currency
+}
+```
+
+## Complete example
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace OwnPay\Gateways\Stripe;
+
+use OwnPay\Gateway\GatewayAdapterInterface;
+
+class StripeGateway implements GatewayAdapterInterface
+{
+    private string $secretKey;
+    
+    public function __construct()
+    {
+        $this->secretKey = Plugin::config('stripe')['secret_key'];
+    }
+    
+    public function initiatePayment(array $data): array
+    {
+        $stripe = new \Stripe\StripeClient($this->secretKey);
+        
+        $session = $stripe->checkout->sessions->create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => strtolower($data['currency']),
+                    'unit_amount' => (int)($data['amount'] * 100),
+                    'product_data' => ['name' => $data['description']],
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => $data['metadata']['success_url'],
+            'cancel_url' => $data['metadata']['cancel_url'],
+        ]);
+        
+        return [
+            'success' => true,
+            'checkout_url' => $session->url,
+            'transaction_id' => $session->id,
+        ];
+    }
+    
+    public function handleCallback(array $payload): array
+    {
+        $status = match ($payload['type']) {
+            'checkout.session.completed' => 'completed',
+            'payment_intent.payment_failed' => 'failed',
+            default => 'pending',
+        };
+        
+        return [
+            'status' => $status,
+            'transaction_id' => $payload['data']['object']['id'],
+        ];
+    }
+    
+    public function refund(array $data): array
+    {
+        $stripe = new \Stripe\StripeClient($this->secretKey);
+        
+        $refund = $stripe->refunds->create([
+            'payment_intent' => $data['provider_trx_id'],
+            'amount' => (int)($data['amount'] * 100),
+        ]);
+        
+        return ['success' => true, 'refund_id' => $refund->id];
+    }
+    
+    public function supportedCurrencies(): array
+    {
+        return []; // Stripe supports 135+ currencies
+    }
+}
+```
+
+## Testing gateway plugins
+
+1. Create a test mode configuration
+2. Use the gateway's test/sandbox credentials
+3. Test payment initiation, callbacks, and refunds
+4. Verify error handling for declined payments
+5. Test webhook signature verification

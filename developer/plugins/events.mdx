@@ -1,0 +1,176 @@
+---
+title: "Event System"
+description: "OwnPay's event-driven plugin architecture"
+---
+
+OwnPay's plugin system is built around a central event bus implemented in `OwnPay\Event\EventManager`. It provides two hook types - **actions** (fire-and-forget) and **filters** (pipeline mutation) - that allow plugins to extend and customise core behaviour without modifying any core files.
+
+## Hook types
+
+### Actions
+
+Actions are fire-and-forget. The core fires an action at a defined point in execution; any listener registered on that hook runs. The return value is discarded.
+
+```php
+Core fires: $events->doAction('payment.transaction.completed', $txn)
+     |
+Plugin listens: $events->addAction('payment.transaction.completed', function (array $txn): void { ... })
+```
+
+**Use actions to**: send notifications, write logs, update external systems, enqueue background jobs.
+
+### Filters
+
+Filters pass a value through a pipeline of listeners. Each listener receives the current value, may transform it, and must return the (possibly modified) value.
+
+```php
+Core calls: $amount = $events->applyFilter('payment.amount.calculate', $amount, $context)
+     |
+Plugin modifies: $events->addFilter('payment.amount.calculate', function (string $amount, array $ctx): string {
+    return bcadd($amount, '1.00', 2); // adds a $1.00 surcharge
+})
+```
+
+**Use filters to**: modify data before it is saved or sent, override templates, augment context arrays, intercept and validate inputs.
+
+## API reference
+
+### `addAction(string $hook, callable $callback, int $priority = 10): void`
+
+Registers a callback on an action hook.
+
+```php
+$events->addAction('payment.transaction.completed', [$this, 'onPaymentCompleted'], priority: 10);
+```
+
+### `doAction(string $hook, mixed ...$args): void`
+
+Fires an action hook. Called by the core, not by plugins.
+
+### `addFilter(string $hook, callable $callback, int $priority = 10): void`
+
+Registers a callback on a filter hook.
+
+```php
+$events->addFilter('payment.fee.calculate', function (string $fee, array $ctx): string {
+    return $fee;
+}, priority: 20);
+```
+
+### `applyFilter(string $hook, mixed $value, mixed ...$args): mixed`
+
+Applies a filter pipeline. Called by the core, not by plugins.
+
+### `removeAction(string $hook, callable $callback): bool`
+
+Removes a previously registered action callback.
+
+### `removeFilter(string $hook, callable $callback): bool`
+
+Removes a previously registered filter callback.
+
+### `removeHook(string $hook): void`
+
+Removes all actions and filters registered on a hook name.
+
+### `removeByOwner(string $owner): void`
+
+Removes all hooks registered by a specific plugin slug.
+
+### `hasAction(string $hook): bool`
+
+Returns true if at least one action listener is registered.
+
+### `hasFilter(string $hook): bool`
+
+Returns true if at least one filter listener is registered.
+
+### `getFireCount(string $hook): int`
+
+Returns how many times a hook has been fired in the current request lifecycle.
+
+### `getActiveOwner(): string`
+
+Returns the slug of the plugin currently executing, or `'core'` if outside a hook.
+
+### `getRegisteredHooks(): array`
+
+Returns a sorted map of every registered hook and its listener counts.
+
+### `inspectHook(string $hook): array`
+
+Returns the full listener list for a hook, sorted by priority.
+
+## Execution model
+
+### Owner attribution and brand-context scoping
+
+When `PluginLoader` calls `PluginInterface::register()`, it wraps the call with `events->pushOwner($slug)` and `events->popOwner()`. Every `addAction()` or `addFilter()` call made during `register()` is automatically attributed to the plugin's slug.
+
+At dispatch time, the `EventManager` calls `isOwnerActive($owner)` before invoking each listener. If the plugin is not active for the current brand, the listener is silently skipped.
+
+### Error isolation
+
+Every listener invocation is wrapped in a `try/catch(\Throwable)`. If a plugin listener throws any exception, the `EventManager` logs the error and continues to the next listener without crashing.
+
+### Re-entrancy guard
+
+`EventManager` includes a `resolvingOwnerActive` boolean guard to prevent infinite recursion.
+
+## Practical patterns
+
+### Listening to a payment and sending an HTTP request
+
+```php
+public function register(EventManager $events, Container $container): void
+{
+    $events->addAction('payment.transaction.completed', function (array $txn) use ($container): void {
+        $settings = $container->get(\OwnPay\Repository\SettingsRepository::class);
+        $webhookUrl = $settings->get('plugin.my-plugin', 'webhook_url') ?? '';
+        if ($webhookUrl === '') {
+            return;
+        }
+
+        $payload = json_encode([
+            'event'    => 'payment.completed',
+            'trx_id'   => $txn['trx_id'] ?? '',
+            'amount'   => $txn['amount'] ?? '',
+            'currency' => $txn['currency'] ?? '',
+        ]);
+
+        $ch = curl_init($webhookUrl);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 5,
+            CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+            CURLOPT_POSTFIELDS     => $payload,
+        ]);
+        curl_exec($ch);
+        curl_close($ch);
+    }, priority: 15);
+}
+```
+
+### Injecting a custom fee tier
+
+```php
+$events->addFilter('payment.fee.calculate', function (string $fee, array $context): string {
+    if (bccomp($context['amount'] ?? '0', '50000.00', 2) >= 0) {
+        return '0.00';
+    }
+    return $fee;
+}, priority: 5);
+```
+
+### Blocking a login from a specific IP
+
+```php
+$events->addFilter('auth.login.before', function (bool $allowed, string $email, string $ip): bool {
+    $blocklist = ['192.168.1.100', '10.0.0.55'];
+    if (in_array($ip, $blocklist, true)) {
+        return false;
+    }
+    return $allowed;
+});
+```

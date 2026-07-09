@@ -1,0 +1,242 @@
+---
+title: "REST API Integration"
+description: "OwnPay Merchant REST API reference"
+---
+
+The OwnPay Merchant API lets you programmatically initiate payments, query transactions, issue refunds, manage customers, and manage API keys.
+
+> Full interactive reference: [docs.ownpay.org](https://docs.ownpay.org)
+
+## Base URL
+
+The API is served from your brand's own custom domain:
+
+```
+https://{your_brand_domain}/api/v1
+```
+
+Every brand gets its own isolated API endpoint.
+
+## Authentication
+
+All endpoints require a **Bearer API key** in the `Authorization` header:
+
+```
+Authorization: Bearer op.xxxxxxxxxxxxx
+```
+
+API keys carry scopes - `read`, `write`, and `admin`.
+
+**Get your API key:** Admin Panel > Developer Hub > API Keys > Generate
+
+<Warning>
+API keys are shown **once** at creation. Store them in a secrets manager immediately.
+</Warning>
+
+## Response format
+
+All responses are JSON:
+
+```json
+{
+  "success": true,
+  "data": { ... }
+}
+```
+
+Error responses:
+
+```json
+{
+  "success": false,
+  "error": "amount must be a positive number",
+  "errors": [
+    {
+      "code": "INVALID_AMOUNT",
+      "message": "amount must be a positive number",
+      "field": "amount"
+    }
+  ]
+}
+```
+
+## HTTP status codes
+
+| Code | Meaning |
+|------|---------|
+| 200 | OK |
+| 201 | Created |
+| 400 | Bad request / business rule violation |
+| 401 | Missing or invalid API key |
+| 403 | Insufficient scope / permission |
+| 404 | Resource not found |
+| 409 | Conflict (e.g., duplicate email) |
+| 422 | Validation failure |
+| 500 | Server error |
+
+## Endpoints
+
+### Health check
+
+```
+GET /health
+```
+
+Returns system status. No authentication required.
+
+### Payments
+
+#### Initiate payment intent
+
+```
+POST /payments
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `amount` | string | Yes | Positive numeric string, 2 decimal places |
+| `currency` | string | Yes | ISO 4217 code |
+| `callback_url` | string (URI) | No | Webhook URL for payment completion |
+| `redirect_url` | string (URI) | No | Where to send customer after success |
+| `cancel_url` | string (URI) | No | Where to send customer if cancelled |
+| `customer_email` | string | No | Customer email |
+| `customer_name` | string | No | Customer full name |
+| `reference` | string | No | Your internal order/invoice ID |
+| `gateway` | string | No | Route to a specific gateway slug |
+| `metadata` | object | No | Arbitrary key-value map |
+
+#### Retrieve payment details
+
+```
+GET /payments/{payment_id}
+```
+
+### Transactions
+
+#### List transactions
+
+```
+GET /transactions?page=1&per_page=25&status=completed&from=2026-06-01&to=2026-06-30
+```
+
+#### Retrieve transaction
+
+```
+GET /transactions/{trx_id}
+```
+
+### Refunds
+
+#### List refunds
+
+```
+GET /refunds
+```
+
+#### Request refund
+
+```
+POST /refunds
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `trx_id` | string | Yes | OwnPay transaction reference |
+| `amount` | string | No | Partial refund amount (omit for full) |
+| `reason` | string | No | Reason for the refund |
+
+### Customers
+
+#### List customers
+
+```
+GET /customers?page=1&per_page=25
+```
+
+#### Create customer
+
+```
+POST /customers
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Customer full name |
+| `email` | string | No | Must be unique per brand |
+| `phone` | string | No | Customer phone number |
+
+#### Retrieve customer
+
+```
+GET /customers/{identifier}
+```
+
+Looks up by email address or phone number (URL-encoded).
+
+### API keys
+
+> Requires `write` + `admin` scopes
+
+#### List API keys
+
+```
+GET /api-keys
+```
+
+#### Generate API key
+
+```
+POST /api-keys
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | Friendly label for the key |
+| `scopes` | string[] | `["read"]`, `["read","write"]`, or `["read","write","admin"]` |
+
+#### Revoke API key
+
+```
+DELETE /api-keys/{id}
+```
+
+### Webhooks
+
+#### Dispatch test webhook
+
+```
+POST /webhooks/tests
+```
+
+#### Webhook delivery log
+
+```
+GET /webhooks/deliveries
+```
+
+## Quick reference
+
+| Endpoint | Method | Scope |
+|----------|--------|-------|
+| `GET /health` | System health | None |
+| `POST /payments` | Initiate payment | `write` |
+| `GET /payments/{id}` | Payment details | `read` |
+| `GET /transactions` | List transactions | `read` |
+| `GET /transactions/{id}` | Single transaction | `read` |
+| `GET /refunds` | List refunds | `read` |
+| `POST /refunds` | Request refund | `write` |
+| `GET /customers` | List customers | `read` |
+| `POST /customers` | Create customer | `write` |
+| `GET /customers/{id}` | Customer details | `read` |
+| `GET /api-keys` | List keys | `write` + `admin` |
+| `POST /api-keys` | Generate key | `write` + `admin` |
+| `DELETE /api-keys/{id}` | Revoke key | `write` + `admin` |
+| `POST /webhooks/tests` | Test webhook | `write` |
+| `GET /webhooks/deliveries` | Delivery log | `read` |
+
+## See Also
+
+- [PHP SDK Integration](/developer/integration/php)
+- [Node.js SDK Integration](/developer/integration/nodejs)
+- [WordPress WooCommerce](/developer/integration/woocommerce)
+- [Webhooks Setup](/developer/webhooks)

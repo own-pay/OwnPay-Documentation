@@ -1,0 +1,209 @@
+---
+title: "Addon Plugin Development Guide"
+description: "Build general-purpose extension plugins for OwnPay"
+---
+
+Addons are the general-purpose extension type in OwnPay. Unlike gateways (which implement `GatewayAdapterInterface`) or themes (which override checkout templates), addons extend the platform through event hooks, custom HTTP routes, cron jobs, admin menu entries, and database-backed functionality.
+
+## How addon plugins work
+
+`PluginLoader::loadActive()` scans `modules/addons/`, validates each `manifest.json`, token-scans all PHP files, and calls the two-phase lifecycle:
+
+1. **`register(EventManager $events, Container $container)`** - called during boot phase. All hook and filter registrations are attributed to the plugin slug.
+2. **`boot(Container $container)`** - called after all plugins have registered. Use this phase to capture container services.
+
+## Directory structure
+
+```
+modules/addons/my-addon/
++-- manifest.json           # Required. Plugin metadata.
++-- Plugin.php              # Required. Entrypoint class implementing PluginInterface.
++-- Service/                # Optional. Additional autoloaded classes.
++-- Cron/                   # Optional. Cron job classes.
++-- migrations/             # Optional. SQL files run on activation.
++-- assets/                 # Optional. CSS/JS for admin pages.
+```
+
+## The manifest.json file
+
+```json
+{
+    "name": "Example Kit",
+    "slug": "example-kit",
+    "version": "1.0.0",
+    "description": "Reference addon exercising multi-file classes, routes, cron, admin menu, and hooks.",
+    "author": "OwnPay Core",
+    "type": "addon",
+    "entrypoint": "Plugin.php",
+    "namespace": "OwnPay\\Modules\\Addons\\ExampleKit",
+    "capabilities": ["addon", "hooks", "cron"],
+    "requires": { "core": ">=0.1.0" },
+    "routes": [
+        ["GET", "/plugins/example-kit/ping", "ping"],
+        ["GET", "/admin/example-kit", "adminHome", "admin"]
+    ],
+    "cron": [
+        {
+            "name": "heartbeat",
+            "schedule": "every_5min",
+            "class": "OwnPay\\Modules\\Addons\\ExampleKit\\Cron\\HeartbeatJob"
+        }
+    ],
+    "admin_menu": [
+        { "label": "Example Kit", "url": "/admin/example-kit" }
+    ]
+}
+```
+
+## The entrypoint class
+
+The entrypoint must implement `OwnPay\Plugin\PluginInterface`:
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace OwnPay\Modules\Addons\MyAddon;
+
+use OwnPay\Container;
+use OwnPay\Event\EventManager;
+use OwnPay\Plugin\Capability;
+use OwnPay\Plugin\PluginInterface;
+
+final class Plugin implements PluginInterface
+{
+    private ?Container $container = null;
+
+    public static function metadata(): array
+    {
+        return [
+            'name'        => 'My Addon',
+            'slug'        => 'my-addon',
+            'version'     => '1.0.0',
+            'description' => 'Describes what this addon does.',
+            'author'      => 'Your Name',
+            'type'        => 'addon',
+        ];
+    }
+
+    public function capabilities(): array
+    {
+        return [Capability::ADDON, Capability::HOOKS];
+    }
+
+    public function register(EventManager $events, Container $container): void
+    {
+        $events->addAction('payment.transaction.completed', [$this, 'onPaymentCompleted'], priority: 10);
+    }
+
+    public function boot(Container $container): void
+    {
+        $this->container = $container;
+    }
+
+    public function deactivate(Container $container): void {}
+
+    public function uninstall(Container $container): void {}
+
+    public function fields(): array
+    {
+        return [
+            [
+                'name'    => 'api_url',
+                'label'   => 'API Endpoint',
+                'type'    => 'text',
+                'default' => 'https://api.example.com',
+            ],
+            [
+                'name'    => 'api_key',
+                'label'   => 'API Key',
+                'type'    => 'password',
+                'default' => '',
+            ],
+        ];
+    }
+
+    public function onPaymentCompleted(array $txn): void
+    {
+        // Handle the payment event
+    }
+}
+```
+
+## Accessing core services
+
+Plugins are not wired into the DI container automatically. Resolve services manually from the `$container` argument:
+
+```php
+public function boot(Container $container): void
+{
+    $this->container = $container;
+}
+
+private function getSettings(): \OwnPay\Repository\SettingsRepository
+{
+    return $this->container->get(\OwnPay\Repository\SettingsRepository::class);
+}
+```
+
+## Routes
+
+Routes declared in `manifest.json` under the `routes` array are registered into the core router:
+
+```json
+["METHOD", "/path", "handlerMethod", "middlewareGroup"]
+```
+
+| Position | Value | Notes |
+|---|---|---|
+| 0 | HTTP method | `GET`, `POST`, `PUT`, `DELETE`, `PATCH` |
+| 1 | URL path | Must start with `/` |
+| 2 | Handler method | A public method name on your entrypoint class |
+| 3 | Middleware group | Optional. `"admin"` requires authentication |
+
+## Cron jobs
+
+Declare scheduled jobs in `manifest.json` under the `cron` array:
+
+```json
+"cron": [
+    {
+        "name": "sync",
+        "schedule": "every_5min",
+        "class": "OwnPay\\Modules\\Addons\\MyAddon\\Cron\\SyncJob"
+    }
+]
+```
+
+Supported schedules: `every_minute`, `every_5min`, `every_15min`, `every_30min`, `hourly`, `every_6hours`, `daily`, `weekly`.
+
+## Admin menu entries
+
+```json
+"admin_menu": [
+    { "label": "My Addon", "url": "/admin/my-addon" }
+]
+```
+
+## Database migrations
+
+Create a `migrations/` directory with `.sql` files. Plugin tables must be prefixed `op_plugin_`.
+
+## Security requirements
+
+- No `eval()` or OS commands
+- No direct `op_*` table access
+- Escape all output
+- Use parameterized queries
+- Respect tenant isolation
+
+## Checklist
+
+- `manifest.json` complete; `slug` matches directory name
+- Entrypoint implements `PluginInterface` with all six methods
+- All hooks registered inside `register()`
+- `uninstall()` drops any `op_plugin_` tables
+- Plugin tables named `op_plugin_{slug}_*`
+- Admin routes use the `"admin"` middleware group
+- Cron jobs implement `CronJobInterface`
+- No `eval()`, `exec()`, `shell_exec()`

@@ -1,0 +1,59 @@
+---
+title: "Double-entry ledger"
+description: "Bulletproof financial audit readiness with balanced journal entries"
+---
+
+OwnPay uses a double-entry ledger bookkeeping engine for bulletproof financial audit readiness. All payments, fees, and transfers are recorded using balanced debits and credits.
+
+## Ledger tables
+
+- `op_ledger_accounts` - Account definitions (Cash, Merchant Payable, Platform Fee Revenue)
+- `op_ledger_transactions` - Journal entries linking to payment events
+- `op_ledger_entries` - Individual debit and credit line items
+
+## Journal balance constraint
+
+Every ledger entry must post balanced debits and credits. The system validates using `bccomp()` at 4-decimal precision and throws `InvalidArgumentException` on unbalanced journals.
+
+## Account directionality
+
+Balances adjust according to standard GAAP accounting rules:
+
+| Account Type | Debits | Credits |
+|-------------|--------|---------|
+| Asset / Expense | Increase (+) | Decrease (-) |
+| Liability / Equity / Revenue | Decrease (-) | Increase (+) |
+
+## Brand isolation
+
+Ledger accounts are strictly bound to a brand/merchant context:
+
+```php
+$account = $ledgerRepo->findOrCreateAccount($name, $type, $currency, $merchantId);
+```
+
+## Double-post prevention
+
+The system uses `SELECT ... FOR UPDATE` on `(merchant_id, reference_type, reference_id, description)` to guard against double-posting.
+
+## Reconciliation
+
+### Daily reconciliation
+
+1. Compare OwnPay transactions with gateway
+2. Verify amounts match
+3. Check for discrepancies
+4. Report any mismatches
+
+### Reconciliation tool
+
+```bash
+php public/index.php admin/reconcile --merchant=YOUR_MERCHANT_ID
+```
+
+## Best practices
+
+- Never manually modify `op_ledger_accounts.balance`
+- Always go through `LedgerService` for ledger operations
+- Run daily balance verification checks
+- Monitor the `BalanceVerificationJob` alerts

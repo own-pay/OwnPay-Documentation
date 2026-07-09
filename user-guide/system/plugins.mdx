@@ -1,0 +1,57 @@
+---
+title: "Plugins"
+description: "Manage modular platform extensions, install custom addons, and toggle gateway services"
+---
+
+The Plugins manager allows administrators to extend OwnPay's core capabilities. Extensions are packaged as plugins and are grouped into three categories: **Gateways** (API connectors), **Addons** (additional platform features), and **Themes** (layout designs).
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard as the super-administrator
+2. Under the **SYSTEM** section in the left sidebar, click **Plugins**
+
+## Page sections
+
+### 1. Plugin category tabs
+
+- **All:** Shows all plugins on the server
+- **Gateways:** Lists only payment processor connectors
+- **Addons:** Displays helper integrations (`mail-gateway`, `sms-gateway`, `telegram-bot`)
+- **Themes:** Shows visual templates
+- **Trash:** Displays uninstalled plugins queued for deletion
+
+### 2. Search and filter bar
+
+- **Search Textbox:** Locate plugins by name or slug
+- **Status Dropdown:** Filter by `Active`, `Inactive`, or `Not Installed` status states
+
+### 3. Plugin profile cards
+
+Each card displays:
+- **Branding Icon:** Visual logo of the extension
+- **Details:** Extension name, type tag, version, and description
+- **Controls:** Click **Install & Activate** (or **Deactivate** if active) to modify execution states
+
+### 4. Upload plugin wizard
+
+Located by clicking the **Upload Plugin** link in the header. Allows developers to upload a custom packaged `.zip` plugin file directly to the server.
+
+## Step-by-step: installing and activating a plugin
+
+1. Navigate to the **Plugins** manager
+2. Search or browse to locate the extension (e.g., **Telegram Bot**)
+3. Click the **Install & Activate** button
+4. The system will extract the package, run configuration migrations, and change the status
+
+## Best practices
+
+- Deactivate plugins you are not using to improve system performance
+- Check for version compatibility in the manifest description before uploading manual updates
+- Do not upload zip archives from untrusted sources, as plugins run with administrative permissions
+- Do not rename plugin folder directories directly via FTP/file manager
+
+## Related pages
+
+- [Payment Gateways](/user-guide/gateways/gateways) - Configure credentials for activated gateways
+- [Themes](/user-guide/appearance/themes) - Manage active visual styles
+- [System Update](/user-guide/system/system-update) - Upload master platform core updates

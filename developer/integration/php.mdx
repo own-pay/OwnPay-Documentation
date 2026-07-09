@@ -1,0 +1,188 @@
+---
+title: "PHP Integration"
+description: "Integrate OwnPay into a PHP 8.3+ application"
+---
+
+This guide shows how to integrate OwnPay into a PHP 8.3+ application using the native HTTP client (`file_get_contents` + stream contexts) or cURL. No Composer package is required.
+
+## Prerequisites
+
+- PHP 8.3 or higher
+- `allow_url_fopen = On` in `php.ini` (for stream-based requests), **or** the `curl` extension enabled
+- An OwnPay API key from Admin > Developer Hub
+
+## Basic API client
+
+```php
+<?php
+
+declare(strict_types=1);
+
+class OwnPayClient
+{
+    private string $baseUrl;
+    private string $apiKey;
+
+    public function __construct(string $baseUrl, string $apiKey)
+    {
+        $this->baseUrl = rtrim($baseUrl, '/') . '/api/v1';
+        $this->apiKey  = $apiKey;
+    }
+
+    public function post(string $endpoint, array $body): array
+    {
+        return $this->request('POST', $endpoint, $body);
+    }
+
+    public function get(string $endpoint): array
+    {
+        return $this->request('GET', $endpoint);
+    }
+
+    private function request(string $method, string $endpoint, ?array $body = null): array
+    {
+        $url     = $this->baseUrl . '/' . ltrim($endpoint, '/');
+        $payload = $body !== null ? json_encode($body, JSON_THROW_ON_ERROR) : null;
+
+        $context = stream_context_create([
+            'http' => [
+                'method'        => $method,
+                'header'        => implode("\r\n", [
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                    'Authorization: Bearer ' . $this->apiKey,
+                ]),
+                'content'       => $payload,
+                'ignore_errors' => true,
+                'timeout'       => 15,
+            ],
+        ]);
+
+        $raw = file_get_contents($url, false, $context);
+
+        if ($raw === false) {
+            throw new RuntimeException("Request to {$url} failed");
+        }
+
+        $decoded = json_decode($raw, true, 512, JSON_THROW_ON_ERROR);
+
+        if (!($decoded['success'] ?? false)) {
+            $msg = $decoded['message'] ?? 'Unknown API error';
+            throw new RuntimeException("OwnPay API error: {$msg}");
+        }
+
+        return $decoded;
+    }
+}
+```
+
+## Creating a payment intent
+
+```php
+$client = new OwnPayClient(
+    baseUrl: 'https://pay.your-domain.com',
+    apiKey:  getenv('OWNPAY_API_KEY') ?: throw new RuntimeException('Missing OWNPAY_API_KEY'),
+);
+
+$response = $client->post('payment-intents', [
+    'amount'      => 1500,
+    'currency'    => 'BDT',
+    'description' => 'Order #1042',
+    'customer'    => [
+        'name'  => 'Rahim Uddin',
+        'email' => 'rahim@example.com',
+        'phone' => '+8801712345678',
+    ],
+    'metadata'    => [
+        'order_id' => '1042',
+    ],
+    'redirect_url' => 'https://your-store.com/payment/callback',
+    'cancel_url'   => 'https://your-store.com/payment/cancel',
+]);
+
+$checkoutUrl = $response['data']['checkout_url'];
+header('Location: ' . $checkoutUrl, true, 302);
+exit;
+```
+
+### Request fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `amount` | integer | Yes | Amount in minor currency units |
+| `currency` | string | Yes | ISO 4217 currency code |
+| `description` | string | No | Human-readable description |
+| `customer.name` | string | No | Customer's full name |
+| `customer.email` | string | No | Customer's email address |
+| `customer.phone` | string | No | Customer's phone number |
+| `metadata` | object | No | Arbitrary key/value pairs |
+| `redirect_url` | string | Yes | URL to redirect after successful payment |
+| `cancel_url` | string | No | URL to redirect if customer cancels |
+
+## Retrieving a payment intent
+
+```php
+$intent = $client->get('payment-intents/' . $intentId);
+$status = $intent['data']['status'];
+
+if ($status === 'paid') {
+    fulfillOrder($intent['data']['metadata']['order_id']);
+}
+```
+
+## Generating a payment link
+
+```php
+$response = $client->post('payment-links', [
+    'amount'      => 5000,
+    'currency'    => 'BDT',
+    'description' => 'Monthly subscription',
+    'expires_at'  => date('Y-m-d\TH:i:s\Z', strtotime('+7 days')),
+]);
+
+$link = $response['data']['url'];
+echo "Share this link: {$link}";
+```
+
+## Listing transactions
+
+```php
+$response = $client->get('transactions?page=1&per_page=20&status=paid');
+
+foreach ($response['data']['data'] as $tx) {
+    printf("%-36s  %-8s  %s %s\n", $tx['id'], $tx['status'], $tx['amount'], $tx['currency']);
+}
+```
+
+## Error handling
+
+```php
+try {
+    $response = $client->post('payment-intents', $payload);
+} catch (RuntimeException $e) {
+    error_log($e->getMessage());
+    http_response_code(502);
+    echo json_encode(['error' => 'Payment service temporarily unavailable']);
+    exit;
+}
+```
+
+## Environment configuration
+
+```php
+// .env (never commit this file)
+OWNPAY_BASE_URL=https://pay.your-domain.com
+OWNPAY_API_KEY=op_live_xxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+```php
+$client = new OwnPayClient(
+    baseUrl: $_ENV['OWNPAY_BASE_URL'],
+    apiKey:  $_ENV['OWNPAY_API_KEY'],
+);
+```
+
+## Next steps
+
+- [Webhook verification](/developer/webhooks) - Receive and verify payment events server-side
+- [API Reference](https://docs.ownpay.org) - Full endpoint list with schemas

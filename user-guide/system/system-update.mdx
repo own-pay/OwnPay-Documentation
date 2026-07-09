@@ -1,0 +1,62 @@
+---
+title: "System Update"
+description: "View the current platform version, check for new releases, install core system updates, and view installation history"
+---
+
+The System Update panel allows administrators to keep their OwnPay platform up to date. Keeping the platform updated ensures you have the latest features, security patches, and gateway integration fixes.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard as the super-administrator
+2. Under the **SYSTEM** section in the left sidebar, click **System Update**
+
+## Page sections
+
+### 1. Current version card
+
+Displays the currently installed and active version of the OwnPay platform (e.g., `v0.1.0`).
+
+### 2. Latest available card
+
+- If up to date: displays `Up to date` badge and **Check for Updates** button
+- If newer release found: displays the new version with **Update to v{version}** button
+
+### 3. Update history table
+
+- **Version:** The version migration path
+- **Date:** The start timestamp of the update process
+- **Status:** Badges indicating the installation outcome: `completed`, `failed`, or `running`
+- **Duration:** The time taken in seconds
+
+### 4. Settings card
+
+- **Enable Auto-Update:** Toggle checkbox to allow the system to download and apply updates automatically
+
+## Step-by-step: checking for updates manually
+
+1. Navigate to **SYSTEM > System Update**
+2. In the **Latest Available** card, click the **Check for Updates** button
+3. The platform will query the master update server
+
+## Step-by-step: installing a core update
+
+1. If an update is available, click the **Update to v{latest_version}** button
+2. Confirm the dialog
+3. The system will enter maintenance mode, download the package, verify files, backup the existing codebase, run any migrations, and reload the platform
+4. Once completed, you will be redirected to the dashboard with a success notification
+
+## Best practices
+
+- Perform a full database and filesystem backup before applying major version updates manually
+- Review the release notes or changelog before applying updates
+- Do not turn off or reload the server while an update is installing
+- Do not modify core files directly in the `src/` or `public/` folder
+
+<Warning>
+Always verify that write permissions are enabled on the `storage/` and root directories before attempting an update.
+</Warning>
+
+## Related pages
+
+- [Plugins](/user-guide/system/plugins) - Install and activate modular gateway or addon extensions
+- [System Settings](/user-guide/system/settings) - Adjust global runtime settings

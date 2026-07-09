@@ -1,0 +1,110 @@
+---
+title: "Plugin Capabilities"
+description: "Capability system for declaring what a plugin does and what platform features it interacts with"
+---
+
+OwnPay uses a capability system to declare what a plugin does and what platform features it interacts with. Capabilities are expressed as string values in `manifest.json` and mapped to the `OwnPay\Plugin\Capability` backed PHP enum.
+
+<Note>
+**Full-trust model**: Installed plugins are owner-uploaded and run with full application trust. Capabilities are declarative metadata and an intent contract. They document what a plugin does and drive UI presentation; they are not a runtime enforcement sandbox.
+</Note>
+
+## Declaring capabilities
+
+Capabilities are declared in the `capabilities` array inside `manifest.json`:
+
+```json
+{
+  "slug": "my-plugin",
+  "capabilities": ["addon", "hooks", "cron"]
+}
+```
+
+The `PluginInterface::capabilities()` method on the entrypoint class should return the matching `Capability` enum cases:
+
+```php
+use OwnPay\Plugin\Capability;
+
+public function capabilities(): array
+{
+    return [Capability::ADDON, Capability::HOOKS, Capability::CRON];
+}
+```
+
+## Full capability reference
+
+| Enum Case | JSON Value | Required Permission Keys | Scope and Intent |
+|---|---|---|---|
+| `Capability::GATEWAY` | `"gateway"` | `gateway.process`, `gateway.config` | Payment gateway adapter |
+| `Capability::THEME` | `"theme"` | `theme.render` | Checkout theme |
+| `Capability::ADDON` | `"addon"` | None | General-purpose extension |
+| `Capability::COMMUNICATION` | `"communication"` | `comm.send` | SMS, email, or chat delivery |
+| `Capability::ANALYTICS` | `"analytics"` | `analytics.read` | Reporting and BI |
+| `Capability::WEBHOOK` | `"webhook"` | None | Custom inbound webhook handler |
+| `Capability::NOTIFICATION` | `"notification"` | None | Push and system notifications |
+| `Capability::EXPORT` | `"export"` | None | Data export provider |
+| `Capability::AUTHENTICATION` | `"authentication"` | None | SSO and OAuth |
+| `Capability::STORAGE` | `"storage"` | `storage.read`, `storage.write` | External file storage |
+| `Capability::CRON` | `"cron"` | None | Scheduled background jobs |
+| `Capability::DASHBOARD` | `"dashboard"` | None | Admin dashboard widgets |
+| `Capability::DB_READ` | `"db_read"` | None | Database read access |
+| `Capability::DB_WRITE` | `"db_write"` | None | Database write access |
+| `Capability::FILE_READ` | `"file_read"` | None | Filesystem read |
+| `Capability::FILE_WRITE` | `"file_write"` | None | Filesystem write |
+| `Capability::HTTP_OUTBOUND` | `"http_outbound"` | None | Outbound HTTP |
+| `Capability::HOOKS` | `"hooks"` | None | Event hook subscriptions |
+| `Capability::CHECKOUT_UI` | `"checkout_ui"` | None | Checkout UI injection |
+
+## Common capability combinations
+
+### Payment gateway
+
+```json
+"capabilities": ["gateway"]
+```
+
+### Communication addon (SMS/Email/Telegram)
+
+```json
+"capabilities": ["addon", "communication", "hooks", "http_outbound"]
+```
+
+### Analytics dashboard widget
+
+```json
+"capabilities": ["addon", "analytics", "hooks", "dashboard"]
+```
+
+### Checkout theme
+
+```json
+"capabilities": ["theme", "checkout_ui"]
+```
+
+## Security-relevant notes
+
+### `db_read` / `db_write` - SQL isolation
+
+Queries to any `op_*` table not prefixed with `op_plugin_` are blocked by `PluginSandbox::validateSql()`.
+
+### `file_read` / `file_write` - Path containment
+
+`PluginSandbox::validateFilePath()` uses `realpath()` to resolve the target path and checks that it begins with the plugin directory path.
+
+### Blocked PHP functions
+
+Regardless of capabilities, the following functions cause an immediate load failure:
+
+| Blocked Function | Reason |
+|---|---|
+| `exec()` | Direct OS command execution |
+| `shell_exec()` | Shell command via backtick-equivalent |
+| `system()` | OS command with direct output |
+| `passthru()` | Raw OS command execution |
+| `popen()` | Process pipe opener |
+| `proc_open()` | Full process control |
+| `pcntl_exec()` | Process image replacement |
+| `dl()` | Dynamic extension loading |
+| `assert()` | Code evaluation via assertion |
+| `create_function()` | Runtime lambda code generation |
+| `eval` | Dynamic code evaluation |

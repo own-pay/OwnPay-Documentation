@@ -1,0 +1,154 @@
+---
+title: "Brands and stores"
+description: "Understanding OwnPay's multi-brand architecture"
+---
+
+A **brand** in OwnPay represents a complete, isolated merchant entity. Each brand has its own customers, gateways, settings, staff, checkout experience, and optionally a custom domain.
+
+## Multi-brand architecture
+
+```
+OwnPay Installation
++-- Brand A (Acme Corp)
+|   +-- Customers
+|   +-- Transactions
+|   +-- Staff Members
+|   +-- Payment Gateways
+|   +-- Custom Settings
++-- Brand B (TechCorp)
+|   +-- Customers
+|   +-- Transactions
+|   +-- Staff Members
+|   +-- Payment Gateways
+|   +-- Custom Settings
++-- Brand C (StartupCo)
+    +-- Customers
+    +-- Transactions
+    +-- Staff Members
+    +-- Payment Gateways
+    +-- Custom Settings
+```
+
+Each brand operates independently with **complete data isolation**.
+
+## Brand vs store
+
+### Brand (top-level entity)
+
+- Represents a merchant or business
+- Has own customers, transactions, staff
+- Completely isolated from other brands
+- Can have multiple stores (optional)
+
+### Store (optional sub-division)
+
+- Sub-division within a brand
+- Used for multiple physical locations or sales channels
+- Shares brand identity, gateways, and staff
+- Separate product catalogs and reporting
+
+**Example:**
+- **Brand:** "Acme Retail" (the company)
+  - **Store 1:** New York location
+  - **Store 2:** Los Angeles location
+  - **Store 3:** Online shop
+
+## Key features
+
+### Data isolation
+
+- One brand's data is invisible to other brands
+- No cross-brand customer leakage
+- No shared transaction history
+- Complete privacy guarantee
+
+### White-labeling
+
+Each brand can customize:
+- Logo and branding
+- Color scheme
+- Email templates
+- Checkout appearance
+- Landing page
+- Custom domain
+
+### Independent configuration
+
+Each brand manages independently:
+- Payment gateways (Stripe, PayPal, bKash, etc.)
+- Currencies and exchange rates
+- Email settings (SMTP, templates)
+- SMS settings
+- User roles and permissions
+- Webhooks and API keys
+
+## Use cases
+
+| Use Case | How Brands Work |
+|----------|-----------------|
+| **SaaS Platform Operators** | Each company is a brand with own customers and transactions |
+| **Agencies** | Each client is a brand with custom domains and white-labeled checkout |
+| **Multi-Store Retailers** | Brand represents the company, stores represent locations |
+| **Enterprise Deployments** | Each division is a brand with independent payment processing |
+
+## Creating a brand
+
+### Via admin panel
+
+1. Log in to OwnPay admin
+2. Go to **People > Brands**
+3. Click **Add Brand**
+4. Fill in: brand name, currency, timezone, contact email
+5. Click **Create Brand**
+
+### Initial setup after creation
+
+1. Assign yourself as brand manager
+2. Configure payment gateway (**Gateways** section)
+3. Customize branding (**Appearance** section)
+4. Add staff (**People > Staff**)
+5. Set up webhook (if integrating)
+6. Create payment links
+
+## Brand settings
+
+### Basic settings
+
+- **Name** - Display name
+- **Slug** - URL-safe identifier
+- **Currency** - Default currency (USD, EUR, GBP, etc.)
+- **Timezone** - For reports and timestamps
+- **Contact Email** - Brand contact email
+
+### Branding
+
+- **Logo** - Brand image
+- **Favicon** - Browser tab icon
+- **Color Scheme** - Primary color for checkout
+- **Landing Page** - Custom HTML/text
+- **Email Templates** - Customized email designs
+
+### Advanced settings
+
+- **Custom Domain** - Point to your own domain
+- **Webhook URL** - For payment notifications
+- **API Keys** - For programmatic access
+- **Metadata** - Custom data storage
+
+## Access control
+
+| Role | Scope | Permissions |
+|------|-------|-------------|
+| **Master Administrator** | Entire system | All brands, all transactions, full access |
+| **Brand Manager** | Single brand | Brand settings, staff, transactions |
+| **Staff Member** | Single brand | Limited to role-defined tasks |
+| **View Only** | Single brand | Read-only access to data |
+
+## Best practices
+
+- Use clear, consistent naming for brands
+- Use appropriate timezones for accurate reporting
+- Set correct currencies upfront
+- Assign limited roles to staff
+- Rotate API keys regularly
+- Monitor access logs for unusual activity

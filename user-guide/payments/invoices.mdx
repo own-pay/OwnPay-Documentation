@@ -1,0 +1,85 @@
+---
+title: "Invoices"
+description: "Detailed billing tool to create, customize, and issue itemized invoices to customers"
+---
+
+The Invoices page enables you to issue structured, multi-item billings to your customers. Customers receive a unique payment link where they can choose their preferred payment method to complete the invoice.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **PAYMENTS** section in the left sidebar, click **Invoices**
+
+## Page sections
+
+### 1. Invoices list table
+
+- **Invoice Number (#):** The unique invoice serial ID (e.g., `INV-2026-001`)
+- **Customer:** The target billing customer
+- **Amount:** The total calculated invoice subtotal
+- **Status:** Current payment status (`draft`, `sent`, `paid`, `overdue`, `cancelled`)
+- **Due Date:** Deadline for invoice settlement
+- **Actions:** Edit the invoice details or click **Copy Link** to share the checkout URL
+
+### 2. Create invoice form
+
+- **Invoice Details:** Invoice Number, Customer Selector, Currency, Due Date, and internal Customer Notes
+- **Line Items:** Dynamic multi-item editor where you specify Item Description, Quantity, and Unit Price
+- **Calculation Summary:** Displays computed subtotal and total values
+
+## Fields and options reference
+
+| Field / Option | Type | Required | Default | Description |
+|---|---|---|---|---|
+| **Invoice Number** | Text Input | Yes | - | Unique billing serial number |
+| **Customer** | Select | Yes | - | Dropdown listing registered customers |
+| **Currency** | Select | Yes | BDT | Currency in which the customer will be billed |
+| **Due Date** | Date Picker | Yes | - | The final date by which the payment is expected |
+| **Notes** | Text Area | No | - | Custom instructions shown to the customer |
+| **+ Add** | Button | No | - | Inserts a new line item row |
+| **Description** | Text Input | Yes | - | Summary of the specific product or service |
+| **Quantity** | Spinbutton | Yes | 1 | Number of units billed |
+| **Amount** | Spinbutton | Yes | 0.00 | Unit price of the specific item |
+
+## Step-by-step: creating and issuing a new invoice
+
+1. Click the **+ Create Invoice** button
+2. Input a unique **Invoice Number**
+3. Select your customer from the **Customer** dropdown
+4. Select the billing **Currency**
+5. Choose a **Due Date**
+6. Write a description in the **Notes** box
+7. Under **Line Items**, write the description, **Quantity**, and **Unit Price**
+8. Click **+ Add** to append more rows if needed
+9. Click **Create Invoice**
+
+## Invoice status transitions
+
+- `draft`: Saved but not sent to the customer
+- `sent`: Checkout link has been shared with the customer
+- `paid`: Customer successfully processed payment
+- `overdue`: Due date has passed without successful payment
+- `cancelled`: Invoice was marked as void
+
+## Best practices
+
+- Create a customer entry first before attempting to draft an invoice for them
+- Click **Copy Link** to easily share the checkout URL via email, SMS, or Slack
+- Do not manually edit the database values of invoice totals; always update the line items so the system recalculates
+
+<Warning>
+When editing or saving an invoice, ensure that at least one (1) line item is present. Invoices with zero line items will result in a total of `0.00` and cannot be processed.
+</Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Likely Cause | Fix |
+|---|---|---|
+| Invoice total shows `0.00` after save | Line items were not specified, or quantity/amount fields were left at zero | Edit the invoice and specify valid quantities and unit prices |
+| Cannot see a customer in the dropdown | The customer has not been added to your brand yet | Navigate to **People > Customers**, add the customer, and return to the invoice editor |
+
+## Related pages
+
+- [Customers](/user-guide/people/customers) - Register new customers to bill
+- [Transactions](/user-guide/payments/transactions) - View payments resulting from paid invoices
+- [Checkout](/user-guide/public/checkout) - The customer invoice payment experience

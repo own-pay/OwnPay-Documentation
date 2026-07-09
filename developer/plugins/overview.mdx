@@ -1,0 +1,122 @@
+---
+title: "Plugin System Overview"
+description: "Complete overview of OwnPay's plugin architecture, plugin types, and how to build plugins"
+---
+
+Plugins extend OwnPay functionality without modifying core code. Instead of forking OwnPay, write a plugin to add payment gateways, create custom features, design custom themes, or integrate external services.
+
+## Plugin types
+
+### 1. Gateway plugins
+
+Add new payment methods (Stripe, PayPal, bKash, bank transfer, crypto). Provides payment processing, settlement management, webhook handling, and refund logic.
+
+### 2. Addon plugins
+
+Add features like advanced reporting, subscription management, inventory sync, CRM integration, or email customization. Provides admin pages, API endpoints, scheduled jobs, and UI components.
+
+### 3. Theme plugins
+
+Customize the checkout experience with custom templates, CSS, JavaScript, and branding. Provides Twig templates, stylesheets, and asset management.
+
+## Plugin lifecycle
+
+```
+1. Discovery
+   v Plugin loader scans plugins/ directory
+   
+2. Registration
+   v Plugin class loaded and registered
+   
+3. Configuration
+   v Config files read and validated
+   
+4. Activation
+   v Plugin hooks registered
+   
+5. Runtime
+   v Plugin executes and responds to events
+   
+6. Deactivation
+   v Plugin hooks unregistered
+```
+
+## Plugin structure
+
+```
+plugins/
++-- gateway-stripe/
+    +-- config.json          # Plugin metadata
+    +-- composer.json        # PHP dependencies
+    +-- src/
+    |   +-- StripeGateway.php
+    |   +-- Hooks.php
+    |   +-- Events.php
+    +-- resources/
+    |   +-- views/
+    |       +-- settings.twig
+    +-- migrations/
+    |   +-- create_stripe_table.php
+    +-- README.md
+```
+
+## Hooks system
+
+**Pre-execution hooks** (modify behavior):
+
+```php
+$amount = Hook::apply('payment.amount', $amount, $payment);
+```
+
+**Post-execution hooks** (react to events):
+
+```php
+Hook::do('payment.completed', $payment);
+```
+
+Over 60 hooks available across OwnPay.
+
+## Plugin API
+
+```php
+// Access services
+$paymentService = Plugin::service('payment');
+$config = Plugin::config('stripe');
+Plugin::log('Something happened', 'info');
+$user = Plugin::user();
+
+// Access database
+$payments = Database::query("SELECT * FROM payments");
+
+// Register routes
+Route::post('my-plugin/action', 'MyController@action');
+
+// Add admin pages
+Menu::add('Dashboard', 'my-plugin', '/admin/my-plugin');
+```
+
+## Managing plugins
+
+### Via admin panel
+
+Go to **System > Plugins** to view, enable, or disable plugins.
+
+### Via CLI
+
+```bash
+php public/index.php plugin:list
+php public/index.php plugin:enable my-plugin
+php public/index.php plugin:disable my-plugin
+php public/index.php plugin:test my-plugin
+```
+
+## Best practices
+
+- Follow OwnPay coding standards
+- Include tests and documentation
+- Validate all input and escape output
+- Use parameterized queries
+- Respect the permission system
+- Store secrets in config, never hardcoded
+- Log important events
+- Queue heavy tasks

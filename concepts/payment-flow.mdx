@@ -1,0 +1,177 @@
+---
+title: "Payment Flow Architecture"
+description: "Understanding how OwnPay processes payments from start to finish"
+---
+
+Understanding how OwnPay processes payments from start to finish.
+
+## The Complete Payment Flow
+
+```
+Customer         OwnPay           Gateway          Customer
+                                                   Bank
+   │                │                │               │
+   │─ Click "Pay" ─>│                │               │
+   │                │                │               │
+   │                │─ Create Payment│               │
+   │                │    Intent      │               │
+   │                │<─ Return URL ──│               │
+   │                │                │               │
+   │<─ Redirect to ─│                │               │
+   │   Checkout     │                │               │
+   │                │                │               │
+   │─ Enter Card ──>│                │               │
+   │                │─ Validate ────>│               │
+   │                │                │─ Check ──────>│
+   │                │                │<─ Approve ────│
+   │                │<─ Success ─────│               │
+   │<─ Success Page │                │               │
+   │                │─ Record Payment│               │
+   │                │   in Database  │               │
+   │                │                │               │
+   │                │─ Send Webhook ─>
+   │                │   (if registered)
+   │                │                │               │
+   │<─ Confirmation │                │               │
+   │   Email        │                │               │
+```
+
+## Payment States
+
+Every payment goes through these states:
+
+### 1. **Pending**
+
+- Payment created
+- Awaiting customer action
+- Link sent or form displayed
+- No funds charged yet
+
+### 2. **Processing**
+
+- Customer submitting payment
+- Gateway validating
+- No result yet from gateway
+- Customer sees loading spinner
+
+### 3. **Success**
+
+- Gateway approved payment
+- Funds authorized
+- Transaction recorded
+- Webhook sent (if configured)
+- Customer sees success page
+
+### 4. **Failed**
+
+- Gateway declined payment
+- Could be:
+  - Insufficient funds
+  - Invalid card
+  - Fraud detection
+  - Temporary network error
+- Webhook sent (if configured)
+- Customer can retry
+
+### 5. **Refunded**
+
+- Payment was successful
+- Funds returned to customer
+- Initiated by merchant
+- Recorded in transaction history
+
+### 6. **Disputed/Chargeback**
+
+- Customer disputed payment
+- Gateway initiated reversal
+- Funds returned
+- Recorded as chargeback
+
+## Payment Methods
+
+OwnPay supports multiple payment methods:
+
+### Card Payments
+
+- **Credit Cards** (Visa, Mastercard, AmEx)
+- **Debit Cards**
+- **Processed by payment gateway** (Stripe, PayPal, etc.)
+
+### Digital Wallets
+
+- **Apple Pay**
+- **Google Pay**
+- **PayPal**
+
+### Local Payment Methods
+
+- **Bank Transfer**
+- **Mobile Money** (bKash, Nagad, GCash, etc.)
+- **Cash on Delivery**
+- **Manual Invoice**
+
+### Bank-Level Integration
+
+- **ACH Transfers** (US)
+- **SEPA Transfers** (EU)
+- **Direct Debit**
+
+## Payment Creation
+
+### Via Payment Link
+
+1. Admin creates payment link
+2. System generates unique URL
+3. Customer visits URL
+4. Checkout form displayed
+5. Customer enters payment details
+6. Payment processed
+
+### Via Invoice
+
+1. Admin creates invoice
+2. System sends invoice via email
+3. Customer clicks payment link
+4. Checkout form displayed
+5. Customer enters payment details
+6. Payment processed
+
+### Via API
+
+1. Application creates payment intent
+2. OwnPay returns checkout URL or token
+3. Application displays payment form
+4. Customer enters payment details
+5. Payment processed
+6. Webhook notifies application
+
+### Via Hosted Checkout
+
+1. Application redirects to OwnPay
+2. Customer completes payment on OwnPay-hosted page
+3. OwnPay redirects customer back to application
+4. Webhook notifies application of result
+
+## Payment Processing Times
+
+| Payment Method | Processing Time |
+|----------------|-----------------|
+| Credit/Debit Card | Instant |
+| Digital Wallets | Instant |
+| Bank Transfer | 1-3 business days |
+| Mobile Money | Instant to minutes |
+| Manual Invoice | Manual confirmation |
+
+## Security
+
+- All payment data is encrypted in transit (TLS 1.2+)
+- PCI DSS compliant gateway integration
+- No sensitive card data stored on OwnPay servers
+- Webhook signatures for verification
+- Idempotency keys prevent duplicate charges
+
+## Related Pages
+
+- [Gateways](/concepts/gateways) - Configure payment gateways
+- [Transactions](/user-guide/payments/transactions) - View transaction history
+- [Webhooks](/api/webhooks) - Receive payment notifications

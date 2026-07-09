@@ -1,0 +1,243 @@
+---
+title: "Theme Plugin Development Guide"
+description: "Customize the checkout experience with theme plugins"
+---
+
+Themes control the visual appearance of OwnPay's customer-facing checkout experience. A theme plugin overrides checkout template paths and injects CSS/JS assets via event hooks, without modifying any core file.
+
+## How theme plugins work
+
+Themes are ordinary plugins of type `"theme"`. They are loaded by `PluginLoader` from `modules/themes/{slug}/` through the same two-phase lifecycle as addons.
+
+The checkout controller resolves which template to render by applying three filter hooks:
+
+| Hook | Purpose |
+|---|---|
+| `checkout.template` | Main payment gateway selection and checkout page |
+| `checkout.status.template` | Success / failure / pending result page |
+| `checkout.payment_link.template` | Payment link amount-entry page |
+
+## Directory structure
+
+```
+modules/themes/my-theme/
++-- manifest.json           # Required. Plugin metadata.
++-- Theme.php               # Required. Entrypoint class.
++-- templates/              # Required. Twig templates.
+|   +-- checkout.twig       # Main checkout page
+|   +-- checkout-status.twig # Payment result page
+|   +-- payment-link-amount.twig # Payment link page
++-- assets/                 # Optional. CSS/JS files.
+    +-- checkout.css
+    +-- checkout.js
+```
+
+## The manifest.json file
+
+```json
+{
+  "name": "OwnPay Theme",
+  "slug": "own-pay",
+  "version": "2.0.0",
+  "description": "Default OwnPay checkout theme - premium, responsive, multi-gateway.",
+  "author": "OwnPay",
+  "type": "theme",
+  "entrypoint": "Theme.php",
+  "namespace": "OwnPay\\Modules\\Themes\\OwnPay",
+  "requires": {
+    "ownpay": ">=0.1.0"
+  },
+  "settings": {
+    "footer_text": "Secured by OwnPay",
+    "show_dark_toggle": "enabled",
+    "timeout_enabled": "enabled",
+    "timeout_minutes": 10,
+    "custom_css": "",
+    "custom_js": ""
+  }
+}
+```
+
+## The entrypoint class
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace OwnPay\Modules\Themes\MyTheme;
+
+use OwnPay\Container;
+use OwnPay\Event\EventManager;
+use OwnPay\Plugin\Capability;
+use OwnPay\Plugin\PluginInterface;
+
+final class Theme implements PluginInterface
+{
+    public static function metadata(): array
+    {
+        return [
+            'name'        => 'My Theme',
+            'slug'        => 'my-theme',
+            'version'     => '1.0.0',
+            'description' => 'A custom checkout theme for OwnPay.',
+            'author'      => 'Your Name',
+            'type'        => 'theme',
+        ];
+    }
+
+    public function capabilities(): array
+    {
+        return [Capability::THEME];
+    }
+
+    public function register(EventManager $events, Container $container): void
+    {
+        $events->addFilter('checkout.template', function (string $template): string {
+            return 'checkout/checkout.twig';
+        });
+
+        $events->addFilter('checkout.status.template', function (string $template): string {
+            return 'checkout/checkout-status.twig';
+        });
+
+        $events->addFilter('checkout.payment_link.template', function (string $template): string {
+            return 'checkout/payment-link-amount.twig';
+        });
+
+        $events->addAction('checkout.head', function (): void {
+            echo '<link rel="stylesheet" href="/assets/css/my-theme-checkout.css">';
+        });
+
+        $events->addAction('checkout.footer', function () use ($container): void {
+            $nonceVal  = $container->has('csp_nonce') ? $container->get('csp_nonce') : '';
+            $nonceAttr = is_string($nonceVal) && $nonceVal !== ''
+                ? ' nonce="' . htmlspecialchars($nonceVal, ENT_QUOTES, 'UTF-8') . '"'
+                : '';
+            echo '<script' . $nonceAttr . ' src="/assets/js/my-theme-checkout.js"></script>';
+        });
+    }
+
+    public function boot(Container $container): void {}
+    public function deactivate(Container $container): void {}
+    public function uninstall(Container $container): void {}
+
+    public function fields(): array
+    {
+        return [
+            [
+                'name'    => 'primary_color',
+                'label'   => 'Primary Color',
+                'type'    => 'color',
+                'default' => '#0D9488',
+            ],
+            [
+                'name'    => 'show_powered_by',
+                'label'   => 'Show "Powered by OwnPay"',
+                'type'    => 'toggle',
+                'default' => '1',
+            ],
+        ];
+    }
+}
+```
+
+## Brand theme data
+
+The checkout controller calls `BrandThemeService::getBrandTheme(int $merchantId)` and passes the result as the `brand` Twig variable:
+
+```php
+[
+    'name'           => 'MyBrand',
+    'logo'           => '/storage/logo.png',
+    'color'          => '#0D9488',
+    'accent_color'   => '#0F766E',
+    'support_email'  => 'support@mybrand.com',
+    'custom_css'     => '/* brand CSS */',
+    'footer_text'    => 'Secured by MyBrand',
+    'show_powered_by'=> true,
+]
+```
+
+## Twig template development
+
+```twig
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ brand.name|e }} - Checkout</title>
+    {{ hook('checkout.head')|raw }}
+    {% if brand.custom_css %}
+        <style>{{ brand.custom_css }}</style>
+    {% endif %}
+</head>
+<body>
+    <main class="checkout-container">
+        {% if brand.logo %}
+            <img src="{{ brand.logo|e }}" alt="{{ brand.name|e }}" />
+        {% endif %}
+
+        <div class="checkout-amount">
+            {{ transaction.currency|e }} {{ transaction.amount|e }}
+        </div>
+
+        {% block checkout_content %}{% endblock %}
+
+        <footer>
+            {% if brand.show_powered_by %}
+                <span>{{ brand.footer_text|e }}</span>
+            {% endif %}
+        </footer>
+    </main>
+
+    {{ hook('checkout.footer')|raw }}
+    {% if brand.custom_js %}
+        <script>{{ brand.custom_js }}</script>
+    {% endif %}
+</body>
+</html>
+```
+
+## CSP nonce integration
+
+```php
+$events->addAction('checkout.footer', function () use ($container): void {
+    $nonce     = $container->has('csp_nonce') ? $container->get('csp_nonce') : '';
+    $nonceAttr = is_string($nonce) && $nonce !== ''
+        ? ' nonce="' . htmlspecialchars($nonce, ENT_QUOTES, 'UTF-8') . '"'
+        : '';
+    echo '<script' . $nonceAttr . ' src="/assets/js/my-theme-checkout.js"></script>';
+});
+```
+
+## Full hook reference for themes
+
+| Hook | Type | Purpose |
+|---|---|---|
+| `checkout.template` | Filter | Override main checkout template path |
+| `checkout.status.template` | Filter | Override result page template path |
+| `checkout.payment_link.template` | Filter | Override payment link page template |
+| `checkout.render` | Filter | Inject variables into checkout Twig context |
+| `checkout.head` | Action | Inject CSS/fonts into `<head>` |
+| `checkout.footer` | Action | Inject JS into `<footer>` |
+| `checkout.before` | Action | React before checkout template is parsed |
+| `checkout.csp.sources` | Filter | Add external domains to CSP |
+
+## Security requirements
+
+- Always use `{{ variable }}` (escaped) in Twig, never `{{ variable|raw }}` for user data
+- Every `<script>` tag must carry the nonce from the container
+- No `eval()` or OS commands
+- Validate color fields with hex regex
+- Use `checkout.csp.sources` filter for external domains
+
+## Installation and activation
+
+1. Package the plugin directory as a ZIP
+2. Upload via Admin > Appearance > Themes > "Install Theme"
+3. Activate via the Themes list
+4. Set as active theme via Admin > Appearance > Themes > "Set Active"
+
+<Note>
+The `active_theme` value must match your manifest `slug` exactly. A mismatch means the system falls back to the built-in `own-pay` theme.
+</Note>

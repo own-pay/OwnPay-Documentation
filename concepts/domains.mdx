@@ -1,0 +1,75 @@
+---
+title: "Custom domains"
+description: "White-label domain pipeline for brand checkout pages"
+---
+
+OwnPay is a sovereign white-labeled fintech engine. End-customers must never see the master domain. Each brand can operate under its own custom domain.
+
+## Domain pipeline
+
+```
+Request -> DomainMiddleware -> Resolve HTTP_HOST against op_domains -> Inject merchant_id
+       -> DomainUrlService -> Build checkout/callback URLs under brand's custom domain
+       -> BrandThemeService -> Load per-brand visual identity
+```
+
+## How it works
+
+### DomainMiddleware
+
+Runs on every request in the `global` middleware group:
+
+1. Resolves `HTTP_HOST` against `op_domains` table
+2. Injects `merchant_id`, `custom_domain`, `domain_type` into request attributes
+3. Blocks `/admin/*` on custom domains (returns 404)
+4. Uses `APP_DOMAIN` env var to identify the master domain
+
+### DomainUrlService
+
+Central URL resolver for all customer-facing and gateway-facing URLs:
+
+- `buildCheckoutUrl()` - Checkout page URL
+- `buildCallbackUrl()` - Gateway callback URL
+- `buildLegacyCallbackUrl()` - Legacy callback URL
+
+Priority: `GATEWAY_CALLBACK_URL` env > brand custom domain > `APP_URL` > request host
+
+### BrandThemeService
+
+Loads per-brand visual identity (logo, colors, CSS/JS) based on the resolved domain.
+
+## Configuration
+
+### Adding a custom domain
+
+1. Go to **System > Domains**
+2. Click **Add Domain**
+3. Enter the domain (e.g., `pay.yourdomain.com`)
+4. Configure DNS to point to your OwnPay server
+5. Click **Verify DNS**
+6. Set domain type to `checkout`
+
+### DNS requirements
+
+| Record Type | Name | Value |
+|------------|------|-------|
+| A | pay.yourdomain.com | Your server IP |
+| CNAME | pay.yourdomain.com | yourdomain.com |
+
+### Domain types
+
+- **checkout** - Serves checkout, invoice, and payment pages
+- **api** - Serves API endpoints only
+
+## Security rules
+
+- Admin panel is only accessible on the master `APP_DOMAIN`
+- `/admin/*` paths return 404 on custom domains
+- Custom domains require `dns_verified = 1` before serving content
+- DNS verification failure returns 503
+
+## Important rules
+
+- Never hardcode `APP_URL` or domain names for checkout/callback URLs
+- Always use `DomainUrlService` methods for URL construction
+- `APP_DOMAIN` must be a bare hostname (e.g., `ownpay.test`), not a full URL

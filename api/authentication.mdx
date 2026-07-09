@@ -1,0 +1,83 @@
+---
+title: "Authentication"
+description: "API key management and authentication"
+---
+
+OwnPay uses API keys for authentication. All API requests must include a valid API key.
+
+## API key format
+
+```
+op_live_abc123xyz...
+op_secret_def456...
+```
+
+- **Public Key** (`op_live_...`) - Used in client-side code
+- **Secret Key** (`op_secret_...`) - Used for server-side authentication
+
+## Generating keys
+
+1. Log in to OwnPay admin
+2. Go to **Developers > API Keys**
+3. Click **Generate API Key**
+4. Choose access level (Full Access or Read-Only)
+5. Copy both keys immediately
+
+<Warning>
+Keys are shown once only. Store them in environment variables, never in code.
+</Warning>
+
+## Using keys
+
+### HTTP Header
+
+```bash
+curl -H "Authorization: Bearer op_live_your_key" \
+     https://yourdomain.com/api/v1/payments
+```
+
+### PHP SDK
+
+```php
+$client = new Client(
+    publicKey: $_ENV['OWNPAY_PUBLIC_KEY'],
+    secretKey: $_ENV['OWNPAY_SECRET_KEY'],
+    baseUrl: 'https://yourdomain.com/api/v1'
+);
+```
+
+### Node.js SDK
+
+```javascript
+const ownpay = new OwnPay({
+  publicKey: process.env.OWNPAY_PUBLIC_KEY,
+  secretKey: process.env.OWNPAY_SECRET_KEY,
+  baseUrl: 'https://yourdomain.com/api/v1'
+});
+```
+
+## Key security
+
+- Never commit keys to git repositories
+- Use environment variables for storage
+- Rotate keys every 90 days
+- Use separate keys per application
+- Monitor API usage for anomalies
+- Revoke unused keys immediately
+
+## Key rotation
+
+1. Generate a new key pair
+2. Update all applications to use the new key
+3. Test in production
+4. Delete the old key
+5. Verify no errors
+
+## Error codes
+
+| Error | Cause |
+|-------|-------|
+| `invalid_api_key` | Key not found or malformed |
+| `expired_api_key` | Key has expired |
+| `revoked_api_key` | Key has been revoked |
+| `insufficient_permissions` | Key lacks required access level |

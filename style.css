@@ -1,0 +1,274 @@
+/* ===== Footer Fixes ===== */
+
+/* Hide "Powered by Mintlify" in footer */
+footer a[href*="mintlify.com"] {
+  display: none !important;
+}
+
+/* Hide theme toggle in footer */
+footer [data-component-name="theme-toggle"],
+footer button[aria-label*="theme"] {
+  display: none !important;
+}
+
+/* Compact footer - override Tailwind utility classes */
+footer .py-16,
+footer .md\:py-20,
+footer .lg\:py-28,
+#footer .py-16,
+#footer .md\:py-20,
+#footer .lg\:py-28 {
+  padding-top: 1rem !important;
+  padding-bottom: 0 !important;
+}
+
+footer .gap-12,
+#footer .gap-12 {
+  gap: 0.75rem !important;
+}
+
+footer .px-8,
+#footer .px-8 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+/* Compact footer links */
+footer .flex.items-center.justify-between,
+#footer .flex.items-center.justify-between {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Smaller footer text */
+footer ul li a,
+#footer ul li a {
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+footer h4,
+#footer h4 {
+  font-size: 13px !important;
+  margin-bottom: 0.25rem !important;
+}
+
+
+/* Community tagline - inline with bottom bar */
+footer::after {
+  content: "Built by the Community, for the Community.";
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+  padding: 0.5rem 0;
+  margin: 0;
+}
+
+/* ===== Navbar Fixes ===== */
+
+/* ===== Voting System ===== */
+
+/* ===== Changelog Content ===== */
+#changelog-content h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+.dark #changelog-content h1 {
+  color: #f9fafb;
+}
+
+#changelog-content h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+.dark #changelog-content h2 {
+  color: #f9fafb;
+  border-bottom-color: #374151;
+}
+
+#changelog-content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.35rem;
+  color: #374151;
+}
+
+.dark #changelog-content h3 {
+  color: #d1d5db;
+}
+
+#changelog-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+#changelog-content li {
+  margin-bottom: 0.35rem;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.dark #changelog-content li {
+  color: #d1d5db;
+}
+
+#changelog-content blockquote {
+  border-left: 3px solid #0D9373;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+#changelog-content p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+#changelog-content hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 1.5rem 0;
+}
+
+.dark #changelog-content hr {
+  border-top-color: #374151;
+}
+
+#changelog-content a {
+  color: #0D9373;
+  text-decoration: underline;
+}
+.doc-vote {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.dark .doc-vote {
+  border-top-color: #374151;
+}
+
+.doc-vote-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.doc-vote-question {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.dark .doc-vote-question {
+  color: #d1d5db;
+}
+
+.doc-vote-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.doc-vote-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.doc-vote-btn:hover:not(:disabled) {
+  border-color: #0D9373;
+  color: #0D9373;
+  background: #f0fdf4;
+}
+
+.dark .doc-vote-btn {
+  background: #1f2937;
+  border-color: #374151;
+  color: #d1d5db;
+}
+
+.dark .doc-vote-btn:hover:not(:disabled) {
+  border-color: #34D399;
+  color: #34D399;
+  background: #064e3b;
+}
+
+.doc-vote-btn.voted {
+  border-color: #0D9373;
+  background: #ecfdf5;
+  color: #0D9373;
+}
+
+.dark .doc-vote-btn.voted {
+  background: #064e3b;
+  border-color: #34D399;
+  color: #34D399;
+}
+
+.doc-vote-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.doc-vote-thanks {
+  font-size: 13px;
+  color: #0D9373;
+  font-weight: 500;
+}
+
+/* Hide GitHub link text in navbar, show icon only */
+#navbar nav a[href*="github.com/own-pay"] span {
+  display: none !important;
+}
+
+/* GitHub star count badge */
+.github-stars-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  line-height: 1;
+  margin-left: -4px;
+}
+
+.dark .github-stars-badge {
+  color: #d1d5db;
+  border-color: #374151;
+  background: #1f2937;
+}
+
+.github-stars-badge svg {
+  width: 12px;
+  height: 12px;
+  fill: #fbbf24;
+}

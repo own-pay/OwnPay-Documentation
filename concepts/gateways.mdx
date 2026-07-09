@@ -1,0 +1,85 @@
+---
+title: "Payment gateways"
+description: "Understanding payment gateway integration in OwnPay"
+---
+
+A **payment gateway** processes payments by accepting customer payment information, encrypting and transmitting it to the processor, receiving authorization from the bank, and returning the result to OwnPay.
+
+## Gateway types
+
+### Processor gateways
+
+Direct integrations with payment processors:
+- **Stripe** - Cards, wallets, local payments
+- **PayPal** - Cards, PayPal account, wallets
+- **Square** - Cards, Apple Pay
+- **Razorpay** - Cards, UPI, wallets (India)
+
+### Local payment gateways
+
+Regional payment methods:
+- **bKash** - Mobile money (Bangladesh)
+- **Nagad** - Mobile payment (Bangladesh)
+- **GCash** - Mobile payment (Philippines)
+- **AliPay / WeChat Pay** - China
+
+### Bank gateways
+
+Direct bank integrations:
+- **Bank Transfer** - ACH, SEPA, wire
+- **Direct Debit** - Recurring bank payments
+- **Open Banking** - PSD2, UK Open Banking
+
+### Custom gateways
+
+Build your own gateway for custom processors, proprietary payment methods, or legacy system integration.
+
+## Gateway configuration
+
+### Adding a gateway
+
+1. Go to **Gateways > Payment Gateways**
+2. Click **Add Gateway**
+3. Select gateway type
+4. Enter credentials (API Key, Secret Key, Merchant ID)
+5. Choose payment methods to enable
+6. Click **Save**
+
+### Test vs live mode
+
+- **Test Mode** - Sandbox, no real charges. Use during development.
+- **Live Mode** - Real transactions. Switch when ready.
+
+## Currency support
+
+Each gateway declares supported currencies via `supportedCurrencies(): array`. OwnPay handles automatic currency conversion at checkout time using exchange rates stored in `op_exchange_rates`.
+
+## Settlement
+
+| Gateway | Settlement Time |
+|---------|----------------|
+| Stripe | 1-2 days |
+| PayPal | 1 day |
+| Square | Next business day |
+| Razorpay | 1-3 days |
+
+## Webhooks and notifications
+
+Gateways send webhooks when payments are authorized, captured, refunded, or disputed. OwnPay verifies signature authenticity, updates transaction status, and triggers your configured webhooks.
+
+## Security features
+
+- **PCI compliance** - Tokenized payments, no card data stored
+- **3D Secure** - Additional authentication layer
+- **AVS** - Address verification
+- **CVV validation** - Card verification
+- **Fraud detection** - Real-time monitoring
+
+## Best practices
+
+- Use 2+ gateways for redundancy
+- Load balance for reliability
+- Diversify payment methods
+- Track success rates
+- Monitor settlement times
+- Rotate API keys quarterly

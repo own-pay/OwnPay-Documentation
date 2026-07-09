@@ -1,0 +1,135 @@
+---
+title: "Configuration"
+description: "Environment and application configuration"
+---
+
+OwnPay is configured through environment variables and the admin panel.
+
+## Environment variables
+
+### Application
+
+```env
+APP_NAME=OwnPay
+APP_ENV=production
+APP_KEY=base64:...
+APP_DEBUG=false
+APP_URL=https://yourdomain.com
+APP_DOMAIN=yourdomain.com
+```
+
+<Note>
+`APP_DOMAIN` must be a bare hostname (e.g., `ownpay.test`), not a full URL. Used by DomainMiddleware to identify the master domain.
+</Note>
+
+### Database
+
+```env
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=ownpay
+DB_USERNAME=ownpay_user
+DB_PASSWORD=secure_password
+```
+
+### Mail
+
+```env
+MAIL_HOST=smtp.example.com
+MAIL_PORT=587
+MAIL_USERNAME=you@example.com
+MAIL_PASSWORD=mail_password
+MAIL_FROM_ADDRESS=noreply@yourdomain.com
+```
+
+### Cache and Queue
+
+```env
+CACHE_DRIVER=redis
+QUEUE_DRIVER=redis
+```
+
+### JWT (Mobile Companion)
+
+```env
+JWT_SECRET=your-random-secret-key
+```
+
+### Security
+
+```env
+ENCRYPTION_KEY=your-encryption-key
+MAX_LOGIN_ATTEMPTS=5
+LOCKOUT_DURATION=300
+```
+
+## Admin panel settings
+
+### General settings
+
+Go to **System > Settings > General**:
+- App name
+- App URL
+- Timezone
+- Default currency
+
+### Email settings
+
+Go to **System > Settings > Email**:
+- SMTP configuration
+- From address and name
+- Test email delivery
+
+### Security settings
+
+Go to **System > Settings > Security**:
+- Password requirements
+- Session timeout
+- Login attempt limits
+- Two-factor authentication
+
+### Notification settings
+
+Go to **System > Settings > Notifications**:
+- Email on payment
+- Email on refund
+- Admin notification email
+
+## Performance optimization
+
+### Redis
+
+Install and configure Redis for caching:
+
+```bash
+sudo apt install -y redis-server php8.3-redis
+sudo systemctl enable redis-server
+```
+
+Set in `.env`:
+
+```env
+CACHE_DRIVER=redis
+QUEUE_DRIVER=redis
+```
+
+### OPcache
+
+Enable OPcache in `php.ini`:
+
+```ini
+opcache.enable=1
+opcache.memory_consumption=256
+opcache.max_accelerated_files=20000
+```
+
+### PHP-FPM tuning
+
+Adjust `pm.max_children` based on available RAM:
+
+```ini
+pm.max_children = 50
+pm.start_servers = 5
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+```

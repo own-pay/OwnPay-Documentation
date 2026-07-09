@@ -1,0 +1,76 @@
+---
+title: "Paired Devices"
+description: "Connect Android companion devices to OwnPay using secure, temporary pairing codes"
+---
+
+The Paired Devices page manages connection states between the OwnPay administrative server and your physical mobile devices running the OwnPay Android Companion App. Pairing mobile devices enables automatic forwarding of wallet transfer SMS to your server for real-time parsing and transaction approval.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **MOBILE & SMS** section in the left sidebar, click **Paired Devices**
+
+## Page sections
+
+### 1. Connection KPI cards
+
+- **Total Devices:** Lifetime count of mobile profiles paired with this brand context
+- **Active:** Devices currently authorized and listening for incoming SMS
+- **Revoked:** Devices that had their session keys manually invalidated
+
+### 2. Pair mobile device wizard
+
+- **Pair New Device Button:** Displays or hides the wizard panel
+- **Generate Pairing Code:** Generates a temporary 6-digit numeric token valid for 5 minutes
+- **Expiration Countdown:** Displays remaining time before the token invalidates
+- **App Pairing Instructions:** Walkthrough for inserting the code inside the Android companion application
+
+### 3. Connected devices table
+
+- **DEVICE:** Device name and verified hardware fingerprint
+- **PLATFORM:** OS version (e.g., Android 13, SDK 33)
+- **STATUS:** Active, Offline, or Revoked
+- **LAST SEEN:** The timestamp of the last heartbeat ping sent from the device
+- **PAIRED:** Date and time the pairing was authorized
+- **ACTIONS:** Click **Revoke** to permanently disable forwarding credentials
+
+## Fields and options reference
+
+| Control Option | Type | Expiry | Description |
+|---|---|---|---|
+| **Pair New Device** | Button | - | Toggle visibility of the device pairing panel |
+| **Generate Pairing Code** | Button | - | Generates a 6-digit OTP code to insert into the mobile app |
+| **6-Digit OTP** | Output Code | 5 Minutes | The security token to type into the companion app |
+| **Revoke** | Button | Immediate | Invalidates the device's JWT token, blocking all future API calls |
+
+## Step-by-step: pairing a new Android device
+
+1. Navigate to the **Paired Devices** page and click **Pair New Device**
+2. Click **Generate Pairing Code**. Note the 6-digit code and the countdown
+3. Open the **OwnPay Companion App** on your Android device
+4. Tap **Pair with Admin** in the app
+5. Enter the 6-digit code displayed in the admin panel and tap **Confirm**
+6. The admin panel table will refresh, and your device will appear with an `active` status
+
+## Step-by-step: revoking a lost or unused device
+
+1. Locate the device profile in the **Connected Devices** table
+2. Click the **Revoke** button under the **ACTIONS** column
+3. Confirm the prompt. The device status will switch to `revoked`
+
+## Best practices
+
+- Give your devices recognizable names (e.g., "bKash Phone 1") to easily distinguish them during audits
+- Periodically check the **LAST SEEN** column to verify that your forwarder phones are actively online
+- Do not share pairing codes with third parties or display them in public channels
+- Do not keep revoked device profiles active if they are no longer in service
+
+<Warning>
+Ensure the Android companion app is excluded from battery optimization settings on the phone. Otherwise, the OS may pause the background service, leading to SMS forwarding delays.
+</Warning>
+
+## Related pages
+
+- [SMS Center](/user-guide/mobile-sms/sms-templates) - Create regex rules to parse forwarded messages
+- [SMS Data](/user-guide/mobile-sms/sms-logs) - View forwarded raw SMS logs
+- [Payment Gateways](/user-guide/gateways/gateways) - Enable SMS verification on manual wallets

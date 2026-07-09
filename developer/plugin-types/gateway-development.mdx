@@ -1,0 +1,256 @@
+---
+title: "Gateway Plugin Development Guide"
+description: "Build, install, and maintain a payment gateway plugin for OwnPay"
+---
+
+This guide covers everything required to build, install, and maintain a payment gateway plugin for OwnPay. Every example is derived from the live Stripe gateway implementation at `modules/gateways/stripe/`.
+
+## How gateway plugins work
+
+When OwnPay boots, `PluginLoader::loadActive()` scans `modules/gateways/`, discovers all active gateway directories, validates each `manifest.json`, token-scans every PHP file for dangerous functions, and instantiates the entrypoint class.
+
+Because a gateway class implements both `PluginInterface` and `GatewayAdapterInterface`, the loader automatically calls `GatewayBridge::registerAdapter($instance)` after booting all plugins.
+
+```
+HTTP Request
+    +-- CheckoutController / WebhookController
+         +-- GatewayBridge::initiate() / verify() / refund()
+              +-- GatewayAdapterInterface (your plugin instance)
+```
+
+Credentials are **never** passed raw. `GatewayBridge` calls `GatewayConfigRepository::findCredentialsBySlug()`, decrypts the stored JSON blob, and passes the plain-text key-value map to your adapter methods.
+
+## Directory structure
+
+Place your gateway inside `modules/gateways/{your-slug}/`:
+
+```
+modules/gateways/my-gateway/
++-- manifest.json           # Required. Plugin metadata and capabilities declaration.
++-- MyGateway.php           # Required. Entrypoint - implements PluginInterface + GatewayAdapterInterface.
++-- icon.svg                # Recommended. Gateway logo shown in admin panel.
++-- assets/                 # Optional. CSS/JS loaded on checkout page.
++-- migrations/             # Optional. SQL files executed on activation.
+```
+
+## The manifest.json file
+
+```json
+{
+  "name": "Stripe",
+  "slug": "stripe",
+  "version": "1.0.0",
+  "description": "Stripe payment gateway - cards, wallets, international payments",
+  "author": "OwnPay Core",
+  "type": "gateway",
+  "category": "global",
+  "icon": "icon.svg",
+  "color": "#635BFF",
+  "entrypoint": "StripeGateway.php",
+  "namespace": "OwnPay\\Modules\\Gateways\\Stripe",
+  "capabilities": ["gateway"],
+  "requires": {
+    "core": ">=0.1.0",
+    "php": ">=8.1"
+  },
+  "csp": {
+    "script_src": ["https://*.stripe.com"],
+    "style_src":  ["https://*.stripe.com"],
+    "frame_src":  ["https://*.stripe.com"],
+    "connect_src": ["https://api.stripe.com", "https://*.stripe.com"]
+  },
+  "permissions": ["gateway.process", "gateway.refund"]
+}
+```
+
+## The entrypoint class
+
+A gateway plugin's entrypoint class must implement both `OwnPay\Plugin\PluginInterface` and `OwnPay\Gateway\GatewayAdapterInterface`:
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace OwnPay\Modules\Gateways\MyGateway;
+
+use OwnPay\Gateway\GatewayAdapterInterface;
+use OwnPay\Gateway\GatewayDefaults;
+use OwnPay\Plugin\PluginInterface;
+use OwnPay\Plugin\Capability;
+use OwnPay\Container;
+use OwnPay\Event\EventManager;
+
+final class MyGateway implements PluginInterface, GatewayAdapterInterface
+{
+    use GatewayDefaults;
+
+    public static function metadata(): array
+    {
+        return [
+            'name'        => 'My Gateway',
+            'slug'        => 'my-gateway',
+            'version'     => '1.0.0',
+            'description' => 'My custom payment gateway.',
+            'author'      => 'Your Name',
+            'type'        => 'gateway',
+        ];
+    }
+
+    public function capabilities(): array
+    {
+        return [Capability::GATEWAY];
+    }
+
+    public function register(EventManager $events, Container $container): void
+    {
+        // Register hooks here if needed
+    }
+
+    public function boot(Container $container): void {}
+
+    public function deactivate(Container $container): void {}
+
+    public function uninstall(Container $container): void {}
+
+    public function fields(): array
+    {
+        return [
+            [
+                'name'     => 'api_key',
+                'label'    => 'API Key',
+                'type'     => 'password',
+                'required' => true,
+            ],
+            [
+                'name'     => 'mode',
+                'label'    => 'Mode',
+                'type'     => 'select',
+                'options'  => ['sandbox' => 'Sandbox', 'live' => 'Live'],
+                'required' => true,
+            ],
+        ];
+    }
+
+    public function slug(): string
+    {
+        return 'my-gateway';
+    }
+
+    public function initiate(array $params, array $credentials): array
+    {
+        // $params: amount, currency, trx_id, redirect_url, cancel_url
+        // Return: redirect_url OR form_html OR session_id
+    }
+
+    public function verify(array $callbackData, array $credentials): array
+    {
+        // ALWAYS verify server-side with the gateway API
+        // Return: ['success' => bool, 'gateway_trx_id' => string, 'amount' => string|null, 'status' => string]
+    }
+
+    public function verifyWebhook(string $rawBody, array $headers, array $credentials): bool
+    {
+        // Validate the inbound webhook signature
+    }
+
+    public function refund(string $gatewayTrxId, string $amount, array $credentials): array
+    {
+        // Return: ['success' => bool, 'refund_id' => string|null, 'error' => string|null]
+    }
+
+    public function supports(string $feature): bool
+    {
+        return match ($feature) {
+            'refund', 'verification' => true,
+            default                  => false,
+        };
+    }
+
+    public function supportedCurrencies(): array
+    {
+        return []; // Empty = accepts any currency
+    }
+}
+```
+
+## Method contracts
+
+### `initiate(array $params, array $credentials): array`
+
+Called to start a payment session. `$params` has this guaranteed shape:
+
+```php
+[
+    'amount'       => '150.00',      // BCMath-safe decimal string
+    'currency'     => 'USD',
+    'trx_id'       => 'OP-20240701-ABCD',
+    'redirect_url' => 'https://pay.example.com/checkout/callback',
+    'cancel_url'   => 'https://pay.example.com/checkout/cancel',
+]
+```
+
+Return one of:
+- `['redirect_url' => 'https://gateway.example.com/pay/SESSION_ID']`
+- `['form_html' => '<form>...</form>']`
+- `['session_id' => 'SESSION_ID']`
+
+### `verify(array $callbackData, array $credentials): array`
+
+**Security Rule**: Never trust the payment status from `$callbackData`. Always make a server-to-server API call.
+
+### `verifyWebhook(string $rawBody, array $headers, array $credentials): bool`
+
+Use `hash_equals()` for all HMAC comparisons. Include replay protection by rejecting stale timestamps.
+
+### `refund(string $gatewayTrxId, string $amount, array $credentials): array`
+
+`$gatewayTrxId` is the value your `verify()` returned. `$amount` is a BCMath-safe decimal string.
+
+### `supports(string $feature): bool`
+
+| Feature | What it enables |
+|---|---|
+| `refund` | Refund button shown on completed transactions |
+| `recurring` | Subscription/recurring billing UI |
+| `partial` | Partial refund amount input |
+| `verification` | Server-side verify API is available |
+
+## Multi-file plugins
+
+Declare a `namespace` in `manifest.json`. The `PluginLoader` registers a PSR-4 autoloader mapping `{namespace}\{SubClass}` to `{plugin_dir}/{SubClass}.php`.
+
+## Database migrations
+
+Create a `migrations/` directory with `.sql` files. Plugin tables must be prefixed with `op_plugin_`.
+
+## Content Security Policy
+
+If your gateway loads external JavaScript, declare the required domains in `csp` inside `manifest.json`.
+
+## Security requirements
+
+- Never trust callback data - always verify server-side
+- Use `hash_equals()` for all HMAC comparisons
+- Reject webhook timestamps older than 5 minutes
+- If `webhook_secret` is missing, `verifyWebhook()` must return `false`
+- No `eval()` or OS commands
+- No direct `op_*` table access
+
+## Installation and activation
+
+1. Package your plugin directory as a ZIP
+2. Upload via Admin > Gateways > "Install Plugin"
+3. Activate via the gateway list
+4. Configure credentials via the gateway settings form
+
+## Checklist
+
+- `manifest.json` present with all required fields
+- Entrypoint implements both `PluginInterface` and `GatewayAdapterInterface`
+- `slug()` returns the exact value in `manifest.json`
+- `initiate()` returns a valid response shape
+- `verify()` makes a server-side API call
+- `verifyWebhook()` uses `hash_equals()` and enforces timestamp replay window
+- Plugin tables use the `op_plugin_` prefix
+- No use of `eval()`, `exec()`, `shell_exec()`
+- CSP domains declared in `manifest.json`

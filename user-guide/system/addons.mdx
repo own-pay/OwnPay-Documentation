@@ -1,0 +1,44 @@
+---
+title: "Addons"
+description: "Activate and manage secondary non-gateway utility plugins"
+---
+
+The Addons page lists auxiliary plugins installed on the OwnPay system. Unlike payment gateways that handle cash checkout interfaces, addons provide backend utility services like forwarding system emails, sending checkout SMS links, or sending instant alert notifications to Telegram channels.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard as the super-administrator
+2. Under the **SYSTEM** section in the left sidebar, click **Addons**
+
+## Page sections
+
+### 1. Header actions
+
+- **Install Addon Link:** Opens the plugin file uploader panel
+
+### 2. Addon cards list
+
+Lists all functional helper modules:
+
+- **Mail Gateway:** Integrates with SMTP, Mailgun, or SendGrid to send transaction receipts and system notifications
+- **SMS Gateway:** Integrates with Twilio, Vonage, or custom HTTP SMS APIs
+- **Telegram Bot:** Configures outbound bots to deliver instant payment notifications to Telegram channels
+
+## Step-by-step: activating an addon
+
+1. Navigate to the **Addons** manager
+2. Choose the addon you want to use (e.g., **Mail Gateway**)
+3. Click the **Activate** button on the card
+4. The system settings menu will append a new configuration tab to let you enter API credentials
+
+## Best practices
+
+- Keep the **Mail Gateway** addon active to ensure clients automatically receive transaction invoices
+- Deactivate unused addons to save server processing memory resources
+- Do not run duplicate notification handlers if you want to optimize webhook speed
+
+## Related pages
+
+- [Plugins](/user-guide/system/plugins) - View and manage all platform extensions
+- [System Settings](/user-guide/system/settings) - Configure general localization settings
+- [System Update](/user-guide/system/system-update) - Perform core system code updates

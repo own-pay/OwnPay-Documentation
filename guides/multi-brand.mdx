@@ -1,0 +1,69 @@
+---
+title: "Multi-brand setup"
+description: "Configure multiple brands with isolated data"
+---
+
+This guide covers setting up and managing multiple brands in OwnPay.
+
+## Creating additional brands
+
+1. Log in as super admin
+2. Go to **People > Brands**
+3. Click **Add Brand**
+4. Fill in brand details:
+   - **Name** - Brand display name
+   - **Slug** - URL-safe identifier
+   - **Currency** - Default currency
+   - **Timezone** - For reports
+   - **Contact Email** - Brand contact
+5. Click **Create Brand**
+
+## Configuring each brand
+
+After creating a brand:
+
+### 1. Assign brand manager
+
+Go to **People > Staff** and assign a user with Brand Manager role.
+
+### 2. Set up payment gateways
+
+Go to **Gateways** within the brand and configure payment providers. Each brand can have different gateways and credentials.
+
+### 3. Customize branding
+
+Go to **Appearance** to set:
+- Logo and favicon
+- Color scheme
+- Custom CSS/JS
+- Email templates
+
+### 4. Configure custom domains
+
+Go to **System > Domains** and add a custom domain for the brand.
+
+### 5. Set up webhooks
+
+Go to **Developers > Webhooks** to configure payment notification endpoints.
+
+## Managing brand context
+
+### Brand switcher
+
+Use the brand switcher in the admin sidebar to switch between brands. Each brand view shows only that brand's data.
+
+### All Brands view
+
+The **All Brands** view shows data across all brands. Requires the `brands.access_all` permission.
+
+### Platform owner
+
+The system has a reserved platform-owner record (`is_platform = 1`) that represents the global "All Brands" scope. It is excluded from the brand switcher.
+
+## Best practices
+
+- Use clear, consistent naming conventions
+- Set correct currencies upfront (changing later is complex)
+- Document brand purposes internally
+- Monitor resource usage as brands grow
+- Use appropriate timezones for accurate reporting

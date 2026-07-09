@@ -1,0 +1,300 @@
+---
+title: "Security and Compliance"
+description: "Security best practices, compliance features, and hardening guidelines for OwnPay"
+---
+
+OwnPay includes industry-standard security by default. This guide covers security features, compliance standards, and hardening guidelines.
+
+## Core security features
+
+### Encryption
+
+- HTTPS/TLS 1.2+ - All traffic encrypted
+- Database encryption - Sensitive data encrypted at rest
+- API key hashing - Keys hashed, not plaintext
+- Password hashing - Argon2id with salt
+
+### Data protection
+
+- No card storage - Tokenized payments only
+- PCI compliance - Built-in, not retrofit
+- Secrets management - Environment variables only
+- Input validation - SQL injection prevention
+
+### Authentication
+
+- Strong password requirements - Minimum 12 characters
+- Two-factor authentication (2FA) - TOTP (Google Authenticator)
+- Session timeouts - Auto-logout after inactivity
+- Account lockout - After failed login attempts
+
+### Authorization
+
+- Role-based access control (RBAC) - Granular permissions
+- Least privilege - Default deny, explicit allow
+- Audit logging - All actions logged
+- Permission enforcement - Server-side validation
+
+## PCI-DSS compliance
+
+OwnPay is PCI-DSS compliant by design:
+
+- Card data never stored
+- Payment gateway handles encryption
+- HTTPS only
+- Regular security audits
+
+### Key requirements
+
+| Requirement | Status |
+|---|---|
+| Network security | Firewall, restricted ports |
+| Secure configuration | Strong passwords, disabled unnecessary services |
+| Cardholder data protection | No card numbers stored (tokenized) |
+| Encryption | HTTPS/TLS 1.2+ in transit, AES-256 at rest |
+| Access control | RBAC with least privilege |
+| Authentication | Argon2id passwords, optional 2FA |
+| Logging | All access logged, tamper-evident |
+| Testing | Regular security scans |
+
+## GDPR compliance
+
+### Data protection principles
+
+- Purpose limitation - Only store data for stated purpose
+- Data minimization - Collect only necessary data
+- Accuracy - Keep data current
+- Storage limitation - Delete when no longer needed
+- Integrity and confidentiality - Secure and encrypted
+
+### User rights
+
+- **Access** - Download personal data
+- **Rectification** - Correct inaccurate data
+- **Erasure** - Delete account and data
+- **Restrict processing** - Limit how data is used
+- **Data portability** - Export in machine-readable format
+
+## Data security best practices
+
+### Server security
+
+```bash
+# Update regularly
+apt update && apt upgrade
+
+# Secure SSH
+- Disable password login
+- Use SSH keys only
+- Change default port 22
+- Restrict IP access
+
+# Firewall
+- Allow only necessary ports (80, 443)
+- Block all unnecessary inbound
+
+# Backups
+- Daily encrypted backups
+- Store offsite
+- Test restoration monthly
+```
+
+### Application security
+
+- Keep OwnPay updated
+- Run security patches immediately
+- Monitor for vulnerabilities
+- Use secure passwords for database/admin
+
+### API security
+
+- Rotate API keys quarterly
+- Use separate keys per application
+- Monitor API usage
+- Revoke unused keys
+- Never commit keys to git
+
+### Webhook security
+
+- Verify webhook signatures
+- Use HTTPS only
+- Validate webhook source
+- Implement rate limiting
+- Log all webhook activity
+
+## Authentication and authorization
+
+### Strong passwords
+
+**Requirements:**
+- Minimum 12 characters
+- Mix of uppercase and lowercase
+- At least one number
+- At least one special character (!@#$%^&*)
+
+### Two-factor authentication (2FA)
+
+1. Go to **Account > Security**
+2. Click **Enable Two-Factor**
+3. Scan QR code with authenticator app
+4. Enter 6-digit code to verify
+5. Save backup codes in secure location
+
+### Session management
+
+- **Timeout:** 30 minutes of inactivity
+- **Maximum session:** 24 hours
+- **Device tracking:** Active sessions shown
+- **Logout all:** Revoke all sessions
+
+### API key security
+
+**Creation:**
+1. Go to **Developers > API Keys**
+2. Click **Create Key**
+3. Copy key (shown once only)
+4. Save in password manager
+
+**Rotation:**
+1. Create new key
+2. Update all applications
+3. Test in production
+4. Delete old key
+
+## Audit and compliance reporting
+
+### Audit logs
+
+Go to **Reports > Audit Log** to view all activity:
+
+- Login/logout
+- Permission changes
+- Data modifications
+- Configuration changes
+- API usage
+- Payment processing
+
+### Monthly security checks
+
+- Review audit logs for suspicious activity
+- Check failed login attempts
+- Verify all users active
+- Check for unusual API usage
+- Review webhook failures
+
+### Quarterly security checks
+
+- Rotate API keys
+- Update access list
+- Review user permissions
+- Update security policy
+- Run vulnerability scan
+
+## Incident response
+
+### Security incident
+
+**Immediate actions:**
+1. Isolate affected system
+2. Stop data exfiltration
+3. Preserve evidence/logs
+4. Do not alter compromised files
+5. Contact OwnPay security team
+
+### Report security issues
+
+Email: security@ownpay.org
+
+Include:
+- Description of vulnerability
+- Steps to reproduce
+- Impact assessment
+- Your contact information
+
+**Responsible disclosure:**
+- Do not publish publicly
+- Give OwnPay 90 days to fix
+- Do not access others' data
+- Test only on test accounts
+
+## Hardening guide
+
+### Minimum security (small deployments)
+
+- HTTPS enabled
+- Strong admin password
+- Keep software updated
+- Regular backups
+- Monitor logs
+
+### Standard security (typical deployments)
+
+- Everything above, plus:
+- 2FA for all admins
+- Regular security scans
+- Encrypted backups
+- Daily backup verification
+- Audit log review weekly
+
+### High security (regulated industries)
+
+- Everything above, plus:
+- Hardware security key
+- Intrusion detection system (IDS)
+- Web application firewall (WAF)
+- Real-time log monitoring
+- Annual penetration testing
+- Dedicated security engineer
+
+### PCI-level security
+
+- Everything above, plus:
+- Quarterly vulnerability scans
+- Annual penetration testing
+- Network segmentation
+- Intrusion prevention (IPS)
+- SIEM (Security Information and Event Management)
+- 24/7 security monitoring
+- Incident response team
+
+## Common vulnerabilities
+
+### SQL injection
+
+**How OwnPay prevents:** Parameterized queries everywhere, input validation, escaping special characters.
+
+### Cross-site scripting (XSS)
+
+**How OwnPay prevents:** HTML escaping on output, Content-Security-Policy header, input sanitization.
+
+### CSRF (Cross-Site Request Forgery)
+
+**How OwnPay prevents:** CSRF tokens on all forms, SameSite cookie attribute, origin verification.
+
+### Man-in-the-Middle (MITM)
+
+**How OwnPay prevents:** HTTPS/TLS 1.2+, webhook signature verification, API key authentication.
+
+## Security monitoring
+
+### Real-time monitoring
+
+Go to **Settings > Security** and enable monitoring. Configure alerts for:
+- Multiple failed logins
+- Unusual IP access
+- API key usage patterns
+- Large data exports
+- Permission changes
+
+### Log analysis
+
+```bash
+# Search for failed logins
+grep "failed login" storage/logs/*.log
+
+# Find deleted users
+grep "user deleted" storage/logs/*.log
+
+# Check API usage
+grep "API key" storage/logs/*.log
+```

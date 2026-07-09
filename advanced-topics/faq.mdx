@@ -1,0 +1,104 @@
+---
+title: "FAQ"
+description: "Frequently asked questions about OwnPay"
+---
+
+Common questions and answers about OwnPay.
+
+## General
+
+<AccordionGroup>
+  <Accordion title="What is OwnPay?">
+    OwnPay is a self-hosted, enterprise-grade payment orchestrator. It allows a single platform owner to manage multiple white-labeled merchant stores (brands) under one installation, with double-entry ledger bookkeeping, 100+ payment gateways, and Android SMS verification.
+  </Accordion>
+
+  <Accordion title="Is OwnPay a SaaS platform?">
+    No. OwnPay is infrastructure you deploy and own. You control the server, database, credentials, and data. No third-party has access to your transactions.
+  </Accordion>
+
+  <Accordion title="How is OwnPay different from Stripe or PayPal?">
+    Stripe and PayPal are payment processors - they process payments for your business. OwnPay is a payment orchestrator - it connects to multiple gateways (including Stripe and PayPal) and gives you a unified interface to manage all payment methods across multiple brands.
+  </Accordion>
+
+  <Accordion title="Can I use OwnPay for my own business?">
+    Yes. OwnPay is designed for platform operators who want to host payment processing for multiple businesses, agencies that white-label checkout for clients, or enterprises with multiple divisions needing independent payment processing.
+  </Accordion>
+</AccordionGroup>
+
+## Installation
+
+<AccordionGroup>
+  <Accordion title="What are the system requirements?">
+    - PHP 8.3 or higher
+    - MySQL 5.7+ or MariaDB 10.3+
+    - 512MB RAM minimum (2GB+ recommended)
+    - 1GB disk space minimum
+    - SSL certificate for production
+
+    See [System Requirements](/deployment/requirements) for full details.
+  </Accordion>
+
+  <Accordion title="Can I install OwnPay on shared hosting?">
+    Yes. OwnPay works with cPanel, DirectAdmin, and Plesk hosting. You need PHP 8.3 support and MySQL. See the [Shared Hosting](/deployment/installation#shared-hosting) installation guide.
+  </Accordion>
+
+  <Accordion title="Do I need to know command line to install OwnPay?">
+    No. OwnPay includes a web-based installer. Upload the files, create a database, and visit your domain to complete setup through the browser.
+  </Accordion>
+</AccordionGroup>
+
+## Payment Processing
+
+<AccordionGroup>
+  <Accordion title="What payment gateways does OwnPay support?">
+    OwnPay supports 100+ payment methods through its plugin system, including Stripe, PayPal, Square, bKash, Nagad, GCash, bank transfers, and more. See the [Gateway](/concepts/gateways) documentation for the full list.
+  </Accordion>
+
+  <Accordion title="Does OwnPay store credit card data?">
+    No. OwnPay uses tokenization - credit card data is processed by the payment gateway and never stored in your database. This ensures PCI compliance without the complexity of storing card data.
+  </Accordion>
+
+  <Accordion title="Can I accept payments in multiple currencies?">
+    Yes. Each brand can accept multiple currencies. OwnPay handles automatic currency conversion at checkout using exchange rates you configure.
+  </Accordion>
+
+  <Accordion title="How do webhooks work?">
+    OwnPay sends HTTP POST requests to your server when payment events occur (payment completed, refunded, etc.). You configure a webhook URL in the admin panel, and OwnPay delivers events with HMAC-SHA256 signatures for verification. See [Webhooks](/api/webhooks) for details.
+  </Accordion>
+</AccordionGroup>
+
+## Multi-Brand
+
+<AccordionGroup>
+  <Accordion title="How many brands can I create?">
+    There's no limit. You can create as many brands as your server can handle. Each brand is completely isolated with its own customers, gateways, staff, and settings.
+  </Accordion>
+
+  <Accordion title="Can each brand have its own custom domain?">
+    Yes. Each brand can have one or more custom domains for checkout pages. Customers never see the master OwnPay domain. See [Custom Domains](/concepts/domains).
+  </Accordion>
+
+  <Accordion title="Can different brands use different payment gateways?">
+    Yes. Each brand configures its own gateway credentials independently. Brand A can use Stripe while Brand B uses PayPal.
+  </Accordion>
+</AccordionGroup>
+
+## Technical
+
+<AccordionGroup>
+  <Accordion title="Is OwnPay open source?">
+    Yes. OwnPay is open source and available on GitHub. You can view the source code, report issues, and contribute.
+  </Accordion>
+
+  <Accordion title="Can I customize the checkout appearance?">
+    Yes. OwnPay supports theme plugins for full checkout customization. Each brand can also set custom colors, logos, CSS, and JavaScript. See [Theme Plugins](/plugins/theme-plugins).
+  </Accordion>
+
+  <Accordion title="Does OwnPay have an API?">
+    Yes. OwnPay provides a REST API for payments, transactions, customers, and more. See the [API Reference](/api/overview) for details.
+  </Accordion>
+
+  <Accordion title="Can I extend OwnPay with plugins?">
+    Yes. OwnPay has a WordPress-style plugin system. You can build custom gateways, themes, and addons. See [Plugin Development](/plugins/developer-guide).
+  </Accordion>
+</AccordionGroup>

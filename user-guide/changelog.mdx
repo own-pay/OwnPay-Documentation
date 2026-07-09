@@ -1,0 +1,83 @@
+---
+title: "Changelog"
+description: "All notable changes to OwnPay are documented here"
+---
+
+## Unreleased
+
+### Fixed
+
+- **bKash API gateway** - `payerReference` and `merchantInvoiceNumber` fields sent to bKash are now sanitized to alphanumeric characters only, preventing gateway-side rejection of transaction IDs containing punctuation
+- **Custom domain resolution** - removed an overly strict host-allowlist check in `DomainUrlService`'s request-host fallback that caused white-labeled custom domains to incorrectly resolve to `localhost` when the request arrived through an Nginx reverse proxy
+
+## [0.1.0] - 2026-06-30
+
+> **Initial public release.** OwnPay is a self-hosted, enterprise-grade, open-source payment gateway platform built on PHP 8.3+.
+
+### Added
+
+#### Core Framework
+
+- Lightweight **PSR-11 dependency injection container** with reflection-based auto-wiring
+- 10-step **Kernel boot cycle**: environment loading, container build, timezone config, plugin boot, middleware stack, `system.boot` event, route compilation, request matching, controller dispatch, `system.shutdown` event
+- **WordPress-style hook/filter system** (`EventManager`) with named action queues and priority-ordered filter chains
+- **PSR-4 autoloading** of all application code under the `OwnPay\` namespace
+- **Graceful last-resort error renderer** - fully inline HTML, zero service dependencies
+- **Maintenance mode** with segment-aware path whitelist
+
+#### Multi-Brand Architecture
+
+- Full **multi-tenant isolation** scoped by `merchant_id`
+- Each brand has its own customers, gateways, staff, checkout, and settings
+- **White-label domains** with custom logos, CSS, and email templates
+
+#### Payment Gateway Integration
+
+- **Stripe** payment gateway with full checkout flow
+- **bKash** mobile banking gateway (Bangladesh)
+- **Nagad** mobile payment gateway (Bangladesh)
+- **Manual gateway** for bank transfers and cash payments
+- **Gateway adapter interface** for building custom integrations
+
+#### Double-Entry Ledger
+
+- **Double-entry bookkeeping** for all financial transactions
+- Automatic ledger entries for payments, fees, refunds, and settlements
+- **Balance verification** tool to cross-check ledger vs transaction aggregates
+
+#### Developer Tools
+
+- **REST API** with Bearer token authentication
+- **Webhook system** with HMAC-SHA256 signature verification
+- **API key management** with read/write/admin scopes
+- **PHP SDK** for server-side integration
+- **Node.js SDK** for JavaScript/TypeScript applications
+
+#### Mobile Companion App
+
+- **Android companion app** for SMS verification
+- Device pairing with AES-256 encrypted communication
+- Automatic SMS parsing for mobile banking notifications
+
+#### Plugin System
+
+- **Gateway plugins** for adding new payment methods
+- **Addon plugins** for extending platform features
+- **Theme plugins** for customizing checkout experience
+- **Hook/filter system** with 60+ available hooks
+
+#### Admin Dashboard
+
+- **Real-time dashboard** with transaction metrics and KPIs
+- **Brand management** with full CRUD operations
+- **Staff management** with role-based access control
+- **Customer management** with transaction history
+- **Financial reports** with date range filtering
+- **Audit log** for tracking all administrative actions
+
+#### Infrastructure
+
+- **Docker support** with docker-compose configuration
+- **Redis caching** for improved performance
+- **Queue system** for background job processing
+- **Cron jobs** for scheduled tasks (webhook retries, currency updates, etc.)

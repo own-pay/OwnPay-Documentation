@@ -1,0 +1,79 @@
+---
+title: "SMS Center and Parsing Templates"
+description: "Create and manage regex rules and heuristic patterns to parse incoming payment SMS messages"
+---
+
+The SMS Center is the central parsing control board for manual gateway automation. When a companion device forwards an SMS transaction notification, the server maps the message to the corresponding gateway by matching the **Sender Pattern** and extracting key fields using regular expressions.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **MOBILE & SMS** section in the left sidebar, click **SMS Center**
+
+## Page sections
+
+### 1. Parsing templates list
+
+- **GATEWAY:** The targeted gateway slug (e.g., `nagad-personal`)
+- **SENDER PATTERN:** The regex matching the sender's identifier
+- **AMOUNT REGEX:** Capture pattern for the transfer amount
+- **TRXID REGEX:** Capture pattern for the unique Transaction ID
+- **PRIORITY:** Execution priority order (1-999)
+- **STATUS:** Active or Inactive
+- **ACTIONS:** Edit or Delete templates
+
+### 2. Create parsing template
+
+- **Gateway Dropdown:** Link to one of your active manual gateways
+- **Sender Pattern:** The sender's ID
+- **Amount / Transaction ID / Sender Account Regex:** Capture groups where group `(1)` is extracted
+
+### 3. Smart SMS Parser
+
+A visual helper that allows you to paste a sample SMS and let the system suggest a regex template based on automated structural analysis.
+
+### 4. AI Prompt Generator
+
+Generates a structured prompt to copy-paste into an AI chat assistant (Gemini, ChatGPT, or Claude). The AI translates the message structure into a JSON parsing block.
+
+### 5. Live Regex Tester
+
+A testing sandbox where you can paste a sample SMS, enter a regex string, select the target field, and click **Test Regex** to check extraction matches in real time.
+
+## Fields and options reference
+
+| Field Name | Type | Required | Example | Description |
+|---|---|---|---|---|
+| **Gateway** | Select | Yes | Nagad Personal | Target manual gateway to auto-verify |
+| **Sender Pattern** | Text Input | Yes | `NAGAD` or `bKash` | Matches the "From" header (case-sensitive) |
+| **Priority** | Spin Button | No | 10 | Order of rule evaluation (lower numbers run first) |
+| **Amount Regex** | Text Input | Yes | `Amount: Tk ([\d\.]+)` | Captures the payment amount in group 1 |
+| **Transaction ID Regex** | Text Input | No | `TxID: (\w+)` | Captures the gateway Transaction ID in group 1 |
+| **Sender Account Regex** | Text Input | No | `Customer: (01\d{9})` | Captures client phone in group 1 |
+| **Status** | Select | Yes | Active | Options: `Active`, `Inactive` |
+
+## Step-by-step: creating a regex template manually
+
+1. Navigate to the **SMS Center** and click **+ New Template**
+2. Select your manual **Gateway** (e.g., `Nagad Personal`)
+3. Set the **Sender Pattern** to match the sender ID
+4. Type the **Amount Regex** to capture the cash value
+5. Type the **Transaction ID Regex** to isolate the TrxID
+6. Click **Create Template** to save
+
+## Best practices
+
+- Test all regex patterns in the **Live Regex Tester** before saving templates
+- Set strict sender patterns to avoid cross-matching SMS alerts from general notification sources
+- Do not forget that sender patterns are case-sensitive
+- Do not include global flags (like `/g`) inside the regex text boxes
+
+<Warning>
+When writing regex, ensure the expression is safe from ReDoS (Regular Expression Denial of Service). Avoid nested quantifiers (e.g., `(a+)+`).
+</Warning>
+
+## Related pages
+
+- [Paired Devices](/user-guide/mobile-sms/devices) - Connect mobile companion apps
+- [SMS Data](/user-guide/mobile-sms/sms-logs) - Monitor real-time parsed SMS logs
+- [Payment Gateways](/user-guide/gateways/gateways) - Bind manual gateways to SMS parsing triggers

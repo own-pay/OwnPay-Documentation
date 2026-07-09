@@ -1,0 +1,64 @@
+---
+title: "Customers"
+description: "Browse and manage customer profiles, monitor transaction histories, and audit total customer spending"
+---
+
+The Customers page is a repository of all clients who have processed payments, had invoices issued, or paid through payment links for your active brand. You can search customers, view their contact information, check their accumulated transaction history, and see their total spent metrics.
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. Under the **PEOPLE** section in the left sidebar, click **Customers**
+
+## Page sections
+
+### 1. Customers list view
+
+- **KPI Metrics Card:** Displays the current **Total Customers** count
+- **Search Toolbar:** Search customers by name, email, or phone number
+- **Customers Table:** Lists clients showing Name/ID, Email, Phone, transaction volume, Total Spent in base currency, and creation date
+- **Actions:** View full customer profile details or Delete records
+
+### 2. Customer creation wizard
+
+Accessed by clicking the **Add Customer** button:
+
+- **Name:** Full visual name of the client
+- **Email:** Email address used to deliver payment notifications and receipts
+- **Phone:** Optional mobile contact number
+
+## Fields and options reference
+
+| Field Name | Type | Required | Description |
+|---|---|---|---|
+| **Name** | Text Input | Yes | The client's full name |
+| **Email** | Text Input | Yes | Main billing and receipt contact email |
+| **Phone** | Text Input | No | Mobile or landline contact number |
+
+## Step-by-step: creating a customer profile manually
+
+1. Click the **Add Customer** button
+2. Enter the customer's **Name** (e.g., `John Doe`)
+3. Type their **Email** address (e.g., `john@example.com`)
+4. Type their **Phone** number (e.g., `+8801700000000`)
+5. Click **Add Customer** to save the profile
+
+## Automatic customer registration
+
+Customers do not always need to be created manually. When checkout links or payment links are completed by new clients, the system automatically registers their email and details in the `op_customers` table under your brand's `merchant_id` context.
+
+## Best practices
+
+- Search for existing customer emails before manually adding a new customer profile to prevent duplicates
+- Verify that customer emails are formatted correctly so invoice notifications are delivered successfully
+- Do not delete customer profiles with active transactions, as it can orphan transaction history records
+
+<Warning>
+Customer data is encrypted in the database. Ensure that you have permissions to view customer profiles, as staff role restrictions may mask or block access to raw email and phone records.
+</Warning>
+
+## Related pages
+
+- [Transactions](/user-guide/payments/transactions) - Inspect customer payments
+- [Invoices](/user-guide/payments/invoices) - Create and send invoices to customer profiles
+- [Staff](/user-guide/people/staff) - Manage team members handling customer queries

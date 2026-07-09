@@ -1,0 +1,67 @@
+---
+title: "System requirements"
+description: "Server and software requirements for OwnPay"
+---
+
+Before installing OwnPay, ensure your server meets these requirements.
+
+## Server requirements
+
+### Minimum requirements
+
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| PHP | 8.3 | 8.3+ |
+| MySQL | 5.7 | 8.0+ |
+| RAM | 512 MB | 2 GB+ |
+| Disk Space | 1 GB | 10 GB+ |
+
+### Required PHP extensions
+
+| Extension | Purpose |
+|-----------|---------|
+| `pdo_mysql` | Database operations |
+| `openssl` | Encryption, TLS, HMAC |
+| `bcmath` | Financial arithmetic |
+| `mbstring` | Multi-byte string handling |
+| `curl` | Webhook delivery, gateway HTTP |
+| `json` | API responses, plugin manifests |
+| `zip` | Plugin/update extraction |
+| `fileinfo` | File upload MIME validation |
+| `intl` | Currency formatting |
+
+### Hosting compatibility
+
+- **Shared Hosting** - cPanel, DirectAdmin, Plesk (with PHP 8.3)
+- **VPS/Cloud** - Ubuntu 22.04+, Debian 12, or any Linux with root access
+- **Docker** - Full Docker support available
+
+### Domain and SSL
+
+- Custom domain name
+- SSL certificate (HTTPS required for production)
+- DNS access to configure domain
+
+## Optional enhancements
+
+### Performance
+
+- **Redis** - Recommended for caching and queue processing
+- **Nginx** - Better performance than Apache (both work)
+- **CDN** - For static asset delivery
+
+### Mobile features
+
+- **Android Device** - For SMS automation features
+
+## Browser requirements
+
+OwnPay admin panel works on:
+- Chrome/Chromium 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+
+## Next steps
+
+Once requirements are met, proceed with [Installation](/deployment/installation).

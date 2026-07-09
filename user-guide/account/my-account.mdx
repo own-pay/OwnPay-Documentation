@@ -1,0 +1,82 @@
+---
+title: "My Account"
+description: "Manage personal profile details, update passwords, and secure your account using Multi-Factor Authentication (2FA)"
+---
+
+The My Account settings page allows administrators and staff to update their display names, registered email addresses, and passwords. It also acts as the control panel for securing administrative access using RFC 6238-compliant Two-Factor Authentication (TOTP).
+
+## Getting here
+
+1. Log in to the OwnPay admin dashboard
+2. In the top navbar or the left sidebar navigation footer, click on your profile name
+3. Select **My Account** or **Account Settings** from the dropdown menu
+
+## Page sections
+
+### 1. Profile information
+
+- **Name:** Your visual display name used throughout the platform
+- **Email:** Your email address used for login and password resets
+- **Update Profile:** Saves the profile edits
+
+### 2. Update password
+
+- **Current Password:** Required to authenticate changes
+- **New Password:** Must be at least 8 characters
+- **Confirm Password:** Must match the new password
+- **Update Password:** Verifies and saves the new credentials
+
+### 3. Two-Factor Authentication (2FA) setup
+
+- **Status Badge:** Shows `Enabled` or `Disabled`
+- **Setup/Manage 2FA Button:** Redirects to the 2FA setup subpage
+- **QR Code and Secret:** Authenticator app sync targets
+- **Verification Code:** Six-digit input to confirm successful app sync
+
+## Fields and options reference
+
+### Profile settings
+
+| Field Name | Type | Required | Description |
+|---|---|---|---|
+| **Name** | Text Input | Yes | Administrator display name |
+| **Email** | Text Input | Yes | Registered email address used for dashboard login |
+
+### Password rotation
+
+| Field Name | Type | Required | Description |
+|---|---|---|---|
+| **Current Password** | Password Input | Yes | Existing password to authenticate changes |
+| **New Password** | Password Input | Yes | New password (minimum 8 characters) |
+| **Confirm Password** | Password Input | Yes | Repeat the new password to confirm |
+
+## Step-by-step: enabling Two-Factor Authentication (2FA)
+
+1. On the **My Account** dashboard, click **Manage 2FA**
+2. The Two-Factor Setup screen will display a QR code and a backup text secret
+3. Open your mobile authenticator app (e.g., Google Authenticator, Authy)
+4. Scan the QR code, or manually input the backup text secret
+5. Once your authenticator app begins generating 6-digit codes, enter the active code in the **Verification Code** field
+6. Click **Enable 2FA**
+7. Upon validation, the status updates to `Enabled`
+
+## Configuration guide
+
+- **Secure Key Storage:** User passwords are hashed with `Argon2id`. TOTP secrets are stored utilizing `AES-256-GCM` encryption
+- **TOTP Drift Window:** OwnPay validates OTP codes with a drift allowance window of `1` (allowing codes +/- 30 seconds)
+
+## Best practices
+
+- Enable 2FA immediately on all administrative and staff profiles
+- Write down and store the 2FA backup text secret in a secure physical location or password vault before enabling
+- Do not share your password or 2FA secrets with anyone
+- Do not disable 2FA unless transferring the profile to a new authenticator device
+
+<Warning>
+If a staff member or administrator loses access to their authenticator device and is locked out, the super-administrator must clear the user's `two_factor_enabled` and `totp_secret_enc` values in the database, or reset their account via the **Staff** settings menu.
+</Warning>
+
+## Related pages
+
+- [Staff](/user-guide/people/staff) - Create and manage administrator and team profiles
+- [Roles and Permissions](/user-guide/people/roles) - Assign specific permission matrices to staff accounts

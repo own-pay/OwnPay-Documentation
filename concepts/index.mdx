@@ -1,0 +1,68 @@
+---
+title: "Core Concepts"
+description: "Understand the fundamental concepts, workflows, and logical building blocks that power OwnPay"
+---
+
+Understand the fundamental concepts, workflows, and logical building blocks that power the OwnPay payment orchestration engine.
+
+## Core concept guides
+
+Browse these guides to understand how data is managed, how payments are routed, and how isolation is enforced.
+
+<CardGroup cols={2}>
+<Card title="Brands & Stores" href="/concepts/brands">
+  How OwnPay isolates stores, credentials, ledgers, and custom domains using tenant scoping.
+</Card>
+<Card title="Payment Flow" href="/concepts/payment-flow">
+  The life cycle of a transaction, from creating payment intents via API to customer redirection, verification, and settlement.
+</Card>
+<Card title="Gateways & Routing" href="/concepts/gateways">
+  Understanding global gateway adapters, manual offline methods, fee rules, and currency conversion logic.
+</Card>
+<Card title="Webhooks & Events" href="/api/webhooks">
+  How outbound event notifications are generated, signed (HMAC-SHA256), delivered, and retried.
+</Card>
+<Card title="User Roles & Permissions" href="/user-guide/people/roles">
+  System super-administrators vs. brand-scoped staff, and mapping RBAC permissions.
+</Card>
+</CardGroup>
+
+## Architecture overview
+
+At its core, OwnPay acts as an orchestrator sitting between your online application (merchant store) and payment networks (gateways).
+
+```
+┌─────────────────┐
+│ Merchant App    │ (WooCommerce, SDKs, etc.)
+└────────┬────────┘
+         │
+         │ REST API (Bearer Token)
+         ▼
+┌────────────────────────────────────────────────────────┐
+│ OwnPay Core                                            │
+│                                                        │
+│  - Brand Isolation (tenant scoped DB queries)          │
+│  - Double-Entry Ledger (bcmath money precision)        │
+│  - Event Hook Pipeline (EventManager)                  │
+└────────┬───────────────────────────────────────┬───────┘
+         │                                       │
+         │ Adapter Interface                     │ Adapter Interface
+         ▼                                       ▼
+┌─────────────────┐                     ┌─────────────────┐
+│ Gateway Adapter │                     │ Gateway Adapter │
+│ (e.g. Stripe)   │                     │ (e.g. bKash)    │
+└────────┬────────┘                     └────────┬────────┘
+         │                                       │
+         ▼ API / Redirect                        ▼ API / Redirect
+┌─────────────────┐                     ┌─────────────────┐
+│ Stripe API      │                     │ bKash API       │
+└─────────────────┘                     └─────────────────┘
+```
+
+Every database operation inside the core checks the active `merchant_id` to ensure strict tenant boundary safety.
+
+## See also
+
+- [Local Setup Guide](/resources/local-setup) - Ready to deploy?
+- [Architecture Overview](/resources/architecture) - Developer details
+- [Troubleshooting Guide](/advanced-topics/troubleshooting) - Having issues?

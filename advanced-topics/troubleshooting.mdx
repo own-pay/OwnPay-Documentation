@@ -1,0 +1,165 @@
+---
+title: "Troubleshooting"
+description: "Common issues and solutions"
+---
+
+Solutions to common OwnPay issues. Each section includes the symptom, cause, and fix.
+
+## Installation issues
+
+### Installer won't open or shows blank page
+
+**Cause:** PHP 8.3 is not active or required extensions are missing.
+
+**Fix:**
+1. Verify PHP version: `php -v` (must be 8.3+)
+2. Check extensions: `php -m | grep -E 'pdo_mysql|openssl|bcmath|mbstring|curl|zip'`
+3. On shared hosting, go to **Software > Select PHP Version** and set PHP 8.3
+
+### Database connection failed
+
+**Cause:** Incorrect credentials or MySQL is not running.
+
+**Fix:**
+```bash
+# Test connection
+mysql -u YOUR_USER -p -h YOUR_HOST YOUR_DB_NAME
+
+# Check MySQL status
+systemctl status mysql
+```
+
+### storage/ directory not writable
+
+**Cause:** Incorrect file permissions.
+
+**Fix:**
+```bash
+# VPS
+chown -R www-data:www-data /var/www/ownpay
+chmod -R 775 /var/www/ownpay/storage
+
+# Shared hosting: Set storage/ to 775 via File Manager
+```
+
+### "Already Installed" message
+
+**Cause:** The installer created a lock file after first installation. This is normal.
+
+**Fix:** If you need to reinstall, delete `storage/.installed` and clear the database.
+
+## Login issues
+
+### "Invalid credentials" error
+
+**Cause:** Wrong email/password, or account is suspended.
+
+**Fix:**
+1. Check account status in database: `SELECT status FROM op_merchant_users WHERE email = 'your@email.com'`
+2. If suspended, reactivate in **People > Staff**
+3. Reset password via admin panel or database
+
+### "Account temporarily locked"
+
+**Cause:** Too many failed login attempts (default: 5 attempts, 5-minute lockout).
+
+**Fix:**
+- Wait 5 minutes for lockout to expire
+- Or admin can clear lockout: `DELETE FROM op_login_attempts WHERE email = 'your@email.com' AND success = 0`
+
+### Two-factor authentication not working
+
+**Cause:** Time sync issue between server and authenticator app.
+
+**Fix:**
+1. Check server time: `date -u`
+2. Sync NTP: `sudo timedatectl set-ntp true`
+3. If locked out, admin can disable 2FA:
+   ```sql
+   UPDATE op_merchant_users SET two_factor_enabled = 0, totp_secret_enc = NULL WHERE email = 'your@email.com';
+   ```
+
+## Payment issues
+
+### Transaction stuck in "pending"
+
+**Cause:** SMS not received, webhook not delivered, or cron not running.
+
+**Fix:**
+1. Check if cron is running: `ls -la storage/cron/`
+2. Check SMS records: `SELECT * FROM op_sms_parsed WHERE match_status = 'pending'`
+3. Manually trigger cron: `php public/index.php cron/run`
+
+### Payment shows "failed" but customer was charged
+
+**Cause:** Gateway processed the payment but OwnPay didn't receive the callback.
+
+**Fix:**
+1. Check gateway dashboard for the transaction
+2. If confirmed paid, update manually:
+   ```sql
+   UPDATE op_transactions SET status = 'completed', completed_at = NOW(6) WHERE trx_id = 'YOUR_TRX_ID';
+   ```
+3. Run reconciliation: `php public/index.php admin/reconcile --trx=YOUR_TRX_ID`
+
+### Gateway not appearing on checkout
+
+**Cause:** Gateway not enabled or not configured for the brand.
+
+**Fix:**
+1. Check plugin status: `SELECT status, is_active FROM op_plugins WHERE slug = 'gateway-slug'`
+2. Check gateway config: `SELECT enabled FROM op_gateway_configs WHERE merchant_id = YOUR_ID AND gateway_slug = 'gateway-slug'`
+3. Enable in **Gateways > Payment Gateways**
+
+## Webhook issues
+
+### Webhooks not being delivered
+
+**Cause:** URL is private/loopback, endpoint unreachable, or SSRF blocked.
+
+**Fix:**
+1. Verify URL is public HTTPS: `curl -v https://your-endpoint.com/webhooks/ownpay`
+2. Check delivery logs: `SELECT * FROM op_webhook_events WHERE status = 'failed'`
+3. Use ngrok for local testing: `ngrok http 8080`
+
+### Webhook signature verification failing
+
+**Cause:** Using wrong secret, wrong hash algorithm, or re-encoding the body.
+
+**Fix:**
+1. Use the raw request body, never re-encode JSON
+2. Verify using HMAC-SHA256: `hash_hmac('sha256', $timestamp . '.' . $rawBody, $secret)`
+3. Compare with `hash_equals()` for timing-safe comparison
+
+## Performance issues
+
+### Admin panel is slow
+
+**Cause:** File cache, disabled OPcache, or slow database queries.
+
+**Fix:**
+1. Enable Redis: `CACHE_DRIVER=redis` in `.env`
+2. Enable OPcache: `opcache.enable=1` in `php.ini`
+3. Check slow queries: `tail -20 /var/lib/mysql/slow-queries.log`
+
+### High memory usage
+
+**Cause:** Too many PHP-FPM workers or memory leak.
+
+**Fix:**
+1. Reduce `pm.max_children` in PHP-FPM config
+2. Check for memory leaks: `valgrind --leak-check=full php public/index.php ...`
+3. Restart PHP-FPM: `systemctl restart php8.3-fpm`
+
+## Getting help
+
+If your issue isn't covered here:
+
+1. Check the [FAQ](/faq) for common questions
+2. Search [GitHub Issues](https://github.com/own-pay/OwnPay/issues) for known problems
+3. Join the [Discord community](https://discord.gg/ownpay) for real-time help
+4. Open a [GitHub Issue](https://github.com/own-pay/OwnPay/issues/new) with:
+   - OwnPay version (`php public/index.php --version`)
+   - PHP version (`php -v`)
+   - Error message and stack trace
+   - Steps to reproduce

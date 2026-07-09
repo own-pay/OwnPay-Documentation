@@ -1,0 +1,138 @@
+---
+title: WHMCS Integration
+description: Learn how to install and configure the official OwnPay WHMCS payment gateway module.
+---
+
+# WHMCS Integration
+
+<Note>
+This is the official OwnPay WHMCS module for integrating with the WHMCS billing platform.
+</Note>
+
+Integrate OwnPay with your WHMCS billing platform to accept credit cards, debit cards, and local mobile payments directly on your hosting and service invoices.
+
+<Card
+  title="OwnPay WHMCS Repository"
+  href="https://github.com/own-pay/OwnPay-WHMCS/"
+>
+  View the open-source code, report bugs, or contribute on GitHub.
+</Card>
+
+---
+
+## Prerequisites
+
+Before starting, ensure you have:
+- A working installation of WHMCS (v8.0 or higher recommended)
+- A self-hosted OwnPay instance running
+- An OwnPay API Key and Webhook Secret from the OwnPay Admin > **Developer Hub**
+
+---
+
+## Installation
+
+<Steps>
+<Step>
+**Download the module**
+
+Download the latest release ZIP from the [OwnPay-WHMCS Releases](https://github.com/own-pay/OwnPay-WHMCS/releases) page.
+</Step>
+<Step>
+**Extract files**
+
+Extract the archive. You will see a `modules` directory structure containing the gateway files:
+- `modules/gateways/ownpay.php`
+- `modules/gateways/callback/ownpay.php`
+</Step>
+<Step>
+**Upload to WHMCS**
+
+Copy these files to your WHMCS root directory, preserving the folder structure:
+
+```
+whmcs-root/
+  modules/
+    gateways/
+      callback/
+        ownpay.php (Webhook callback handler)
+      ownpay.php (Main gateway logic)
+```
+</Step>
+</Steps>
+
+---
+
+## Configuration
+
+Once the files are uploaded, configure the module in your WHMCS Admin Area:
+
+### 1. Enable the Gateway
+
+1. Log in to your WHMCS Admin Area
+2. Navigate to **System Settings** > **Payment Gateways** (or **Setup** > **Payments** > **Payment Gateways**)
+3. Under the **All Gateways** tab, click **OwnPay** to activate it
+
+### 2. Configure Gateway Fields
+
+Under the **Manage Active Gateways** tab, fill in the configuration details:
+
+<Tabs>
+<Tab title="Standard Settings">
+- **Display Name:** The name shown to clients on checkouts (e.g. `Credit/Debit Card / Mobile Banking (OwnPay)`)
+- **Api URL:** The base URL of your self-hosted OwnPay instance (e.g. `https://pay.yourdomain.com`)
+- **Api Key:** The API key generated from Admin > Developer Hub in OwnPay
+</Tab>
+<Tab title="Webhook & Test Settings">
+- **Webhook Secret:** The signing secret used to verify webhook integrity
+- **Test Mode:** Check this box to enable the sandbox gateway environment for test transactions
+</Tab>
+</Tabs>
+
+Click **Save Changes** in WHMCS once complete.
+
+---
+
+## Webhook Callback Configuration
+
+OwnPay uses webhooks to inform WHMCS instantly when a customer completes their payment.
+
+<Steps>
+<Step>
+**Locate your callback URL**
+
+Your WHMCS callback URL is:
+```
+https://your-whmcs-domain.com/modules/gateways/callback/ownpay.php
+```
+
+<Note>
+Replace `your-whmcs-domain.com` with your actual WHMCS domain.
+</Note>
+</Step>
+<Step>
+**Create the webhook in OwnPay**
+
+Go to your **OwnPay Admin Portal** > **Developer Hub** > **Webhooks** and click **Add Webhook**:
+- **URL:** Paste your WHMCS callback URL
+- **Events:** Select `payment.intent.completed`
+</Step>
+<Step>
+**Link the signing secret**
+
+Copy the generated **Signing Secret** from the OwnPay Admin portal and paste it into the **Webhook Secret** field of your WHMCS gateway settings. Save changes in both portals.
+</Step>
+</Steps>
+
+---
+
+## Troubleshooting & Logs
+
+If payments are not being applied to invoices automatically:
+
+1. Navigate to WHMCS Admin > **Billing** > **Gateway Log**
+2. Look for entries labeled `ownpay` to see request/response details and signature validation errors
+3. If signature verification fails, check that the **Webhook Secret** matches the Signing Secret in the OwnPay Admin portal exactly
+
+<Tip>
+For detailed webhook debugging, enable debug logging in your WHMCS configuration.
+</Tip>

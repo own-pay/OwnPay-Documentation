@@ -1,0 +1,56 @@
+---
+title: "Mobile companion"
+description: "Android companion app for SMS verification"
+---
+
+OwnPay includes an Android companion app for real-time SMS verification and payment matching. This enables automated verification of local mobile banking payments.
+
+## How it works
+
+```
+Customer pays via mobile banking -> SMS received by companion app
+-> SmartSmsAnalyzer parses SMS -> Matches to pending transaction
+-> Transaction auto-completed -> Ledger entry posted
+```
+
+## Features
+
+- **Device pairing** - Secure OTP-based pairing with OwnPay
+- **SMS parsing** - Automatic extraction of payment details from SMS
+- **Transaction matching** - Matches SMS to pending transactions
+- **Real-time status** - Live device online/offline status
+- **Heartbeat monitoring** - Automatic keepalive every 60 seconds
+
+## Supported mobile banking
+
+- bKash (Bangladesh)
+- Nagad (Bangladesh)
+- GCash (Philippines)
+- Other providers via custom SMS templates
+
+## Architecture
+
+### Device pairing flow
+
+1. Admin generates OTP from **Mobile & SMS > Pair Device**
+2. Companion app scans QR code or enters pairing code
+3. OTP verified and device registered
+4. JWT token issued for API access
+
+### SMS verification flow
+
+1. Companion app receives incoming SMS
+2. `SmartSmsAnalyzer` parses SMS content
+3. Extracts: amount, transaction ID, gateway, sender
+4. `SmsVerificationJob` matches to pending transaction
+5. Transaction status updated to completed
+6. Ledger entry posted
+
+## Getting started
+
+1. Install the OwnPay Companion app from the Play Store
+2. Go to **Mobile & SMS > Pair Device** in admin
+3. Scan the QR code with the app
+4. Device is paired and ready
+
+See [Pairing](/mobile/pairing) for detailed setup instructions.

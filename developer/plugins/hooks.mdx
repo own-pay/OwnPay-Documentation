@@ -1,0 +1,127 @@
+---
+title: "Hooks Reference"
+description: "Comprehensive hooks, filters, and capabilities index"
+---
+
+The OwnPay engine is built upon a fully decoupled, event-driven architecture orchestrated by the `OwnPay\Event\EventManager` service. Action and Filter hooks allow developers to alter core system pathways without introducing hardcoded overrides inside core files.
+
+## Architectural invariants
+
+1. **Strict Error Isolation**: Every action callback is wrapped within a standalone try-catch. A plugin failure will never crash a critical transaction flow.
+2. **HTML Output Trust Contract**: Template-level hook points render whatever the hook callbacks emit as trusted HTML. The core `hook()` renderer strips dangerous elements as defense-in-depth.
+3. **Deterministic Priority Chains**: Hooks execute in ascending numerical priority. Lower number = runs earlier.
+4. **Execution Context Identification**: The `EventManager` maintains an internal execution context stack (`ownerStack`).
+5. **Scoped Execution Filters**: Filter hooks respect active `merchant_id` scopes.
+
+## System lifecycle hooks
+
+### Action hooks
+
+| Hook | Triggered From | Parameters | Description |
+|---|---|---|---|
+| `system.boot` | `Kernel::boot()` | None | Dispatched during early application bootstrap |
+| `system.shutdown` | `Kernel::terminate()` | None | Dispatched on graceful application shutdown |
+| `plugin.before_install` | `PluginManager::install()` | `string $zipPath` | Before a new plugin package is extracted |
+| `plugin.installed` | `PluginManager::install()` | `string $slug`, `array $manifest` | After successful file extraction |
+| `plugin.before_activate` | `PluginManager::activate()` | `string $slug`, `int $brandId` | Before database migrations run |
+| `plugin.activated` | `PluginManager::activate()` | `string $slug`, `int $migrationsCount`, `int $brandId` | When activation completes |
+| `plugin.before_deactivate` | `PluginManager::deactivate()` | `string $slug`, `int $brandId` | Before the plugin is suspended |
+| `plugin.deactivated` | `PluginManager::deactivate()` | `string $slug`, `int $brandId` | After the plugin is marked inactive |
+| `plugin.before_uninstall` | `PluginManager::uninstall()` | `string $slug` | Before structural deletion starts |
+| `plugin.uninstalled` | `PluginManager::uninstall()` | `string $slug` | After plugin files are deleted |
+| `mobile.device.paired` | `DevicePairingService::pair()` | `string $deviceUuid`, `int $merchantId`, `int $userId` | When a mobile app pairs |
+| `mobile.device.revoked` | `DevicePairingService::revoke()` | `string $deviceUuid`, `int $merchantId` | When a device is revoked |
+
+### Filter hooks
+
+| Hook | Triggered From | Parameters | Expected Return | Description |
+|---|---|---|---|---|
+| `system.request` | `Kernel::handle()` | `Request $request` | `Request` | Filters inbound HTTP request objects |
+| `system.response` | `Kernel::handle()` | `Response $response`, `Request $request` | `Response` | Filters final response payloads |
+| `system.middleware_pipeline` | `Kernel::boot()` | `array $middleware` | `array` | Filters global middleware layers |
+| `db.query.before` | `Database::query()` | `array $queryData` | `array` | Filters SQL statements before PDO execution |
+
+## Payment engine hooks
+
+### Action hooks
+
+| Hook | Triggered From | Parameters | Description |
+|---|---|---|---|
+| `payment.transaction.created` | `TransactionService::create()` | `array $transaction` | When a transaction is entered with status `pending` |
+| `payment.transaction.completed` | `TransactionService::markCompleted()` | `array $transaction` | When a transaction resolves successfully |
+| `payment.transaction.failed` | `TransactionService::markFailed()` | `array $transaction` | On transaction decline or timeout |
+| `payment.transaction.cancelled` | `TransactionService::markCancelled()` | `array $transaction` | When the buyer cancels |
+| `payment.intent.created` | `PaymentService::createIntent()` | `array $intent` | When a checkout intent is generated |
+| `payment.intent.expired` | `PaymentService::expireIntents()` | `array $intent` | When checkout intents time out |
+| `ledger.entry.created` | `LedgerService::postEntry()` | `array $entry` | When a balanced double-entry booking is committed |
+| `dispute.opened` | `DisputeService::open()` | `array $dispute` | When a chargeback dispute registers |
+| `dispute.resolved` | `DisputeService::resolve()` | `array $dispute` | When dispute outcome resolves |
+
+### Filter hooks
+
+| Hook | Triggered From | Parameters | Expected Return | Description |
+|---|---|---|---|---|
+| `payment.transaction.before_create` | `TransactionService::create()` | `array $data`, `int $merchantId` | `array` | Filters columns prior to database insertion |
+| `payment.amount.calculate` | `PaymentService::calculate()` | `string $amount`, `array $context` | `string` | Filters currency decimals and rounding |
+| `payment.fee.calculate` | `FeeService::calculate()` | `string $fee`, `array $context` | `string` | Filters dynamic merchant settlement fees |
+| `gateway.capture.before` | `GatewayBridge::capture()` | `array $params`, `string $slug`, `int $merchantId` | `array` | Filters transaction parameters sent to payment adapters |
+
+## Checkout and theme hooks
+
+### Action hooks
+
+| Hook | Triggered From | Parameters | Description |
+|---|---|---|---|
+| `checkout.before` | `CheckoutController::index()` | `array $transaction` | Before the checkout layout is parsed |
+| `checkout.head` | Base checkout twig templates | None | Inject stylesheet link elements |
+| `checkout.footer` | Base checkout twig templates | None | Inject custom JavaScript scripts |
+| `checkout.gateway.selected` | `CheckoutController::pay()` | `array $transaction`, `string $gateway` | When the buyer selects a gateway |
+| `checkout.manual_verify.submitted` | `CheckoutController::submitManualProof()` | `array $transaction`, `array $proof` | When a manual receipt is submitted |
+
+### Filter hooks
+
+| Hook | Triggered From | Parameters | Expected Return | Description |
+|---|---|---|---|---|
+| `checkout.render` | `CheckoutController::index()` | `array $data` | `array` | Filters Twig view context variables |
+| `checkout.template` | `CheckoutController::index()` | `string $templatePath` | `string` | Filters layout template path |
+| `checkout.status.template` | `CheckoutController::status()` | `string $templatePath` | `string` | Filters result page template path |
+| `checkout.csp.sources` | `SecurityHeadersMiddleware` | `array $sources` | `array` | Filters content security policies |
+
+## Communication hooks
+
+| Hook | Type | Parameters | Description |
+|---|---|---|---|
+| `communication.sms.send` | Action | `int $merchantId`, `string $recipientNumber`, `array $deliveryResult` | After outbound SMS delivery |
+| `communication.mail.send` | Action | `int $merchantId`, `array $messagePayload`, `array $deliveryResult` | After outbound Email delivery |
+| `communication.channels` | Filter | `array $channels` | Filters list of notification channels |
+| `communication.template.render` | Filter | `string $html`, `array $variables` | Filters messaging layout compilation |
+
+## Domain hooks
+
+| Hook | Type | Parameters | Description |
+|---|---|---|---|
+| `domain.mapped` | Action | `string $domain`, `int $merchantId` | When a custom domain is linked |
+| `domain.verified` | Action | `string $domainName`, `int $merchantId` | When DNS verification passes |
+| `domain.removed` | Action | `string $domainName`, `int $merchantId` | When a domain mapping is deleted |
+| `domain.resolve` | Filter | `array $resolvedContext` | Filters resolved domain mapping details |
+
+## Auto-updater hooks
+
+| Hook | Type | Parameters | Description |
+|---|---|---|---|
+| `update.available` | Action | `string $latestVersion` | When a newer release is detected |
+| `update.before` | Action | `string $targetVersion` | Before a platform update begins |
+| `update.after` | Action | `string $targetVersion` | When a platform update completes |
+| `update.failed` | Action | `string $targetVersion`, `string $errorMessage` | When an update exception occurs |
+| `update.rollback` | Action | `string $targetVersion` | When system rolls back |
+
+## Guidelines and constraints
+
+- Register hooks in `register()` only
+- Never modify `$this` state in a filter
+- Use BCMath for all financial values
+- Do not post to the ledger from hooks
+- Escape all echoed HTML
+- No `eval()` or OS commands
+- Respect filter return type
+- Hooks fire only when plugin is active

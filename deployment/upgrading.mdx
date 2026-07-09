@@ -1,0 +1,109 @@
+---
+title: "Upgrading"
+description: "Upgrade OwnPay to the latest version"
+---
+
+This guide covers upgrading your OwnPay installation to the latest version.
+
+## Before upgrading
+
+### 1. Back up everything
+
+```bash
+# Back up database
+mysqldump -u root -p ownpay > ownpay_backup_$(date +%Y%m%d).sql
+
+# Back up files
+tar -czf ownpay_files_$(date +%Y%m%d).tar.gz /var/www/ownpay
+```
+
+### 2. Check release notes
+
+Review the changelog for:
+- Breaking changes
+- New requirements
+- Migration steps
+- Deprecated features
+
+### 3. Put site in maintenance mode
+
+```bash
+php public/index.php maintenance:on
+```
+
+## Upgrade process
+
+### Step 1: Download new version
+
+```bash
+cd /var/www
+sudo wget https://github.com/own-pay/OwnPay/releases/download/vX.X.X/ownpay-vX.X.X.zip
+```
+
+### Step 2: Extract and replace
+
+```bash
+# Extract to temporary location
+sudo unzip ownpay-vX.X.X.zip -d /tmp/ownpay-new
+
+# Replace files (keep storage and .env)
+sudo rsync -av --exclude='storage' --exclude='.env' /tmp/ownpay-new/ /var/www/ownpay/
+
+# Set permissions
+sudo chown -R www-data:www-data /var/www/ownpay
+sudo chmod -R 755 /var/www/ownpay
+sudo chmod -R 775 /var/www/ownpay/storage
+```
+
+### Step 3: Run migrations
+
+```bash
+php public/index.php migrate
+```
+
+### Step 4: Clear cache
+
+```bash
+php public/index.php cache:clear
+```
+
+### Step 5: Disable maintenance mode
+
+```bash
+php public/index.php maintenance:off
+```
+
+## Verify upgrade
+
+1. Check admin panel loads correctly
+2. Verify payment processing works
+3. Test webhook delivery
+4. Check cron jobs are running
+5. Review error logs for issues
+
+## Rollback (if needed)
+
+```bash
+# Restore files
+sudo tar -xzf ownpay_files_YYYYMMDD.tar.gz -C /
+
+# Restore database
+mysql -u root -p ownpay < ownpay_backup_YYYYMMDD.sql
+
+# Disable maintenance mode
+php public/index.php maintenance:off
+```
+
+## Docker upgrade
+
+```bash
+# Pull latest image
+docker pull ownpay/ownpay:latest
+
+# Restart with new image
+docker-compose down
+docker-compose up -d
+
+# Run migrations
+docker-compose exec app php public/index.php migrate
+```

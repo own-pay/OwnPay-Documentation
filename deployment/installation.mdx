@@ -1,0 +1,191 @@
+---
+title: "Installation"
+description: "Install OwnPay on your server"
+---
+
+OwnPay comes with a **built-in web installer**. Upload the files, create a database, and visit your domain to complete setup.
+
+## Shared hosting
+
+### Step 1: Download OwnPay
+
+Go to the [GitHub Releases page](https://github.com/own-pay/OwnPay/releases/) and download the latest `.zip` file.
+
+### Step 2: Upload to hosting
+
+Upload the `.zip` file to your web root (`public_html/`) using File Manager or FTP.
+
+### Step 3: Extract files
+
+Extract the ZIP file. Ensure the `public/` folder is directly inside your web root (no double-nested folders).
+
+### Step 4: Create MySQL database
+
+Create a new database and user with **All Privileges**. Note the database name, username, and password.
+
+### Step 5: Set PHP version
+
+Set PHP version to **8.3** in your hosting control panel.
+
+### Step 6: Run the installer
+
+Visit `https://yourdomain.com/install` and follow the wizard:
+
+1. **Requirements check** - All items should be green
+2. **Database configuration** - Enter your database credentials
+3. **Admin account** - Create your administrator account
+4. **Application settings** - Set app name, URL, timezone
+
+### Step 7: Set up cron job
+
+Add a cron job to run every minute:
+
+```bash
+* * * * * php /home/your_username/public_html/public/index.php cron
+```
+
+## VPS / Cloud server
+
+### Step 1: Connect via SSH
+
+```bash
+ssh root@YOUR_SERVER_IP
+```
+
+### Step 2: Update system
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+### Step 3: Install software
+
+```bash
+sudo apt install -y nginx mysql-server \
+  php8.3-fpm php8.3-mysql php8.3-mbstring php8.3-curl \
+  php8.3-xml php8.3-zip php8.3-gd php8.3-bcmath \
+  php8.3-intl unzip curl
+```
+
+If PHP 8.3 is not available:
+
+```bash
+sudo add-apt-repository ppa:ondrej/php -y
+sudo apt update
+```
+
+Start services:
+
+```bash
+sudo systemctl start nginx mysql php8.3-fpm
+sudo systemctl enable nginx mysql php8.3-fpm
+```
+
+### Step 4: Set up database
+
+```bash
+sudo mysql_secure_installation
+sudo mysql -u root -p
+```
+
+```sql
+CREATE DATABASE ownpay CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'ownpay'@'localhost' IDENTIFIED BY 'STRONG_PASSWORD';
+GRANT ALL PRIVILEGES ON ownpay.* TO 'ownpay'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+### Step 5: Download OwnPay
+
+```bash
+cd /var/www
+sudo wget https://github.com/own-pay/OwnPay/releases/download/vX.X.X/ownpay-vX.X.X.zip
+sudo unzip ownpay-vX.X.X.zip -d ownpay
+sudo rm ownpay-vX.X.X.zip
+```
+
+### Step 6: Set permissions
+
+```bash
+sudo chown -R www-data:www-data /var/www/ownpay
+sudo chmod -R 755 /var/www/ownpay
+sudo chmod -R 775 /var/www/ownpay/storage
+```
+
+### Step 7: Configure Nginx
+
+Create `/etc/nginx/sites-available/ownpay`:
+
+```nginx
+server {
+    listen 80;
+    server_name yourdomain.com www.yourdomain.com;
+    root /var/www/ownpay/public;
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff2|webp)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+```
+
+Enable and verify:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/ownpay /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### Step 8: Install SSL
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+```
+
+### Step 9: Run installer
+
+Visit `https://yourdomain.com/install` and follow the wizard.
+
+### Step 10: Set up cron
+
+```bash
+sudo crontab -u www-data -e
+```
+
+Add:
+
+```bash
+* * * * * /usr/bin/php /var/www/ownpay/public/index.php cron >> /var/log/ownpay-cron.log 2>&1
+```
+
+## After installation
+
+1. Change your admin password
+2. Enable Two-Factor Authentication
+3. Create your first brand
+4. Configure a payment gateway
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Blank page | Check PHP 8.3 is active and extensions installed |
+| Database failed | Verify credentials match exactly |
+| 500 error | Check Nginx/PHP-FPM logs |
+| Permission errors | Set `storage/` to 775 |
+| "Already Installed" | Installer locked after first run - this is normal |
