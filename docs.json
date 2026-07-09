@@ -341,7 +341,8 @@
         "header": "Community",
         "items": [
           { "label": "GitHub", "href": "https://github.com/own-pay/OwnPay" },
-          { "label": "Discussions", "href": "https://github.com/own-pay/OwnPay/discussions" }
+          { "label": "Discussions", "href": "https://github.com/own-pay/OwnPay/discussions" },
+          { "label": "Subscribe", "href": "/user-guide/subscribe" }
         ]
       }
     ]

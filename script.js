@@ -65,28 +65,6 @@ async function loadChangelog() {
 function init() {
   updateGitHubStars();
   loadChangelog();
-  addSubscribeForm();
-}
-
-// ===== Email Subscribe Form =====
-function addSubscribeForm() {
-  const footer = document.querySelector('#footer, footer');
-  if (!footer || footer.querySelector('.footer-subscribe')) return;
-
-  const form = document.createElement('div');
-  form.className = 'footer-subscribe';
-  form.innerHTML = `
-    <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed! ✓'; this.querySelector('input').value=''; setTimeout(() => this.querySelector('button').textContent='Subscribe', 2000);" style="display:flex;gap:8px;max-width:340px;margin:0 auto;">
-      <input type="email" placeholder="Enter your email" required style="flex:1;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;background:#fff;color:#111827;outline:none;" />
-      <button type="submit" style="padding:8px 16px;background:#0D9373;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;">Subscribe</button>
-    </form>
-  `;
-
-  // Insert before the community tagline
-  const footerBottom = footer.querySelector('.flex.items-center.justify-between');
-  if (footerBottom) {
-    footerBottom.parentNode.insertBefore(form, footerBottom);
-  }
 }
 
 if (document.readyState === 'loading') {
