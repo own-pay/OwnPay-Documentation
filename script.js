@@ -61,53 +61,9 @@ async function loadChangelog() {
   }
 }
 
-// ===== Page Voting System =====
-function addVotingSystem() {
-  const content = document.querySelector('#content-area, #content');
-  if (!content || content.querySelector('.doc-vote')) return;
-
-  const pagePath = window.location.pathname;
-  const voteKey = 'ownpay_votes_' + pagePath;
-  const voted = localStorage.getItem(voteKey);
-
-  const voteContainer = document.createElement('div');
-  voteContainer.className = 'doc-vote';
-  voteContainer.innerHTML = `
-    <div class="doc-vote-inner">
-      <span class="doc-vote-question">Was this page helpful?</span>
-      <div class="doc-vote-buttons">
-        <button class="doc-vote-btn doc-vote-yes ${voted === 'yes' ? 'voted' : ''}" data-vote="yes" ${voted ? 'disabled' : ''}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-          <span>Yes</span>
-        </button>
-        <button class="doc-vote-btn doc-vote-no ${voted === 'no' ? 'voted' : ''}" data-vote="no" ${voted ? 'disabled' : ''}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
-          <span>No</span>
-        </button>
-      </div>
-      <span class="doc-vote-thanks" style="display:none">Thanks for your feedback!</span>
-    </div>
-  `;
-
-  content.appendChild(voteContainer);
-
-  voteContainer.querySelectorAll('.doc-vote-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const vote = btn.dataset.vote;
-      localStorage.setItem(voteKey, vote);
-      voteContainer.querySelectorAll('.doc-vote-btn').forEach(b => { b.disabled = true; b.classList.remove('voted'); });
-      btn.classList.add('voted');
-      voteContainer.querySelector('.doc-vote-thanks').style.display = 'inline';
-      voteContainer.querySelector('.doc-vote-question').style.display = 'none';
-      voteContainer.querySelector('.doc-vote-buttons').style.display = 'none';
-    });
-  });
-}
-
 // ===== Initialize =====
 function init() {
   updateGitHubStars();
-  addVotingSystem();
   loadChangelog();
 }
 
