@@ -1,6 +1,6 @@
 ---
 title: "Event System"
-description: "OwnPay's event-driven plugin architecture"
+description: "OwnPay's event-driven plugin architecture with dispatchable events, listeners, queued handlers, and payload conventions for payments and refunds."
 ---
 
 OwnPay's plugin system is built around a central event bus implemented in `OwnPay\Event\EventManager`. It provides two hook types - **actions** (fire-and-forget) and **filters** (pipeline mutation) - that allow plugins to extend and customise core behaviour without modifying any core files.
