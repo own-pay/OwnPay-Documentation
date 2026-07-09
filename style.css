@@ -64,6 +64,18 @@ footer::after {
   margin: 0;
 }
 
+/* Email subscribe form in footer */
+#footer::before,
+footer::before {
+  content: "Subscribe to updates";
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  padding-bottom: 0.5rem;
+}
+
 /* ===== Navbar Fixes ===== */
 
 /* Hide GitHub link text in navbar, show icon only */
