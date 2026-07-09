@@ -12,7 +12,7 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://ownpay.org/docs"
+    "href": "https://ownpay.org"
   },
   "appearance": {
     "default": "system"
