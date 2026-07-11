@@ -67,15 +67,23 @@ export default {
   async fetch(request) {
     try {
       const url = new URL(request.url);
+
+      // Pass through .well-known
       if (url.pathname.startsWith('/.well-known/')) {
         return await fetch(request);
       }
+
+      // Only handle /docs paths
       if (!url.pathname.startsWith(DOCS_PREFIX)) {
         return fetch(request);
       }
+
+      // Strip /docs prefix and build target URL
       const pathAfterDocs = url.pathname.slice(DOCS_PREFIX.length) || '/';
-      const target = new URL(pathAfterDocs, 'https://' + MINTLIFY_HOST);
+      const target = new URL(pathAfterDocs, `https://${MINTLIFY_HOST}`);
       target.search = url.search;
+
+      // Forward request to Mintlify with follow redirects
       const response = await fetch(target.toString(), {
         method: request.method,
         headers: {
@@ -86,27 +94,46 @@ export default {
         },
         redirect: 'follow'
       });
+
       const contentType = response.headers.get('Content-Type') || '';
+
+      // Only modify HTML responses
       if (contentType.includes('text/html')) {
         let body = await response.text();
-        body = body.replaceAll('https://' + MINTLIFY_HOST, 'https://ownpay.org/docs');
-        body = body.replace(/(href|src|action|content)="\/(?!docs|https:|http:|\/\/)/g, '$1="/docs/');
-        body = body.replace(/(href|src|action|content)='\/(?!docs|https:|http:|\/\/)/g, "$1='/docs/");
-        body = body.replace(/url\(\/(?!docs|https:|http:|\/\/)/g, 'url(/docs/');
-        body = body.replace(/fetch\(\"\//g, 'fetch("/docs/');
-        body = body.replace(/fetch\(\'\//g, "fetch('/docs/");
+
+        // Rewrite absolute Mintlify URLs
+        body = body.replaceAll(`https://${MINTLIFY_HOST}`, 'https://ownpay.org/docs');
+
+        // Rewrite root-relative navigation links (not assets)
+        // Only rewrite href/src for navigation, not CDN assets
+        body = body.replace(/href="\/(?!docs|https:|http:|\/\/|mintcdn\.com|static\.|_next\/)/g, 'href="/docs/');
+        body = body.replace(/href='\/(?!docs|https:|http:|\/\/|mintcdn\.com|static\.|_next\/)/g, "href='/docs/");
+
+        // Rewrite fetch/API paths for SPA navigation
+        body = body.replace(/fetch\("\/(?!docs|https:|http:|\/\/|mintcdn\.com)/g, 'fetch("/docs/');
+
+        // Inject custom CSS and JS
         body = body.replace('</head>', '<style>' + CUSTOM_CSS + '</style></head>');
         body = body.replace('</body>', '<script>' + CUSTOM_JS + '</script></body>');
+
         return new Response(body, {
           status: response.status,
-          headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=300' }
+          headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+            'Cache-Control': 'public, max-age=300',
+          }
         });
       }
+
+      // For non-HTML responses (CSS, JS, images), pass through directly
       const newHeaders = new Headers(response.headers);
       newHeaders.set('Cache-Control', 'public, max-age=86400');
-      newHeaders.delete('X-Frame-Options');
-      newHeaders.delete('Content-Security-Policy');
-      return new Response(response.body, { status: response.status, statusText: response.statusText, headers: newHeaders });
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: newHeaders
+      });
+
     } catch (e) {
       return new Response('Proxy error: ' + e.message, { status: 502 });
     }
