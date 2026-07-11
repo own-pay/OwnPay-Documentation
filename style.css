@@ -76,6 +76,29 @@ footer::before {
   padding-bottom: 0.5rem;
 }
 
+/* ===== Footer Overlap Fix ===== */
+
+/* Prevent footer from overlapping sidebar on short pages */
+/* The sidebar uses position:sticky and extends to its content height */
+/* The footer must sit below the content area, not under the sidebar */
+#sidebar + div footer,
+#sidebar + div > div:last-child footer {
+  margin-left: 0 !important;
+  width: 100% !important;
+  border-top: 1px solid #e5e7eb;
+}
+
+.dark #sidebar + div footer,
+.dark #sidebar + div > div:last-child footer {
+  border-top-color: #374151;
+}
+
+/* Ensure footer z-index is below sticky sidebar */
+footer {
+  z-index: 0 !important;
+  position: relative !important;
+}
+
 /* ===== Navbar Fixes ===== */
 
 /* Hide GitHub link text in navbar, show icon only */
