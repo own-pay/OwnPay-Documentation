@@ -1,0 +1,164 @@
+---
+title: "OwnPay Skills for AI Agents"
+description: "Install OwnPay skills to give AI agents full knowledge of the OwnPay platform, payment gateway architecture, and development patterns."
+keywords: "AI skills, agent skills, OwnPay skill.md, Claude skills, Cursor skills, payment gateway AI"
+---
+
+OwnPay provides **skills** that teach AI agents how to work with the OwnPay platform. A skill is a structured knowledge file that gives AI tools context about OwnPay's architecture, APIs, conventions, and best practices.
+
+<Info>
+Install the OwnPay skill to get better results when using AI tools with OwnPay. The skill gives agents knowledge of the payment gateway architecture, multi-brand system, plugin development, and API patterns.
+</Info>
+
+## What are skills?
+
+Skills are files that instruct AI agents how to use a product effectively. When you install the OwnPay skill, AI tools like Claude, Cursor, and VS Code gain:
+
+- **Architecture knowledge** - Understanding of multi-brand, gateway, and ledger systems
+- **API patterns** - How to use the REST API, webhooks, and SDKs
+- **Plugin development** - How to build gateway, addon, and theme plugins
+- **Best practices** - Security, error handling, and testing patterns
+- **Code examples** - Working examples in PHP, Node.js, and cURL
+
+## Install the skill
+
+### Quick install
+
+Run this command in your terminal:
+
+```bash
+npx skills add https://ownpay.org/docs
+```
+
+This downloads and installs the OwnPay skill for all compatible AI tools on your system.
+
+### Manual installation
+
+<Tabs>
+<Tab title="Claude Code">
+```bash
+# Download the skill file
+curl -o ~/.claude/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
+
+# The skill is now available in Claude Code
+```
+</Tab>
+<Tab title="Cursor">
+1. Create the skills directory: `mkdir -p .cursor/skills/ownpay`
+2. Download the skill:
+```bash
+curl -o .cursor/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
+```
+3. Restart Cursor to load the skill
+</Tab>
+<Tab title="VS Code (Copilot)">
+1. Create the skills directory: `mkdir -p .vscode/skills/ownpay`
+2. Download the skill:
+```bash
+curl -o .vscode/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
+```
+3. Reload VS Code to load the skill
+</Tab>
+<Tab title="Gemini CLI">
+```bash
+# Create skills directory
+mkdir -p ~/.gemini/skills/ownpay
+
+# Download the skill
+curl -o ~/.gemini/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
+```
+</Tab>
+</Tabs>
+
+## What the skill teaches
+
+The OwnPay skill covers these areas:
+
+### Core architecture
+
+- **Multi-brand system** - How brands isolate customers, gateways, and settings
+- **Payment flow** - From checkout creation to settlement
+- **Double-entry ledger** - Financial integrity and bookkeeping
+- **Plugin system** - Gateway, addon, and theme plugin architecture
+
+### API integration
+
+- **REST API** - Authentication, endpoints, error handling
+- **Webhooks** - Event types, signature verification, retry logic
+- **SDKs** - PHP and Node.js SDK usage patterns
+- **Payment intents** - Creating and confirming payments
+
+### Development patterns
+
+- **Gateway plugins** - Building custom payment gateway integrations
+- **Addon plugins** - Extending OwnPay with new features
+- **Theme plugins** - Customizing the checkout experience
+- **Hooks and filters** - Event-driven customization
+
+### Operations
+
+- **Installation** - Shared hosting, VPS, and Docker deployment
+- **Configuration** - Environment variables, cron jobs, caching
+- **Security** - PCI compliance, API key management, 2FA
+- **Troubleshooting** - Common issues and solutions
+
+## Using the skill with MCP
+
+For the best experience, combine the skill with the [OwnPay MCP server](/developer/ai-mcp):
+
+1. **Install the skill** - Gives the AI agent background knowledge
+2. **Connect the MCP server** - Gives the AI agent real-time access to docs
+
+Together, the AI agent understands OwnPay's architecture AND can search the latest documentation.
+
+<Tip>
+The skill teaches the AI *how* OwnPay works. The MCP server gives it access to *what* the docs say. Use both for the most accurate results.
+</Tip>
+
+## Example prompts after installing
+
+With the skill installed, try these prompts:
+
+### Development
+
+- *"Create a gateway plugin for a new payment provider"*
+- *"Build a webhook handler for payment.completed events"*
+- *"Show me how to create a payment intent using the PHP SDK"*
+
+### Architecture
+
+- *"Explain how multi-brand data isolation works"*
+- *"How does the double-entry ledger track transactions?"*
+- *"What hooks are available for customizing payment flow?"*
+
+### Operations
+
+- *"How do I set up OwnPay on a cPanel shared host?"*
+- *"Configure Redis caching for better performance"*
+- *"Set up a cron job for webhook retries"*
+
+## Skill file location
+
+The skill file is hosted at:
+
+```
+https://ownpay.org/docs/skill.md
+```
+
+Mintlify automatically generates this file from your documentation structure and content. It includes:
+
+- Project overview and description
+- Feature list and capabilities
+- API endpoint summaries
+- Code examples from documentation
+- Architecture patterns and conventions
+
+## Updating the skill
+
+The skill file updates automatically when you deploy new documentation. No manual updates needed - just push your docs changes to GitHub and the skill regenerates.
+
+## Related pages
+
+- [OwnPay MCP Server](/developer/ai-mcp) - Connect AI tools to search docs in real-time
+- [Developer Quickstart](/developer/quickstart) - Get started with the OwnPay API
+- [Plugin Development](/developer/plugins/overview) - Build custom plugins

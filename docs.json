@@ -223,6 +223,14 @@
               "developer/plugin-types/addon-development",
               "developer/plugin-types/theme-development"
             ]
+          },
+          {
+            "group": "AI Tools",
+            "icon": "bot",
+            "pages": [
+              "developer/ai-mcp",
+              "developer/ai-skills"
+            ]
           }
         ]
       },
@@ -315,8 +323,15 @@
       "chatgpt",
       "claude",
       "perplexity",
+      "grok",
+      "aistudio",
+      "devin",
+      "devin-desktop",
+      "mcp",
+      "add-mcp",
       "cursor",
-      "vscode"
+      "vscode",
+      "devin-mcp"
     ],
     "display": "toc"
   },

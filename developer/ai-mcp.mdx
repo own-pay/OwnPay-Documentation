@@ -1,0 +1,157 @@
+---
+title: "OwnPay Docs MCP Server"
+description: "Connect AI tools like Claude, Cursor, and ChatGPT to the OwnPay documentation via MCP for real-time access to docs content."
+keywords: "MCP server, Model Context Protocol, AI tools, Claude, Cursor, ChatGPT, OwnPay docs"
+---
+
+The OwnPay documentation hosts a **Model Context Protocol (MCP) server** that lets AI tools search and retrieve content directly from the docs. Instead of relying on training data or web searches, AI tools get accurate, up-to-date information from the actual documentation.
+
+<Info>
+The MCP server is available at `https://ownpay.org/docs/mcp`. It is read-only and requires no authentication.
+</Info>
+
+## What is MCP?
+
+The **Model Context Protocol** is an open standard that connects AI applications to external data sources. When you connect an AI tool to the OwnPay docs MCP server, it can:
+
+- **Search** across all documentation pages for relevant content
+- **Read** full pages as Markdown for detailed answers
+- **Submit feedback** if it finds outdated or incorrect information
+
+This means AI tools give you answers based on the actual current documentation, not stale training data.
+
+## Available tools
+
+The OwnPay MCP server provides three tools:
+
+| Tool | Description |
+|------|-------------|
+| **Search** | Searches across all docs pages, returning snippets with titles and links |
+| **Query docs filesystem** | Reads and navigates the docs using shell-style commands for batch reads |
+| **Submit feedback** | Reports issues with specific pages back to the documentation team |
+
+## Connect your AI tool
+
+<Tabs>
+<Tab title="Claude">
+<Steps>
+<Step title="Add the MCP connector">
+1. Go to [Claude Connectors](https://claude.ai/settings/connectors)
+2. Click **Add custom connector**
+3. Enter:
+   - **Name:** OwnPay Docs
+   - **URL:** `https://ownpay.org/docs/mcp`
+4. Click **Add**
+</Step>
+<Step title="Use in a conversation">
+1. In any Claude conversation, click the attachments button (+ icon)
+2. Select **OwnPay Docs**
+3. Ask a question about OwnPay
+</Step>
+</Steps>
+</Tab>
+<Tab title="Claude Code">
+Run this command:
+
+```bash
+claude mcp add --transport http ownpay-docs https://ownpay.org/docs/mcp
+```
+
+Then ask Claude Code about OwnPay - it will automatically search the docs.
+</Tab>
+<Tab title="Cursor">
+<Steps>
+<Step title="Open MCP settings">
+1. Press `Ctrl+Shift+P` (Windows) or `Cmd+Shift+P` (Mac)
+2. Search for **Open MCP settings**
+3. Click **Add custom MCP**
+</Step>
+<Step title="Add the server">
+In `mcp.json`, add:
+
+```json
+{
+  "mcpServers": {
+    "ownpay-docs": {
+      "url": "https://ownpay.org/docs/mcp"
+    }
+  }
+}
+```
+</Step>
+<Step title="Test the connection">
+In Cursor's chat, ask "What tools do you have available?" - it should list the OwnPay docs MCP server.
+</Step>
+</Steps>
+</Tab>
+<Tab title="VS Code">
+<Steps>
+<Step title="Create MCP config">
+Create a `.vscode/mcp.json` file in your project:
+
+```json
+{
+  "servers": {
+    "ownpay-docs": {
+      "type": "http",
+      "url": "https://ownpay.org/docs/mcp"
+    }
+  }
+}
+```
+</Step>
+<Step title="Use in Copilot Chat">
+VS Code will automatically connect to the MCP server when you use Copilot Chat.
+</Step>
+</Steps>
+</Tab>
+<Tab title="ChatGPT">
+1. In ChatGPT, start a new conversation
+2. Click the **Connectors** or **Plugins** button
+3. Add a custom MCP server with URL: `https://ownpay.org/docs/mcp`
+4. Ask questions about OwnPay
+</Tab>
+</Tabs>
+
+## Example prompts
+
+After connecting, try these prompts:
+
+- *"How do I install OwnPay on shared hosting?"*
+- *"What payment gateways does OwnPay support?"*
+- *"How do I create a payment link via the API?"*
+- *"Explain the multi-brand architecture"*
+- *"How do I set up webhooks for payment notifications?"*
+
+## MCP vs web search
+
+| | MCP Server | Web Search |
+|---|-----------|------------|
+| **Source** | Direct from OwnPay docs | Search engine index |
+| **Freshness** | Always current | May be stale |
+| **Accuracy** | Exact documentation content | May include outdated info |
+| **Token usage** | Efficient - targeted results | More tokens for web context |
+
+## Discovery
+
+The MCP server supports automatic discovery. AI tools can find it at:
+
+```
+https://ownpay.org/docs/.well-known/mcp
+```
+
+This endpoint returns the server configuration so tools can connect automatically.
+
+## Rate limits
+
+| Scope | Limit |
+|-------|-------|
+| Per user (IP) | 5,000 requests/hour |
+| Search per site | 10,000 requests/hour |
+| Query docs filesystem per site | 10,000 requests/hour |
+
+## Related pages
+
+- [OwnPay Skills](/developer/ai-skills) - Install OwnPay skills for AI agents
+- [Developer Quickstart](/developer/quickstart) - Get started with the OwnPay API
+- [API Reference](/api-reference/merchant) - REST API documentation
