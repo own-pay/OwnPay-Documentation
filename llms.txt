@@ -1,0 +1,38 @@
+# OwnPay - Self-Hosted Payment Gateway Platform
+
+> OwnPay is an open-source, self-hosted payment gateway orchestrator that lets you manage multiple brands, connect to 100+ payment gateways, and provide white-label checkout experiences.
+
+## Documentation
+
+- [OwnPay Documentation](https://ownpay.org/docs): Complete documentation for administrators, developers, and users.
+- [Quickstart](https://ownpay.org/docs/quickstart): Get OwnPay running in 5 minutes.
+- [Installation Guide](https://ownpay.org/docs/installation): Install on shared hosting, VPS, or Docker.
+- [Core Concepts](https://ownpay.org/docs/concepts/index): Understand brands, gateways, payment flow, and the ledger system.
+- [User Guide](https://ownpay.org/docs/user-guide/dashboard): Admin dashboard, payments, people, and system management.
+- [Developer Guide](https://ownpay.org/docs/developer/quickstart): REST API integration, SDKs, webhooks, and plugins.
+- [API Reference](https://ownpay.org/docs/api-reference/merchant): Merchant, Mobile, and Admin API documentation.
+
+## Key Features
+
+- **Multi-brand Architecture**: Run multiple isolated merchant stores from a single installation
+- **100+ Payment Gateways**: Stripe, PayPal, bKash, Nagad, GCash, bank transfers, and more
+- **White-label Checkout**: Custom domains, logos, CSS, and email templates per brand
+- **Double-entry Ledger**: Financial integrity with double-entry bookkeeping
+- **REST API**: Full programmatic access with API keys, webhooks, and SDK support
+- **Plugin System**: Gateway plugins, addon plugins, and theme plugins
+- **Mobile SMS Verification**: Android companion app for mobile banking SMS parsing
+- **RBAC Permissions**: Role-based access control for administrators, brand managers, and staff
+
+## Technology
+
+- PHP 8.3+ with PSR-4 autoloading
+- MySQL/MariaDB database
+- Redis for caching and queues
+- Docker support for containerized deployment
+- Cloudflare Workers compatible
+
+## Links
+
+- Website: https://ownpay.org
+- GitHub: https://github.com/own-pay/OwnPay
+- Documentation: https://ownpay.org/docs

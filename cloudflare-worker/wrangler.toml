@@ -1,0 +1,9 @@
+name = "ownpay-docs-proxy"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[env.production]
+routes = [
+  { pattern = "ownpay.org/docs*", zone_name = "ownpay.org" },
+  { pattern = "www.ownpay.org/docs*", zone_name = "ownpay.org" }
+]

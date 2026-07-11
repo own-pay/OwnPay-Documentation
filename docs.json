@@ -12,7 +12,7 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://ownpay.org"
+    "href": "https://ownpay.org/docs"
   },
   "appearance": {
     "default": "system"
@@ -35,7 +35,15 @@
     "metatags": {
       "og:site_name": "OwnPay Documentation",
       "og:type": "website",
-      "twitter:card": "summary_large_image"
+      "og:title": "OwnPay - Self-Hosted Payment Gateway Platform Documentation",
+      "og:description": "Complete documentation for OwnPay, the open-source self-hosted payment orchestrator with multi-brand support, 100+ gateways, and white-label checkout.",
+      "og:url": "https://ownpay.org/docs",
+      "og:locale": "en_US",
+      "twitter:card": "summary_large_image",
+      "twitter:title": "OwnPay Documentation",
+      "twitter:description": "Self-hosted payment gateway platform - Multi-brand, 100+ gateways, open source.",
+      "twitter:site": "@ownpay",
+      "robots": "index, follow, max-snippet:-1, max-image-preview:large"
     }
   },
   "metadata": {

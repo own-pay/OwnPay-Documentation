@@ -1,45 +1,84 @@
 ---
-title: "OwnPay Documentation"
-description: "Self-hosted payment gateway platform documentation covering install, brand configuration, gateway connections, plugin development, and REST API usage."
+title: "OwnPay Documentation - Self-Hosted Payment Gateway Platform"
+description: "Complete documentation for OwnPay, the open-source self-hosted payment orchestrator. Multi-brand support, 100+ payment gateways, white-label checkout, and full API access."
+keywords: "payment gateway, self-hosted, open source, payment orchestrator, multi-brand, white-label, bKash, Stripe, Nagad, PHP payment platform"
 ---
 
-OwnPay is a self-hosted, open-source payment gateway platform that gives you complete control over payment processing. This documentation covers everything you need to use, integrate with, and extend OwnPay.
+OwnPay is a self-hosted, open-source payment gateway platform that gives you complete control over payment processing. It supports multi-brand management, 100+ payment gateways, white-label checkout experiences, and a full REST API for developers.
+
+<Info>
+**What is OwnPay?** OwnPay is infrastructure you deploy and own. You control the server, the database, the credentials, and the data. No third-party intermediary has access to your transactions.
+</Info>
 
 ## Choose your path
 
-**Are you an Administrator?**
-Start with the [User Guide](/user-guide/dashboard) to manage brands, payments, users, and system settings.
+<CardGroup cols={2}>
+<Card title="User Guide" icon="book-open" href="/user-guide/dashboard">
+  Manage brands, payments, users, and system settings from the admin dashboard.
+</Card>
+<Card title="Developer Guide" icon="code" href="/developer/quickstart">
+  Integrate OwnPay via REST API, SDKs (PHP, Node.js), webhooks, or plugins.
+</Card>
+<Card title="Installation" icon="download" href="/installation">
+  Install OwnPay on shared hosting (cPanel, DirectAdmin), VPS, or Docker.
+</Card>
+<Card title="Core Concepts" icon="layers" href="/concepts/index">
+  Understand brands, gateways, payment flow, ledger, and the plugin system.
+</Card>
+</CardGroup>
 
-**Are you a Developer?**
-Jump to the [Developer Guide](/developer/quickstart) to integrate OwnPay via API, webhooks, or plugins.
+## Key features
 
-**Are you new to OwnPay?**
-Begin with [Getting Started](/quickstart) for installation and first steps.
+| Feature | Description |
+|---------|-------------|
+| **Multi-brand Management** | Run multiple stores, brands, or merchants from a single installation with complete data isolation |
+| **100+ Payment Gateways** | Connect to Stripe, PayPal, bKash, Nagad, GCash, bank transfers, and more |
+| **White-label Checkout** | Custom domains, logos, CSS, and email templates for each brand |
+| **Double-entry Ledger** | Financial integrity with double-entry bookkeeping for all transactions |
+| **REST API** | Full programmatic access with API keys, webhooks, and SDK support |
+| **Plugin System** | Extend with gateway plugins, addon plugins, and theme plugins |
+| **Mobile & SMS** | Android companion app for SMS-based payment verification |
+| **RBAC Permissions** | Role-based access control for administrators, brand managers, and staff |
 
-**Want to understand the platform?**
-Explore [Core Concepts](/concepts/index) to learn the architecture and fundamental ideas.
+## Quick start
 
-## Key features of OwnPay
+<Steps>
+<Step title="Install OwnPay">
+  Upload files to your server and run the web installer. See [Installation Guide](/installation).
+</Step>
+<Step title="Create your first brand">
+  Log in as administrator and create a brand. See [Brands](/user-guide/people/brands).
+</Step>
+<Step title="Configure a payment gateway">
+  Connect a gateway like Stripe or bKash. See [Gateway Setup](/user-guide/gateways/gateways).
+</Step>
+<Step title="Start accepting payments">
+  Create payment links or integrate via API. See [Payment Links](/user-guide/payments/payment-links).
+</Step>
+</Steps>
 
-- **Multi-brand Management** - Support multiple stores, brands, or merchants from one platform
-- **Payment Gateway Integration** - Connect to popular payment gateways and payment methods
-- **Flexible Permissions** - Role-based access control (RBAC) for secure team collaboration
-- **Webhooks & Events** - Real-time event notifications for payment updates
-- **Mobile Integration** - SMS capabilities and device pairing for extended features
-- **Financial Reporting** - Comprehensive transaction reports and audit logs
-- **Plugin System** - Extend OwnPay with custom plugins and hooks
-- **API-First Design** - Complete REST API for programmatic access
+## Who uses OwnPay?
 
-## Quick links
+| Role | Use Case |
+|------|----------|
+| **Platform Operators** | Host payment infrastructure for multiple businesses |
+| **Agency Owners** | White-label checkout flows for clients |
+| **Fintech Developers** | Build custom payment flows via the REST API |
+| **Finance Teams** | Audit transactions and reconcile ledger balances |
+| **Hosting Providers** | Offer payment processing as a value-added service |
 
-- [System Requirements](/deployment/requirements) - Check prerequisites before installing
-- [Installation Guide](/installation) - Get OwnPay up and running
-- [API Reference](https://docs.ownpay.org) - Complete API documentation
-- [GitHub Repository](https://github.com/own-pay/OwnPay) - Source code and issues
-- [Community Forum](https://github.com/own-pay/OwnPay/discussions) - Ask questions and discuss
+## System requirements
 
-## New to OwnPay?
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| PHP | 8.3 | 8.3+ |
+| MySQL | 5.7 | 8.0+ |
+| Memory | 512MB | 2GB |
+| Disk | 1GB | 10GB |
 
-**Start here:** [Getting Started Guide](/quickstart) (5 min read)
+## Related resources
 
-Learn how to install OwnPay, meet system requirements, and take your first steps based on your role.
+- [GitHub Repository](https://github.com/own-pay/OwnPay) - Source code, issues, and discussions
+- [API Reference](/api-reference/merchant) - Complete REST API documentation
+- [Changelog](/user-guide/changelog) - Latest releases and updates
+- [Contributing](/resources/contributing) - How to contribute to OwnPay
