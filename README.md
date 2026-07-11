@@ -22,7 +22,15 @@ View your local preview at `http://localhost:3000`.
 
 ## Publishing changes
 
-Changes deploy automatically after pushing to the `master` branch. The Cloudflare Worker at `ownpay.org/docs` proxies requests to `ownpay.mintlify.app`.
+**Branch strategy:**
+- `master` = Mintlify documentation (live site)
+- `main` = Original Astro/Starlight documentation (legacy, do not modify)
+
+**Deployment workflow:**
+1. Edit files locally on `master` branch
+2. Commit and push to `master`: `git push origin master`
+3. Mintlify auto-deploys from `master`
+4. Cloudflare Worker proxies `ownpay.org/docs` to `ownpay.mintlify.app`
 
 ## Project structure
 
@@ -63,6 +71,8 @@ ownpay_docs/
 │
 ├── developer/                   # Developer guide
 │   ├── quickstart.mdx
+│   ├── ai-mcp.mdx              # MCP server setup guide
+│   ├── ai-skills.mdx           # AI skills setup guide
 │   ├── integration/             # PHP, Node.js, WooCommerce, WHMCS SDKs
 │   ├── plugins/                 # Overview, hooks, events, capabilities
 │   └── plugin-types/            # Gateway, addon, theme development
@@ -112,7 +122,7 @@ ownpay_docs/
 |-----|---------|
 | **Documentation** | Getting Started, User Guide, People, Payments, Gateways, Mobile & SMS, System, Appearance, Auth & Account, Reports |
 | **API Reference** | Merchant API, Mobile API, Admin API |
-| **Developer** | Quickstart, SDK Integration, Webhooks, Plugin System |
+| **Developer** | Quickstart, SDK Integration, Webhooks, Plugin System, AI Tools |
 | **Core Concepts** | Brands, Gateways, Plugins, Ledger, Domains, Payment Flow |
 | **Resources** | Architecture, Features, Glossary, Contributing, Roadmap, Local Setup, REST API, Security, Performance, Troubleshooting, FAQ |
 | **Changelog** | Release history |
