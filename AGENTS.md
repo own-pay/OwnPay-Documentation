@@ -92,7 +92,7 @@ The site uses 7 header tabs:
 
 > [!WARNING]
 > **EXCEPTION: Raw HTML tags in `mode: "custom"` pages**
-> Pages with `mode: "custom"` in their frontmatter render as pure JSX/HTML and bypass Mintlify's router entirely. In these pages, raw `<a href>` and `<img src>` attributes MUST use the full `/docs/` prefix or they will resolve to the root domain instead of the docs subdirectory.
+> Pages with `mode: "custom"` in their frontmatter render as pure JSX/HTML and bypass Mintlify's router entirely. In these pages, raw `<a href>` attributes MUST use the full `/docs/` prefix or they will resolve to the root domain. Raw `<img src>` tags must NOT be prefixed because Mintlify's compiler resolves them to S3 CDN paths relative to the repository root.
 >
 > | Link type | Example | Needs `/docs`? |
 > |---|---|---|
@@ -100,11 +100,11 @@ The site uses 7 header tabs:
 > | Mintlify component | `<Card href="/path">` | NO - Mintlify handles it |
 > | `docs.json` nav/footer `href` | `"href": "/path"` | NO - Mintlify handles it |
 > | Raw HTML in `mode: "custom"` | `<a href="/path">` | **YES - add `/docs/` prefix** |
-> | Raw `<img src>` in `mode: "custom"` | `<img src="/path">` | **YES - add `/docs/` prefix** |
+> | Raw `<img src>` in `mode: "custom"` | `<img src="/path">` | **NO - Mintlify's compiler resolves raw images to CDN URLs relative to root** |
 >
 > **Current `mode: "custom"` pages:** `index.mdx`, `resources/architecture.mdx`, `user-guide/system/settings.mdx`
 >
-> When creating a new `mode: "custom"` page, audit every raw `<a href>` and `<img src>` tag and add the `/docs/` prefix to all root-relative paths.
+> When creating a new `mode: "custom"` page, audit every raw `<a href>` tag and add the `/docs/` prefix to all root-relative paths. Keep raw `<img>` tags relative to the repository root (e.g. `/image.png`) as Mintlify dynamically compiles them to CDN URLs.
 
 ## Automatic GitHub Synchronization Pipeline
 
