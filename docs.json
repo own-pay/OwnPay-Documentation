@@ -54,7 +54,8 @@
       "twitter:site": "@ownpayorg",
       "robots": "index, follow, max-snippet:-1, max-image-preview:large",
       "canonical": "https://ownpay.org/docs",
-      "fb:app_id": "1565186248495541"
+      "fb:app_id": "1565186248495541",
+      "og:image:alt": "OwnPay - Self-Hosted Payment Gateway Platform"
     }
   },
   "metadata": {

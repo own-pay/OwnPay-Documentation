@@ -34,7 +34,23 @@ export default {
         proxyRequest.headers.set('CF-Connecting-IP', request.headers.get('CF-Connecting-IP'));
       }
 
-      return await fetch(proxyRequest);
+      let response = await fetch(proxyRequest);
+
+      // Only rewrite HTML responses to fix og: and fb: tags attributes (name -> property)
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('text/html')) {
+        response = new HTMLRewriter()
+          .on('meta[name^="og:"], meta[name^="fb:"]', {
+            element(element) {
+              const name = element.getAttribute('name');
+              element.setAttribute('property', name);
+              element.removeAttribute('name');
+            }
+          })
+          .transform(response);
+      }
+
+      return response;
 
     } catch (error) {
       return new Response('Proxy Error: ' + error.message, { status: 500 });
