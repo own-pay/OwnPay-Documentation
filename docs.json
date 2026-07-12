@@ -375,34 +375,34 @@
       {
         "header": "Resources",
         "items": [
-          { "label": "Getting Started", "href": "/quickstart" },
-          { "label": "Architecture", "href": "/resources/architecture" },
-          { "label": "Features Reference", "href": "/resources/features" },
-          { "label": "Local Installation", "href": "/resources/local-setup" },
-          { "label": "Glossary", "href": "/resources/glossary" },
-          { "label": "FAQ", "href": "/advanced-topics/faq" }
+          { "label": "Getting Started", "href": "/docs/quickstart" },
+          { "label": "Architecture", "href": "/docs/resources/architecture" },
+          { "label": "Features Reference", "href": "/docs/resources/features" },
+          { "label": "Local Installation", "href": "/docs/resources/local-setup" },
+          { "label": "Glossary", "href": "/docs/resources/glossary" },
+          { "label": "FAQ", "href": "/docs/advanced-topics/faq" }
         ]
       },
       {
         "header": "Developer Hub",
         "items": [
-          { "label": "Quickstart Guide", "href": "/developer/quickstart" },
-          { "label": "API Keys & Setup", "href": "/user-guide/developers/developer-hub" },
-          { "label": "SDK Integrations", "href": "/resources/ecosystem" },
-          { "label": "Webhook System", "href": "/developer/plugins/events" },
-          { "label": "Plugin System", "href": "/developer/plugins/overview" },
-          { "label": "Merchant API", "href": "/api-reference/merchant" }
+          { "label": "Quickstart Guide", "href": "/docs/developer/quickstart" },
+          { "label": "API Keys & Setup", "href": "/docs/user-guide/developers/developer-hub" },
+          { "label": "SDK Integrations", "href": "/docs/resources/ecosystem" },
+          { "label": "Webhook System", "href": "/docs/developer/plugins/events" },
+          { "label": "Plugin System", "href": "/docs/developer/plugins/overview" },
+          { "label": "Merchant API", "href": "/docs/api-reference/merchant" }
         ]
       },
       {
         "header": "User Guides",
         "items": [
-          { "label": "Admin Dashboard", "href": "/user-guide/dashboard" },
-          { "label": "Brand Isolation", "href": "/concepts/brands" },
-          { "label": "Payment Flow", "href": "/concepts/payment-flow" },
-          { "label": "Double-entry Ledger", "href": "/concepts/ledger" },
-          { "label": "Security & Compliance", "href": "/advanced-topics/security-compliance" },
-          { "label": "Troubleshooting", "href": "/advanced-topics/troubleshooting" }
+          { "label": "Admin Dashboard", "href": "/docs/user-guide/dashboard" },
+          { "label": "Brand Isolation", "href": "/docs/concepts/brands" },
+          { "label": "Payment Flow", "href": "/docs/concepts/payment-flow" },
+          { "label": "Double-entry Ledger", "href": "/docs/concepts/ledger" },
+          { "label": "Security & Compliance", "href": "/docs/advanced-topics/security-compliance" },
+          { "label": "Troubleshooting", "href": "/docs/advanced-topics/troubleshooting" }
         ]
       },
       {
@@ -411,9 +411,9 @@
           { "label": "GitHub Repository", "href": "https://github.com/own-pay/OwnPay" },
           { "label": "Raise an Issue", "href": "https://github.com/own-pay/OwnPay/issues/new" },
           { "label": "Discussions", "href": "https://github.com/own-pay/OwnPay/discussions" },
-          { "label": "Contributing Guide", "href": "/resources/contributing" },
-          { "label": "Product Roadmap", "href": "/resources/roadmap" },
-          { "label": "Release Changelog", "href": "/user-guide/changelog" }
+          { "label": "Contributing Guide", "href": "/docs/resources/contributing" },
+          { "label": "Product Roadmap", "href": "/docs/resources/roadmap" },
+          { "label": "Release Changelog", "href": "/docs/user-guide/changelog" }
         ]
       }
     ]
