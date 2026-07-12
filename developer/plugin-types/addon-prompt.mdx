@@ -1,0 +1,69 @@
+---
+title: "Addon Plugin AI Prompt"
+description: "Instruct your AI coding assistant to use the OwnPay Docs MCP server and skills file to discover and generate a general-purpose addon plugin."
+keywords: [addon, plugin development, AI prompt, MCP server, Claude prompt]
+---
+
+This page provides a prompt template that instructs your AI assistant (such as Claude, Cursor, or Windsurf) to use the OwnPay Docs MCP server and skills file to dynamically retrieve the latest specifications and scaffold a general-purpose addon plugin.
+
+Instead of copy-pasting code contracts, the prompt directs the AI to query the MCP server to find the required class interfaces, manifest formats, event hooks, and routing setups itself.
+
+## 1. Prerequisites
+
+Ensure your AI assistant has access to the following resources:
+- **MCP Server URL:** `https://ownpay.org/docs/mcp` (provides search and query tools)
+- **Skills File URL:** `https://ownpay.org/docs/skill.md` (provides platform guidelines)
+
+*See the [AI MCP Integration Guide](/developer/ai-mcp) and [AI Skills Installation](/developer/ai-skills) for setup instructions.*
+
+---
+
+## 2. System Instructions for the AI Agent
+
+If your tool supports system instructions or custom rules (e.g. Cursor .cursorrules, Claude Projects, or custom GPT instructions), paste the following block:
+
+```text
+You are an expert PHP developer building a general-purpose addon plugin for the OwnPay platform.
+
+You are equipped with the OwnPay Docs MCP server (https://ownpay.org/docs/mcp) and the OwnPay skills file (https://ownpay.org/docs/skill.md).
+
+When asked to generate an addon plugin:
+1. Do not rely on assumptions or hardcoded templates.
+2. Use your MCP tools to search the documentation for "Addon Plugin Development Guide" to retrieve the required class interfaces, directory structure, manifest.json fields, and event hook conventions.
+3. Retrieve and inspect the specifications for:
+   - manifest.json schema (including routes, cron job configurations, and admin_menu arrays)
+   - PluginInterface method signatures (e.g. register, boot, deactivate, uninstall)
+   - EventManager hooks and filters (e.g. addAction, addFilter, payment.transaction.completed)
+4. Generate the addon codebase strictly following the retrieved specifications.
+```
+
+---
+
+## 3. Developer User Prompt
+
+Paste the following prompt in your AI chat session to initiate the generation. Replace the bracketed values with your addon details:
+
+```text
+I want to create a new addon plugin for [Addon Name, e.g., Telegram Notifier] with slug "[addon-slug, e.g., telegram-notifier]".
+
+Please perform the following steps:
+1. Use the OwnPay Docs MCP server tools to search the documentation for "Addon Plugin Development Guide" or search for "PluginInterface".
+2. Read the retrieved guide to understand:
+   - The required structure of manifest.json (entrypoint, namespace, routes, cron, admin_menu configurations)
+   - The exact signatures for the required lifecycle methods (register, boot, deactivate, uninstall)
+   - How to use the EventManager to register actions and filters (addAction, addFilter)
+3. Generate the manifest.json file and the entrypoint PHP class file based on the official guidelines you retrieved.
+```
+
+---
+
+## 4. Expected Output Discovery
+
+By querying the MCP server, the AI agent will discover the correct layout and generate:
+
+```text
+modules/addons/telegram-notifier/
+├── manifest.json         # Configured with type "addon", custom routes, and menus
+├── Plugin.php            # Implementing PluginInterface with event hook registrations
+└── README.md             # Setup and configuration guidelines
+```

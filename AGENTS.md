@@ -9,11 +9,26 @@
 - GitHub repo: `own-pay/OwnPay-Documentation` (master branch)
 - Pushes to `master` auto-deploy to Mintlify
 
+## Implementation tasks
+
+All pending implementation tasks are documented in `docs/TASKS.md`. Read that file before starting any work. It contains:
+- The full list of pending tasks with step-by-step implementation instructions
+- Acceptance criteria for each task
+- The list of available MCP servers and skills to use
+- The validation pipeline to run after every task
+- A list of files that must NOT be edited directly (auto-synced from the main repo)
+
 ## MCP servers
 
-- Use the Mintlify MCP server (`https://mcp.mintlify.com`) to edit content and settings
-- Use the Mintlify docs MCP server (`https://www.mintlify.com/docs/mcp`) to query Mintlify documentation
-- Cloudflare MCP servers are configured in `.mcp.json` for DNS, Workers, and infrastructure
+All MCP servers are configured in `.mcp.json`. Use the appropriate server for each task:
+
+- `mintlify` (`https://mcp.mintlify.com`) - Edit OwnPay docs content and settings via Mintlify dashboard
+- `mintlify-docs` (`https://www.mintlify.com/docs/mcp`) - Query Mintlify documentation for component syntax, config options, and features
+- `mintlify-guides` (`https://www.mintlify.com/guides/mcp`) - Advanced documentation patterns, best practices, and examples
+- `mintlify-learn` (`https://learn.mintlify.com/mcp`) - Mintlify Learn resources for interactive features and MCP
+- `cloudflare-bindings` - Cloudflare Workers, KV, R2, D1 storage and compute
+- `cloudflare-observability` - Worker logs, analytics, and debugging
+- `cloudflare-browser` - Fetch web pages as markdown for research
 
 ## Navigation structure
 

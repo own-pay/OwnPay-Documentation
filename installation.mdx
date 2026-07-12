@@ -4,6 +4,12 @@ description: "Install OwnPay on Shared Hosting (cPanel, Plesk, DirectAdmin), a V
 keywords: "install payment gateway, cPanel payment processing, self-hosted payments setup, Docker payment platform, PHP payment gateway install"
 ---
 
+<div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '-0.75rem', marginBottom: '1.5rem' }}>
+  <span style={{ fontSize: '13px', padding: '3px 8px', borderRadius: '4px', background: '#e5e7eb', color: '#374151', fontWeight: '500' }} className="dark:bg-slate-800 dark:text-slate-300">
+    Latest: v<span data-latest-version="true">0.2.0</span>
+  </span>
+</div>
+
 OwnPay features a **built-in web installer** that checks server configurations, sets up the database schema, and bootstraps your master administrator account. Visit your domain once files are uploaded to complete the setup - no command-line experience required.
 
 ---
@@ -47,9 +53,19 @@ Shared hosting is the most common deployment method. Hosts like Hostinger, Namec
 
 <Steps>
   <Step title="Download the Release Package">
-    1. Visit the official [OwnPay GitHub Releases]({{github}}/releases) page.
-    2. Identify the top **Latest Release** tag.
-    3. Under the **Assets** section, download the `.zip` archive (e.g. `ownpay-vX.Y.Z.zip`).
+    Download the latest stable release package directly:
+    
+    <div style={{ marginTop: '1rem', marginBottom: '1.5rem' }}>
+      <a href="https://github.com/own-pay/OwnPay/releases/latest" data-latest-download="true" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 16px', borderRadius: '6px', fontSize: '14px', fontWeight: '500', textDecoration: 'none' }}>
+        <Icon icon="download" size={16} />
+        Download OwnPay <span data-latest-version="true">0.2.0</span>
+      </a>
+    </div>
+
+    Alternatively, you can manually select a version:
+    1. Visit the official [OwnPay GitHub Releases](https://github.com/own-pay/OwnPay/releases) page.
+    2. Identify the top **Latest Release** tag (e.g. `v0.2.0`).
+    3. Under the **Assets** section, download the `.zip` archive (e.g. `ownpay-0.2.0.zip`).
   </Step>
 
   <Step title="Upload files to your server">

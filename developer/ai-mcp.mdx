@@ -1,157 +1,204 @@
 ---
 title: "OwnPay Docs MCP Server"
-description: "Connect AI tools like Claude, Cursor, and ChatGPT to the OwnPay docs via the Model Context Protocol server for real-time content access."
-keywords: "MCP server, Model Context Protocol, AI tools, Claude, Cursor, ChatGPT, OwnPay docs"
+description: "Connect AI tools like Claude, Cursor, and Windsurf to the OwnPay docs via the Model Context Protocol server for real-time content access."
+keywords: [MCP server, Model Context Protocol, AI tools, Claude, Cursor, ChatGPT, OwnPay docs]
 ---
 
-The OwnPay documentation hosts a **Model Context Protocol (MCP) server** that lets AI tools search and retrieve content directly from the docs. Instead of relying on training data or web searches, AI tools get accurate, up-to-date information from the actual documentation.
+The OwnPay documentation hosts a public **Model Context Protocol (MCP) server** that lets AI assistants and coding agents search and retrieve content directly from the live documentation. Instead of relying on static training data or general web searches, your AI tools get accurate, real-time specifications from the actual docs.
 
 <Info>
-The MCP server is available at `{{mcpUrl}}`. It is read-only and requires no authentication.
+  The MCP server is available at `{{mcpUrl}}`. It is read-only, publicly accessible, and requires no authentication.
 </Info>
 
-## What is MCP?
+## 1. What is MCP?
 
-The **Model Context Protocol** is an open standard that connects AI applications to external data sources. When you connect an AI tool to the OwnPay docs MCP server, it can:
+The **Model Context Protocol** is an open standard designed to connect AI applications to external data sources. When you connect your local AI development tool to the OwnPay MCP server, it gains three specific tools:
 
-- **Search** across all documentation pages for relevant content
-- **Read** full pages as Markdown for detailed answers
-- **Submit feedback** if it finds outdated or incorrect information
+1. **Search**: Searches across all OwnPay documentation pages, returning relevant snippets and links.
+2. **Query docs filesystem**: Reads and navigates pages using shell-style commands for batch reads.
+3. **Submit feedback**: Reports outdated or incorrect information directly back to the OwnPay documentation team.
 
-This means AI tools give you answers based on the actual current documentation, not stale training data.
+---
 
-## Available tools
+## 2. Connect Your AI Tool
 
-The OwnPay MCP server provides three tools:
-
-| Tool | Description |
-|------|-------------|
-| **Search** | Searches across all docs pages, returning snippets with titles and links |
-| **Query docs filesystem** | Reads and navigates the docs using shell-style commands for batch reads |
-| **Submit feedback** | Reports issues with specific pages back to the documentation team |
-
-## Connect your AI tool
+Follow these steps to add the OwnPay MCP server to your preferred environment:
 
 <Tabs>
-<Tab title="Claude">
-<Steps>
-<Step title="Add the MCP connector">
-1. Go to [Claude Connectors](https://claude.ai/settings/connectors)
-2. Click **Add custom connector**
-3. Enter:
-   - **Name:** OwnPay Docs
-   - **URL:** `{{mcpUrl}}`
-4. Click **Add**
-</Step>
-<Step title="Use in a conversation">
-1. In any Claude conversation, click the attachments button (+ icon)
-2. Select **OwnPay Docs**
-3. Ask a question about OwnPay
-</Step>
-</Steps>
-</Tab>
-<Tab title="Claude Code">
-Run this command:
+  <Tab title="Cursor">
+    To connect the OwnPay MCP server to Cursor:
+    
+    <Steps>
+      <Step title="Open MCP Settings">
+        1. Open Cursor's settings.
+        2. Navigate to **Features** > **MCP**.
+        3. Click **+ Add New MCP Server**.
+      </Step>
+      <Step title="Configure the Server">
+        Enter the following details in the dialog:
+        - **Name:** `ownpay-docs`
+        - **Type:** `sse`
+        - **URL:** `{{mcpUrl}}`
+      </Step>
+      <Step title="Verify Connection">
+        In Cursor's chat pane, ask: *"What tools do you have available?"* It should list `ownpay-docs` with the search and query tools active.
+      </Step>
+    </Steps>
+  </Tab>
 
-```bash
-claude mcp add --transport http ownpay-docs {{mcpUrl}}
-```
+  <Tab title="Claude Desktop">
+    To add the server to the Claude Desktop application:
+    
+    <Steps>
+      <Step title="Open Configuration File">
+        Open your Claude Desktop configuration file:
+        - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+        - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+      </Step>
+      <Step title="Add the Server Config">
+        Insert the following snippet inside the `mcpServers` object:
+        ```json
+        {
+          "mcpServers": {
+            "ownpay-docs": {
+              "command": "npx",
+              "args": [
+                "-y",
+                "@modelcontextprotocol/server-sse",
+                "{{mcpUrl}}"
+              ]
+            }
+          }
+        }
+        ```
+      </Step>
+      <Step title="Restart Claude">
+        Relaunch Claude Desktop. You will see a small plug icon showing that `ownpay-docs` has connected successfully.
+      </Step>
+    </Steps>
+  </Tab>
 
-Then ask Claude Code about OwnPay - it will automatically search the docs.
-</Tab>
-<Tab title="Cursor">
-<Steps>
-<Step title="Open MCP settings">
-1. Press `Ctrl+Shift+P` (Windows) or `Cmd+Shift+P` (Mac)
-2. Search for **Open MCP settings**
-3. Click **Add custom MCP**
-</Step>
-<Step title="Add the server">
-In `mcp.json`, add:
+  <Tab title="Windsurf">
+    To connect the server to Windsurf's Cascade assistant:
+    
+    <Steps>
+      <Step title="Open configuration file">
+        Open the global Windsurf MCP configuration file at `~/.codeium/windsurf/mcp_config.json`.
+      </Step>
+      <Step title="Add the Server Configuration">
+        Insert the configuration block:
+        ```json
+        {
+          "mcpServers": {
+            "ownpay-docs": {
+              "serverUrl": "{{mcpUrl}}"
+            }
+          }
+        }
+        ```
+      </Step>
+      <Step title="Restart Windsurf">
+        Restart the editor to enable search indexing in Cascade.
+      </Step>
+    </Steps>
+  </Tab>
 
-```json
-{
-  "mcpServers": {
-    "ownpay-docs": {
-      "url": "{{mcpUrl}}"
-    }
-  }
-}
-```
-</Step>
-<Step title="Test the connection">
-In Cursor's chat, ask "What tools do you have available?" - it should list the OwnPay docs MCP server.
-</Step>
-</Steps>
-</Tab>
-<Tab title="VS Code">
-<Steps>
-<Step title="Create MCP config">
-Create a `.vscode/mcp.json` file in your project:
+  <Tab title="VS Code (Cline/Roo Code)">
+    If you are using VS Code with extensions like Cline or Roo Code:
+    
+    <Steps>
+      <Step title="Open settings">
+        Navigate to the extension's MCP configuration settings.
+      </Step>
+      <Step title="Add the HTTP/SSE entry">
+        Add a new HTTP server entry mapping:
+        - **Name:** `ownpay-docs`
+        - **Type:** `sse`
+        - **URL:** `{{mcpUrl}}`
+      </Step>
+    </Steps>
+  </Tab>
 
-```json
-{
-  "servers": {
-    "ownpay-docs": {
-      "type": "http",
-      "url": "{{mcpUrl}}"
-    }
-  }
-}
-```
-</Step>
-<Step title="Use in Copilot Chat">
-VS Code will automatically connect to the MCP server when you use Copilot Chat.
-</Step>
-</Steps>
-</Tab>
-<Tab title="ChatGPT">
-1. In ChatGPT, start a new conversation
-2. Click the **Connectors** or **Plugins** button
-3. Add a custom MCP server with URL: `{{mcpUrl}}`
-4. Ask questions about OwnPay
-</Tab>
+  <Tab title="Claude Code">
+    To add the server via the Claude Code command-line interface:
+    
+    ```bash
+    claude mcp add --transport http ownpay-docs {{mcpUrl}}
+    ```
+    
+    Verify the addition using:
+    ```bash
+    claude mcp list
+    ```
+  </Tab>
 </Tabs>
 
-## Example prompts
+---
 
-After connecting, try these prompts:
+## 3. System Prompt for AI Assistants
 
-- *"How do I install OwnPay on shared hosting?"*
-- *"What payment gateways does OwnPay support?"*
-- *"How do I create a payment link via the API?"*
-- *"Explain the multi-brand architecture"*
-- *"How do I set up webhooks for payment notifications?"*
+Copy and paste this system prompt into your custom GPT instructions, Claude Project, or Cursor system settings to instruct your AI on how to interact with OwnPay:
 
-## MCP vs web search
+```text
+You are an expert developer assistant specialized in the OwnPay payment orchestration platform. You have access to the OwnPay documentation MCP server at "{{mcpUrl}}".
 
-| | MCP Server | Web Search |
-|---|-----------|------------|
-| **Source** | Direct from OwnPay docs | Search engine index |
-| **Freshness** | Always current | May be stale |
-| **Accuracy** | Exact documentation content | May include outdated info |
-| **Token usage** | Efficient - targeted results | More tokens for web context |
+When answering questions or generating code:
+1. Architecture Overview:
+   - OwnPay is a self-hosted, open-source payment gateway platform.
+   - It supports multi-brand (multi-tenant) scoping, where each brand has isolated database parameters, gateways, ledger logs, and custom checkout domains.
+   - Core database tables include: `op_brands`, `op_gateways`, `op_transactions`, `op_ledger_entries`, `op_plugins`, and `op_domains`.
+   - Pluggable extension directories: `modules/gateways/` (payment adapters), `modules/addons/` (filters and actions), and `modules/themes/` (custom Twig-based checkouts).
 
-## Discovery
+2. API Specifications:
+   - Root-level endpoints:
+     - POST `/api/v1/payments` (Create payment session redirect)
+     - GET `/api/v1/payments/{trx_id}` (Verify payment status)
+     - POST `/api/v1/refunds` (Refund transaction amount)
+   - Uses Bearer Token authentication: Authorization: Bearer op_live_...
 
-The MCP server supports automatic discovery. AI tools can find it at:
+3. Best Practices & Conventions:
+   - Use PSR-12 coding style for all PHP code.
+   - Always perform server-to-server validation for webhook events; never trust client-side parameters.
+   - Implement timing-attack-safe checks using `hash_equals()` for HMAC comparisons.
+   - Enforce a 5-minute replay-window timeout on webhook header timestamps.
 
+If a question requires precise file paths, settings schemas, or hooks details, proactively call the ownpay-docs MCP server tools to search the live documentation.
 ```
+
+---
+
+## 4. Discovery and Specifications
+
+The MCP server supports automatic discovery. Systems that implement automated client connections can query the configuration metadata at:
+
+```text
 {{mcpUrl}}/.well-known/mcp
 ```
 
-This endpoint returns the server configuration so tools can connect automatically.
+### Server Rate Limits
 
-## Rate limits
+To maintain service stability, public endpoints enforce the following hourly request rates:
 
 | Scope | Limit |
-|-------|-------|
-| Per user (IP) | 5,000 requests/hour |
-| Search per site | 10,000 requests/hour |
-| Query docs filesystem per site | 10,000 requests/hour |
+|---|---|
+| Per User IP | 5,000 requests/hour |
+| Search per Site | 10,000 requests/hour |
+| Query Docs Filesystem per Site | 10,000 requests/hour |
 
-## Related pages
+---
 
-- [OwnPay Skills](/developer/ai-skills) - Install OwnPay skills for AI agents
-- [Developer Quickstart](/developer/quickstart) - Get started with the OwnPay API
-- [API Reference](/api-reference/merchant) - REST API documentation
+## 5. Example Queries
+
+Once configured, test the AI's integration with queries like:
+- *"How do I register a custom webhook event filter?"*
+- *"Show me how to build a Twig template for a custom checkout theme"*
+- *"What is the payload layout for `payment.transaction.completed`? "*
+- *"How does the immutable double-entry ledger track merchant settlements?"*
+- *"Create a cURL request to initiate a white-label checkout session"*
+
+---
+
+## Related Pages
+- [OwnPay Skills](/developer/ai-skills) - Downloadable skill templates for agents
+- [Developer Quickstart](/developer/quickstart) - Get started with APIs
+- [Plugin System Overview](/developer/plugins/overview) - Core hooks and hooks catalog

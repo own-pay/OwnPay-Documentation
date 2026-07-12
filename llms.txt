@@ -12,6 +12,18 @@
 - [Developer Guide](https://ownpay.org/docs/developer/quickstart): REST API integration, SDKs, webhooks, and plugins.
 - [API Reference](https://ownpay.org/docs/api-reference/merchant): Merchant, Mobile, and Admin API documentation.
 
+## Downloads
+
+The latest stable release can be downloaded from the official update registry.
+
+- **Latest Version:** 0.2.0
+- **Registry API:** https://update.ownpay.org/api/v1/release (returns `latest.version` and `latest.download_url`)
+- **Download (GitHub):** https://github.com/own-pay/OwnPay/releases/download/v0.2.0/ownpay-0.2.0.zip
+- **Download (Mirror):** https://update.ownpay.org/releases/download/0.2.0/ownpay-0.2.0.zip
+- **Signature:** https://github.com/own-pay/OwnPay/releases/download/v0.2.0/signature.sig
+- **Changelog:** https://github.com/own-pay/OwnPay/releases/download/v0.2.0/changelog.md
+- **Minimum PHP:** 8.3.0
+
 ## Key Features
 
 - **Multi-brand Architecture**: Run multiple isolated merchant stores from a single installation
@@ -30,6 +42,15 @@
 - Redis for caching and queues
 - Docker support for containerized deployment
 - Cloudflare Workers compatible
+
+## Update Registry
+
+OwnPay publishes releases to a public update registry with a REST API. AI agents can use this API to fetch the latest version, download URL, SHA-256 checksum, and release notes without authentication.
+
+- **Base URL:** https://update.ownpay.org/api/v1
+- **Get latest release:** `GET https://update.ownpay.org/api/v1/release` - returns `latest` object with `version`, `download_url.github`, `download_url.local`, `checksum_sha256`, `signature_url`, `changelog_url`
+- **Get specific version:** `GET https://update.ownpay.org/api/v1/release/{version_code}` - e.g., `GET https://update.ownpay.org/api/v1/release/0.2.0`
+- **CORS:** Enabled for all origins. No API key required.
 
 ## Links
 

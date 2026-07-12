@@ -25,6 +25,7 @@ Thumbs.db
 
 # Documentation source (not rendered)
 AGENTS.md
+docs/
 
 # Logs
 *.log

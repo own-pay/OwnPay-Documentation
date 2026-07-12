@@ -1,7 +1,9 @@
 // ===== Dynamic Footer Description =====
 function injectFooterDescription() {
-  const logoLink = document.querySelector('footer a[href*="/docs"]');
-  if (logoLink && !document.querySelector('.footer-description')) {
+  const logoImg = document.querySelector('footer img[src*="logo"]') || document.querySelector('footer img[src*="light"]') || document.querySelector('footer img[src*="dark"]');
+  const logoLink = logoImg ? logoImg.closest('a') : (document.querySelector('footer a[href*="/docs"]') || document.querySelector('footer a[href="/"]'));
+  
+  if (logoLink && !document.querySelector('footer .footer-description')) {
     const desc = document.createElement('p');
     desc.className = 'footer-description';
     desc.textContent = 'Self-hosted, enterprise-grade payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.';
@@ -126,12 +128,92 @@ function rewriteNativeIssueLinks() {
   });
 }
 
+// ===== Dynamic Latest Version Download Logic =====
+let isFetchingVersion = false;
+
+async function fetchLatestVersion() {
+  const versionElements = document.querySelectorAll('[data-latest-version]');
+  const downloadElements = document.querySelectorAll('[data-latest-download]');
+  
+  if (versionElements.length === 0 && downloadElements.length === 0) {
+    return;
+  }
+
+  // 1. Try Cache
+  try {
+    const cachedData = sessionStorage.getItem('ownpay_latest_version');
+    if (cachedData) {
+      const { version, downloadUrl } = JSON.parse(cachedData);
+      updateVersionDOM(versionElements, downloadElements, version, downloadUrl);
+      return;
+    }
+  } catch (e) {
+    // Ignore cache error
+  }
+
+  // 2. Fetch API
+  // AbortController: cancel if the server takes more than 5 seconds.
+  // Guide: AbortController and AbortSignal (Modern Web Guidance)
+  // priority: 'low': deprioritize so this does not compete with user requests.
+  // Guide: deprioritize-background-fetches (Modern Web Guidance)
+  if (isFetchingVersion) return;
+  isFetchingVersion = true;
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+  try {
+    const response = await fetch('https://update.ownpay.org/api/v1/release', {
+      signal: controller.signal,
+      priority: 'low'
+    });
+    clearTimeout(timeoutId);
+    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+    const data = await response.json();
+    
+    if (data && data.latest) {
+      const version = data.latest.version;
+      const downloadUrl = data.latest.download_url && data.latest.download_url.github;
+      
+      if (version && downloadUrl) {
+        sessionStorage.setItem('ownpay_latest_version', JSON.stringify({ version, downloadUrl }));
+        updateVersionDOM(versionElements, downloadElements, version, downloadUrl);
+      }
+    }
+  } catch (error) {
+    clearTimeout(timeoutId);
+    // Fail silently (includes AbortError from timeout)
+  } finally {
+    isFetchingVersion = false;
+  }
+}
+
+function updateVersionDOM(versionElements, downloadElements, version, downloadUrl) {
+  versionElements.forEach(el => {
+    if (el.textContent !== version) {
+      el.textContent = version;
+    }
+  });
+  downloadElements.forEach(el => {
+    if (el.getAttribute('href') !== downloadUrl) {
+      el.setAttribute('href', downloadUrl);
+    }
+  });
+}
+
 // ===== Initialize =====
 function init() {
   injectFooterDescription();
   injectStructuredData();
   injectLlmsTxtLink();
   rewriteNativeIssueLinks();
+  fetchLatestVersion();
+}
+
+let initTimeout = null;
+function debouncedInit() {
+  if (initTimeout) clearTimeout(initTimeout);
+  initTimeout = setTimeout(init, 100);
 }
 
 if (document.readyState === 'loading') {
@@ -140,5 +222,5 @@ if (document.readyState === 'loading') {
   init();
 }
 
-const observer = new MutationObserver(() => init());
+const observer = new MutationObserver(debouncedInit);
 observer.observe(document.body, { childList: true, subtree: true });

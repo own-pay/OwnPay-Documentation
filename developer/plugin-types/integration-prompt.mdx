@@ -1,0 +1,70 @@
+---
+title: "Third-Party Integration AI Prompt"
+description: "Instruct your AI coding assistant to use the OwnPay Docs MCP server and skills file to discover and generate a third-party webhook integration."
+keywords: [webhook, integration, REST API, AI prompt, MCP server, Claude prompt]
+---
+
+This page provides a prompt template that instructs your AI assistant (such as Claude, Cursor, or Windsurf) to use the OwnPay Docs MCP server and skills file to dynamically retrieve the latest specifications and scaffold a third-party integration or webhook receiver.
+
+Instead of copy-pasting API payloads, the prompt directs the AI to query the MCP server to find webhook signature verification steps, API endpoints, payload formats, and header standards itself.
+
+## 1. Prerequisites
+
+Ensure your AI assistant has access to the following resources:
+- **MCP Server URL:** `https://ownpay.org/docs/mcp` (provides search and query tools)
+- **Skills File URL:** `https://ownpay.org/docs/skill.md` (provides platform guidelines)
+
+*See the [AI MCP Integration Guide](/developer/ai-mcp) and [AI Skills Installation](/developer/ai-skills) for setup instructions.*
+
+---
+
+## 2. System Instructions for the AI Agent
+
+If your tool supports system instructions or custom rules (e.g. Cursor .cursorrules, Claude Projects, or custom GPT instructions), paste the following block:
+
+```text
+You are an expert developer building a third-party system integration (webhook receiver and REST API caller) for the OwnPay platform.
+
+You are equipped with the OwnPay Docs MCP server (https://ownpay.org/docs/mcp) and the OwnPay skills file (https://ownpay.org/docs/skill.md).
+
+When asked to generate an integration or webhook handler:
+1. Do not rely on assumptions or hardcoded templates.
+2. Use your MCP tools to search the documentation for "Webhooks" and "REST API Integration" to retrieve the required endpoints, security headers, and webhook event payloads.
+3. Retrieve and inspect the specifications for:
+   - Webhook signature header name (e.g. `X-OwnPay-Signature`)
+   - Webhook hashing algorithm (e.g. HMAC-SHA256) and payload construction
+   - API endpoints structure and authentication headers (e.g. `Authorization: Bearer <key>`)
+   - Response validation rules for transaction verification APIs
+4. Generate the webhook handler and API client codebase strictly following the retrieved specifications.
+```
+
+---
+
+## 3. Developer User Prompt
+
+Paste the following prompt in your AI chat session to initiate the generation. Replace the bracketed values with your project language/framework:
+
+```text
+I want to create a new webhook receiver and API client in [Language/Framework, e.g., Node.js / Express] to handle transaction completions from OwnPay.
+
+Please perform the following steps:
+1. Use the OwnPay Docs MCP server tools to search the documentation for "Webhooks" or "Webhook signature verification".
+2. Read the retrieved guide to understand:
+   - The header name containing the webhook payload signature
+   - The step-by-step verification method using HMAC-SHA256 and the shared webhook secret
+   - The payload fields (like transaction_id, status, amount, signature, and metadata)
+3. Search for "REST API Integration" to find the standard endpoint format for retrieving transaction status.
+4. Generate a secure, production-ready webhook endpoint and API client class based on the official guidelines you retrieved.
+```
+
+---
+
+## 4. Expected Code Elements
+
+By querying the MCP server, the AI agent will discover the correct guidelines and generate:
+
+```text
+integration/
+├── webhook-handler.js    # Decodes, verifies signature, and handles payment.transaction.completed
+└── ownpay-client.js      # REST API client that interacts with the OwnPay endpoints
+```

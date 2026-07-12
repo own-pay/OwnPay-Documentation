@@ -2,83 +2,333 @@
 title: "OwnPay Documentation"
 description: "Documentation home for OwnPay: open-source, self-hosted payment orchestrator with multi-brand support, 100+ gateways, white-label checkout, and REST APIs."
 keywords: "payment gateway, self-hosted, open source, payment orchestrator, multi-brand, white-label, bKash, Stripe, Nagad, PHP payment platform"
+mode: "custom"
 ---
 
-OwnPay is a self-hosted, open-source payment gateway platform that gives you complete control over payment processing. It supports multi-brand management, 100+ payment gateways, white-label checkout experiences, and a full REST API for developers.
+<div className="homepage-container">
+  {/* Hero Section */}
+  <div className="homepage-hero">
+    <div className="hero-content">
+      <div className="hero-pill-badge">
+        <Icon icon="circle-info" size={14} />
+        <span>v0.2.0 Release Available</span>
+      </div>
+      <h1 className="hero-title">Self-hosted payments. Complete control.</h1>
+      <p className="hero-description">
+        Take absolute control of your transaction logs, eliminate third-party processing markups, manage multiple brands, and route payments through 100+ gateways from a server you fully own.
+      </p>
+      <div className="hero-actions">
+        <a href="/installation" className="btn-primary">Get Started</a>
+        <a href="/api-reference/merchant" className="btn-secondary">
+          API Reference <span style={{ marginLeft: '6px' }}>→</span>
+        </a>
+      </div>
+    </div>
 
-<Info>
-**What is OwnPay?** OwnPay is infrastructure you deploy and own. You control the server, the database, the credentials, and the data. No third-party intermediary has access to your transactions.
-</Info>
+    <div className="hero-visual">
+      <div className="code-mockup-card">
+        <div className="code-mockup-header">
+          <div className="code-mockup-dots">
+            <div className="code-mockup-dot dot-red"></div>
+            <div className="code-mockup-dot dot-yellow"></div>
+            <div className="code-mockup-dot dot-green"></div>
+          </div>
+          <div className="code-mockup-title">integrate-ownpay.php</div>
+        </div>
+        <div className="code-mockup-body">
+```php
+<?php
+use OwnPay\SDK\OwnPayClient;
 
-## Choose your path
+// Initialize client on your own domain
+$ownpay = new OwnPayClient([
+    'api_key'  => 'op_live_6f2e821b...9a41',
+    'brand_id' => 'brand_acme_retail'
+]);
 
-<CardGroup cols={2}>
-<Card title="User Guide" icon="book-open" href="/user-guide/dashboard">
-  Manage brands, payments, users, and system settings from the admin dashboard.
-</Card>
-<Card title="Developer Guide" icon="code" href="/developer/quickstart">
-  Integrate OwnPay via REST API, SDKs (PHP, Node.js), webhooks, or plugins.
-</Card>
-<Card title="Installation" icon="download" href="/installation">
-  Install OwnPay on shared hosting (cPanel, DirectAdmin), VPS, or Docker.
-</Card>
-<Card title="Core Concepts" icon="layers" href="/concepts/index">
-  Understand brands, gateways, payment flow, ledger, and the plugin system.
-</Card>
-</CardGroup>
+// Create checkout transaction
+$payment = $ownpay->payments->create([
+    'amount'      => 4900, // $49.00
+    'currency'    => 'USD',
+    'callback'    => 'https://acme.com/checkout/success',
+    'customer'    => [
+        'email'   => 'customer@example.com',
+        'name'    => 'Sarah Jenkins'
+    ]
+]);
 
-## Key features
+// Redirect to custom checkout domain
+header("Location: " . $payment->checkout_url);
+exit;
+```
+        </div>
+      </div>
+    </div>
+  </div>
 
-| Feature | Description |
-|---------|-------------|
-| **Multi-brand Management** | Run multiple stores, brands, or merchants from a single installation with complete data isolation |
-| **100+ Payment Gateways** | Connect to Stripe, PayPal, bKash, Nagad, GCash, bank transfers, and more |
-| **White-label Checkout** | Custom domains, logos, CSS, and email templates for each brand |
-| **Double-entry Ledger** | Financial integrity with double-entry bookkeeping for all transactions |
-| **REST API** | Full programmatic access with API keys, webhooks, and SDK support |
-| **Plugin System** | Extend with gateway plugins, addon plugins, and theme plugins |
-| **Mobile & SMS** | Android companion app for SMS-based payment verification |
-| **RBAC Permissions** | Role-based access control for administrators, brand managers, and staff |
+  {/* Checkpoints Strip */}
+  <div className="checkpoints-bar">
+    <div className="checkpoint-item">
+      <Icon icon="circle-check" size={16} className="checkpoint-icon" />
+      <span>Deploy on any server</span>
+    </div>
+    <div className="checkpoint-item">
+      <Icon icon="circle-check" size={16} className="checkpoint-icon" />
+      <span>No transaction fees</span>
+    </div>
+    <div className="checkpoint-item">
+      <Icon icon="circle-check" size={16} className="checkpoint-icon" />
+      <span>100% data ownership</span>
+    </div>
+  </div>
 
-## Quick start
+  {/* Bento Grid ("Everything in one platform") */}
+  <div className="section-header">
+    <h2 className="section-title">Everything in one platform</h2>
+    <p className="section-subtitle">Avoid vendor lock-in with a modular payment architecture designed for complete ownership.</p>
+  </div>
 
-<Steps>
-<Step title="Install OwnPay">
-  Upload files to your server and run the web installer. See [Installation Guide](/installation).
-</Step>
-<Step title="Create your first brand">
-  Log in as administrator and create a brand. See [Brands](/user-guide/people/brands).
-</Step>
-<Step title="Configure a payment gateway">
-  Connect a gateway like Stripe or bKash. See [Gateway Setup](/user-guide/gateways/gateways).
-</Step>
-<Step title="Start accepting payments">
-  Create payment links or integrate via API. See [Payment Links](/user-guide/payments/payment-links).
-</Step>
-</Steps>
+  <div className="bento-grid">
+    {/* Large Dashboard Card (2/3 width) */}
+    <div className="bento-card bento-col-span-2">
+      <div>
+        <div className="bento-card-icon">
+          <Icon icon="network" size={20} />
+        </div>
+        <h3 className="bento-card-title">Multi-brand dashboard</h3>
+        <p className="bento-card-desc">
+          Run hundreds of independent stores, brands, or local merchants from a single OwnPay instance. Each brand maintains its own isolated database scope, payment methods, staff privileges, customer registry, and customized checkout domains.
+        </p>
+        
+        {/* Mock dashboard image visual representation */}
+        <img src="/dashboard.jpg" alt="OwnPay Multi-brand Administration Dashboard" style={{ borderRadius: '8px', border: '1px solid #e5e7eb', marginTop: '1.25rem', width: '100%', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} className="block dark:border-slate-800" />
+      </div>
+    </div>
 
-## Who uses OwnPay?
+    {/* Regular Card: 100+ Gateways */}
+    <div className="bento-card">
+      <div>
+        <div className="bento-card-icon">
+          <Icon icon="credit-card" size={20} />
+        </div>
+        <h3 className="bento-card-title">100+ Gateways</h3>
+        <p className="bento-card-desc">
+          Connect to global credit cards, local mobile wallets, bank accounts, and alternative currencies. Supported processors include Stripe, PayPal, bKash, Nagad, GCash, bank transfers, and local payment channels.
+        </p>
+      </div>
+    </div>
 
-| Role | Use Case |
-|------|----------|
-| **Platform Operators** | Host payment infrastructure for multiple businesses |
-| **Agency Owners** | White-label checkout flows for clients |
-| **Fintech Developers** | Build custom payment flows via the REST API |
-| **Finance Teams** | Audit transactions and reconcile ledger balances |
-| **Hosting Providers** | Offer payment processing as a value-added service |
+    {/* Regular Card: White-label checkout */}
+    <div className="bento-card">
+      <div>
+        <div className="bento-card-icon">
+          <Icon icon="globe" size={20} />
+        </div>
+        <h3 className="bento-card-title">White-label checkout</h3>
+        <p className="bento-card-desc">
+          Provide customers with smooth checkout flows hosted under your custom domains, featuring matching logos, brand-specific emails, and local currencies. Complete control over CSS variables, logos, and custom templates.
+        </p>
+      </div>
+    </div>
 
-## System requirements
+    {/* Large Card: Immutable double-entry ledger */}
+    <div className="bento-card bento-col-span-2">
+      <div>
+        <div className="bento-card-icon">
+          <Icon icon="scale" size={20} />
+        </div>
+        <h3 className="bento-card-title">Immutable double-entry ledger</h3>
+        <p className="bento-card-desc">
+          Ensure financial accuracy and automated reconciliation. OwnPay records every transaction, refund, dispute, and settlement adjustment as a double-entry ledger balance transaction, protecting your business from audit failures or accounting mismatches.
+        </p>
+      </div>
+    </div>
 
-| Component | Minimum | Recommended |
-|-----------|---------|-------------|
-| PHP | 8.3 | 8.3+ |
-| MySQL | 5.7 | 8.0+ |
-| Memory | 512MB | 2GB |
-| Disk | 1GB | 10GB |
+    {/* Large Card: Extensible Plugins */}
+    <div className="bento-card bento-col-span-2">
+      <div>
+        <div className="bento-card-icon">
+          <Icon icon="puzzle-piece" size={20} />
+        </div>
+        <h3 className="bento-card-title">Extensible plugin architecture</h3>
+        <p className="bento-card-desc">
+          Add support for custom local gateways or dashboard extensions without modifying the core system. Built-in events and action hooks allow developers to build specialized gateway, theme, and utility plugins.
+        </p>
+      </div>
+    </div>
 
-## Related resources
+    {/* Regular Card: Mobile Companion App */}
+    <div className="bento-card">
+      <div>
+        <div className="bento-card-icon">
+          <Icon icon="smartphone" size={20} />
+        </div>
+        <h3 className="bento-card-title">Mobile companion app</h3>
+        <p className="bento-card-desc">
+          Verify mobile SMS verification payments automatically using the companion Android application linked to your server.
+        </p>
+      </div>
+    </div>
+  </div>
 
-- [GitHub Repository]({{github}}) - Source code, issues, and discussions
-- [API Reference](/api-reference/merchant) - Complete REST API documentation
-- [Changelog](/user-guide/changelog) - Latest releases and updates
-- [Contributing](/resources/contributing) - How to contribute to OwnPay
+  {/* Explorer Section (6 Cards Grid) */}
+  <div className="section-header">
+    <h2 className="section-title">Explore the documentation</h2>
+    <p className="section-subtitle">Navigate through our comprehensive resources to set up, build, or deploy OwnPay.</p>
+  </div>
+
+  <div className="explorer-grid">
+    {/* Card 1: Documentation */}
+    <a href="/user-guide/dashboard" className="explorer-card explorer-card-blue">
+      <div className="explorer-icon-wrapper explorer-icon-blue">
+        <Icon icon="book-open" size={18} />
+      </div>
+      <h3 className="explorer-title">Documentation</h3>
+      <p className="explorer-desc">Explore the general user guide to manage brands, configure staff roles, view ledger verification logs, and customize checkout interfaces.</p>
+    </a>
+
+    {/* Card 2: API Reference */}
+    <a href="/api-reference/merchant" className="explorer-card explorer-card-green">
+      <div className="explorer-icon-wrapper explorer-icon-green">
+        <Icon icon="square-terminal" size={18} />
+      </div>
+      <h3 className="explorer-title">API Reference</h3>
+      <p className="explorer-desc">Review specs for endpoints, authorization types, request schemas, webhook events, and sandbox parameters for merchant and mobile client calls.</p>
+    </a>
+
+    {/* Card 3: Developer Hub */}
+    <a href="/developer/quickstart" className="explorer-card explorer-card-purple">
+      <div className="explorer-icon-wrapper explorer-icon-purple">
+        <Icon icon="code" size={18} />
+      </div>
+      <h3 className="explorer-title">Developer Hub</h3>
+      <p className="explorer-desc">Learn to build custom gateway plugins, use SDK wrappers, subscribe to event payloads, and write custom PHP integration triggers.</p>
+    </a>
+
+    {/* Card 4: Core Concepts */}
+    <a href="/concepts/index" className="explorer-card explorer-card-amber">
+      <div className="explorer-icon-wrapper explorer-icon-amber">
+        <Icon icon="layers" size={18} />
+      </div>
+      <h3 className="explorer-title">Core Concepts</h3>
+      <p className="explorer-desc">Understand the underlying structure: data isolation models, payment state transitions, double-entry bookkeeping, and routing logic.</p>
+    </a>
+
+    {/* Card 5: Resources */}
+    <a href="/resources/architecture" className="explorer-card explorer-card-navy">
+      <div className="explorer-icon-wrapper explorer-icon-navy">
+        <Icon icon="folder" size={18} />
+      </div>
+      <h3 className="explorer-title">Resources</h3>
+      <p className="explorer-desc">Read system architecture design specifications, look up technical terms in the glossary, or configure local dev environments.</p>
+    </a>
+
+    {/* Card 6: Changelog */}
+    <a href="/user-guide/changelog" className="explorer-card explorer-card-pink">
+      <div className="explorer-icon-wrapper explorer-icon-pink">
+        <Icon icon="clock" size={18} />
+      </div>
+      <h3 className="explorer-title">Changelog</h3>
+      <p className="explorer-desc">Track releases, dynamic update checks, signatures, database migrations, security patches, and version change logs.</p>
+    </a>
+  </div>
+
+  {/* Quick Start Next Steps */}
+  <div className="section-header">
+    <h2 className="section-title">Get started in minutes</h2>
+    <p className="section-subtitle">Follow these sequential stages to establish your self-hosted payment environment.</p>
+  </div>
+
+  <div className="timeline-section">
+    <Steps>
+      <Step title="Deploy OwnPay">
+        Upload the package files to your server or start the Docker container registry. Run the web-based installer to set up database connections. See [Installation](/installation).
+      </Step>
+      <Step title="Configure a brand">
+        Create an independent brand workspace. Map custom domains and upload branding assets to personalize your hosted checkout portal. See [Brands](/user-guide/people/brands).
+      </Step>
+      <Step title="Link gateways">
+        Link API keys for processing gateways (e.g. Stripe, PayPal) or connect local mobile processors like bKash or Nagad. See [Gateway Configuration](/user-guide/gateways/gateways).
+      </Step>
+      <Step title="Integrate and go live">
+        Generate your secure platform API key and embed payment buttons, host invoices, or query the REST APIs directly. See [Developer Quickstart](/developer/quickstart).
+      </Step>
+    </Steps>
+  </div>
+
+  {/* Custom Footer Section */}
+  <div className="custom-footer">
+    <div className="custom-footer-grid">
+      <div className="custom-footer-col">
+        <h4 className="custom-footer-heading">Resources</h4>
+        <a href="/quickstart" className="custom-footer-link">Getting Started</a>
+        <a href="/resources/architecture" className="custom-footer-link">Architecture</a>
+        <a href="/resources/features" className="custom-footer-link">Features Reference</a>
+        <a href="/resources/local-setup" className="custom-footer-link">Local Installation</a>
+        <a href="/resources/glossary" className="custom-footer-link">Glossary</a>
+        <a href="/advanced-topics/faq" className="custom-footer-link">FAQ</a>
+      </div>
+      <div className="custom-footer-col">
+        <h4 className="custom-footer-heading">Developer Hub</h4>
+        <a href="/developer/quickstart" className="custom-footer-link">Quickstart Guide</a>
+        <a href="/user-guide/developers/developer-hub" className="custom-footer-link">API Keys & Setup</a>
+        <a href="/resources/ecosystem" className="custom-footer-link">SDK Integrations</a>
+        <a href="/developer/plugins/events" className="custom-footer-link">Webhook System</a>
+        <a href="/developer/plugins/overview" className="custom-footer-link">Plugin System</a>
+        <a href="/api-reference/merchant" className="custom-footer-link">Merchant API</a>
+      </div>
+      <div className="custom-footer-col">
+        <h4 className="custom-footer-heading">User Guides</h4>
+        <a href="/user-guide/dashboard" className="custom-footer-link">Admin Dashboard</a>
+        <a href="/concepts/brands" className="custom-footer-link">Brand Isolation</a>
+        <a href="/concepts/payment-flow" className="custom-footer-link">Payment Flow</a>
+        <a href="/concepts/ledger" className="custom-footer-link">Double-entry Ledger</a>
+        <a href="/advanced-topics/security-compliance" className="custom-footer-link">Security & Compliance</a>
+        <a href="/advanced-topics/troubleshooting" className="custom-footer-link">Troubleshooting</a>
+      </div>
+      <div className="custom-footer-col">
+        <h4 className="custom-footer-heading">Community & Support</h4>
+        <a href="https://github.com/own-pay/OwnPay" target="_blank" className="custom-footer-link">GitHub Repository</a>
+        <a href="https://github.com/own-pay/OwnPay/issues/new" target="_blank" className="custom-footer-link">Raise an Issue</a>
+        <a href="https://github.com/own-pay/OwnPay/discussions" target="_blank" className="custom-footer-link">Discussions</a>
+        <a href="/resources/contributing" className="custom-footer-link">Contributing Guide</a>
+        <a href="/resources/roadmap" className="custom-footer-link">Product Roadmap</a>
+        <a href="/user-guide/changelog" className="custom-footer-link">Release Changelog</a>
+      </div>
+    </div>
+
+    <div className="custom-footer-bottom">
+      <div className="custom-footer-brand">
+        <div className="custom-footer-logo-row">
+          <img src="/logo/light.svg" className="block dark:hidden" alt="OwnPay Logo" />
+          <img src="/logo/dark.svg" className="hidden dark:block" alt="OwnPay Logo" />
+        </div>
+        <p className="footer-description" style={{ margin: '0.5rem 0 0 0', maxWidth: '320px', fontSize: '13px', textAlign: 'left' }}>
+          Self-hosted, enterprise-grade payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.
+        </p>
+        <span className="custom-footer-copyright">
+          © 2026 OwnPay. Licensed under MIT.
+        </span>
+      </div>
+      <div className="custom-footer-socials">
+        <a href="https://github.com/own-pay/OwnPay" target="_blank" className="custom-footer-social-link">
+          <Icon icon="github" size={18} />
+          <span className="sr-only">GitHub</span>
+        </a>
+        <a href="https://x.com/ownpayorg" target="_blank" className="custom-footer-social-link">
+          <Icon icon="x" size={16} />
+          <span className="sr-only">Twitter</span>
+        </a>
+        <a href="https://youtube.com/@ownpayorg" target="_blank" className="custom-footer-social-link">
+          <Icon icon="youtube" size={18} />
+          <span className="sr-only">YouTube</span>
+        </a>
+        <a href="https://facebook.com/ownpay.org" target="_blank" className="custom-footer-social-link">
+          <Icon icon="facebook" size={18} />
+          <span className="sr-only">Facebook</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+

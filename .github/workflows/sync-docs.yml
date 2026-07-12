@@ -1,3 +1,18 @@
+# ==============================================================================
+# OwnPay Documentation Auto-Sync Workflow
+# ==============================================================================
+# This workflow automatically syncs markdown files from the main OwnPay repository
+# (own-pay/OwnPay) to this repository.
+#
+# Triggering this workflow from the main repository:
+# To trigger a sync immediately when files change in the main repo, configure a
+# GitHub Action in own-pay/OwnPay using the template in:
+# .github/workflows/notify-docs.yml
+#
+# Requirements:
+# 1. Create a Personal Access Token (PAT) with write access to this repository.
+# 2. Store it as a secret named `DOCS_SYNC_TOKEN` in the own-pay/OwnPay repository.
+# ==============================================================================
 name: Sync Documentation Files
 
 on:

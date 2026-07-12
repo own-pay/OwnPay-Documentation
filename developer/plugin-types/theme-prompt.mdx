@@ -1,0 +1,75 @@
+---
+title: "Theme Plugin AI Prompt"
+description: "Instruct your AI coding assistant to use the OwnPay Docs MCP server and skills file to discover and generate a checkout theme plugin."
+keywords: [theme, plugin development, AI prompt, MCP server, Claude prompt]
+---
+
+This page provides a prompt template that instructs your AI assistant (such as Claude, Cursor, or Windsurf) to use the OwnPay Docs MCP server and skills file to dynamically retrieve the latest specifications and scaffold a checkout theme plugin.
+
+Instead of copy-pasting code contracts, the prompt directs the AI to query the MCP server to find the required template variables, manifest formats, Twig configurations, and asset enqueue filters itself.
+
+## 1. Prerequisites
+
+Ensure your AI assistant has access to the following resources:
+- **MCP Server URL:** `https://ownpay.org/docs/mcp` (provides search and query tools)
+- **Skills File URL:** `https://ownpay.org/docs/skill.md` (provides platform guidelines)
+
+*See the [AI MCP Integration Guide](/developer/ai-mcp) and [AI Skills Installation](/developer/ai-skills) for setup instructions.*
+
+---
+
+## 2. System Instructions for the AI Agent
+
+If your tool supports system instructions or custom rules (e.g. Cursor .cursorrules, Claude Projects, or custom GPT instructions), paste the following block:
+
+```text
+You are an expert front-end developer building a checkout theme plugin for the OwnPay platform.
+
+You are equipped with the OwnPay Docs MCP server (https://ownpay.org/docs/mcp) and the OwnPay skills file (https://ownpay.org/docs/skill.md).
+
+When asked to generate a checkout theme plugin:
+1. Do not rely on assumptions or hardcoded templates.
+2. Use your MCP tools to search the documentation for "Theme Plugin Development Guide" to retrieve the required class interfaces, directory structure, Twig files, and CSS variables.
+3. Retrieve and inspect the specifications for:
+   - manifest.json theme schema (including settings and default theme values)
+   - Registering Twig templates with filters (e.g. checkout.template, checkout.status.template)
+   - Enqueueing CSS/JS assets (e.g. checkout.head, checkout.footer actions, and CSP nonce configuration)
+   - Twig context variables passed to templates (e.g. brand data, gateway fields)
+4. Generate the theme codebase strictly following the retrieved specifications.
+```
+
+---
+
+## 3. Developer User Prompt
+
+Paste the following prompt in your AI chat session to initiate the generation. Replace the bracketed values with your theme details:
+
+```text
+I want to create a new checkout theme plugin for [Theme Name, e.g., Glassmorphism] with slug "[theme-slug, e.g., glassmorphism]".
+
+Please perform the following steps:
+1. Use the OwnPay Docs MCP server tools to search the documentation for "Theme Plugin Development Guide" or search for "checkout.template".
+2. Read the retrieved guide to understand:
+   - The directory layout (manifest.json, Theme.php, templates/, assets/)
+   - How to register Twig template filters for the checkout page and checkout status page
+   - How to safely inject CSS styles and Javascript files (using head/footer actions and CSP nonces)
+   - The properties available inside the Twig `brand` and `gateway` variables
+3. Generate the manifest.json file, the entrypoint PHP class file, and basic Twig templates based on the official guidelines you retrieved.
+```
+
+---
+
+## 4. Expected File Structure
+
+By querying the MCP server, the AI agent will discover the correct layout and generate:
+
+```text
+modules/themes/glassmorphism/
+├── manifest.json         # Configured with type "theme" and accent color settings
+├── Theme.php             # Enqueues assets and filters checkout template paths
+├── templates/
+│   ├── checkout.twig     # Twig file rendering gateway selectors and checkout forms
+│   └── checkout-status.twig # Twig file rendering success/failure result panel
+└── assets/
+    └── style.css         # Accents, grid styling, and CSS variables
+```

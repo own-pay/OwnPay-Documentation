@@ -1,0 +1,70 @@
+---
+title: "Gateway Plugin AI Prompt"
+description: "Instruct your AI coding assistant to use the OwnPay Docs MCP server and skills file to discover and generate a payment gateway plugin."
+keywords: [gateway, plugin development, AI prompt, MCP server, Claude prompt]
+---
+
+This page provides a prompt template that instructs your AI assistant (such as Claude, Cursor, or Windsurf) to use the OwnPay Docs MCP server and skills file to dynamically retrieve the latest specifications and scaffold a gateway plugin.
+
+Instead of copy-pasting code contracts, the prompt directs the AI to query the MCP server to find the required class interfaces, manifest formats, and security rules itself.
+
+## 1. Prerequisites
+
+Ensure your AI assistant has access to the following resources:
+- **MCP Server URL:** `https://ownpay.org/docs/mcp` (provides search and query tools)
+- **Skills File URL:** `https://ownpay.org/docs/skill.md` (provides platform guidelines)
+
+*See the [AI MCP Integration Guide](/developer/ai-mcp) and [AI Skills Installation](/developer/ai-skills) for setup instructions.*
+
+---
+
+## 2. System Instructions for the AI Agent
+
+If your tool supports system instructions or custom rules (e.g. Cursor .cursorrules, Claude Projects, or custom GPT instructions), paste the following block:
+
+```text
+You are an expert PHP developer building a payment gateway plugin for the OwnPay platform.
+
+You are equipped with the OwnPay Docs MCP server (https://ownpay.org/docs/mcp) and the OwnPay skills file (https://ownpay.org/docs/skill.md).
+
+When asked to generate a gateway plugin:
+1. Do not rely on assumptions or hardcoded templates.
+2. Use your MCP tools to search the documentation for "Gateway Plugin Development Guide" to retrieve the required class interfaces, directory structure, manifest.json fields, and security requirements.
+3. Retrieve and inspect the specifications for:
+   - manifest.json schema and required capability tags
+   - GatewayAdapterInterface and PluginInterface method signatures (e.g. initiate, verify, verifyWebhook, refund)
+   - CSP (Content Security Policy) and database migration folder structures
+4. Generate the plugin codebase strictly following the retrieved specifications.
+```
+
+---
+
+## 3. Developer User Prompt
+
+Paste the following prompt in your AI chat session to initiate the generation. Replace the bracketed values with your gateway details:
+
+```text
+I want to create a new payment gateway plugin for [Gateway Name, e.g., Paddle] with slug "[gateway-slug, e.g., paddle]".
+
+Please perform the following steps:
+1. Use the OwnPay Docs MCP server tools to search the documentation for "Gateway Plugin Development Guide" or search for "GatewayAdapterInterface".
+2. Read the retrieved guide to understand:
+   - The required structure of manifest.json (entrypoint, namespace, capabilities)
+   - The exact signatures and return types for the required adapter methods (initiate, verify, verifyWebhook, refund, supports, supportedCurrencies)
+   - The security requirements (timing-safe hash_equals, webhook timestamp replay check, server-to-server verification)
+3. Generate the manifest.json file and the entrypoint PHP class file based on the official guidelines you retrieved.
+```
+
+---
+
+## 4. Expected Output Discovery
+
+By querying the MCP server, the AI agent will discover the correct layout and generate:
+
+```text
+modules/gateways/paddle/
+├── manifest.json         # Configured with type "gateway" and Paddle settings fields
+├── PaddleGateway.php     # Implementing PluginInterface & GatewayAdapterInterface
+├── icon.svg              # SVG logo placeholder
+└── README.md             # Setup and configuration guidelines
+```
