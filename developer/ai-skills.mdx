@@ -27,7 +27,7 @@ Skills are files that instruct AI agents how to use a product effectively. When 
 Run this command in your terminal:
 
 ```bash
-npx skills add https://ownpay.org/docs
+npx skills add {{docsUrl}}
 ```
 
 This downloads and installs the OwnPay skill for all compatible AI tools on your system.
@@ -38,7 +38,7 @@ This downloads and installs the OwnPay skill for all compatible AI tools on your
 <Tab title="Claude Code">
 ```bash
 # Download the skill file
-curl -o ~/.claude/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
+curl -o ~/.claude/skills/ownpay/SKILL.md {{skillsUrl}}
 
 # The skill is now available in Claude Code
 ```
@@ -47,7 +47,7 @@ curl -o ~/.claude/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
 1. Create the skills directory: `mkdir -p .cursor/skills/ownpay`
 2. Download the skill:
 ```bash
-curl -o .cursor/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
+curl -o .cursor/skills/ownpay/SKILL.md {{skillsUrl}}
 ```
 3. Restart Cursor to load the skill
 </Tab>
@@ -55,7 +55,7 @@ curl -o .cursor/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
 1. Create the skills directory: `mkdir -p .vscode/skills/ownpay`
 2. Download the skill:
 ```bash
-curl -o .vscode/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
+curl -o .vscode/skills/ownpay/SKILL.md {{skillsUrl}}
 ```
 3. Reload VS Code to load the skill
 </Tab>
@@ -65,7 +65,7 @@ curl -o .vscode/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
 mkdir -p ~/.gemini/skills/ownpay
 
 # Download the skill
-curl -o ~/.gemini/skills/ownpay/SKILL.md https://ownpay.org/docs/skill.md
+curl -o ~/.gemini/skills/ownpay/SKILL.md {{skillsUrl}}
 ```
 </Tab>
 </Tabs>
@@ -142,7 +142,7 @@ With the skill installed, try these prompts:
 The skill file is hosted at:
 
 ```
-https://ownpay.org/docs/skill.md
+{{skillsUrl}}
 ```
 
 Mintlify automatically generates this file from your documentation structure and content. It includes:

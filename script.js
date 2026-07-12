@@ -120,11 +120,24 @@ function injectLlmsTxtLink() {
   document.head.appendChild(link);
 }
 
+// ===== Rewrite Native Issue Links Client-Side =====
+function rewriteNativeIssueLinks() {
+  const links = document.querySelectorAll('a[href*="OwnPay-Documentation/issues/new"]');
+  links.forEach(link => {
+    const oldUrl = link.getAttribute('href');
+    if (oldUrl && oldUrl.includes('OwnPay-Documentation/issues/new')) {
+      const newUrl = oldUrl.replace('OwnPay-Documentation/issues/new', 'OwnPay/issues/new');
+      link.setAttribute('href', newUrl);
+    }
+  });
+}
+
 // ===== Initialize =====
 function init() {
   updateGitHubStars();
   injectStructuredData();
   injectLlmsTxtLink();
+  rewriteNativeIssueLinks();
 }
 
 if (document.readyState === 'loading') {

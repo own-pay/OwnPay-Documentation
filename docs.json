@@ -6,7 +6,7 @@
   "feedback": {
     "thumbsRating": true,
     "suggestEdit": true,
-    "raiseIssue": false
+    "raiseIssue": true
   },
   "colors": {
     "primary": "#096650",
@@ -426,7 +426,15 @@
   },
   "variables": {
     "version": "0.2.0",
-    "github": "https://github.com/own-pay/OwnPay"
+    "github": "https://github.com/own-pay/OwnPay",
+    "githubDocs": "https://github.com/own-pay/OwnPay-Documentation",
+    "githubWordpress": "https://github.com/own-pay/OwnPay-WordPress",
+    "githubWhmcs": "https://github.com/own-pay/OwnPay-WHMCS",
+    "website": "https://ownpay.org",
+    "docsUrl": "https://ownpay.org/docs",
+    "mcpUrl": "https://ownpay.org/docs/mcp",
+    "skillsUrl": "https://ownpay.org/docs/skill.md",
+    "supportEmail": "support@ownpay.org"
   },
   "banner": {
     "content": "New version 0.2.0 release",

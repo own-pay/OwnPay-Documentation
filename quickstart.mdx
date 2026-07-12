@@ -27,7 +27,7 @@ Don't have a server? Skip to [Shared Hosting](#shared-hosting) for cPanel/Direct
 
     <Steps>
       <Step title="Download OwnPay">
-        Go to the [GitHub Releases page](https://github.com/own-pay/OwnPay/releases/) and download the latest `.zip` file.
+        Go to the [GitHub Releases page]({{github}}/releases/) and download the latest `.zip` file.
       </Step>
 
       <Step title="Upload to hosting">
@@ -95,7 +95,7 @@ Don't have a server? Skip to [Shared Hosting](#shared-hosting) for cPanel/Direct
       <Step title="Download and configure OwnPay">
         ```bash
         cd /var/www
-        sudo wget https://github.com/own-pay/OwnPay/releases/download/vX.X.X/ownpay-vX.X.X.zip
+        sudo wget {{github}}/releases/download/vX.X.X/ownpay-vX.X.X.zip
         sudo unzip ownpay-vX.X.X.zip -d ownpay
         sudo chown -R www-data:www-data /var/www/ownpay
         sudo chmod -R 775 /var/www/ownpay/storage
@@ -135,7 +135,7 @@ Don't have a server? Skip to [Shared Hosting](#shared-hosting) for cPanel/Direct
     <Steps>
       <Step title="Clone the repository">
         ```bash
-        git clone https://github.com/own-pay/OwnPay.git
+        git clone {{github}}.git
         cd ownpay
         ```
       </Step>
@@ -197,20 +197,20 @@ Change your default password immediately after first login. Enable Two-Factor Au
 ## What's next?
 
 <CardGroup cols={2}>
-  <Card title="Multi-brand setup" icon="store" href="/guides/multi-brand">
+  <Card title="Multi-brand setup" icon="store" href="/concepts/brands">
     Configure multiple brands with isolated data and custom domains.
   </Card>
-  <Card title="API integration" icon="code" href="/api/overview">
+  <Card title="API integration" icon="code" href="/api-reference/merchant">
     Integrate OwnPay with your applications via REST API.
   </Card>
-  <Card title="Gateway plugins" icon="plug" href="/plugins/gateway-plugins">
+  <Card title="Gateway plugins" icon="plug" href="/developer/plugins/gateways">
     Build custom payment gateway plugins.
   </Card>
-  <Card title="Production deployment" icon="server" href="/deployment/configuration">
+  <Card title="Production deployment" icon="server" href="/resources/local-setup">
     Optimize OwnPay for production with Redis, SSL, and monitoring.
   </Card>
 </CardGroup>
 
 <Tip>
-Need help? Check our [Troubleshooting guide](/advanced-topics/troubleshooting) or open an issue on [GitHub](https://github.com/own-pay/OwnPay/issues).
+Need help? Check our [Troubleshooting guide](/advanced-topics/troubleshooting) or open an issue on [GitHub]({{github}}/issues).
 </Tip>

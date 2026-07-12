@@ -7,7 +7,7 @@ keywords: "MCP server, Model Context Protocol, AI tools, Claude, Cursor, ChatGPT
 The OwnPay documentation hosts a **Model Context Protocol (MCP) server** that lets AI tools search and retrieve content directly from the docs. Instead of relying on training data or web searches, AI tools get accurate, up-to-date information from the actual documentation.
 
 <Info>
-The MCP server is available at `https://ownpay.org/docs/mcp`. It is read-only and requires no authentication.
+The MCP server is available at `{{mcpUrl}}`. It is read-only and requires no authentication.
 </Info>
 
 ## What is MCP?
@@ -40,7 +40,7 @@ The OwnPay MCP server provides three tools:
 2. Click **Add custom connector**
 3. Enter:
    - **Name:** OwnPay Docs
-   - **URL:** `https://ownpay.org/docs/mcp`
+   - **URL:** `{{mcpUrl}}`
 4. Click **Add**
 </Step>
 <Step title="Use in a conversation">
@@ -54,7 +54,7 @@ The OwnPay MCP server provides three tools:
 Run this command:
 
 ```bash
-claude mcp add --transport http ownpay-docs https://ownpay.org/docs/mcp
+claude mcp add --transport http ownpay-docs {{mcpUrl}}
 ```
 
 Then ask Claude Code about OwnPay - it will automatically search the docs.
@@ -73,7 +73,7 @@ In `mcp.json`, add:
 {
   "mcpServers": {
     "ownpay-docs": {
-      "url": "https://ownpay.org/docs/mcp"
+      "url": "{{mcpUrl}}"
     }
   }
 }
@@ -94,7 +94,7 @@ Create a `.vscode/mcp.json` file in your project:
   "servers": {
     "ownpay-docs": {
       "type": "http",
-      "url": "https://ownpay.org/docs/mcp"
+      "url": "{{mcpUrl}}"
     }
   }
 }
@@ -108,7 +108,7 @@ VS Code will automatically connect to the MCP server when you use Copilot Chat.
 <Tab title="ChatGPT">
 1. In ChatGPT, start a new conversation
 2. Click the **Connectors** or **Plugins** button
-3. Add a custom MCP server with URL: `https://ownpay.org/docs/mcp`
+3. Add a custom MCP server with URL: `{{mcpUrl}}`
 4. Ask questions about OwnPay
 </Tab>
 </Tabs>
@@ -137,7 +137,7 @@ After connecting, try these prompts:
 The MCP server supports automatic discovery. AI tools can find it at:
 
 ```
-https://ownpay.org/docs/.well-known/mcp
+{{mcpUrl}}/.well-known/mcp
 ```
 
 This endpoint returns the server configuration so tools can connect automatically.
