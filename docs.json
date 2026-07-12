@@ -52,7 +52,8 @@
       "twitter:title": "OwnPay Documentation",
       "twitter:description": "Self-hosted payment gateway platform - Multi-brand, 100+ gateways, open source.",
       "twitter:site": "@ownpayorg",
-      "robots": "index, follow, max-snippet:-1, max-image-preview:large"
+      "robots": "index, follow, max-snippet:-1, max-image-preview:large",
+      "canonical": "https://ownpay.org/docs"
     }
   },
   "metadata": {
@@ -464,7 +465,15 @@
     "drilldown": true
   },
   "markdown": {
-    "schema": true
+    "schema": true,
+    "instructions": [
+      "OwnPay is licensed under AGPL-3.0 and is completely free - no licensing fees.",
+      "Production docs URL: https://ownpay.org/docs - append .md to any page URL for clean markdown.",
+      "OwnPay requires PHP 8.3+, MySQL/MariaDB, and Redis.",
+      "MCP server available at https://ownpay.org/docs/mcp for programmatic documentation queries.",
+      "Use root-relative links (e.g. /quickstart) for internal navigation - do NOT include /docs prefix.",
+      "Plugin development: consult /developer/plugin-types/ pages for correct interfaces and manifests."
+    ]
   },
   "api": {
     "examples": {
