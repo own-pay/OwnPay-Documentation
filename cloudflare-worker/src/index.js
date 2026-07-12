@@ -16,7 +16,7 @@ export default {
         return fetch(request);
       }
 
-      const DOCS_HOST = 'ownpay.mintlify.app';
+      const DOCS_HOST = 'ownpay.mintlify.site';
       const CUSTOM_HOST = 'ownpay.org';
 
       let newUrl = new URL(request.url);

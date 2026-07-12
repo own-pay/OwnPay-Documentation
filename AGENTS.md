@@ -129,3 +129,9 @@ Before claiming victory on any documentation updates, AI agents must run the fol
 2. Stage and commit changes to `master` branch on `own-pay/OwnPay-Documentation`.
 3. Push to `origin master` - Mintlify auto-deploys from GitHub.
 4. Cloudflare Worker proxies `ownpay.org/docs` to the Mintlify deployment.
+
+> [!WARNING]
+> **CLOUDFLARE WORKER PROXY DESTINATION HOST**
+> - The Cloudflare Worker reverse-proxy destination (`DOCS_HOST` inside `cloudflare-worker/src/index.js`) must be set to `ownpay.mintlify.site`.
+> - Do **NOT** change it to `ownpay.mintlify.app`. The `.site` domain is configured explicitly for subdirectory mapping and domain verification in the dashboard; changing it to `.app` will cause proxy routing failures.
+
