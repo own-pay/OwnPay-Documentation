@@ -1,0 +1,163 @@
+---
+title: "AI Tools Overview"
+description: "Use AI agents to build integrations, plugins, and payments with OwnPay. Connect MCP, install Skills, and let your AI do the heavy lifting."
+keywords: ["AI tools", "MCP", "skills", "AI agent", "OwnPay AI", "payment gateway AI", "Claude", "Cursor", "AI integration"]
+---
+
+<Snippet file="llms-directive.mdx" />
+
+OwnPay is the first self-hosted payment platform built for the AI agent era. You can now ask your AI assistant to build integrations, create plugins, and explore the full OwnPay API - and it will know exactly what to do.
+
+No more copy-pasting documentation. No more switching tabs. Your AI reads OwnPay docs in real time and writes the code for you.
+
+---
+
+## How it works
+
+There are two things you set up once, then your AI handles the rest.
+
+<Steps>
+  <Step title="Connect the MCP Server">
+    The **MCP server** gives your AI tool live access to all OwnPay documentation. Every time you ask a question, your AI reads the real docs - not outdated training data.
+
+    Think of it as plugging your AI directly into the OwnPay knowledge base.
+  </Step>
+  <Step title="Install the OwnPay Skill">
+    The **OwnPay Skill** teaches your AI the patterns, conventions, and architecture of OwnPay before you even ask a question.
+
+    It's like giving your AI a crash course in OwnPay development - payment flows, plugins, APIs, and best practices - all loaded upfront.
+  </Step>
+  <Step title="Ask your AI anything">
+    Now just ask. Build a gateway plugin. Create a checkout theme. Write an API integration. Your AI knows OwnPay inside out and writes production-ready code.
+  </Step>
+</Steps>
+
+---
+
+## What you get
+
+<CardGroup cols={3}>
+  <Card title="MCP Server" icon="plug" href="/developer/ai-mcp">
+    Connect Cursor, Claude, VS Code, and other AI tools to live OwnPay documentation. Real-time search and page retrieval - always up to date.
+  </Card>
+  <Card title="OwnPay Skills" icon="graduation-cap" href="/developer/ai-skills">
+    Install a structured knowledge file that teaches your AI agent the OwnPay architecture, APIs, plugin system, and development conventions.
+  </Card>
+  <Card title="AI Prompt Templates" icon="wand-magic-sparkles" href="/developer/plugin-types/gateway-prompt">
+    Ready-to-use prompts for building gateway plugins, addons, themes, and third-party integrations. Copy, paste, and let your AI build.
+  </Card>
+</CardGroup>
+
+---
+
+## What is MCP?
+
+**MCP** stands for **Model Context Protocol**. It is an open standard that connects AI assistants to live data sources.
+
+Without MCP, your AI only knows what it learned during training - which may be months or years out of date. With MCP connected, your AI can search and read the OwnPay documentation right now, every time you ask a question.
+
+<Info>
+  The OwnPay MCP server is free, public, and requires no account. Connect it once and every AI conversation benefits automatically.
+</Info>
+
+Here is the difference in practice:
+
+| Without MCP | With MCP |
+|---|---|
+| AI guesses from training data | AI reads live OwnPay docs |
+| May suggest outdated API patterns | Always uses the current API spec |
+| Generic payment gateway advice | OwnPay-specific, accurate answers |
+| You manually copy-paste docs | AI retrieves docs automatically |
+
+---
+
+## What are Skills?
+
+A **Skill** is a knowledge file you install into your AI tool. It contains a structured description of OwnPay: how the system is designed, how the plugin architecture works, which conventions to follow, and how to write correct code.
+
+When you install the OwnPay Skill, your AI understands things like:
+
+- OwnPay uses a **multi-brand** model where each brand has isolated gateways and a separate ledger
+- Plugins live in `modules/gateways/`, `modules/addons/`, and `modules/themes/`
+- All API calls require a **Bearer Token** in the Authorization header
+- Webhooks must be verified server-side using HMAC signatures
+
+This context lets your AI give you correct answers from the very first question - without needing to explain the basics every time.
+
+<Tip>
+  Use both MCP and Skills together for the best results. Skills teach the AI what OwnPay is. MCP lets the AI look up exact details on demand.
+</Tip>
+
+---
+
+## Example: ask your AI to build a plugin
+
+Once set up, conversations like this just work:
+
+```
+You: Build me a gateway plugin for Stripe that supports redirect checkout.
+
+AI: I'll build that for you. Let me check the OwnPay gateway plugin documentation...
+    [reads developer/plugin-types/gateway-development via MCP]
+
+    Here is your plugin structure:
+    - modules/gateways/stripe/
+      - manifest.json
+      - StripeGateway.php
+      - redirect.php
+
+    [writes complete, working plugin code]
+```
+
+Or ask about integrations:
+
+```
+You: How do I add OwnPay to my WooCommerce store?
+
+AI: I'll look that up right now...
+    [reads developer/integration/woocommerce via MCP]
+
+    Here are the exact steps...
+```
+
+No documentation tab switching. No copy-pasting. Your AI reads, understands, and builds.
+
+---
+
+## Supported AI tools
+
+Connect MCP and Skills to any of these tools today:
+
+<CardGroup cols={2}>
+  <Card title="Cursor" icon="code">
+    Add the MCP server in Settings > Features > MCP. Cursor's Agent mode will automatically call it when working on OwnPay projects.
+  </Card>
+  <Card title="Claude Desktop & Claude Code" icon="message">
+    Add to `claude_desktop_config.json` or run `claude mcp add`. Works in Projects and regular conversations.
+  </Card>
+  <Card title="VS Code (Cline / Roo Code)" icon="brackets-curly">
+    Add the MCP server URL in your extension's MCP settings. All Cline conversations gain live doc access.
+  </Card>
+  <Card title="Windsurf" icon="wind">
+    Add to `~/.codeium/windsurf/mcp_config.json`. Cascade assistant picks it up automatically on restart.
+  </Card>
+</CardGroup>
+
+---
+
+## Get started
+
+<CardGroup cols={2}>
+  <Card title="Connect MCP Server" icon="plug" href="/developer/ai-mcp">
+    Step-by-step setup for Cursor, Claude, VS Code, and Windsurf. Takes 2 minutes.
+  </Card>
+  <Card title="Install OwnPay Skills" icon="graduation-cap" href="/developer/ai-skills">
+    One command installs the OwnPay knowledge file into your AI tool.
+  </Card>
+  <Card title="Browse Prompt Templates" icon="wand-magic-sparkles" href="/developer/plugin-types/gateway-prompt">
+    Ready-to-copy prompts for gateways, addons, themes, and integrations.
+  </Card>
+  <Card title="Developer Quickstart" icon="rocket" href="/developer/quickstart">
+    Not using AI? Start with the standard developer quickstart guide.
+  </Card>
+</CardGroup>

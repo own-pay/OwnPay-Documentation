@@ -101,6 +101,7 @@
 
 ## Developer Guide
 
+- [AI Tools Overview](https://ownpay.org/docs/developer/ai-overview.md): Overview of OwnPay AI tools - MCP server, Skills, and prompt templates for AI-assisted development.
 - [Quickstart](https://ownpay.org/docs/developer/quickstart.md): Developer quickstart and first integration.
 - [AI MCP Integration](https://ownpay.org/docs/developer/ai-mcp.md): Connect AI agents via Model Context Protocol.
 - [AI Skills](https://ownpay.org/docs/developer/ai-skills.md): AI agent skills for OwnPay plugin development.
