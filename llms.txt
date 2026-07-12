@@ -1,59 +1,158 @@
 # OwnPay - Self-Hosted Payment Gateway Platform
 
-> OwnPay is an open-source, self-hosted payment gateway orchestrator that lets you manage multiple brands, connect to 100+ payment gateways, and provide white-label checkout experiences.
+> OwnPay is an open-source, self-hosted payment gateway orchestrator licensed under AGPL-3.0. It lets you manage multiple brands, connect to 100+ payment gateways, and provide white-label checkout experiences. Free forever - no licensing fees.
 
-## Documentation
+> For the complete documentation index, see [llms.txt](https://ownpay.org/docs/llms.txt). Every page is also available as clean Markdown by appending `.md` to any URL (e.g. `https://ownpay.org/docs/quickstart.md`).
 
-- [OwnPay Documentation](https://ownpay.org/docs): Complete documentation for administrators, developers, and users.
-- [Quickstart](https://ownpay.org/docs/quickstart): Get OwnPay running in 5 minutes.
-- [Installation Guide](https://ownpay.org/docs/installation): Install on shared hosting, VPS, or Docker.
-- [Core Concepts](https://ownpay.org/docs/concepts/index): Understand brands, gateways, payment flow, and the ledger system.
-- [User Guide](https://ownpay.org/docs/user-guide/dashboard): Admin dashboard, payments, people, and system management.
-- [Developer Guide](https://ownpay.org/docs/developer/quickstart): REST API integration, SDKs, webhooks, and plugins.
-- [API Reference](https://ownpay.org/docs/api-reference/merchant): Merchant, Mobile, and Admin API documentation.
+## Getting Started
+
+- [Home](https://ownpay.org/docs/index.md): OwnPay documentation hub and feature overview.
+- [Quickstart](https://ownpay.org/docs/quickstart.md): Get OwnPay running in 5 minutes.
+- [Installation](https://ownpay.org/docs/installation.md): Install on shared hosting, VPS, or Docker.
+
+## Core Concepts
+
+- [Overview](https://ownpay.org/docs/concepts/index.md): Brands, gateways, payment flow, and the ledger system.
+- [Brands](https://ownpay.org/docs/concepts/brands.md): Multi-tenant brand isolation and white-label architecture.
+- [Gateways](https://ownpay.org/docs/concepts/gateways.md): How payment gateways are connected and managed.
+- [Payment Flow](https://ownpay.org/docs/concepts/payment-flow.md): End-to-end transaction lifecycle.
+- [Ledger](https://ownpay.org/docs/concepts/ledger.md): Double-entry bookkeeping and financial integrity.
+- [Domains](https://ownpay.org/docs/concepts/domains.md): Custom domains and white-label checkout setup.
+- [Plugins](https://ownpay.org/docs/concepts/plugins.md): Plugin architecture and extension model.
+
+## User Guide
+
+- [Dashboard](https://ownpay.org/docs/user-guide/dashboard.md): Admin dashboard overview.
+- [Changelog](https://ownpay.org/docs/user-guide/changelog.md): Release history and version notes.
+
+### People
+
+- [Brands](https://ownpay.org/docs/user-guide/people/brands.md): Managing merchant brands.
+- [Staff](https://ownpay.org/docs/user-guide/people/staff.md): User accounts and permissions.
+- [Roles](https://ownpay.org/docs/user-guide/people/roles.md): Role-based access control.
+- [Customers](https://ownpay.org/docs/user-guide/people/customers.md): Customer records management.
+
+### Payments
+
+- [Payment Links](https://ownpay.org/docs/user-guide/payments/payment-links.md): Create and share payment links.
+- [Transactions](https://ownpay.org/docs/user-guide/payments/transactions.md): Transaction history and details.
+- [Invoices](https://ownpay.org/docs/user-guide/payments/invoices.md): Invoice generation and management.
+- [Ledger](https://ownpay.org/docs/user-guide/payments/ledger.md): Financial ledger entries.
+
+### Gateways
+
+- [Gateways](https://ownpay.org/docs/user-guide/gateways/gateways.md): Configure payment gateways.
+- [Currencies](https://ownpay.org/docs/user-guide/gateways/currencies.md): Multi-currency support.
+
+### Mobile and SMS
+
+- [Devices](https://ownpay.org/docs/user-guide/mobile-sms/devices.md): Companion app device management.
+- [SMS Templates](https://ownpay.org/docs/user-guide/mobile-sms/sms-templates.md): SMS parsing templates.
+- [SMS Logs](https://ownpay.org/docs/user-guide/mobile-sms/sms-logs.md): SMS activity logs.
+
+### Appearance
+
+- [Themes](https://ownpay.org/docs/user-guide/appearance/themes.md): Checkout theme customization.
+- [Branding Settings](https://ownpay.org/docs/user-guide/appearance/branding-settings.md): Logo, colors, and brand identity.
+- [Landing Page](https://ownpay.org/docs/user-guide/appearance/landing-page.md): Custom landing page builder.
+
+### System
+
+- [Settings](https://ownpay.org/docs/user-guide/system/settings.md): Global system configuration.
+- [Domains](https://ownpay.org/docs/user-guide/system/domains.md): Domain management.
+- [Plugins](https://ownpay.org/docs/user-guide/system/plugins.md): Installed plugin management.
+- [Addons](https://ownpay.org/docs/user-guide/system/addons.md): Addon module management.
+- [System Update](https://ownpay.org/docs/user-guide/system/system-update.md): OwnPay update process.
+
+### Auth and Account
+
+- [Login](https://ownpay.org/docs/user-guide/auth/login.md): Authentication and login options.
+- [Forgot Password](https://ownpay.org/docs/user-guide/auth/forgot-password.md): Password reset flow.
+- [Two-Factor Auth](https://ownpay.org/docs/user-guide/auth/two-factor.md): Two-factor authentication setup.
+- [My Account](https://ownpay.org/docs/user-guide/account/my-account.md): Profile and account settings.
+
+### Reports and Finance
+
+- [Reports](https://ownpay.org/docs/user-guide/reports-finance/reports.md): Financial and transaction reports.
+- [Audit Log](https://ownpay.org/docs/user-guide/reports-finance/audit-log.md): Admin activity audit trail.
+- [Balance Verification](https://ownpay.org/docs/user-guide/reports-finance/balance-verification.md): Ledger balance checks.
+
+### Public Pages
+
+- [Checkout](https://ownpay.org/docs/user-guide/public/checkout.md): Customer-facing payment checkout page.
+
+### Developer Hub
+
+- [Developer Hub](https://ownpay.org/docs/user-guide/developers/developer-hub.md): API keys and webhook setup for brands.
+
+## API Reference
+
+- [Overview](https://ownpay.org/docs/api/overview.md): API overview, base URLs, and versioning.
+- [Authentication](https://ownpay.org/docs/api/authentication.md): API key authentication methods.
+- [Webhooks](https://ownpay.org/docs/api/webhooks.md): Webhook events and payload formats.
+- [Errors](https://ownpay.org/docs/api/errors.md): Error codes and response formats.
+- [Merchant API](https://ownpay.org/docs/api-reference/merchant.md): Full Merchant REST API specification.
+- [Mobile API](https://ownpay.org/docs/api-reference/mobile.md): Mobile companion app API specification.
+- [Admin API](https://ownpay.org/docs/api-reference/admin.md): Admin management API specification.
+
+## Developer Guide
+
+- [Quickstart](https://ownpay.org/docs/developer/quickstart.md): Developer quickstart and first integration.
+- [AI MCP Integration](https://ownpay.org/docs/developer/ai-mcp.md): Connect AI agents via Model Context Protocol.
+- [AI Skills](https://ownpay.org/docs/developer/ai-skills.md): AI agent skills for OwnPay plugin development.
+- [Translations](https://ownpay.org/docs/developer/translations.md): Localization and translation guide.
+
+### SDK Integrations
+
+- [PHP SDK](https://ownpay.org/docs/developer/integration/php.md): PHP SDK installation and usage.
+- [Node.js SDK](https://ownpay.org/docs/developer/integration/nodejs.md): Node.js SDK installation and usage.
+- [WooCommerce](https://ownpay.org/docs/developer/integration/woocommerce.md): WooCommerce plugin integration.
+- [WHMCS](https://ownpay.org/docs/developer/integration/whmcs.md): WHMCS billing platform integration.
+
+### Plugin Development
+
+- [Gateway Development](https://ownpay.org/docs/developer/plugin-types/gateway-development.md): Build custom payment gateway plugins.
+- [Addon Development](https://ownpay.org/docs/developer/plugin-types/addon-development.md): Build addon modules.
+- [Theme Development](https://ownpay.org/docs/developer/plugin-types/theme-development.md): Build custom checkout themes.
+
+### Plugin Reference
+
+- [Plugin Overview](https://ownpay.org/docs/developer/plugins/overview.md): Plugin system architecture.
+- [Plugin Capabilities](https://ownpay.org/docs/developer/plugins/capabilities.md): Available plugin hooks and capabilities.
+- [Plugin Events](https://ownpay.org/docs/developer/plugins/events.md): Event system and listeners.
+- [Plugin Hooks](https://ownpay.org/docs/developer/plugins/hooks.md): Hook reference for plugin authors.
+
+## Resources
+
+- [Architecture](https://ownpay.org/docs/resources/architecture.md): System architecture and design decisions.
+- [Features](https://ownpay.org/docs/resources/features.md): Complete feature reference.
+- [Ecosystem](https://ownpay.org/docs/resources/ecosystem.md): Integrations, SDKs, and extensions.
+- [Glossary](https://ownpay.org/docs/resources/glossary.md): Key terms and definitions.
+- [Contributing](https://ownpay.org/docs/resources/contributing.md): How to contribute to OwnPay.
+- [Roadmap](https://ownpay.org/docs/resources/roadmap.md): Upcoming features and development plans.
+- [Local Setup](https://ownpay.org/docs/resources/local-setup.md): Set up a local development environment.
+- [REST API Integration](https://ownpay.org/docs/resources/integrations/rest-api.md): REST API integration guide.
+- [Code Examples](https://ownpay.org/docs/resources/code-examples.md): Ready-to-use code snippets.
+
+## Advanced Topics
+
+- [Security and Compliance](https://ownpay.org/docs/advanced-topics/security-compliance.md): Security model and compliance guidance.
+- [Performance and Scaling](https://ownpay.org/docs/advanced-topics/performance-scaling.md): Scaling and performance tuning.
+- [Troubleshooting](https://ownpay.org/docs/advanced-topics/troubleshooting.md): Common issues and solutions.
+- [FAQ](https://ownpay.org/docs/advanced-topics/faq.md): Frequently asked questions.
 
 ## Downloads
 
-The latest stable release can be downloaded from the official update registry.
+The latest stable release is available from the official update registry.
 
 - **Latest Version:** 0.2.0
-- **Registry API:** https://update.ownpay.org/api/v1/release (returns `latest.version` and `latest.download_url`)
-- **Download (GitHub):** https://github.com/own-pay/OwnPay/releases/download/v0.2.0/ownpay-0.2.0.zip
-- **Download (Mirror):** https://update.ownpay.org/releases/download/0.2.0/ownpay-0.2.0.zip
-- **Signature:** https://github.com/own-pay/OwnPay/releases/download/v0.2.0/signature.sig
-- **Changelog:** https://github.com/own-pay/OwnPay/releases/download/v0.2.0/changelog.md
+- **Registry API:** https://update.ownpay.org/api/v1/release
+- **Download:** https://github.com/own-pay/OwnPay/releases/download/v0.2.0/ownpay-0.2.0.zip
 - **Minimum PHP:** 8.3.0
-
-## Key Features
-
-- **Multi-brand Architecture**: Run multiple isolated merchant stores from a single installation
-- **100+ Payment Gateways**: Stripe, PayPal, bKash, Nagad, GCash, bank transfers, and more
-- **White-label Checkout**: Custom domains, logos, CSS, and email templates per brand
-- **Double-entry Ledger**: Financial integrity with double-entry bookkeeping
-- **REST API**: Full programmatic access with API keys, webhooks, and SDK support
-- **Plugin System**: Gateway plugins, addon plugins, and theme plugins
-- **Mobile SMS Verification**: Android companion app for mobile banking SMS parsing
-- **RBAC Permissions**: Role-based access control for administrators, brand managers, and staff
-
-## Technology
-
-- PHP 8.3+ with PSR-4 autoloading
-- MySQL/MariaDB database
-- Redis for caching and queues
-- Docker support for containerized deployment
-- Cloudflare Workers compatible
-
-## Update Registry
-
-OwnPay publishes releases to a public update registry with a REST API. AI agents can use this API to fetch the latest version, download URL, SHA-256 checksum, and release notes without authentication.
-
-- **Base URL:** https://update.ownpay.org/api/v1
-- **Get latest release:** `GET https://update.ownpay.org/api/v1/release` - returns `latest` object with `version`, `download_url.github`, `download_url.local`, `checksum_sha256`, `signature_url`, `changelog_url`
-- **Get specific version:** `GET https://update.ownpay.org/api/v1/release/{version_code}` - e.g., `GET https://update.ownpay.org/api/v1/release/0.2.0`
-- **CORS:** Enabled for all origins. No API key required.
 
 ## Links
 
 - Website: https://ownpay.org
 - GitHub: https://github.com/own-pay/OwnPay
 - Documentation: https://ownpay.org/docs
+- License: AGPL-3.0
