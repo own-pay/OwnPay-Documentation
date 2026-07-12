@@ -53,7 +53,8 @@
       "twitter:description": "Self-hosted payment gateway platform - Multi-brand, 100+ gateways, open source.",
       "twitter:site": "@ownpayorg",
       "robots": "index, follow, max-snippet:-1, max-image-preview:large",
-      "canonical": "https://ownpay.org/docs"
+      "canonical": "https://ownpay.org/docs",
+      "fb:app_id": "1565186248495541"
     }
   },
   "metadata": {
