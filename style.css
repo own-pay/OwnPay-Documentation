@@ -217,3 +217,50 @@ footer {
   color: #0D9373;
   text-decoration: underline;
 }
+
+/* ===== Premium UX & Aesthetic Enhancements ===== */
+
+/* Smooth scrolling across the site */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Premium transition speeds for links and interactive UI items */
+a, 
+button, 
+.card, 
+.card-group a,
+[role="button"] {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Custom premium scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.45);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.15);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.35);
+}
+
+/* Premium Glassmorphism overlay for navigation headers */
+header,
+#navbar,
+.sticky {
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+}
+

@@ -373,29 +373,47 @@
     },
     "links": [
       {
-        "header": "Product",
+        "header": "Resources",
         "items": [
-          { "label": "Features", "href": "https://ownpay.org" },
-          { "label": "Changelog", "href": "/docs/user-guide/changelog" },
-          { "label": "Roadmap", "href": "/docs/resources/roadmap" }
+          { "label": "Getting Started", "href": "/quickstart" },
+          { "label": "Architecture", "href": "/resources/architecture" },
+          { "label": "Features Reference", "href": "/resources/features" },
+          { "label": "Local Installation", "href": "/resources/local-setup" },
+          { "label": "Glossary", "href": "/resources/glossary" },
+          { "label": "FAQ", "href": "/advanced-topics/faq" }
         ]
       },
       {
-        "header": "Documentation",
+        "header": "Developer Hub",
         "items": [
-          { "label": "Getting Started", "href": "/docs/quickstart" },
-          { "label": "User Guide", "href": "/docs/user-guide/dashboard" },
-          { "label": "Developer Guide", "href": "/docs/developer/quickstart" },
-          { "label": "API Reference", "href": "/docs/api-reference/merchant" }
+          { "label": "Quickstart Guide", "href": "/developer/quickstart" },
+          { "label": "API Keys & Setup", "href": "/user-guide/developers/developer-hub" },
+          { "label": "SDK Integrations", "href": "/resources/ecosystem" },
+          { "label": "Webhook System", "href": "/developer/plugins/events" },
+          { "label": "Plugin System", "href": "/developer/plugins/overview" },
+          { "label": "Merchant API", "href": "/api-reference/merchant" }
         ]
       },
       {
-        "header": "Community",
+        "header": "User Guides",
         "items": [
-          { "label": "GitHub", "href": "https://github.com/own-pay/OwnPay" },
+          { "label": "Admin Dashboard", "href": "/user-guide/dashboard" },
+          { "label": "Brand Isolation", "href": "/concepts/brands" },
+          { "label": "Payment Flow", "href": "/concepts/payment-flow" },
+          { "label": "Double-entry Ledger", "href": "/concepts/ledger" },
+          { "label": "Security & Compliance", "href": "/advanced-topics/security-compliance" },
+          { "label": "Troubleshooting", "href": "/advanced-topics/troubleshooting" }
+        ]
+      },
+      {
+        "header": "Community & Support",
+        "items": [
+          { "label": "GitHub Repository", "href": "https://github.com/own-pay/OwnPay" },
+          { "label": "Raise an Issue", "href": "https://github.com/own-pay/OwnPay/issues/new" },
           { "label": "Discussions", "href": "https://github.com/own-pay/OwnPay/discussions" },
-          { "label": "Raise Issue", "href": "https://github.com/own-pay/OwnPay/issues/new" },
-          { "label": "Subscribe", "href": "/docs/user-guide/subscribe" }
+          { "label": "Contributing Guide", "href": "/resources/contributing" },
+          { "label": "Product Roadmap", "href": "/resources/roadmap" },
+          { "label": "Release Changelog", "href": "/user-guide/changelog" }
         ]
       }
     ]
