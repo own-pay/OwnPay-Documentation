@@ -40,15 +40,89 @@ Access the official platforms powering the OwnPay ecosystem.
 
 ## 1. Version Registry & Updates
 
-The **Version Registry** (`update.ownpay.org`) is the central database of all official OwnPay releases, secure patches, and update checks.
-
-### Features
-- **Release Feeds**: Direct programmatic channels to fetch release notes and download archives.
-- **Compliance Tracking**: Verification logs matching PHP requirements (PHP 8.3+) and library versions.
-- **Security Bulletins**: Priority updates dispatched when critical vulnerabilities are found.
+The **Version Registry** (`update.ownpay.org`) is the central database of all official OwnPay releases, security patches, and version checks.
 
 > [!TIP]
-> You can check for updates directly inside your platform administrative panel at **System > System Update**. To subscribe to RSS updates, visit [update.ownpay.org/rss](https://update.ownpay.org/rss).
+> You can check for updates directly inside your platform administrative panel at **System > System Update**. For custom integrations or automated container build checks, query our public REST API.
+
+### Registry Update API Reference
+
+The Update Registry API is a public, CORS-enabled REST service that provides information about releases, package download mirrors, and cryptographic signatures.
+
+* **Base URL**: `https://update.ownpay.org/api/v1`
+
+---
+
+#### 1. Fetch Latest & Historical Releases
+Retrieve the most recent release metadata along with a chronologically sorted history of all releases.
+
+* **Endpoint**: `/release`
+* **Method**: `GET`
+* **Response payload (`200 OK`)**:
+```json
+{
+  "latest": {
+    "version": "0.2.0",
+    "version_code": "0.2.0",
+    "channel": "stable",
+    "download_url": {
+      "github": "https://github.com/own-pay/OwnPay/releases/download/v0.2.0/ownpay-0.2.0.zip",
+      "local": "https://update.ownpay.org/releases/download/0.2.0/ownpay-0.2.0.zip"
+    },
+    "signature": "a0k4m4Cj3ljrV1/R0jtI4w1FR...",
+    "checksum_sha256": "7f8e833ce3dd4d6b97fa519e69d40b15e3587aa52a3c4c5db01a5bf8281aa7a0",
+    "min_php_version": "8.3.0",
+    "min_ownpay_version": "0.1.0",
+    "breaking_changes": false
+  },
+  "releases": [
+    {
+      "version": "0.2.0",
+      "version_code": "0.2.0",
+      "channel": "stable",
+      "download_url": {
+        "github": "https://github.com/own-pay/OwnPay/releases/download/v0.2.0/ownpay-0.2.0.zip",
+        "local": "https://update.ownpay.org/releases/download/0.2.0/ownpay-0.2.0.zip"
+      }
+    }
+  ]
+}
+```
+
+---
+
+#### 2. Get Specific Release Details
+Fetch detailed specifications, signatures, and DB migrations for a targeted version.
+
+* **Endpoint**: `/release/{version_code}`
+* **Method**: `GET`
+* **URL Parameters**:
+  * `version_code` (e.g., `0.2.0`)
+* **Response payload (`200 OK`)**:
+```json
+{
+  "version": "0.2.0",
+  "version_code": "0.2.0",
+  "channel": "stable",
+  "download_url": {
+    "github": "https://github.com/own-pay/OwnPay/releases/download/v0.2.0/ownpay-0.2.0.zip",
+    "local": "https://update.ownpay.org/releases/download/0.2.0/ownpay-0.2.0.zip"
+  },
+  "signature": "a0k4m4Cj3ljrV1/R0jtI4w1FR...",
+  "signature_url": "https://github.com/own-pay/OwnPay/releases/download/v0.2.0/signature.sig",
+  "checksum_sha256": "7f8e833ce3dd4d6b97fa519e69d40b15e3587aa52a3c4c5db01a5bf8281aa7a0",
+  "changelog_url": "https://github.com/own-pay/OwnPay/releases/download/v0.2.0/changelog.md",
+  "release_date": "2026-07-07",
+  "size_bytes": 10512303,
+  "min_php_version": "8.3.0",
+  "min_ownpay_version": "0.1.0",
+  "migrations": [
+    "001_add_locked_api_key_status.sql",
+    "002_add_manual_gateway_payment_number.sql"
+  ],
+  "breaking_changes": false
+}
+```
 
 ---
 

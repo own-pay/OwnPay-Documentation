@@ -1,313 +1,346 @@
 ---
 title: "Installation"
-description: "Install OwnPay on shared hosting (cPanel, DirectAdmin, Plesk), a VPS (Ubuntu or Debian), or Docker using the built-in web installer and setup wizard."
+description: "Install OwnPay on Shared Hosting (cPanel, Plesk, DirectAdmin), a VPS, or Docker using the built-in web installer and setup wizard."
 keywords: "install payment gateway, cPanel payment processing, self-hosted payments setup, Docker payment platform, PHP payment gateway install"
 ---
 
-OwnPay comes with a **built-in web installer**. Once you upload the files and create a database, just visit your domain and the installer will guide you through the rest - no command-line knowledge required.
+OwnPay features a **built-in web installer** that checks server configurations, sets up the database schema, and bootstraps your master administrator account. Visit your domain once files are uploaded to complete the setup - no command-line experience required.
 
-Choose your hosting type below to get started:
+---
 
-- [Shared Hosting (cPanel, DirectAdmin, Plesk)](#shared-hosting)
-- [VPS / Cloud Server (Ubuntu / Debian)](#vps--cloud-server)
-- [Docker](#docker)
+## Select Your Environment
+
+Choose your target environment to begin the deployment guide:
+
+<CardGroup cols={3}>
+  <Card title="Shared Hosting" icon="server" href="#shared-hosting">
+    Standard hosting plans running control panels like cPanel, Plesk, or DirectAdmin.
+  </Card>
+  <Card title="VPS / Cloud Server" icon="terminal" href="#vps--cloud-server">
+    Dedicated virtual private server running Ubuntu or Debian with full root access.
+  </Card>
+  <Card title="Docker Container" icon="docker" href="#docker">
+    Containerized stack using Docker Compose for local environments or cloud scaling.
+  </Card>
+</CardGroup>
+
+<Accordion title="System Requirements Checklist" icon="list-check">
+  Ensure your hosting node satisfies the following specifications before installing:
+
+  | Component | Minimum Specification | Recommended Specification |
+  | :--- | :--- | :--- |
+  | **PHP Runtime** | 8.3 | 8.3+ |
+  | **MySQL Database** | 5.7 | 8.0+ (or MariaDB 10.4+) |
+  | **System Memory** | 512MB RAM | 2GB+ RAM |
+  | **Disk Storage** | 1GB Free Space | 10GB+ Solid-State Storage |
+
+  ### Required PHP Extensions
+  OwnPay requires the following extensions to be active:
+  `mbstring`, `pdo_mysql`, `gd`, `curl`, `zip`, `json`, `openssl`, `bcmath`, `intl`
+</Accordion>
 
 ---
 
 ## Shared Hosting
 
-Shared hosting is the easiest way to get started. Most popular hosts like Hostinger, Namecheap, SiteGround, Bluehost, and others work great with OwnPay.
+Shared hosting is the most common deployment method. Hosts like Hostinger, Namecheap, SiteGround, Bluehost, and others fully support OwnPay.
 
-<Note>
-Make sure your hosting plan supports **PHP 8.3** and **MySQL**. Almost all modern shared hosting plans do.
-</Note>
+<Steps>
+  <Step title="Download the Release Package">
+    1. Visit the official [OwnPay GitHub Releases]({{github}}/releases) page.
+    2. Identify the top **Latest Release** tag.
+    3. Under the **Assets** section, download the `.zip` archive (e.g. `ownpay-vX.Y.Z.zip`).
+  </Step>
 
-### Step 1 - Download OwnPay
+  <Step title="Upload files to your server">
+    Upload the downloaded zip archive to your domain's root folder (usually `public_html` or a custom subfolder).
+    
+    <Tabs>
+      <Tab title="cPanel File Manager">
+        1. Access your cPanel account dashboard.
+        2. Open the **File Manager** utility.
+        3. Navigate to your target web folder (e.g., `public_html` or `public_html/pay`).
+        4. Click **Upload** at the top, select the `.zip` archive, and wait for completion.
+      </Tab>
+      <Tab title="Plesk Files">
+        1. Log in to the Plesk control panel.
+        2. Select **Files** in the sidebar navigation.
+        3. Go into the website root directory (usually `httpdocs`).
+        4. Click the **+** button, select **Upload File**, and select the `.zip` file.
+      </Tab>
+      <Tab title="DirectAdmin Manager">
+        1. Access the DirectAdmin console.
+        2. Click **File Manager** under System Info & Files.
+        3. Open the target directory (e.g., `domains/yourdomain.com/public_html`).
+        4. Click **Upload Files**, drag in the `.zip` archive, and upload.
+      </Tab>
+      <Tab title="FTP Client (FileZilla)">
+        1. Launch FileZilla and connect to your host via FTP/SFTP.
+        2. In the remote pane, navigate to your public web directory (`public_html`).
+        3. Drag the `.zip` package from your local folder and release it into the remote pane.
+      </Tab>
+    </Tabs>
+  </Step>
 
-1. Go to the [OwnPay GitHub Releases page]({{github}}/releases/)
-2. Find the **latest release** at the top of the list
-3. Under the **Assets** section, click the `.zip` file to download it (e.g. `ownpay-v1.x.x.zip`)
+  <Step title="Extract the Archive">
+    Unpack the uploaded file on the server. Ensure files are extracted directly into the domain's root folder.
 
-Save the file somewhere easy to find on your computer, like your Desktop.
+    <Tabs>
+      <Tab title="cPanel">
+        1. Right-click the uploaded `.zip` archive inside the File Manager.
+        2. Choose **Extract** from the action menu.
+        3. Verify the directory path is correct and click **Extract Files**.
+      </Tab>
+      <Tab title="Plesk">
+        1. Hover over the `.zip` file inside Plesk File Manager.
+        2. Click the menu button on the right and select **Extract File**.
+        3. Approve the extraction dialog.
+      </Tab>
+      <Tab title="DirectAdmin">
+        1. Select the checkbox next to the `.zip` file in DirectAdmin File Manager.
+        2. Click the **Extract** button on the top menu.
+        3. Confirm and extract.
+      </Tab>
+    </Tabs>
 
----
+    > [!WARNING]
+    > Verify the extraction did not create a double-nested folder layout like `public_html/ownpay-vX.Y.Z/`. If it did, enter that directory, select all contents, move them up one level directly into `public_html/`, and delete the empty folder.
+  </Step>
 
-### Step 2 - Upload the ZIP to Your Hosting
+  <Step title="Create a MySQL Database">
+    Create an empty database and database user. Record the credentials.
 
-How you upload depends on your control panel. All methods below lead to the same result.
+    <Tabs>
+      <Tab title="cPanel Databases">
+        1. Search for **MySQL Databases** on the cPanel home page.
+        2. Under **Create New Database**, enter a name (e.g., `ownpay_db`) and click **Create**.
+        3. Under **Add New User**, enter a username (e.g., `ownpay_user`) and a secure password. Click **Create User**.
+        4. Under **Add User To Database**, select the user and database you just created, click **Add**, check **ALL PRIVILEGES**, and confirm changes.
+      </Tab>
+      <Tab title="Plesk Databases">
+        1. Click **Databases** in the left sidebar menu of Plesk.
+        2. Select **Add Database**.
+        3. Provide a database name, create a database user with a secure password, and select **OK**.
+      </Tab>
+      <Tab title="DirectAdmin Databases">
+        1. Select **MySQL Management** in DirectAdmin.
+        2. Click **Create New Database**.
+        3. Input database name, database user, and a secure password.
+        4. Confirm database creation (All Privileges are assigned automatically).
+      </Tab>
+    </Tabs>
 
-<Tabs>
-<Tab title="cPanel">
-1. Log in to your hosting control panel (e.g. `yourdomain.com/cpanel`)
-2. Open **File Manager**
-3. Navigate to your website's root folder - usually `public_html` or a subfolder like `public_html/pay`
-4. Click **Upload** at the top
-5. Choose the OwnPay `.zip` file you downloaded and wait for the upload to complete
-</Tab>
-<Tab title="DirectAdmin">
-1. Log in to DirectAdmin
-2. Click **File Manager** from the main menu
-3. Navigate to `domains/yourdomain.com/public_html/`
-4. Click **Upload Files**, then select the `.zip` file
-</Tab>
-<Tab title="Plesk">
-1. Log in to Plesk
-2. Go to **Files** from the left sidebar
-3. Navigate to `httpdocs/` (this is your web root)
-4. Click the **+** button, then **Upload file**, and choose the `.zip`
-</Tab>
-<Tab title="FTP (FileZilla)">
-1. Connect to your server with your FTP credentials (host, username, password, port 21)
-2. On the right panel (server side), navigate to `public_html/` or your website folder
-3. Drag and drop the `.zip` file from your computer to the server
-</Tab>
-</Tabs>
+    > [!TIP]
+    > Write down your credentials. The installer wizard will prompt you for:
+    > - **Database Name**
+    > - **Database User**
+    > - **Database Password**
+    > - **Database Host** (typically `localhost` or `127.0.0.1`)
+  </Step>
 
----
+  <Step title="Select PHP 8.3">
+    Make sure your domain is configured to use PHP version 8.3.
 
-### Step 3 - Extract (Unzip) the Files
+    <Tabs>
+      <Tab title="cPanel Selector">
+        1. Open **Select PHP Version** (or **MultiPHP Manager**) in cPanel.
+        2. Check the box for your target domain.
+        3. Select **PHP 8.3** from the dropdown menu and click **Apply**.
+      </Tab>
+      <Tab title="Plesk PHP Settings">
+        1. Open your domain's dashboard inside Plesk.
+        2. Click **PHP Settings**.
+        3. Change the PHP version dropdown to **8.3.x** and save.
+      </Tab>
+      <Tab title="DirectAdmin Selector">
+        1. Navigate to **PHP Version Selector** or **Domain Setup** in DirectAdmin.
+        2. Select your domain.
+        3. Select **PHP 8.3** as the active version and click save.
+      </Tab>
+    </Tabs>
+  </Step>
 
-After uploading, you need to extract the ZIP on the server.
-
-<Tabs>
-<Tab title="cPanel">
-1. Click on the uploaded `.zip` file to select it
-2. Click **Extract** in the toolbar at the top
-3. A dialog will appear - click **Extract File(s)**
-4. The files will be extracted into the current folder
-</Tab>
-<Tab title="DirectAdmin / Plesk">
-Right-click the `.zip` file and choose **Extract** or **Unzip**.
-</Tab>
-</Tabs>
-
-After extracting, you should see folders like `public/`, `src/`, `config/`, `storage/`, etc.
-
-<Warning>
-After extracting, make sure you don't have a **double-nested folder** like `public_html/ownpay-v1.x.x/...`. If that happens, move all the files one level up so that the `public/` folder is directly inside `public_html/`.
-</Warning>
-
----
-
-### Step 4 - Create a MySQL Database
-
-You need an empty database for OwnPay to store its data.
-
-<Tabs>
-<Tab title="cPanel">
-1. From cPanel home, click **MySQL Databases**
-2. Under **Create New Database**, type a name (e.g. `ownpay_db`) and click **Create Database**
-3. Scroll down to **MySQL Users** > **Add New User**
-4. Enter a username (e.g. `ownpay_user`) and a **strong password** - write these down
-5. Click **Create User**
-6. Scroll down to **Add User To Database**
-7. Select your new user and your new database, click **Add**
-8. On the permissions page, check **ALL PRIVILEGES**, then click **Make Changes**
-</Tab>
-<Tab title="DirectAdmin">
-1. Go to **MySQL Management** > **Create new Database**
-2. Enter a database name and click **Create**
-3. Then go to **MySQL Management** > **Create new User**
-4. Enter a username and password
-5. Assign the user to your database with **All Privileges**
-</Tab>
-<Tab title="Plesk">
-1. Go to **Databases** from the left sidebar
-2. Click **Add Database**
-3. Enter a database name
-4. Under **Related database user**, create a new user with a strong password
-5. Click **OK**
-</Tab>
-</Tabs>
-
-<Tip>
-Save your database details - you will need them in the installer:
-- **Database name**
-- **Database username**
-- **Database password**
-- **Database host** (usually `localhost`)
-</Tip>
-
----
-
-### Step 5 - Set PHP Version to 8.3
-
-OwnPay requires PHP 8.3. Most hosts let you change this per-domain.
-
-<Tabs>
-<Tab title="cPanel">
-1. Go to **Software** > **Select PHP Version** (or "MultiPHP Manager")
-2. Find your domain in the list
-3. Change the PHP version to **8.3**
-4. Click **Apply** or **Set as current**
-</Tab>
-<Tab title="DirectAdmin">
-1. Go to **PHP Version Selector** (or **Fast PHP**)
-2. Choose **PHP 8.3** for your domain
-3. Save the changes
-</Tab>
-<Tab title="Plesk">
-1. Go to your domain > **PHP Settings**
-2. Change the **PHP version** to **8.3.x**
-3. Click **OK**
-</Tab>
-</Tabs>
-
-<Warning>
-If you skip this step or use an older PHP version, OwnPay will not start. PHP 8.3 is required.
-</Warning>
-
----
-
-### Step 6 - Run the Web Installer
-
-Everything is ready. Now open your browser and visit your domain:
-
-```
-https://yourdomain.com/install
-```
-
-The OwnPay installer will open automatically. It is a simple multi-step wizard:
-
-**Step 1 - Requirements Check:** The installer checks if your server has everything OwnPay needs (PHP version, extensions, folder permissions).
-
-| Issue | How to Fix |
-|-------|------------|
-| PHP version too old | Go back to Step 5 and change PHP to 8.3 |
-| `storage/` not writable | In File Manager, right-click the `storage` folder > Permissions > set to `755` or `775` |
-| Missing PHP extension | Contact your hosting support and ask them to enable the extension |
-
-**Step 2 - Database Configuration:** Enter the database details you created in Step 4.
-
-**Step 3 - Admin Account:** Create your master administrator account (email + password).
-
-**Step 4 - Complete:** The installer writes your `.env` file and sets up the database. You can now log in!
+  <Step title="Launch the Web Installer">
+    Open your web browser and visit:
+    ```
+    https://yourdomain.com/install
+    ```
+    The setup wizard will guide you through the remaining steps:
+    * **Environment Verification:** Checks folder permissions (`storage/` and `public/assets/uploads/` must be writable) and PHP extensions.
+    * **Database Configuration:** Provide the database credentials from Step 4.
+    * **System Initialization:** Automatically runs database migrations, creates the ledger, and sets up settings tables.
+    * **Administrator Onboarding:** Register your master administrator credentials and first brand name.
+  </Step>
+</Steps>
 
 ---
 
 ## VPS / Cloud Server
 
-For VPS or cloud servers (Ubuntu/Debian), you can install OwnPay using the command line.
+For dedicated cloud servers (Ubuntu or Debian), you can perform a custom command-line installation.
 
 <Steps>
-<Step title="Install system dependencies">
-```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y php8.3 php8.3-fpm php8.3-mysql php8.3-mbstring php8.3-xml php8.3-curl php8.3-zip php8.3-gd php8.3-bcmath php8.3-intl mysql-server nginx composer nodejs npm
-```
-</Step>
-<Step title="Download OwnPay">
-```bash
-cd /var/www
-sudo git clone {{github}}.git ownpay
-cd ownpay
-```
-</Step>
-<Step title="Install dependencies">
-```bash
-composer install --no-dev --optimize-autoloader
-npm install && npm run build
-```
-</Step>
-<Step title="Configure environment">
-```bash
-cp .env.example .env
-php bin/key:generate
-```
+  <Step title="Install System Dependencies">
+    Update packages and install Nginx, MySQL, PHP 8.3 with required extensions, Composer, and Node.js.
+    ```bash
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install -y php8.3 php8.3-fpm php8.3-mysql php8.3-mbstring php8.3-xml php8.3-curl php8.3-zip php8.3-gd php8.3-bcmath php8.3-intl mysql-server nginx composer nodejs npm
+    ```
+  </Step>
 
-Edit `.env` and set your database credentials, app URL, and mail settings.
-</Step>
-<Step title="Set permissions">
-```bash
-sudo chmod -R 755 storage
-sudo chmod -R 755 public/assets/uploads
-sudo chown -R www-data:www-data storage public/assets/uploads
-```
-</Step>
-<Step title="Run migrations">
-```bash
-php bin/migrate
-php bin/seed
-```
-</Step>
-<Step title="Configure Nginx">
-```nginx
-server {
-    listen 80;
-    server_name yourdomain.com;
-    root /var/www/ownpay/public;
+  <Step title="Clone the Codebase">
+    Clone the repository directly into your web server's directory.
+    ```bash
+    cd /var/www
+    sudo git clone {{github}}.git ownpay
+    cd ownpay
+    ```
+  </Step>
 
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
+  <Step title="Install Library Dependencies">
+    Run composer and npm installs to pull library dependencies and compile UI assets.
+    ```bash
+    composer install --no-dev --optimize-autoloader
+    npm install && npm run build
+    ```
+  </Step>
+
+  <Step title="Initialize Environment Configuration">
+    Copy the sample environment template and generate your app secret key.
+    ```bash
+    cp .env.example .env
+    php bin/key:generate
+    ```
+    Open `.env` using your editor (e.g., `nano .env`) to input your database credentials, system URL, and email transport configs.
+  </Step>
+
+  <Step title="Set Folder Permissions">
+    Grant Nginx access to modify files within the storage and assets directories.
+    ```bash
+    sudo chmod -R 755 storage
+    sudo chmod -R 755 public/assets/uploads
+    sudo chown -R www-data:www-data storage public/assets/uploads
+    ```
+  </Step>
+
+  <Step title="Build Database Schema">
+    Initialize the database structures and seed mandatory platform roles, base currencies, and records.
+    ```bash
+    php bin/migrate
+    php bin/seed
+    ```
+  </Step>
+
+  <Step title="Configure Nginx Virtual Host">
+    Create a server block config pointing to `/var/www/ownpay/public`.
+    ```nginx
+    server {
+        listen 80;
+        server_name yourdomain.com;
+        root /var/www/ownpay/public;
+        index index.php;
+
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        location ~ \.php$ {
+            fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
+            fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+            include fastcgi_params;
+        }
     }
+    ```
+  </Step>
 
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-```
-</Step>
-<Step title="Run the installer">
-Visit `https://yourdomain.com/install` in your browser to complete the setup.
-</Step>
+  <Step title="Complete Administrative Setup">
+    Navigate to `https://yourdomain.com/install` in your browser to run the web onboarding and create your administrative account.
+  </Step>
 </Steps>
 
 ---
 
 ## Docker
 
+Deploy OwnPay using Docker Compose.
+
 <Steps>
-<Step title="Clone the repository">
-```bash
-git clone {{github}}.git
-cd OwnPay
-```
-</Step>
-<Step title="Configure environment">
-```bash
-cp .env.example .env
-```
-</Step>
-<Step title="Start containers">
-```bash
-docker-compose up -d
-```
-</Step>
-<Step title="Run migrations">
-```bash
-docker-compose exec app php bin/migrate
-docker-compose exec app php bin/seed
-```
-</Step>
-<Step title="Run the installer">
-Visit `http://localhost:8080/install` in your browser.
-</Step>
+  <Step title="Clone the Repository">
+    ```bash
+    git clone {{github}}.git
+    cd OwnPay
+    ```
+  </Step>
+
+  <Step title="Prepare Environment">
+    Create your environment config file:
+    ```bash
+    cp .env.example .env
+    ```
+    Open `.env` and fill in custom database variables, secret keys, and passwords.
+  </Step>
+
+  <Step title="Start Containers">
+    Launch the containers in detached (background) mode.
+    ```bash
+    docker-compose up -d
+    ```
+  </Step>
+
+  <Step title="Bootstrap Database Schema">
+    Build database tables and seed required setup records.
+    ```bash
+    docker-compose exec app php bin/migrate
+    docker-compose exec app php bin/seed
+    ```
+  </Step>
+
+  <Step title="Run Setup Wizard">
+    Access `http://localhost:8080/install` in your browser to configure your dashboard.
+  </Step>
 </Steps>
 
 ---
 
-## System Requirements
+## Post-Installation Recommendations
 
-| Component | Minimum | Recommended |
-|-----------|---------|-------------|
-| PHP | 8.3 | 8.3+ |
-| MySQL | 5.7 | 8.0+ |
-| Memory | 512MB | 2GB |
-| Disk | 1GB | 10GB |
+Once your installation completes, perform these two configuration steps to ensure platform reliability:
 
-### Required PHP extensions
-
-`mbstring`, `pdo_mysql`, `gd`, `curl`, `zip`, `json`, `openssl`, `bcmath`
+1. **SMTP Configuration:** Go to **System > Settings > Mail Settings** and configure your email gateway so invoice notifications, receipts, and OTP messages dispatch successfully.
+2. **Setup System Cron:** Map a cron job to trigger every minute targeting the command scheduler:
+   ```bash
+   * * * * * cd /path-to-ownpay && php bin/schedule:run >> /dev/null 2>&1
+   ```
+   This handles background tasks such as plugin update checks, device heartbeats, and webhook retry dispatches.
 
 ---
 
-## Troubleshooting
+## Troubleshooting Guide
 
-| Issue | Solution |
-|-------|----------|
-| 500 errors | Check `APP_DEBUG=true` in `.env` and review `storage/logs/` |
-| Blank page | Verify PHP extensions are installed: `php -m` |
-| Permission denied | Set correct permissions on `storage/` and `public/assets/uploads/` |
-| Database connection failed | Verify MySQL is running and credentials in `.env` are correct |
+<AccordionGroup>
+  <Accordion title="500 Internal Server Error" icon="triangle-exclamation">
+    A 500 error typically indicates a script runtime crash.
+    * **Fix:** Check `APP_DEBUG=true` in `.env` to output error messages directly to the browser.
+    * **Check Logs:** Review file entries under `storage/logs/` on your server for stack traces.
+    * **File Permissions:** Ensure Nginx or Apache has permission to read and write to `storage/` and `public/assets/uploads/`.
+  </Accordion>
+
+  <Accordion title="Blank Page / White Screen" icon="window-restore">
+    A completely blank page with no HTTP response details typically indicates a fatal compilation or startup error before the logger boots.
+    * **Fix:** Verify all mandatory PHP extensions are active by executing `php -m` in terminal or checking the PHP Info page in cPanel.
+    * **Memory Limit:** Confirm your PHP runtime has at least `512M` memory allocated (`memory_limit` directive in `php.ini`).
+  </Accordion>
+
+  <Accordion title="Database Connection Failed" icon="database">
+    This error indicates OwnPay cannot establish a link to the MySQL instance.
+    * **Fix:** Double-check host parameters inside `.env`. If database and application are on the same machine, use `127.0.0.1` instead of `localhost`.
+    * **User Rights:** Verify the user has been granted `ALL PRIVILEGES` on the database schema.
+    * **Port Check:** Check that MySQL is active and listening on port `3306`.
+  </Accordion>
+
+  <Accordion title="Permission Denied / Writable Errors" icon="lock">
+    Folder permission issues block OwnPay from writing log tracks or storing session cache files.
+    * **Fix:** On shared hosting, use File Manager to change permissions of the `storage/` directory and its children to `755` or `775`.
+    * **Server Owner:** On a VPS, ensure directories are owned by the web worker user: `sudo chown -R www-data:www-data storage/`.
+  </Accordion>
+</AccordionGroup>

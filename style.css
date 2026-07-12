@@ -64,16 +64,18 @@ footer::after {
   margin: 0;
 }
 
-/* Email subscribe form in footer */
-#footer::before,
-footer::before {
-  content: "Subscribe to updates";
-  display: block;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 500;
+/* Custom footer brand description injection */
+.footer-description {
+  font-size: 13.5px;
   color: #6b7280;
-  padding-bottom: 0.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  max-width: 320px;
+  font-weight: 400;
+}
+.dark .footer-description {
+  color: #9ca3af;
 }
 
 /* ===== Footer Overlap Fix ===== */
@@ -191,7 +193,7 @@ footer {
 }
 
 #changelog-content blockquote {
-  border-left: 3px solid #0D9373;
+  border-left: 3px solid #0F97ED;
   padding-left: 1rem;
   margin: 1rem 0;
   color: #6b7280;
@@ -214,7 +216,7 @@ footer {
 }
 
 #changelog-content a {
-  color: #0D9373;
+  color: #0F97ED;
   text-decoration: underline;
 }
 

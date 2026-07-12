@@ -1,18 +1,12 @@
-// ===== GitHub Star Count =====
-async function updateGitHubStars() {
-  try {
-    const response = await fetch('https://api.github.com/repos/own-pay/OwnPay');
-    const data = await response.json();
-    const stars = data.stargazers_count;
-    let displayStars = stars >= 1000 ? (stars / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : stars.toString();
-    const githubLink = document.querySelector('a[href*="github.com/own-pay/OwnPay"]');
-    if (githubLink && !githubLink.querySelector('.github-stars-badge')) {
-      const badge = document.createElement('span');
-      badge.className = 'github-stars-badge';
-      badge.innerHTML = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg><span class="star-count">${displayStars}</span>`;
-      githubLink.appendChild(badge);
-    }
-  } catch (e) { /* silent */ }
+// ===== Dynamic Footer Description =====
+function injectFooterDescription() {
+  const logoLink = document.querySelector('footer a[href*="/docs"]');
+  if (logoLink && !document.querySelector('.footer-description')) {
+    const desc = document.createElement('p');
+    desc.className = 'footer-description';
+    desc.textContent = 'Self-hosted, enterprise-grade payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.';
+    logoLink.parentNode.insertBefore(desc, logoLink.nextSibling);
+  }
 }
 
 // ===== GEO: Structured Data (JSON-LD) =====
@@ -134,7 +128,7 @@ function rewriteNativeIssueLinks() {
 
 // ===== Initialize =====
 function init() {
-  updateGitHubStars();
+  injectFooterDescription();
   injectStructuredData();
   injectLlmsTxtLink();
   rewriteNativeIssueLinks();

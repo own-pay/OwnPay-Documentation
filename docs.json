@@ -9,9 +9,13 @@
     "raiseIssue": true
   },
   "colors": {
-    "primary": "#096650",
-    "light": "#34D399",
-    "dark": "#059669"
+    "primary": "#0F97ED",
+    "light": "#7EC8FC",
+    "dark": "#102963"
+  },
+  "topbarCtaButton": {
+    "type": "github",
+    "url": "https://github.com/own-pay/OwnPay"
   },
   "favicon": "/favicon.svg",
   "logo": {
@@ -145,7 +149,7 @@
           },
           {
             "group": "Reports",
-            "icon": "bar-chart",
+            "icon": "chart-bar",
             "pages": [
               "user-guide/reports-finance/reports",
               "user-guide/reports-finance/audit-log",
@@ -154,7 +158,7 @@
           },
           {
             "group": "Other",
-            "icon": "more-horizontal",
+            "icon": "ellipsis",
             "pages": [
               "user-guide/developers/developer-hub",
               "user-guide/public/checkout"
@@ -317,11 +321,6 @@
   "navbar": {
     "links": [
       {
-        "type": "github",
-        "href": "https://github.com/own-pay/OwnPay",
-        "label": "GitHub"
-      },
-      {
         "href": "https://ownpay.org",
         "label": "OwnPay"
       },
@@ -334,12 +333,7 @@
         "label": "Raise Issue",
         "href": "https://github.com/own-pay/OwnPay/issues/new"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Getting Started",
-      "href": "https://ownpay.org/download"
-    }
+    ]
   },
   "contextual": {
     "options": [
