@@ -107,13 +107,30 @@ function injectStructuredData() {
   });
 }
 
-// ===== GEO: llms.txt Discovery Link =====
+// ===== GEO: llms.txt Discovery Link (head link + body directive) =====
 function injectLlmsTxtLink() {
-  if (document.querySelector('link[href*="llms.txt"]')) return;
-  const link = document.createElement('link');
-  link.rel = 'llms-txt';
-  link.href = 'https://ownpay.org/docs/llms.txt';
-  document.head.appendChild(link);
+  // 1. <link> tag in <head> for crawlers that probe link relations
+  if (!document.querySelector('link[rel="llms-txt"]')) {
+    const link = document.createElement('link');
+    link.rel = 'llms-txt';
+    link.href = 'https://ownpay.org/docs/llms.txt';
+    document.head.appendChild(link);
+  }
+
+  // 2. Visually-hidden body directive for agents that read page body
+  // clip-rect technique: exists in DOM but invisible to sighted users
+  if (!document.querySelector('[data-llms-directive]')) {
+    const div = document.createElement('div');
+    div.setAttribute('data-llms-directive', 'true');
+    div.setAttribute('aria-hidden', 'true');
+    div.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
+    div.innerHTML = 'For the complete OwnPay documentation index, see <a href="https://ownpay.org/docs/llms.txt">llms.txt</a>. Pages are available as Markdown by appending <code>.md</code> to any URL.';
+    if (document.body.firstChild) {
+      document.body.insertBefore(div, document.body.firstChild);
+    } else {
+      document.body.appendChild(div);
+    }
+  }
 }
 
 // ===== Rewrite Native Issue Links Client-Side =====
