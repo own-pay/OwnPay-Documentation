@@ -85,6 +85,10 @@
 
 - [Developer Hub](https://ownpay.org/docs/user-guide/developers/developer-hub.md): API keys and webhook setup for brands.
 
+### Subscribe
+
+- [Subscribe](https://ownpay.org/docs/user-guide/subscribe.md): Subscribe to release announcements, security bulletins, and ecosystem updates.
+
 ## API Reference
 
 - [Overview](https://ownpay.org/docs/api/overview.md): API overview, base URLs, and versioning.
@@ -112,8 +116,12 @@
 ### Plugin Development
 
 - [Gateway Development](https://ownpay.org/docs/developer/plugin-types/gateway-development.md): Build custom payment gateway plugins.
+- [Gateway AI Prompt](https://ownpay.org/docs/developer/plugin-types/gateway-prompt.md): AI prompt template for building gateway plugins.
 - [Addon Development](https://ownpay.org/docs/developer/plugin-types/addon-development.md): Build addon modules.
+- [Addon AI Prompt](https://ownpay.org/docs/developer/plugin-types/addon-prompt.md): AI prompt template for building addon modules.
 - [Theme Development](https://ownpay.org/docs/developer/plugin-types/theme-development.md): Build custom checkout themes.
+- [Theme AI Prompt](https://ownpay.org/docs/developer/plugin-types/theme-prompt.md): AI prompt template for building checkout themes.
+- [Integration AI Prompt](https://ownpay.org/docs/developer/plugin-types/integration-prompt.md): AI prompt template for building third-party integrations.
 
 ### Plugin Reference
 
