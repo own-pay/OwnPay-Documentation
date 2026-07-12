@@ -15,7 +15,7 @@
     "href": "https://ownpay.org/docs"
   },
   "appearance": {
-    "default": "system"
+    "default": "light"
   },
   "fonts": {
     "family": "Inter"
@@ -28,7 +28,7 @@
   },
   "styling": {
     "eyebrows": "breadcrumbs",
-    "codeblocks": "system"
+    "latex": true
   },
   "seo": {
     "indexing": "all",
@@ -42,7 +42,7 @@
       "twitter:card": "summary_large_image",
       "twitter:title": "OwnPay Documentation",
       "twitter:description": "Self-hosted payment gateway platform - Multi-brand, 100+ gateways, open source.",
-      "twitter:site": "@ownpay",
+      "twitter:site": "@ownpayorg",
       "robots": "index, follow, max-snippet:-1, max-image-preview:large"
     }
   },
@@ -310,7 +310,16 @@
     "links": [
       {
         "type": "github",
-        "href": "https://github.com/own-pay/OwnPay"
+        "href": "https://github.com/own-pay/OwnPay",
+        "label": "GitHub"
+      },
+      {
+        "href": "https://ownpay.org",
+        "label": "OwnPay"
+      },
+      {
+        "href": "https://ownpay.org/download",
+        "label": "Download"
       }
     ],
     "primary": {
@@ -333,16 +342,21 @@
       "add-mcp",
       "cursor",
       "vscode",
-      "devin-mcp"
+      "devin-mcp",
+      "windsurf",
+      "assistant",
+      "download-spec",
+      "download-pdf"
     ],
     "display": "toc"
   },
   "footer": {
     "socials": {
       "github": "https://github.com/own-pay/OwnPay",
-      "x": "https://x.com/ownpay",
-      "youtube": "https://youtube.com/@ownpay",
-      "facebook": "https://facebook.com/ownpay"
+      "x": "https://x.com/ownpayorg",
+      "youtube": "https://youtube.com/@ownpayorg",
+      "facebook": "https://facebook.com/ownpay.org",
+      "website": "https://ownpay.org"
     },
     "links": [
       {
@@ -381,5 +395,25 @@
   "variables": {
     "version": "0.2.0",
     "github": "https://github.com/own-pay/OwnPay"
+  },
+  "banner": {
+    "content": "New version 0.2.0 release",
+    "dismissible": true
+  },
+  "interaction": {
+    "drilldown": true
+  },
+  "markdown": {
+    "schema": true
+  },
+  "api": {
+    "examples": {
+      "prefill": true
+    },
+    "mdx": {
+      "auth": {
+        "method": "bearer"
+      }
+    }
   }
 }
