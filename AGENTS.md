@@ -86,9 +86,25 @@ The site uses 7 header tabs:
 ## Link Resolution Rules
 
 > [!IMPORTANT]
-> **NO `/docs` PREFIX FOR INTERNAL LINKS**
+> **NO `/docs` PREFIX FOR INTERNAL LINKS - except raw HTML in `mode: "custom"` pages**
 > - Standard markdown links (e.g., `[Dashboard](/user-guide/dashboard)`) and JSX attributes (e.g., `<Card href="/developer/quickstart">`) MUST NOT contain the `/docs` subpath prefix.
 > - The `/docs` subpath is appended dynamically by Mintlify's routing during deployment, and prepending it manually in files will break the local link checker and result in double-prefixed paths (e.g., `/docs/docs/...`) in production.
+
+> [!WARNING]
+> **EXCEPTION: Raw HTML tags in `mode: "custom"` pages**
+> Pages with `mode: "custom"` in their frontmatter render as pure JSX/HTML and bypass Mintlify's router entirely. In these pages, raw `<a href>` and `<img src>` attributes MUST use the full `/docs/` prefix or they will resolve to the root domain instead of the docs subdirectory.
+>
+> | Link type | Example | Needs `/docs`? |
+> |---|---|---|
+> | Markdown link | `[text](/path)` | NO - Mintlify handles it |
+> | Mintlify component | `<Card href="/path">` | NO - Mintlify handles it |
+> | `docs.json` nav/footer `href` | `"href": "/path"` | NO - Mintlify handles it |
+> | Raw HTML in `mode: "custom"` | `<a href="/path">` | **YES - add `/docs/` prefix** |
+> | Raw `<img src>` in `mode: "custom"` | `<img src="/path">` | **YES - add `/docs/` prefix** |
+>
+> **Current `mode: "custom"` pages:** `index.mdx`, `resources/architecture.mdx`, `user-guide/system/settings.mdx`
+>
+> When creating a new `mode: "custom"` page, audit every raw `<a href>` and `<img src>` tag and add the `/docs/` prefix to all root-relative paths.
 
 ## Automatic GitHub Synchronization Pipeline
 
