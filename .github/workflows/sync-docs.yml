@@ -1,0 +1,35 @@
+name: Sync Documentation Files
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Every 6 hours
+  workflow_dispatch:      # Manual trigger
+  repository_dispatch:    # Triggered from another repository
+    types: [sync-docs]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Docs Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Sync Script
+        run: node scripts/sync-github-files.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if ! git diff --staged --quiet; then
+            git commit -m "docs: auto-sync markdown files from main OwnPay repository"
+            git push origin master
+          else
+            echo "No changes to sync. Skipping commit."
+          fi

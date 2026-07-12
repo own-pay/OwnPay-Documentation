@@ -5,7 +5,7 @@
 - This is a documentation site built on [Mintlify](https://mintlify.com)
 - Pages are MDX files with YAML frontmatter
 - Configuration lives in `docs.json`
-- Live at `https://ownpay.org/docs` (proxied via Cloudflare Worker to `ownpay.mintlify.app`)
+- Live at `https://ownpay.org/docs` (proxied via Cloudflare Worker to `ownpay.mintlify.site`)
 - GitHub repo: `own-pay/OwnPay-Documentation` (master branch)
 - Pushes to `master` auto-deploy to Mintlify
 
@@ -68,28 +68,64 @@ The site uses 7 header tabs:
 - Keep API reference concise with request/response examples
 - Include security warnings for sensitive operations
 
-## Writing guidelines
+## Link Resolution Rules
 
-- Start pages with a clear description of what the page covers
-- Use hierarchical headings (H2 > H3 > H4)
-- Include prerequisites sections where relevant
-- Link to related pages using relative paths
-- Keep paragraphs short (3-5 sentences max)
-- Use tables for structured data (settings, comparisons, etc.)
-- Use mermaid diagrams for architecture and flow visualization
+> [!IMPORTANT]
+> **NO `/docs` PREFIX FOR INTERNAL LINKS**
+> - Standard markdown links (e.g., `[Dashboard](/user-guide/dashboard)`) and JSX attributes (e.g., `<Card href="/developer/quickstart">`) MUST NOT contain the `/docs` subpath prefix.
+> - The `/docs` subpath is appended dynamically by Mintlify's routing during deployment, and prepending it manually in files will break the local link checker and result in double-prefixed paths (e.g., `/docs/docs/...`) in production.
 
-## Custom files
+## Automatic GitHub Synchronization Pipeline
 
-| File | Purpose |
-|------|---------|
-| `script.js` | GitHub star count badge, JSON-LD structured data injection |
-| `style.css` | Compact footer, hide "Powered by Mintlify", styling overrides |
-| `llms.txt` | LLM-readable project summary for AI search engines |
-| `cloudflare-worker/` | Reverse proxy Worker routing `ownpay.org/docs` to `ownpay.mintlify.app` |
+> [!WARNING]
+> **DO NOT EDIT SYNCED FILES DIRECTLY IN THIS REPOSITORY**
+> The following documentation pages are synced automatically from the main application repository (`own-pay/OwnPay`, `main` branch). Any manual edits made directly to these files in this repository will be overwritten during the next synchronization run.
+
+| Documentation Path | Source in `own-pay/OwnPay` |
+|--------------------|----------------------------|
+| `user-guide/changelog.mdx` | `CHANGELOG.md` |
+| `resources/architecture.mdx` | `docs/ARCHITECTURE.md` |
+| `resources/features.mdx` | `docs/FEATURES.md` |
+| `resources/local-setup.mdx` | `docs/LOCAL_SETUP.md` |
+| `resources/contributing.mdx` | `CONTRIBUTING.md` |
+| `resources/roadmap.mdx` | `ROADMAP.md` |
+| `developer/translations.mdx` | `docs/TRANSLATIONS.md` |
+
+### Sync Process details
+- **Local Sync Script**: `scripts/sync-github-files.js`
+  - Fetches the raw content from the main repository.
+  - Automatically parses and preserves the existing frontmatter (`title`, `description`, `keywords`) of the local MDX files.
+  - Strips the top-level H1 header from the remote file to avoid duplicate H1 headings (as Mintlify automatically renders the frontmatter title as the H1 header).
+- **GitHub Actions Workflow**: `.github/workflows/sync-docs.yml`
+  - Runs on a schedule every 6 hours.
+  - Can be triggered manually via `workflow_dispatch` or externally via `repository_dispatch` with type `sync-docs`.
+
+To edit these pages, push a change to the corresponding file in `own-pay/OwnPay`, and let the workflow sync them automatically.
+
+## Local Validation Rules
+
+Before claiming victory on any documentation updates, AI agents must run the following validation pipeline:
+
+1. **Clear Local Mintlify Cache**:
+   ```powershell
+   Remove-Item -Recurse -Force C:\Users\iamna\.mintlify
+   ```
+2. **Validate MDX & Configuration**:
+   ```bash
+   npx mintlify validate
+   ```
+3. **Verify Links**:
+   ```bash
+   npx mintlify broken-links --check-anchors --check-redirects --check-snippets
+   ```
+4. **Contrast Accessibility (A11y)**:
+   ```bash
+   npx mintlify a11y
+   ```
 
 ## Deployment
 
-1. Edit files locally
-2. Commit and push to `master` branch on `own-pay/OwnPay-Documentation`
-3. Mintlify auto-deploys from GitHub
-4. Cloudflare Worker proxies `ownpay.org/docs` to the Mintlify deployment
+1. Edit files locally.
+2. Stage and commit changes to `master` branch on `own-pay/OwnPay-Documentation`.
+3. Push to `origin master` - Mintlify auto-deploys from GitHub.
+4. Cloudflare Worker proxies `ownpay.org/docs` to the Mintlify deployment.

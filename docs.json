@@ -3,6 +3,11 @@
   "theme": "mint",
   "name": "OwnPay",
   "description": "Self-hosted, enterprise-grade payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.",
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
   "colors": {
     "primary": "#096650",
     "light": "#34D399",
@@ -323,6 +328,11 @@
       {
         "href": "https://ownpay.org/download",
         "label": "Download"
+      },
+      {
+        "type": "link",
+        "label": "Raise Issue",
+        "href": "https://github.com/own-pay/OwnPay/issues/new"
       }
     ],
     "primary": {
@@ -384,6 +394,7 @@
         "items": [
           { "label": "GitHub", "href": "https://github.com/own-pay/OwnPay" },
           { "label": "Discussions", "href": "https://github.com/own-pay/OwnPay/discussions" },
+          { "label": "Raise Issue", "href": "https://github.com/own-pay/OwnPay/issues/new" },
           { "label": "Subscribe", "href": "/docs/user-guide/subscribe" }
         ]
       }
