@@ -4,7 +4,7 @@
   "name": "OwnPay",
   "description": "Self-hosted, enterprise-grade payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.",
   "colors": {
-    "primary": "#0D9373",
+    "primary": "#096650",
     "light": "#34D399",
     "dark": "#059669"
   },
@@ -224,7 +224,8 @@
               "developer/plugins/capabilities",
               "developer/plugin-types/gateway-development",
               "developer/plugin-types/addon-development",
-              "developer/plugin-types/theme-development"
+              "developer/plugin-types/theme-development",
+              "developer/translations"
             ]
           },
           {
@@ -266,6 +267,7 @@
             "pages": [
               "resources/architecture",
               "resources/features",
+              "resources/ecosystem",
               "resources/glossary"
             ]
           },
@@ -283,6 +285,7 @@
             "icon": "settings",
             "pages": [
               "resources/integrations/rest-api",
+              "resources/code-examples",
               "advanced-topics/security-compliance",
               "advanced-topics/performance-scaling",
               "advanced-topics/troubleshooting",
