@@ -6,7 +6,7 @@
   "feedback": {
     "thumbsRating": true,
     "suggestEdit": true,
-    "raiseIssue": true
+    "raiseIssue": false
   },
   "colors": {
     "primary": "#096650",
