@@ -35,3 +35,19 @@ logs/
 *.tmp
 *.temp
 .cache/
+
+# Agent and AI configurations
+.agents/
+.superpowers/
+.mcp.json
+skills-lock.json
+
+# Development scripts
+scripts/
+
+# Cloudflare Wrangler Cache
+.wrangler/
+
+# Non-documentation metadata
+LICENSE
+README.md
