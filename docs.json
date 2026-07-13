@@ -350,8 +350,8 @@
         "label": "ownpay.org"
       },
       {
-        "href": "https://github.com/own-pay/OwnPay",
-        "label": "Download"
+        "type": "github",
+        "href": "https://github.com/own-pay/OwnPay"
       },
       {
         "type": "link",
