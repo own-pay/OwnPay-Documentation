@@ -22,6 +22,9 @@ on:
   repository_dispatch:    # Triggered from another repository
     types: [sync-docs]
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest

@@ -128,7 +128,9 @@ async function sync() {
         remoteContent = remoteContent.replace(/^#\s+.*(\r?\n)+/, '');
       }
 
-      const finalContent = frontmatter + remoteContent;
+      let finalContent = frontmatter + remoteContent;
+      // Never use em-dashes — anywhere in the docs repository
+      finalContent = finalContent.replace(/—/g, '-');
       
       // Ensure the directory exists
       fs.mkdirSync(path.dirname(localFullPath), { recursive: true });
