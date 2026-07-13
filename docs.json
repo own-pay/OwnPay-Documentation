@@ -119,6 +119,7 @@
             "group": "Mobile & SMS",
             "icon": "smartphone",
             "pages": [
+              "user-guide/mobile-sms/companion-app",
               "user-guide/mobile-sms/devices",
               "user-guide/mobile-sms/sms-templates",
               "user-guide/mobile-sms/sms-logs"

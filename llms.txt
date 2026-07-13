@@ -46,6 +46,7 @@
 
 ### Mobile and SMS
 
+- [Companion App](https://ownpay.org/docs/user-guide/mobile-sms/companion-app.md): Installing and pairing the OwnPay mobile companion app.
 - [Devices](https://ownpay.org/docs/user-guide/mobile-sms/devices.md): Companion app device management.
 - [SMS Templates](https://ownpay.org/docs/user-guide/mobile-sms/sms-templates.md): SMS parsing templates.
 - [SMS Logs](https://ownpay.org/docs/user-guide/mobile-sms/sms-logs.md): SMS activity logs.

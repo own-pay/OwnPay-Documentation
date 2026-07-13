@@ -1,0 +1,87 @@
+---
+title: "Companion App Installation"
+description: "Download, install, and pair the OwnPay Android companion app with your admin panel to automate transaction tracking and SMS forwarding."
+---
+
+The OwnPay Companion App is a secure Android application that runs in the background of your dedicated gateway phones. It monitors incoming wallet transfer messages and forwards them in real-time to your OwnPay server for instant verification and transaction approval.
+
+<Card title="Download Latest Release" icon="android" href="https://github.com/own-pay/OwnPay-Mobile-App/releases/latest">
+  Get the official companion app APK directly from the GitHub releases page.
+</Card>
+
+---
+
+## Prerequisites
+
+Before setting up the companion app, ensure you have:
+- A physical Android device (Android 8.0 or higher recommended).
+- An active Internet connection on the phone.
+- Admin access to your OwnPay dashboard.
+
+---
+
+## Setup Walkthrough
+
+Follow these steps to install and securely pair your companion app with your brand portal.
+
+<Steps>
+  <Step title="Download and install the App">
+    1. Navigate to [GitHub Releases](https://github.com/own-pay/OwnPay-Mobile-App/releases/latest) on your mobile device.
+    2. Download the latest `.apk` file.
+    3. Open the downloaded file to begin installation. If prompted by your browser, enable **Install from unknown sources**.
+  </Step>
+
+  <Step title="Generate a pairing code in Admin Panel">
+    1. Log in to your **OwnPay Admin Dashboard**.
+    2. In the sidebar menu, select **All Brand** or your specific brand context.
+    3. Under the **MOBILE & SMS** group in the left sidebar, click **Paired Devices**.
+    4. Click the **+ Pair New Device** button.
+    5. Click **Generate Pairing Code**. The admin panel will generate a secure QR code and a temporary 6-digit alphanumeric pairing code (valid for 5 minutes).
+  </Step>
+
+  <Step title="Connect the App to your Server">
+    Open the **OwnPay Companion App** on your Android device and choose one of the following connection methods:
+
+    <Tabs>
+      <Tab title="Option A: Scan QR Code (Recommended)">
+        1. In the companion app, tap **Scan QR Code**.
+        2. Grant camera permissions if requested.
+        3. Align your phone's camera with the QR code displayed on your Admin Dashboard screen.
+        4. The app will automatically read the configuration and connect.
+      </Tab>
+      
+      <Tab title="Option B: Manual Connection">
+        1. In the companion app, tap **Manual Setup** or **Log in with Code**.
+        2. Enter your server's base URL (e.g., `https://demo.ownpay.org`).
+        3. Enter the active **6-Digit Pairing Code** shown in the dashboard.
+        4. Tap **Connect**.
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Confirm status and authorize permissions">
+    1. Once paired, the app will ask for permission to read and forward SMS. Tap **Allow**.
+    2. Verify that the app's status indicator changes to **Connected**.
+    3. Check your Admin Dashboard's **Connected Devices** table. Your device will now appear with an `active` status.
+  </Step>
+</Steps>
+
+---
+
+## Important Configuration
+
+<Warning>
+**Exclude App from Battery Optimization**
+Android aggressive battery savers will kill background processes if the screen is off. To ensure reliable, real-time payment notifications:
+1. Go to the phone's **Settings** > **Apps** > **OwnPay**.
+2. Select **Battery** or **App battery usage**.
+3. Set the optimization to **Unrestricted** (allow background battery usage without restrictions).
+</Warning>
+
+<Tip>
+**Permissions Checklist**
+For the app to work seamlessly, it requires the following active permissions:
+- **SMS / Read SMS**: To intercept incoming mobile banking transfer notifications.
+- **Background execution**: To keep listening while the phone is locked.
+- **Autostart / Run at Boot** (on Chinese ROMs like Xiaomi, Oppo, Vivo): To automatically launch if the phone is rebooted.
+</Tip>
