@@ -5,7 +5,7 @@
 - This is a documentation site built on [Mintlify](https://mintlify.com)
 - Pages are MDX files with YAML frontmatter
 - Configuration lives in `docs.json`
-- Live at `https://ownpay.org/docs` (proxied via Cloudflare Worker to `ownpay.mintlify.site`)
+- Live at `https://ownpay.org/docs` (proxied via Nginx to `ownpay.mintlify.dev`)
 - GitHub repo: `own-pay/OwnPay-Documentation` (master branch)
 - Pushes to `master` auto-deploy to Mintlify
 
@@ -154,15 +154,17 @@ Before claiming victory on any documentation updates, AI agents must run the fol
    npx mintlify a11y
    ```
 
-## Deployment
+## Deployment & Proxy Setup
 
 1. Edit files locally.
 2. Stage and commit changes to `master` branch on `own-pay/OwnPay-Documentation`.
 3. Push to `origin master` - Mintlify auto-deploys from GitHub.
-4. Cloudflare Worker proxies `ownpay.org/docs` to the Mintlify deployment.
+4. The Nginx reverse proxy on the origin server (`ownpay-main`) proxies `ownpay.org/docs` to `ownpay.mintlify.dev`.
 
-> [!WARNING]
-> **CLOUDFLARE WORKER PROXY DESTINATION HOST**
-> - The Cloudflare Worker reverse-proxy destination (`DOCS_HOST` inside `cloudflare-worker/src/index.js`) must be set to `ownpay.mintlify.site`.
-> - Do **NOT** change it to `ownpay.mintlify.app`. The `.site` domain is configured explicitly for subdirectory mapping and domain verification in the dashboard; changing it to `.app` will cause proxy routing failures.
+> [!IMPORTANT]
+> **NGINX REVERSE PROXY CONFIGURATION**
+> - The reverse proxy is configured natively in Nginx on the origin server at `/etc/nginx/conf.d/vhosts/ownpay.org.ssl.conf`.
+> - It routes all `/docs` and `/docs/` requests directly to `ownpay.mintlify.dev`, bypassing Varnish/Apache.
+> - It uses Nginx `sub_filter` to dynamically rewrite Open Graph and Facebook meta tags from `name="og:..."` to `property="og:..."` for crawler compatibility.
+
 
