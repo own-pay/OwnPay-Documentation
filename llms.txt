@@ -6,7 +6,8 @@
 
 ## Getting Started
 
-- [Home](https://ownpay.org/docs/index.md): OwnPay documentation hub and feature overview.
+- [Landing Page](https://ownpay.org/docs/index.md): OwnPay landing page and interactive platform presentation.
+- [Introduction](https://ownpay.org/docs/introduction.md): OwnPay documentation hub and feature overview.
 - [Explore Demo](https://ownpay.org/docs/demo.md): Access and test the live demo sandbox instance.
 - [Quickstart](https://ownpay.org/docs/quickstart.md): Get OwnPay running in 5 minutes.
 - [Installation](https://ownpay.org/docs/installation.md): Install on shared hosting, VPS, or Docker.

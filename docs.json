@@ -75,7 +75,7 @@
             "group": "Getting Started",
             "icon": "rocket",
             "pages": [
-              "index",
+              "introduction",
               "demo",
               "quickstart",
               "installation"
