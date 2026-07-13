@@ -76,6 +76,7 @@
             "icon": "rocket",
             "pages": [
               "index",
+              "demo",
               "quickstart",
               "installation"
             ]
@@ -346,10 +347,10 @@
     "links": [
       {
         "href": "https://ownpay.org",
-        "label": "OwnPay"
+        "label": "ownpay.org"
       },
       {
-        "href": "https://ownpay.org/download",
+        "href": "https://github.com/own-pay/OwnPay",
         "label": "Download"
       },
       {
@@ -394,6 +395,7 @@
         "header": "Resources",
         "items": [
           { "label": "Getting Started", "href": "/quickstart" },
+          { "label": "Installation Guide", "href": "/installation" },
           { "label": "Architecture", "href": "/resources/architecture" },
           { "label": "Features Reference", "href": "/resources/features" },
           { "label": "Local Installation", "href": "/resources/local-setup" },
@@ -456,7 +458,7 @@
     "supportEmail": "support@ownpay.org"
   },
   "banner": {
-    "content": "OwnPay v0.2.0 is available. [See what's new](/user-guide/changelog)",
+    "content": "OwnPay v0.2.0 is available. [See what's new](/docs/user-guide/changelog)",
     "dismissible": true
   },
   "interaction": {
