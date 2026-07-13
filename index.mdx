@@ -27,41 +27,55 @@ mode: "custom"
     </div>
 
     <div className="hero-visual">
-      <div className="code-mockup-card">
-        <div className="code-mockup-header">
-          <div className="code-mockup-dots">
-            <div className="code-mockup-dot dot-red"></div>
-            <div className="code-mockup-dot dot-yellow"></div>
-            <div className="code-mockup-dot dot-green"></div>
+      <div className="gateway-router-card">
+        <div className="router-header">
+          <div className="status-indicator">
+            <span className="pulse-dot"></span>
+            <span className="status-text">OwnPay Router Online</span>
           </div>
-          <div className="code-mockup-title">integrate-ownpay.php</div>
+          <div className="router-title">pay.yourbrand.com</div>
         </div>
-        <div className="code-mockup-body">
-```php
-<?php
-use OwnPay\SDK\OwnPayClient;
-
-// Initialize client on your own domain
-$ownpay = new OwnPayClient([
-    'api_key'  => 'op_live_6f2e821b...9a41',
-    'brand_id' => 'brand_acme_retail'
-]);
-
-// Create checkout transaction
-$payment = $ownpay->payments->create([
-    'amount'      => 4900, // $49.00
-    'currency'    => 'USD',
-    'callback'    => 'https://acme.com/checkout/success',
-    'customer'    => [
-        'email'   => 'customer@example.com',
-        'name'    => 'Sarah Jenkins'
-    ]
-]);
-
-// Redirect to custom checkout domain
-header("Location: " . $payment->checkout_url);
-exit;
-```
+        <div className="router-body">
+          <div className="route-flow">
+            <div className="flow-node">
+              <Icon icon="user" size={16} />
+              <span>Customer</span>
+            </div>
+            <div className="flow-arrow">➔</div>
+            <div className="flow-node active-node">
+              <Icon icon="shield-check" size={16} />
+              <span>OwnPay Gateway</span>
+            </div>
+            <div className="flow-arrow">➔</div>
+            <div className="flow-node">
+              <Icon icon="landmark" size={16} />
+              <span>bKash Wallet</span>
+            </div>
+          </div>
+          
+          <div className="gateway-list">
+            <div className="gateway-item">
+              <div className="gateway-info">
+                <span className="gateway-dot status-active"></span>
+                <strong>Stripe (Cards)</strong>
+              </div>
+              <span className="gateway-badge">USD, EUR</span>
+            </div>
+            <div className="gateway-item">
+              <div className="gateway-info">
+                <span className="gateway-dot status-active"></span>
+                <strong>bKash (Mobile)</strong>
+              </div>
+              <span className="gateway-badge">BDT</span>
+            </div>
+            <div className="gateway-item">
+              <div className="gateway-info">
+                <span className="gateway-dot status-active"></span>
+                <strong>Nagad (Mobile)</strong>
+              </div>
+              <span className="gateway-badge">BDT</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

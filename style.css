@@ -970,3 +970,160 @@ h1, h2, h3, h4, #page-title {
 p {
   text-wrap: pretty;
 }
+
+/* ===== Gateway Router Card in Hero ===== */
+.gateway-router-card {
+  background-color: #0b0f19;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  color: #e2e8f0;
+}
+
+.router-header {
+  background-color: #121826;
+  border-bottom: 1px solid #1e293b;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.status-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #10b981;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.router-title {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.router-body {
+  padding: 24px;
+}
+
+.route-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #121826;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.flow-node svg {
+  color: #64748b;
+}
+
+.active-node {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.active-node svg {
+  color: #38bdf8;
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.5));
+}
+
+.flow-arrow {
+  color: #334155;
+  font-size: 16px;
+  animation: slide-right 2s infinite linear;
+}
+
+@keyframes slide-right {
+  0% { color: #334155; transform: translateX(0); }
+  50% { color: #38bdf8; }
+  100% { color: #334155; transform: translateX(4px); }
+}
+
+.gateway-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gateway-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(226, 232, 240, 0.05);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.gateway-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gateway-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-active {
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.gateway-badge {
+  font-size: 11px;
+  background-color: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
