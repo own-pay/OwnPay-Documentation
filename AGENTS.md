@@ -140,73 +140,26 @@ Follow the [Mintlify style guide](https://mintlify.com/docs/guides/style-and-ton
 
 Address users directly. Second person makes instructions easier to follow and keeps the focus on what users are doing.
 
-```mdx
-<!-- Good -->
-You can configure the timeout in your settings file.
-
-<!-- Bad -->
-Users can configure the timeout in the settings file.
-```
-
 ### Active voice
 
 Active voice makes sentences shorter and clearer. Test: if you can add "by zombies" after the verb, the sentence is passive.
-
-```mdx
-<!-- Good -->
-The API returns an error when the token expires.
-
-<!-- Bad -->
-An error is returned when the token has expired.
-```
 
 ### Short sentences
 
 - Aim for sentences under 25 words
 - One idea per sentence
 - Two to four sentences per paragraph
-- Break up lists of steps with numbered sequences, not run-on prose
 
 ### Intent-oriented headings
 
-Write headings to answer the question a user might have.
-
-```mdx
-<!-- Good -->
-## How to configure authentication
-
-<!-- Bad -->
-## Authentication configuration
-```
-
-Use **sentence case** for all headings ("Getting started" not "Getting Started"). Do not skip heading levels - go from H2 to H3, not H2 to H4. Never add a manual H1 in the body - Mintlify generates it from `title:`.
-
-### Consistent terminology
-
-Pick one term for each concept and use it everywhere. When introducing a term for the first time, define it in place.
-
-```mdx
-<!-- Good -->
-Each request requires an API key - a unique token that identifies your account.
-
-<!-- Bad -->
-Each request requires an API key.
-```
-
-### Calibrate tone to audience
-
-- Getting started guides: warm, encouraging, limited choices
-- API reference: dense, precise, minimal context
-- Be direct without being terse: "Click Save" not "Please click the Save button when you're ready"
+Write headings to answer the question a user might have. Use **sentence case** for all headings. Do not skip heading levels. Never add a manual H1 in the body - Mintlify generates it from `title:`.
 
 ### Avoid
 
-- **Filler phrases**: "It's worth noting that," "In order to," "Please note that," "Simply," "Basically," "Just"
-- **Editorializing**: "This is a powerful feature," "robust," "enterprise-grade," "comprehensive," "seamless," "cutting-edge"
+- **Filler phrases**: "It's worth noting that," "Simply," "Basically," "Just"
+- **Editorializing**: "enterprise-grade," "robust," "comprehensive," "seamless"
 - **Internal jargon** users won't recognize
-- **Inconsistent capitalization** of product features
-- **Colloquialisms** - harder to translate for international audiences
-- **Passive voice as default** - use it only when the actor is unknown or unimportant
+- **Passive voice as default**
 
 ---
 
@@ -214,21 +167,12 @@ Each request requires an API key.
 
 Follow the [Mintlify audience guide](https://mintlify.com/docs/guides/understand-your-audience). Write every page for ONE specific reader.
 
-### OwnPay audience types
-
 | Audience | Needs | Content type |
 |----------|-------|-------------|
-| **Brand owners** | Setup guides, configuration, business features | Task-oriented how-to guides |
-| **Developers** | API reference, SDKs, code examples, webhooks | Technical reference with code |
-| **Staff** | Dashboard usage, day-to-day operations | Step-by-step user guides |
-| **Decision-makers** | Architecture overviews, security, capabilities | Conceptual explanations |
-
-### Apply audience awareness
-
-- Add audience context notes when a page could be found by the wrong audience
-- Segment "What's next?" sections by audience type
-- Define technical terms when introducing them for less technical audiences
-- Skip basics for developer audiences
+| **Brand owners** | Setup guides, configuration | Task-oriented how-to guides |
+| **Developers** | API reference, SDKs, code examples | Technical reference with code |
+| **Staff** | Dashboard usage, operations | Step-by-step user guides |
+| **Decision-makers** | Architecture, security | Conceptual explanations |
 
 ---
 
@@ -236,105 +180,29 @@ Follow the [Mintlify audience guide](https://mintlify.com/docs/guides/understand
 
 Use Mintlify's built-in components. See [Components overview](https://mintlify.com/docs/components).
 
-### Structure content
-
 | Component | Use for |
 |-----------|---------|
 | `<Steps>` | Numbered step-by-step procedures |
 | `<Tabs>` / `<Tab>` | Alternative approaches (e.g., Shared Hosting vs VPS) |
 | `<CodeGroup>` | Code examples in multiple languages |
-| `<Columns>` | Responsive multi-column layouts |
-| `<Panel>` | Sidebar panels for supplementary content |
-
-### Draw attention
-
-| Component | Use for |
-|-----------|---------|
-| `<Note>` | Neutral supplementary information |
-| `<Tip>` | Helpful suggestions |
-| `<Warning>` | Potential issues or risks |
-| `<Info>` | Contextual information |
-| `<Check>` | Success confirmations |
-| `<Danger>` | Critical warnings about data loss or security |
-| `<Badge>` | Inline status indicators |
-| `<Frame>` | Styled borders/captions for images |
-
-### Show and hide content
-
-| Component | Use for |
-|-----------|---------|
-| `<Accordion>` / `<AccordionGroup>` | Expandable sections for FAQ, troubleshooting |
-| `<Expandable>` | Toggle nested API property details |
-
-### Link to other pages
-
-| Component | Use for |
-|-----------|---------|
-| `<Card>` / `<CardGroup>` | Visual containers with icons for navigation links |
-| `<Tiles>` | Grid of clickable tiles with thumbnails |
-
-### Document APIs
-
-| Component | Use for |
-|-----------|---------|
-| `<ParamField>` | Request parameter definitions with types |
-| `<ResponseField>` | Response field definitions |
-| `<Expandable>` | Nested API properties |
-
-### Visual context
-
-| Component | Use for |
-|-----------|---------|
-| `<Icon>` | Visual indicators (Lucide icons) |
-| `<Mermaid>` | Flowcharts, sequence diagrams |
-| `<Tree>` | Hierarchical file/folder structures |
+| `<Note>`, `<Tip>`, `<Warning>`, `<Info>`, `<Danger>` | Callouts |
+| `<Accordion>` / `<AccordionGroup>` | Expandable sections (FAQ, troubleshooting) |
+| `<Card>` / `<CardGroup>` | Visual containers with icons for navigation |
+| `<ParamField>` / `<ResponseField>` | API parameter and response definitions |
 
 ---
 
 ## SEO and GEO guidelines
 
-### On-page SEO
-
-- Every page MUST have `title` (50-60 chars) and `description` (130-160 chars) in frontmatter
-- Add `keywords` to key pages (homepage, installation, quickstart, developer guide)
-- Use structured headings (H2 > H3 > H4) for hierarchy
-- Include tables for structured data that search engines can parse
+- Every page MUST have `title` (50-60 chars) and `description` (130-160 chars)
+- Add `keywords` to key pages
 - Add `sidebarTitle` to every page for clean sidebar navigation
-
-### Internal linking
-
-- Link to related concepts from within your content with descriptive anchor text
-- Avoid orphan pages - every page should be linked from at least one other page
-- Create topic clusters: group related pages with links between them
-- Use descriptive anchor text, not "click here"
-
-```mdx
-<!-- Good -->
-Learn how to [configure your sitemap](/optimize/seo#sitemaps-and-robots-txt-files).
-
-<!-- Bad -->
-[Click here](/optimize/seo) to learn more.
-```
-
-### Rich snippets
-
-- Use `<Steps>` component for procedures (generates rich snippets in search)
-- Use `<Accordion>` for FAQ content (appears in Google's People Also Ask)
-- Use `<CardGroup>` and `<Card>` for scannable link lists
-
-### AI search (GEO)
-
-- The `llms.txt` file at root provides AI search engines with a project summary
-- JSON-LD structured data is injected via `script.js` (SoftwareApplication, FAQPage, BreadcrumbList)
-- Write clear, factual content that AI can parse and cite
-- Use structured headings and tables for AI-friendly formatting
-
-### Technical SEO (auto-handled by Mintlify)
-
-- Sitemap generation: `sitemap.xml` is auto-generated
-- Semantic HTML: proper heading hierarchy and navigation landmarks
-- Mobile optimization: responsive by default
-- Canonical URLs: auto-generated to prevent duplicate content
+- Use structured headings (H2 > H3 > H4)
+- Include tables for structured data
+- Use `<Steps>` for procedures (generates rich snippets)
+- Use `<Accordion>` for FAQ (appears in Google's People Also Ask)
+- The `llms.txt` file provides AI search engines with a project summary
+- JSON-LD structured data is injected via `script.js`
 
 ---
 
@@ -348,11 +216,6 @@ Follow the [Diataxis framework](https://mintlify.com/docs/guides/content-types):
 | **How-to** | Solve a specific problem | Task-oriented, assumes prerequisites |
 | **Reference** | Find precise information | Complete, structured, API docs |
 | **Explanation** | Understand a concept | Architecture, design decisions |
-
-Decision test: "What does the user do after reading this?"
-- Completed a task = how-to/tutorial
-- Understood something = explanation
-- Looked up a detail = reference
 
 ---
 
@@ -371,34 +234,30 @@ Decision test: "What does the user do after reading this?"
 
 > [!IMPORTANT]
 > **NO `/docs` PREFIX FOR INTERNAL LINKS - except raw HTML in `mode: "custom"` pages**
-> - Standard markdown links (e.g., `[Dashboard](/user-guide/dashboard)`) and JSX attributes (e.g., `<Card href="/developer/quickstart">`) MUST NOT contain the `/docs` subpath prefix.
-> - The `/docs` subpath is appended dynamically by Mintlify's routing during deployment, and prepending it manually in files will break the local link checker and result in double-prefixed paths (e.g., `/docs/docs/...`) in production.
+> - Standard markdown links and JSX attributes MUST NOT contain the `/docs` subpath prefix.
+> - The `/docs` subpath is appended dynamically by Mintlify's routing during deployment.
 
 > [!WARNING]
 > **EXCEPTION: Raw HTML tags in `mode: "custom"` pages**
-> Pages with `mode: "custom"` in their frontmatter render as pure JSX/HTML and bypass Mintlify's router entirely. In these pages, raw `<a href>` attributes MUST use the full `/docs/` prefix or they will resolve to the root domain. Raw `<img src>` tags must NOT be prefixed because Mintlify's compiler resolves them to S3 CDN paths relative to the repository root.
+> Pages with `mode: "custom"` in their frontmatter render as pure JSX/HTML and bypass Mintlify's router. Raw `<a href>` MUST use `/docs/` prefix. Raw `<img src>` must NOT.
 >
-> | Link type | Example | Needs `/docs`? |
-> |---|---|---|
-> | Markdown link | `[text](/path)` | NO - Mintlify handles it |
-> | Mintlify component | `<Card href="/path">` | NO - Mintlify handles it |
-> | `docs.json` nav/footer `href` | `"href": "/path"` | NO - Mintlify handles it |
-> | Raw HTML in `mode: "custom"` | `<a href="/path">` | **YES - add `/docs/` prefix** |
-> | Raw `<img src>` in `mode: "custom"` | `<img src="/path">` | **NO - Mintlify's compiler resolves raw images to CDN URLs relative to root** |
+> | Link type | Needs `/docs`? |
+> |---|---|
+> | Markdown link | NO |
+> | Mintlify component (`<Card href>`) | NO |
+> | `docs.json` nav/footer `href` | NO |
+> | Raw HTML `<a href>` in `mode: "custom"` | **YES** |
+> | Raw `<img src>` in `mode: "custom"` | NO |
 >
 > **Current `mode: "custom"` pages:** `index.mdx`
->
-> When creating a new `mode: "custom"` page, audit every raw `<a href>` tag and add the `/docs/` prefix to all root-relative paths. Keep raw `<img>` tags relative to the repository root (e.g. `/image.png`) as Mintlify dynamically compiles them to CDN URLs.
 
 ---
 
 ## Terminology
 
-Use these terms consistently throughout all documentation:
-
 | Use | Not | Context |
 |-----|-----|---------|
-| "brand" | "merchant", "store" | OwnPay's multi-tenant concept |
+| "brand" | "merchant", "store" | Multi-tenant concept |
 | "gateway" | "payment provider", "processor" | Payment integration |
 | "super admin", "administrator" | "admin user", "root user" | Platform owner |
 | "staff" | "user", "team member" | Brand-level users |
@@ -420,15 +279,9 @@ Key targeting selectors:
 - `footer` - page footer
 - `.dark` prefix for dark mode styles
 
-Mintlify supports Tailwind CSS v3 classes. Arbitrary values like `w-[123px]` are NOT supported in JSX `className` - use `style` prop instead.
-
 ### JavaScript (`script.js`)
 
-Custom JS runs on every page. Use for:
-- Dynamic content injection (footer description, GitHub stars)
-- JSON-LD structured data
-- Analytics tracking
-- UI enhancements
+Custom JS runs on every page. Use for dynamic content injection, JSON-LD structured data, analytics tracking, and UI enhancements.
 
 ---
 
@@ -436,10 +289,9 @@ Custom JS runs on every page. Use for:
 
 All pages MUST work on mobile (375px viewport). Rules:
 
-- Tables should scroll horizontally within their parent container (do NOT use `display: block` on `table`)
-- Code blocks (`pre`) should scroll horizontally
+- Tables should scroll horizontally (do NOT use `display: block` on `table`)
+- Code blocks should scroll horizontally
 - Footer grid: 2 columns on mobile, 4 on desktop
-- Test at 375px width before committing changes
 - No body-level horizontal scroll allowed
 
 ---
@@ -448,7 +300,7 @@ All pages MUST work on mobile (375px viewport). Rules:
 
 > [!WARNING]
 > **DO NOT EDIT SYNCED FILES DIRECTLY IN THIS REPOSITORY**
-> The following documentation pages are synced automatically from the main application repository (`own-pay/OwnPay`, `main` branch). Any manual edits made directly to these files in this repository will be overwritten during the next synchronization run.
+> The following documentation pages are synced automatically from `own-pay/OwnPay` (`main` branch).
 
 | Documentation Path | Source in `own-pay/OwnPay` |
 |--------------------|----------------------------|
@@ -460,22 +312,11 @@ All pages MUST work on mobile (375px viewport). Rules:
 | `resources/roadmap.mdx` | `ROADMAP.md` |
 | `developer/translations.mdx` | `docs/TRANSLATIONS.md` |
 
-### Sync Process details
-- **Local Sync Script**: `scripts/sync-github-files.js`
-  - Fetches the raw content from the main repository.
-  - Automatically parses and preserves the existing frontmatter (`title`, `description`, `keywords`) of the local MDX files.
-  - Strips the top-level H1 header from the remote file to avoid duplicate H1 headings (as Mintlify automatically renders the frontmatter title as the H1 header).
-- **GitHub Actions Workflow**: `.github/workflows/sync-docs.yml`
-  - Runs on a schedule every 6 hours.
-  - Can be triggered manually via `workflow_dispatch` or externally via `repository_dispatch` with type `sync-docs`.
-
-To edit these pages, push a change to the corresponding file in `own-pay/OwnPay`, and let the workflow sync them automatically.
-
 ---
 
 ## Local Validation Rules
 
-Before claiming victory on any documentation updates, AI agents must run the following validation pipeline:
+Before claiming victory on any documentation updates, run this validation pipeline:
 
 1. **Clear Local Mintlify Cache**:
    ```powershell
@@ -505,6 +346,24 @@ Before claiming victory on any documentation updates, AI agents must run the fol
 
 > [!IMPORTANT]
 > **NGINX REVERSE PROXY CONFIGURATION**
-> - The reverse proxy is configured natively in Nginx on the origin server at `/etc/nginx/conf.d/vhosts/ownpay.org.ssl.conf`.
-> - It routes all `/docs` and `/docs/` requests directly to `ownpay.mintlify.dev`, bypassing Varnish/Apache.
-> - It uses Nginx `sub_filter` to dynamically rewrite Open Graph and Facebook meta tags from `name="og:..."` to `property="og:..."` for crawler compatibility.
+> - The reverse proxy is configured in Nginx at `/etc/nginx/conf.d/vhosts/ownpay.org.ssl.conf`.
+> - It routes all `/docs` requests to `ownpay.mintlify.dev`, bypassing Varnish/Apache.
+> - It uses `sub_filter` to rewrite OG meta tags from `name=` to `property=` for crawler compatibility.
+
+---
+
+## Git Commit Rules
+
+Every commit made by an AI agent MUST include the OwnPay bot as a co-author. Add this trailer to every commit message:
+
+```text
+Co-authored-by: OwnPay [bot] <bot@ownpay.org>
+```
+
+Example:
+
+```bash
+git commit -m "Your commit message here
+
+Co-authored-by: OwnPay [bot] <bot@ownpay.org>"
+```
