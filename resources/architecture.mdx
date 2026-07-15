@@ -68,7 +68,7 @@ If the app isn't installed yet, all requests redirect to `/install`. Error and m
 
 ## 3. Directory map
 
-```
+```text
 ownpay/
 ├── public/            # Web root - index.php + static assets (only PHP file here)
 ├── src/               # All application code (PSR-4: OwnPay\ → src/)
@@ -85,7 +85,7 @@ ownpay/
 │   ├── Security/          # SecurityHelpers, UrlValidator (SSRF guards)…
 │   ├── View/              # Twig factory, extensions, ErrorPageRenderer
 │   ├── Cron/              # Scheduled jobs (queue worker, webhook retry, currency…)
-│   ���── Update/            # Self-update engine (download, verify, extract, migrate)
+│   └── Update/            # Self-update engine (download, verify, extract, migrate)
 ├── config/            # app.php, services.php, middleware.php, hooks.php, routes/
 ├── modules/           # gateways/, addons/, themes/ (one dir each, manifest.json)
 ├── templates/         # Twig templates (admin, checkout, error, emails…)
