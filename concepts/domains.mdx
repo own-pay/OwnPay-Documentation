@@ -1,13 +1,15 @@
 ---
-title: "Custom domain pipeline"
+title: "Custom Domains - SSL and DNS for Brand Checkouts"
 description: "How OwnPay routes brand traffic through custom domains with automated SSL provisioning, DNS verification, and per-tenant checkout isolation."
+keywords: "custom domains, SSL provisioning, DNS verification, brand domains, checkout isolation"
+sidebarTitle: "Domains"
 ---
 
-OwnPay is a sovereign white-labeled fintech engine. End-customers must never see the master domain. Each brand can operate under its own custom domain.
+How does OwnPay serve each brand from its own custom domain without cross-tenant leakage? OwnPay is a sovereign white-labeled fintech engine. End-customers must never see the master domain. Each brand can operate under its own custom domain.
 
 ## Domain pipeline
 
-```
+```text
 Request -> DomainMiddleware -> Resolve HTTP_HOST against op_domains -> Inject merchant_id
        -> DomainUrlService -> Build checkout/callback URLs under brand's custom domain
        -> BrandThemeService -> Load per-brand visual identity
@@ -73,3 +75,9 @@ Loads per-brand visual identity (logo, colors, CSS/JS) based on the resolved dom
 - Never hardcode `APP_URL` or domain names for checkout/callback URLs
 - Always use `DomainUrlService` methods for URL construction
 - `APP_DOMAIN` must be a bare hostname (e.g., `ownpay.test`), not a full URL
+
+## Further reading
+
+- [Custom domain setup](/user-guide/system/domains) - Step-by-step guide to mapping and verifying a domain
+- [Brands](/concepts/brands) - Understand how brands isolate data and configuration
+- [Troubleshooting domains](/user-guide/system/domains#troubleshooting) - Fix common DNS and verification issues

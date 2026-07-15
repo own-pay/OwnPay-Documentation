@@ -1,6 +1,8 @@
 ---
-title: "System Settings"
+title: "System Settings - Timezone, Locale, and Maintenance Mode"
 description: "Manage global settings including timezone, public base URL, maintenance mode, default locale, and platform-wide feature toggles in OwnPay."
+keywords: "system settings, timezone, maintenance mode, base URL, locale, platform configuration"
+sidebarTitle: "Settings"
 ---
 
 The System Settings panel is the master configuration board for your OwnPay platform. It handles localization, email support mappings, dashboard titles, public base URLs, and platform maintenance controls.
@@ -45,6 +47,14 @@ The System Settings panel is the master configuration board for your OwnPay plat
 <Warning>
 Runtime settings are saved in the `op_system_settings` table under the `runtime` group. Bypassing settings API calls by writing raw database queries can lead to cache mismatch errors. Always edit settings through this panel or the `EnvironmentService::get()` container wrappers.
 </Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Changes not taking effect | Browser cache or settings not saved | Click **Save** and clear browser cache |
+| Maintenance mode won't disable | Setting not saved or cache stale | Disable maintenance mode, save, and clear server cache |
+| Timezone wrong in reports | System timezone not set correctly | Update the timezone in **System > Settings** and save |
 
 ## Related pages
 

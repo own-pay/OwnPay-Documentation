@@ -1,6 +1,8 @@
 ---
-title: "REST API Integration"
+title: "REST API Integration - Endpoints, Auth, and Examples"
 description: "Reference for integrating with the OwnPay Merchant REST API, covering authentication, endpoints, request examples, and response schemas for developers."
+keywords: "REST API integration, API endpoints, API authentication, payment API, developer integration"
+sidebarTitle: "REST API"
 ---
 
 The OwnPay Merchant API lets you programmatically initiate payments, query transactions, issue refunds, manage customers, and manage API keys.
@@ -11,7 +13,7 @@ The OwnPay Merchant API lets you programmatically initiate payments, query trans
 
 The API is served from your brand's own custom domain:
 
-```
+```text
 https://{your_brand_domain}/api/v1
 ```
 
@@ -21,7 +23,7 @@ Every brand gets its own isolated API endpoint.
 
 All endpoints require a **Bearer API key** in the `Authorization` header:
 
-```
+```http
 Authorization: Bearer op.xxxxxxxxxxxxx
 ```
 
@@ -78,7 +80,7 @@ Error responses:
 
 ### Health check
 
-```
+```http
 GET /health
 ```
 
@@ -88,7 +90,7 @@ Returns system status. No authentication required.
 
 #### Initiate payment intent
 
-```
+```http
 POST /payments
 ```
 
@@ -107,7 +109,7 @@ POST /payments
 
 #### Retrieve payment details
 
-```
+```http
 GET /payments/{payment_id}
 ```
 
@@ -115,13 +117,13 @@ GET /payments/{payment_id}
 
 #### List transactions
 
-```
+```http
 GET /transactions?page=1&per_page=25&status=completed&from=2026-06-01&to=2026-06-30
 ```
 
 #### Retrieve transaction
 
-```
+```http
 GET /transactions/{trx_id}
 ```
 
@@ -129,13 +131,13 @@ GET /transactions/{trx_id}
 
 #### List refunds
 
-```
+```http
 GET /refunds
 ```
 
 #### Request refund
 
-```
+```http
 POST /refunds
 ```
 
@@ -149,13 +151,13 @@ POST /refunds
 
 #### List customers
 
-```
+```http
 GET /customers?page=1&per_page=25
 ```
 
 #### Create customer
 
-```
+```http
 POST /customers
 ```
 
@@ -167,7 +169,7 @@ POST /customers
 
 #### Retrieve customer
 
-```
+```http
 GET /customers/{identifier}
 ```
 
@@ -179,13 +181,13 @@ Looks up by email address or phone number (URL-encoded).
 
 #### List API keys
 
-```
+```http
 GET /api-keys
 ```
 
 #### Generate API key
 
-```
+```http
 POST /api-keys
 ```
 
@@ -196,7 +198,7 @@ POST /api-keys
 
 #### Revoke API key
 
-```
+```http
 DELETE /api-keys/{id}
 ```
 
@@ -204,13 +206,13 @@ DELETE /api-keys/{id}
 
 #### Dispatch test webhook
 
-```
+```http
 POST /webhooks/tests
 ```
 
 #### Webhook delivery log
 
-```
+```http
 GET /webhooks/deliveries
 ```
 

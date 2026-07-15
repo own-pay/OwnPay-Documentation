@@ -1,9 +1,15 @@
 ---
-title: "Core Concepts"
+title: "Core Concepts - How OwnPay Payment Architecture Works"
 description: "Overview of OwnPay's core concepts including brands, payment flow, gateways, ledger, plugins, and custom domains that power the platform."
+keywords: "OwnPay architecture, payment concepts, multi-brand architecture, payment flow, gateway routing"
+sidebarTitle: "Overview"
 ---
 
-Understand the fundamental concepts, workflows, and logical building blocks that power the OwnPay payment orchestration engine.
+How does OwnPay isolate multiple brands on a single server? How does a payment travel from your app to a gateway and back? This section explains OwnPay's design so you can build effectively on top of it.
+
+<Info>
+This section is for developers and technical evaluators who want to understand how OwnPay works internally. For task-oriented guides, see the [User Guide](/user-guide/dashboard).
+</Info>
 
 ## Core concept guides
 
@@ -31,7 +37,7 @@ Browse these guides to understand how data is managed, how payments are routed, 
 
 At its core, OwnPay acts as an orchestrator sitting between your online application (merchant store) and payment networks (gateways).
 
-```
+```text
 ┌─────────────────┐
 │ Merchant App    │ (WooCommerce, SDKs, etc.)
 └────────┬────────┘

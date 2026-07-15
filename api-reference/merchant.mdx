@@ -1,13 +1,15 @@
 ---
-title: "Merchant API"
+title: "Merchant API Reference - Payments, Refunds, and Webhooks"
 description: "Merchant REST API endpoints for creating payments, managing customers, issuing refunds, and configuring webhooks per brand in OwnPay."
+keywords: "Merchant API, payment API, create payment, refund API, webhook configuration"
+sidebarTitle: "Merchant API"
 ---
 
 The Merchant API is the primary API for integrating payment processing into your application. It provides endpoints for creating payments, managing customers, handling refunds, and configuring webhooks.
 
 ## Base URL
 
-```
+```text
 https://{brand_domain}/api/v1
 ```
 
@@ -15,7 +17,7 @@ https://{brand_domain}/api/v1
 
 All endpoints require a Bearer token in the Authorization header:
 
-```
+```http
 Authorization: Bearer YOUR_API_KEY
 ```
 

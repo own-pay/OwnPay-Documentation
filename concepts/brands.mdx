@@ -1,13 +1,15 @@
 ---
-title: "Brands and stores"
+title: "Brands - Multi-Tenant Isolation for Payment Merchants"
 description: "OwnPay isolates each brand with its own customers, gateways, credentials, ledgers, staff, and custom domain through strict multi-tenant scoping."
+keywords: "brands, multi-tenant, merchant isolation, white-label, tenant scoping, payment merchants"
+sidebarTitle: "Brands"
 ---
 
-A **brand** in OwnPay represents a complete, isolated merchant entity. Each brand has its own customers, gateways, settings, staff, checkout experience, and optionally a custom domain.
+How does OwnPay keep multiple brands isolated on a single server? A **brand** in OwnPay represents an isolated merchant entity. Each brand has its own customers, gateways, settings, staff, checkout experience, and optionally a custom domain.
 
 ## Multi-brand architecture
 
-```
+```text
 OwnPay Installation
 +-- Brand A (Acme Corp)
 |   +-- Customers
@@ -29,7 +31,7 @@ OwnPay Installation
     +-- Custom Settings
 ```
 
-Each brand operates independently with **complete data isolation**.
+Each brand operates independently with data isolation.
 
 ## Brand vs store
 
@@ -152,3 +154,9 @@ Each brand manages independently:
 - Assign limited roles to staff
 - Rotate API keys regularly
 - Monitor access logs for unusual activity
+
+## Further reading
+
+- [Creating a brand](/user-guide/people/brands) - Step-by-step guide to setting up a new brand
+- [Brand settings](/user-guide/appearance/branding-settings) - Customize logos, colors, and checkout appearance
+- [Custom domains](/concepts/domains) - Map each brand to its own domain

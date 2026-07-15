@@ -1,6 +1,8 @@
 ---
-title: "Roles and Permissions"
+title: "Roles and Permissions - RBAC for Admin and Brand Access"
 description: "Define role-based access control (RBAC) roles and map granular capability flags across OwnPay's system, brand, and reporting admin modules."
+keywords: "roles, permissions, RBAC, access control, admin roles, capability flags"
+sidebarTitle: "Roles"
 ---
 
 OwnPay implements a Role-Based Access Control (RBAC) authorization layer. Super-administrators can define distinct roles (e.g., Owner, Customer Support, Accountant) and select precisely which actions users with that role can take. Permissions are grouped logically by modules like Gateways, Payments, People, and Developers.
@@ -25,7 +27,7 @@ Lists all created roles defined on the platform:
 
 ### 2. Available permissions grid
 
-A comprehensive index of all permission nodes defined in the codebase, grouped by module:
+An index of all permission nodes defined in the codebase, grouped by module:
 
 - **DEVELOPERS:** `Manage API Keys`, `View API Keys`
 - **GATEWAYS:** `Manage Gateways`, `View Gateways`
@@ -56,6 +58,14 @@ When any request is sent to the `/admin/*` panel, the system routes the request 
 <Warning>
 Only super-administrators can access and edit the Roles & Permissions panel. Never assign the `staff.manage` permission to non-owners, as they could use it to elevate their own permissions or lock out other administrators.
 </Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Staff can't access a page after role change | New role has fewer permissions | Edit the role and enable the required permission checkboxes |
+| Role changes not taking effect | Staff still logged in with cached session | Ask the staff member to log out and log back in |
+| Can't edit roles | Logged in as non-owner account | Only super-administrators can manage roles |
 
 ## Related pages
 

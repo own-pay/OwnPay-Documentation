@@ -1,9 +1,11 @@
 ---
-title: "Double-entry ledger"
+title: "Double-Entry Ledger - Built-in Accounting for Payments"
 description: "OwnPay's double-entry bookkeeping records balanced journal entries per brand for audit-ready reconciliation, transfers, fees, and financial reports."
+keywords: "double-entry ledger, payment accounting, bookkeeping, journal entries, financial reconciliation"
+sidebarTitle: "Ledger"
 ---
 
-OwnPay uses a double-entry ledger bookkeeping engine for bulletproof financial audit readiness. All payments, fees, and transfers are recorded using balanced debits and credits.
+How does OwnPay track every money movement with accounting-grade precision? OwnPay uses a double-entry ledger bookkeeping engine for bulletproof financial audit readiness. All payments, fees, and transfers are recorded using balanced debits and credits.
 
 ## Ledger tables
 
@@ -57,3 +59,9 @@ php public/index.php admin/reconcile --merchant=YOUR_MERCHANT_ID
 - Always go through `LedgerService` for ledger operations
 - Run daily balance verification checks
 - Monitor the `BalanceVerificationJob` alerts
+
+## Further reading
+
+- [Balance verification](/user-guide/reports-finance/balance-verification) - Run reconciliation audits from the admin dashboard
+- [Reports](/user-guide/reports-finance/reports) - Generate financial reports and analytics
+- [Transactions](/user-guide/payments/transactions) - View individual payment details and ledger entries

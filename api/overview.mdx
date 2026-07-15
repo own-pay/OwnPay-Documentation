@@ -1,13 +1,15 @@
 ---
-title: "API overview"
+title: "OwnPay API Overview - REST API for Multi-Brand Payments"
 description: "Introduction to OwnPay REST APIs covering base URLs per brand and master domain, authentication, rate limits, and available endpoint groups."
+keywords: "OwnPay REST API, payment API reference, API authentication, Bearer token, payment endpoints, webhook events, multi-brand API"
+sidebarTitle: "Overview"
 ---
 
 OwnPay provides a REST API for programmatic access to payments, transactions, and webhooks. This page covers authentication, endpoints, and quick examples.
 
 ## Base URL
 
-```
+```text
 https://yourdomain.com/api/v1
 ```
 
@@ -145,7 +147,7 @@ Receive real-time notifications when payment events occur. See [Webhooks](/api/w
 
 Rate limit headers:
 
-```
+```http
 X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 59
 X-RateLimit-Reset: 1718000060

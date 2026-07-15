@@ -1,6 +1,8 @@
 ---
-title: "Plugins"
+title: "Plugins - Install and Manage Platform Extensions"
 description: "Manage modular platform extensions, install custom addons, and toggle gateway and theme plugins from the OwnPay admin plugins screen."
+keywords: "plugins, platform extensions, addon management, gateway plugins, theme plugins"
+sidebarTitle: "Plugins"
 ---
 
 The Plugins manager allows administrators to extend OwnPay's core capabilities. Extensions are packaged as plugins and are grouped into three categories: **Gateways** (API connectors), **Addons** (additional platform features), and **Themes** (layout designs).
@@ -49,6 +51,14 @@ Located by clicking the **Upload Plugin** link in the header. Allows developers 
 - Check for version compatibility in the manifest description before uploading manual updates
 - Do not upload zip archives from untrusted sources, as plugins run with administrative permissions
 - Do not rename plugin folder directories directly via FTP/file manager
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Plugin fails to activate | Manifest validation or footgun scan failed | Check the plugin's `manifest.json` for syntax errors and remove blocked PHP functions |
+| Plugin not appearing in admin | Plugin folder not in `modules/` directory | Ensure the plugin is placed in `modules/gateways/`, `modules/addons/`, or `modules/themes/` |
+| Checkout page broken after plugin install | Plugin conflicts with theme or another plugin | Deactivate the last installed plugin and report the issue |
 
 ## Related pages
 

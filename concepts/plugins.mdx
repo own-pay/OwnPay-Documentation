@@ -1,9 +1,11 @@
 ---
-title: "Plugin system"
+title: "Plugin System - WordPress-Style Plugin Architecture"
 description: "WordPress-style plugin architecture for gateways, themes, and addons with lifecycle hooks, filters, capability declarations, and event callbacks."
+keywords: "plugin system, plugin architecture, gateway plugins, theme plugins, addon plugins, hooks, filters"
+sidebarTitle: "Plugins"
 ---
 
-OwnPay uses a plugin system to extend functionality without modifying core code. Plugins reside in `modules/` and register callbacks via the `EventManager` hook loop.
+How does OwnPay let you add new payment methods, themes, and features without touching the core? OwnPay uses a plugin system to extend functionality without modifying core code. Plugins reside in `modules/` and register callbacks via the `EventManager` hook loop.
 
 ## Plugin types
 
@@ -21,7 +23,7 @@ Customize the checkout experience with custom templates, CSS, JavaScript, and br
 
 ## Plugin lifecycle
 
-```
+```text
 Discover -> Manifest Validate -> Footgun Scan -> PSR-4 Register -> register() -> boot()
 ```
 
@@ -34,7 +36,7 @@ Discover -> Manifest Validate -> Footgun Scan -> PSR-4 Register -> register() ->
 
 ## Plugin structure
 
-```
+```text
 modules/
 +-- gateways/
 |   +-- stripe/
@@ -101,3 +103,9 @@ The footgun scanner blocks only `eval` and direct OS command execution. Ordinary
 - Store secrets in config
 - Use caching and optimize queries
 - Queue heavy tasks
+
+## Further reading
+
+- [Plugin overview](/developer/plugins/overview) - Build and register your first plugin
+- [Gateway development](/developer/plugin-types/gateway-development) - Create a custom payment gateway adapter
+- [Theme development](/developer/plugin-types/theme-development) - Build custom checkout themes

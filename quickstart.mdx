@@ -1,11 +1,16 @@
 ---
-title: "Quickstart"
+title: "Quickstart - Get Your Payment Gateway Running in 5 Minutes"
 description: "Get your self-hosted payment gateway running in 5 minutes. Install OwnPay, configure your first gateway, and start accepting payments."
-keywords: "quickstart, payment gateway setup, install OwnPay, first payment, self-hosted payments"
+keywords: "quickstart, payment gateway setup, install OwnPay, first payment, self-hosted payments, payment gateway tutorial"
+sidebarTitle: "Quickstart"
 ---
 <Snippet file="llms-directive.mdx" />
 
 Get your self-hosted payment gateway running in 5 minutes. This guide covers the fastest path from zero to processing payments with OwnPay.
+
+<Info>
+This guide assumes basic familiarity with web hosting. Developers looking to integrate the API should see the [Developer Quickstart](/developer/quickstart).
+</Info>
 
 ## Prerequisites
 
@@ -17,14 +22,14 @@ Before you begin, make sure you have:
 - **SSL certificate** (required for production)
 
 <Tip>
-Don't have a server? Skip to [Shared Hosting](#shared-hosting) for cPanel/DirectAdmin installation, or [VPS](#vps--cloud-server) for Ubuntu/Debian.
+Don't have a server? Skip to [Shared Hosting](#shared-hosting) for cPanel/DirectAdmin installation, or [VPS](#vps-cloud-server) for Ubuntu/Debian.
 </Tip>
 
 ## Installation
 
 <Tabs>
   <Tab title="Shared Hosting" icon="globe">
-    The easiest way to get started. Works with most popular hosts like Hostinger, Namecheap, and SiteGround.
+    A quick way to get started. Works with hosts like Hostinger, Namecheap, and SiteGround.
 
     <Steps>
       <Step title="Download OwnPay">
@@ -53,15 +58,15 @@ Don't have a server? Skip to [Shared Hosting](#shared-hosting) for cPanel/Direct
 
       <Step title="Set up cron job">
         Add a cron job to run every minute:
-        ```
+        ```bash
         * * * * * php /home/your_username/public_html/public/index.php cron
         ```
       </Step>
     </Steps>
   </Tab>
 
-  <Tab title="VPS / Cloud Server" icon="server">
-    Recommended for production. Gives you full control, better performance, and Redis caching support.
+  <Tab title="VPS / Cloud Server" id="vps-cloud-server" icon="server">
+    For production use. Gives you full control, Redis caching support, and server-level configuration.
 
     <Steps>
       <Step title="Connect via SSH">
@@ -123,7 +128,7 @@ Don't have a server? Skip to [Shared Hosting](#shared-hosting) for cPanel/Direct
         ```bash
         sudo crontab -u www-data -e
         ```
-        ```
+        ```bash
         * * * * * /usr/bin/php /var/www/ownpay/public/index.php cron >> /var/log/ownpay-cron.log 2>&1
         ```
       </Step>
@@ -131,7 +136,7 @@ Don't have a server? Skip to [Shared Hosting](#shared-hosting) for cPanel/Direct
   </Tab>
 
   <Tab title="Docker" icon="box">
-    Run OwnPay in containers for easy deployment and scaling.
+    Run OwnPay in containers for deployment and scaling.
 
     <Steps>
       <Step title="Clone the repository">
@@ -197,18 +202,25 @@ Change your default password immediately after first login. Enable Two-Factor Au
 
 ## What's next?
 
+### For brand owners
+
 <CardGroup cols={2}>
   <Card title="Multi-brand setup" icon="store" href="/concepts/brands">
     Configure multiple brands with isolated data and custom domains.
   </Card>
-  <Card title="API integration" icon="code" href="/api-reference/merchant">
+  <Card title="Production deployment" icon="server" href="/resources/local-setup">
+    Optimize OwnPay for production with Redis, SSL, and monitoring.
+  </Card>
+</CardGroup>
+
+### For developers
+
+<CardGroup cols={2}>
+  <Card title="API integration" icon="code" href="/developer/quickstart">
     Integrate OwnPay with your applications via REST API.
   </Card>
   <Card title="Gateway plugins" icon="plug" href="/developer/plugin-types/gateway-development">
     Build custom payment gateway plugins.
-  </Card>
-  <Card title="Production deployment" icon="server" href="/resources/local-setup">
-    Optimize OwnPay for production with Redis, SSL, and monitoring.
   </Card>
 </CardGroup>
 

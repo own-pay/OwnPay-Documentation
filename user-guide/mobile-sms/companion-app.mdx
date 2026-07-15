@@ -1,6 +1,8 @@
 ---
-title: "Companion App Installation"
+title: "Companion App - Install the OwnPay Android SMS Tracker"
 description: "Download, install, and pair the OwnPay Android companion app with your admin panel to automate transaction tracking and SMS forwarding."
+keywords: "companion app, Android app, SMS forwarding, transaction tracking, mobile payment app"
+sidebarTitle: "Companion App"
 ---
 
 The OwnPay Companion App is a secure Android application that runs in the background of your dedicated gateway phones. It monitors incoming wallet transfer messages and forwards them in real-time to your OwnPay server for instant verification and transaction approval.
@@ -80,8 +82,24 @@ Android aggressive battery savers will kill background processes if the screen i
 
 <Tip>
 **Permissions Checklist**
-For the app to work seamlessly, it requires the following active permissions:
+For the app to work, it requires the following active permissions:
 - **SMS / Read SMS**: To intercept incoming mobile banking transfer notifications.
 - **Background execution**: To keep listening while the phone is locked.
 - **Autostart / Run at Boot** (on Chinese ROMs like Xiaomi, Oppo, Vivo): To automatically launch if the phone is rebooted.
 </Tip>
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| App shows "Disconnected" | Battery optimization killed the background service | Disable battery optimization for OwnPay (see above) |
+| Pairing code expired | Code is valid for 5 minutes only | Generate a new pairing code from the admin dashboard |
+| SMS not forwarding | SMS/Read SMS permission not granted | Go to phone Settings > Apps > OwnPay > Permissions and enable SMS |
+| App crashes on boot | Outdated Android version or insufficient RAM | Update to Android 8.0+ and close other background apps |
+| QR code scan fails | Camera permission denied or poor lighting | Grant camera permission and ensure the QR code is fully visible |
+
+## Related pages
+
+- [Paired Devices](/user-guide/mobile-sms/devices) - Manage connected mobile devices in the admin dashboard
+- [SMS Templates](/user-guide/mobile-sms/sms-templates) - Configure how incoming SMS messages are parsed
+- [SMS Logs](/user-guide/mobile-sms/sms-logs) - View forwarded SMS messages and verification results

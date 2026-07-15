@@ -1,6 +1,8 @@
 ---
-title: "Audit Log"
+title: "Audit Log - Track Admin Actions and Security Events"
 description: "Review administrative actions, staff logins, configuration changes, and security events with filters by user, brand, and date range in OwnPay."
+keywords: "audit log, admin actions, security events, staff logins, activity tracking"
+sidebarTitle: "Audit Log"
 ---
 
 The Audit Log (Activities) page serves as a read-only, chronological trail of all administrative actions performed across the platform. It logs critical events like staff logins, gateway updates, settings edits, and database manipulations, alongside metadata like user ID, timestamp, and IP address.
@@ -51,6 +53,14 @@ Located at the bottom of the table, showing **Page X of Y** and a **Next** link.
 <Warning>
 Activities are scoped by brand permissions. Staff users can only see log entries created under their own brand (`merchant_id`). Bypassing this scoping rule will lead to unauthorized data access.
 </Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Missing log entries | Staff action performed under different brand | Switch to the correct brand context to see those logs |
+| Can't see other staff actions | Role lacks audit log permissions | Ask administrator to grant audit log access in your role |
+| Log entries seem incomplete | Action was performed before audit logging was enabled | Check when audit logging was activated in system settings |
 
 ## Related pages
 

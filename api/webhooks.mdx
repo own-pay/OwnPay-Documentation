@@ -1,13 +1,15 @@
 ---
-title: "Webhooks"
+title: "Webhooks - Handle Signed Payment Event Callbacks"
 description: "Configure webhook endpoints and handle signed HTTP callbacks for payment.succeeded, refund, and dispute events with retries and signature verification."
+keywords: "webhooks, payment webhooks, HTTP callbacks, webhook signature, payment events"
+sidebarTitle: "Webhooks"
 ---
 
 OwnPay sends HTTP POST requests to your server when payment events occur. Webhooks let you react to events in real time without polling the API.
 
 ## How webhooks work
 
-```
+```text
 Customer pays -> OwnPay processes -> POST to your endpoint
                                        |
                                Verify signature
@@ -49,7 +51,7 @@ OwnPay only sends webhooks to HTTPS endpoints. Use [ngrok](https://ngrok.com/) f
 
 **Headers:**
 
-```
+```http
 Content-Type: application/json
 X-OwnPay-Signature: sha256=<hmac_hex>
 X-OwnPay-Timestamp: 1718000000
@@ -87,7 +89,7 @@ Always verify webhook signatures before processing any event.
 
 The signature is computed as:
 
-```
+```text
 HMAC-SHA256(secret, timestamp + "." + raw_request_body)
 ```
 

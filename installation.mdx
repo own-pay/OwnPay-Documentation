@@ -1,7 +1,8 @@
 ---
-title: "Installation"
-description: "Install OwnPay on Shared Hosting (cPanel, Plesk, DirectAdmin), a VPS, or Docker using the built-in web installer and setup wizard."
-keywords: "install payment gateway, cPanel payment processing, self-hosted payments setup, Docker payment platform, PHP payment gateway install"
+title: "Install OwnPay on Shared Hosting, VPS, or Docker - Setup Guide"
+description: "Install OwnPay on shared hosting (cPanel, Plesk, DirectAdmin), a VPS, or Docker using the built-in web installer and setup wizard. Step-by-step guide."
+keywords: "install payment gateway, cPanel payment processing, self-hosted payments setup, Docker payment platform, PHP payment gateway install, VPS payment gateway"
+sidebarTitle: "Installation"
 ---
 <Snippet file="llms-directive.mdx" />
 
@@ -13,6 +14,10 @@ keywords: "install payment gateway, cPanel payment processing, self-hosted payme
 
 OwnPay features a **built-in web installer** that checks server configurations, sets up the database schema, and bootstraps your master administrator account. Visit your domain once files are uploaded to complete the setup - no command-line experience required.
 
+<Info>
+Choose your environment below. **Shared Hosting** is for users with a cPanel or Plesk plan. **VPS** is for users comfortable with the Linux command line. **Docker** is for developers who prefer containerized deployment.
+</Info>
+
 ---
 
 ## Select Your Environment
@@ -23,7 +28,7 @@ Choose your target environment to begin the deployment guide:
   <Card title="Shared Hosting" icon="server" href="#shared-hosting">
     Standard hosting plans running control panels like cPanel, Plesk, or DirectAdmin.
   </Card>
-  <Card title="VPS / Cloud Server" icon="terminal" href="#vps--cloud-server">
+  <Card title="VPS / Cloud Server" icon="terminal" href="#vps-cloud-server">
     Dedicated virtual private server running Ubuntu or Debian with full root access.
   </Card>
   <Card title="Docker Container" icon="docker" href="#docker">
@@ -179,7 +184,7 @@ Shared hosting is the most common deployment method. Hosts like Hostinger, Namec
 
   <Step title="Launch the Web Installer">
     Open your web browser and visit:
-    ```
+    ```text
     https://yourdomain.com/install
     ```
     The setup wizard will guide you through the remaining steps:
@@ -192,7 +197,7 @@ Shared hosting is the most common deployment method. Hosts like Hostinger, Namec
 
 ---
 
-## VPS / Cloud Server
+## VPS / Cloud Server {#vps-cloud-server}
 
 For dedicated cloud servers (Ubuntu or Debian), you can perform a custom command-line installation.
 
@@ -361,3 +366,20 @@ Once your installation completes, perform these two configuration steps to ensur
     * **Server Owner:** On a VPS, ensure directories are owned by the web worker user: `sudo chown -R www-data:www-data storage/`.
   </Accordion>
 </AccordionGroup>
+
+## What's next?
+
+<CardGroup cols={2}>
+  <Card title="Quickstart guide" icon="rocket" href="/quickstart">
+    Follow the 5-minute quickstart to configure your first gateway and accept a test payment.
+  </Card>
+  <Card title="Create a brand" icon="store" href="/user-guide/people/brands">
+    Set up your first brand with a custom domain, logo, and payment gateways.
+  </Card>
+  <Card title="Developer integration" icon="code" href="/developer/quickstart">
+    Integrate OwnPay into your application using the REST API or SDKs.
+  </Card>
+  <Card title="Production hardening" icon="shield" href="/advanced-topics/security-compliance">
+    Secure your deployment with SSL, Redis caching, and firewall rules.
+  </Card>
+</CardGroup>

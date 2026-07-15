@@ -1,13 +1,15 @@
 ---
-title: "Mobile API"
+title: "Mobile API Reference - Companion App and SMS Forwarding"
 description: "Mobile API endpoints used by the OwnPay Android companion app for device pairing, JWT authentication, SMS forwarding, and payment verification."
+keywords: "Mobile API, companion app API, SMS forwarding, device pairing, Android payment app"
+sidebarTitle: "Mobile API"
 ---
 
 The Mobile API enables the OwnPay mobile companion app to pair devices, receive SMS notifications, and verify payments through mobile banking alerts.
 
 ## Base URL
 
-```
+```text
 https://{brand_domain}
 ```
 
@@ -15,7 +17,7 @@ https://{brand_domain}
 
 Most endpoints require JWT authentication. Device pairing and token refresh are exempt.
 
-```
+```http
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 

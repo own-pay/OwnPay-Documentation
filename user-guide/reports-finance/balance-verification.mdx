@@ -1,6 +1,8 @@
 ---
-title: "Balance Verification"
+title: "Balance Verification - Reconcile Ledger Against Gateways"
 description: "Reconcile OwnPay's internal ledger against actual gateway processor balances to detect mismatches, missing entries, and refund discrepancies."
+keywords: "balance verification, ledger reconciliation, gateway balances, financial reconciliation, payment discrepancies"
+sidebarTitle: "Balance Verification"
 ---
 
 The Balance Verification page provides administrators with a direct financial reconciliation tool. It compares your internal double-entry ledger database states (**Expected Internal**) against the actual processed cash data retrieved directly from the payment gateway APIs (**Actual Gateway**).
@@ -53,6 +55,14 @@ The Balance Verification page provides administrators with a direct financial re
 <Warning>
 Always post ledger transactions within a database transaction block. If writing custom plugins or addons that interact with balances, utilize the double-entry repository to preserve balance integrity.
 </Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Verification shows mismatches | Pending transactions not yet settled | Wait for all pending transactions to complete, then re-run verification |
+| Balance discrepancy after refund | Refund ledger entry not recorded | Check if the refund was processed through OwnPay or directly in the gateway |
+| Verification job not running | Cron not configured properly | Verify the cron job is set up as described in the [installation guide](/installation) |
 
 ## Related pages
 

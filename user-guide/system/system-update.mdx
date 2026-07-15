@@ -1,6 +1,8 @@
 ---
-title: "System Update"
+title: "System Update - Check Versions and Run Core Updates"
 description: "Check the current OwnPay version, view available releases, run in-place core updates, and review a history of previously installed updates."
+keywords: "system update, version check, core update, update history, OwnPay upgrade"
+sidebarTitle: "Update"
 ---
 
 The System Update panel allows administrators to keep their OwnPay platform up to date. Keeping the platform updated ensures you have the latest features, security patches, and gateway integration fixes.
@@ -55,6 +57,14 @@ Displays the currently installed and active version of the OwnPay platform (e.g.
 <Warning>
 Always verify that write permissions are enabled on the `storage/` and root directories before attempting an update.
 </Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Update fails with permission error | `storage/` directory not writable | Set write permissions: `chmod -R 775 storage/` |
+| White screen after update | PHP version mismatch or missing extensions | Verify PHP 8.3+ and required extensions are active |
+| Database migration error | Migration script conflict with custom changes | Back up the database before updating; restore from backup if needed |
 
 ## Related pages
 

@@ -1,6 +1,8 @@
 ---
-title: "Architecture"
-description: "Developer-oriented tour of OwnPay's Laravel core, multi-brand middleware, plugin loader, queue workers, and repository directory layout."
+title: "Architecture - Custom PHP Core, Middleware, and Plugin Loader"
+description: "Developer-oriented tour of OwnPay's custom PHP core, multi-brand middleware, plugin loader, queue workers, and repository directory layout."
+keywords: "OwnPay architecture, PHP payment platform, multi-brand middleware, plugin loader, queue workers"
+sidebarTitle: "Architecture"
 ---
 
 A developer's guide to how **OwnPay** is built - for contributors and integrators.
@@ -66,7 +68,7 @@ If the app isn't installed yet, all requests redirect to `/install`. Error and m
 
 ## 3. Directory map
 
-```
+```text
 ownpay/
 ├── public/            # Web root - index.php + static assets (only PHP file here)
 ├── src/               # All application code (PSR-4: OwnPay\ → src/)

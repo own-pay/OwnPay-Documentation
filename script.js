@@ -6,7 +6,7 @@ function injectFooterDescription() {
   if (logoLink && !document.querySelector('footer .footer-description')) {
     const desc = document.createElement('p');
     desc.className = 'footer-description';
-    desc.textContent = 'Self-hosted, enterprise-grade payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.';
+    desc.textContent = 'Self-hosted payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.';
     logoLink.parentNode.insertBefore(desc, logoLink.nextSibling);
   }
 }
@@ -21,7 +21,7 @@ function injectStructuredData() {
     "name": "OwnPay",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Linux, Docker",
-    "description": "Self-hosted, open-source payment gateway platform with multi-brand support, 100+ payment gateways, white-label checkout, and full REST API.",
+    "description": "Self-hosted payment orchestrator with multi-brand support, 100+ payment gateways, white-label checkout, and full REST API.",
     "url": "https://ownpay.org",
     "softwareHelp": {
       "@type": "CreativeWork",

@@ -1,6 +1,8 @@
 ---
-title: "Staff"
+title: "Staff Management - Add Team Members and Assign Roles"
 description: "Add team members, assign administrative roles, configure per-brand permission scopes, and monitor staff activity logs from the OwnPay admin."
+keywords: "staff management, team members, admin roles, permission scopes, activity logs"
+sidebarTitle: "Staff"
 ---
 
 The Staff page allows the super-administrator to invite team members and assign them to specific roles and brand scopes. Instead of sharing credentials, each staff member logs in using their own email, password, and optional two-factor authentication (2FA).
@@ -69,6 +71,15 @@ When a staff user logs in:
 <Warning>
 When creating a staff member, verify that their brand scoping is set correctly. Standard staff members cannot switch to other brands unless explicitly granted multi-brand access in their database profile.
 </Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Staff cannot log in | Password not set or account not activated | Reset password via **People > Staff > Edit** |
+| Staff cannot access certain pages | Role permissions too restrictive | Edit the staff member's role and enable the required permissions |
+| Staff locked out after enabling 2FA | Lost access to authenticator app | Disable 2FA for the user from **People > Staff > Edit** (super-admin only) |
+| Staff sees data from wrong brand | Brand scoping not set correctly | Verify the staff member's brand assignment in their profile |
 
 ## Related pages
 

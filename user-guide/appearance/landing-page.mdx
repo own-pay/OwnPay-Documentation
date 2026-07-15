@@ -1,6 +1,8 @@
 ---
-title: "Landing Page Settings"
+title: "Landing Page Settings - Hero Copy, CTAs, and Login URL"
 description: "Configure the OwnPay public landing page hero copy, CTA buttons, and feature cards, and change the secure admin login URL slug path for your site."
+keywords: "landing page, hero section, CTA buttons, login URL, public page customization"
+sidebarTitle: "Landing Page"
 ---
 
 The Landing Page settings tab manages the visibility and content of your platform's public-facing landing page (the root `/` URL), and contains critical security controls like the **Admin Login URL Slug** to hide your administrative login entrance.
@@ -63,6 +65,14 @@ The Landing Page settings tab manages the visibility and content of your platfor
 <Warning>
 The Admin Login URL Slug must only contain lowercase letters, numbers, and hyphens. Spaces, capitals, or special characters are blocked by route parameter constraint filters.
 </Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Landing page shows old content | Browser cache or CDN cache | Clear browser cache; if using Cloudflare, purge the cache |
+| Custom admin URL returns 404 | Slug contains invalid characters | Use only lowercase letters, numbers, and hyphens |
+| Hero image not displaying | Image path incorrect or file missing | Upload the image to the media library and use the generated path |
 
 ## Related pages
 

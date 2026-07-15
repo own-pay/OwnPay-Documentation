@@ -1,6 +1,8 @@
 ---
-title: "Addons"
+title: "Addons - Activate Utility Plugins and Integrations"
 description: "Activate and manage secondary non-gateway utility plugins that add reporting, integrations, or automation features to your OwnPay instance."
+keywords: "addons, utility plugins, platform integrations, automation features, reporting plugins"
+sidebarTitle: "Addons"
 ---
 
 The Addons page lists auxiliary plugins installed on the OwnPay system. Unlike payment gateways that handle cash checkout interfaces, addons provide backend utility services like forwarding system emails, sending checkout SMS links, or sending instant alert notifications to Telegram channels.
@@ -36,6 +38,14 @@ Lists all functional helper modules:
 - Keep the **Mail Gateway** addon active to ensure clients automatically receive transaction invoices
 - Deactivate unused addons to save server processing memory resources
 - Do not run duplicate notification handlers if you want to optimize webhook speed
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Addon not showing after upload | Plugin type not set to `addon` in manifest | Verify `manifest.json` has the correct type declaration |
+| Addon features not appearing | Addon not activated after upload | Click **Activate** on the addon card in **System > Addons** |
+| Addon causing performance issues | Addon running heavy tasks synchronously | Check if the addon uses queue workers; disable if not needed |
 
 ## Related pages
 

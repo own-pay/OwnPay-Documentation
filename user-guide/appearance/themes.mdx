@@ -1,6 +1,8 @@
 ---
-title: "Themes"
+title: "Themes - Customize Checkout Appearance and Styling"
 description: "Pick installed checkout themes, activate template variants, and upload custom CSS overrides to restyle the OwnPay customer-facing checkout experience."
+keywords: "checkout themes, theme customization, CSS overrides, checkout styling, template variants"
+sidebarTitle: "Themes"
 ---
 
 The Themes page manages the HTML/CSS template envelopes used to render customer-facing checkout interfaces and payment link sheets. OwnPay supports modular theme plugins that change layouts, animations, and input patterns.
@@ -36,6 +38,14 @@ Located at the top header by clicking the **+ Install Theme** link. Allows admin
 - Keep the default `own-pay` theme installed as a fallback
 - Do not delete an active theme. Always activate an alternative template first
 - Do not upload unverified zip archives as they could contain malicious code
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Checkout page shows default theme | Theme not activated for the brand | Go to **Appearance > Themes** and click **Activate** on the desired theme |
+| Custom CSS not applying | CSS syntax error or specificity conflict | Validate your CSS and use browser DevTools to check for overrides |
+| Theme upload fails | Invalid manifest.json or missing required files | Ensure `manifest.json`, `Theme.php`, and `templates/` directory exist |
 
 ## Related pages
 

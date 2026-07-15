@@ -1,6 +1,8 @@
 ---
-title: "Theme Plugin Development Guide"
+title: "Theme Plugin Development - Customize Checkout Appearance"
 description: "Build theme plugins that customize the OwnPay checkout with Blade templates, static assets, layout overrides, and brand-scoped styling."
+keywords: "theme plugin, checkout customization, Blade templates, brand styling, checkout theme"
+sidebarTitle: "Theme Dev"
 ---
 
 Themes control the visual appearance of OwnPay's customer-facing checkout experience. A theme plugin overrides checkout template paths and injects CSS/JS assets via event hooks, without modifying any core file.
@@ -19,7 +21,7 @@ The checkout controller resolves which template to render by applying three filt
 
 ## Directory structure
 
-```
+```text
 modules/themes/my-theme/
 +-- manifest.json           # Required. Plugin metadata.
 +-- Theme.php               # Required. Entrypoint class.

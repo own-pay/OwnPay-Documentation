@@ -1,9 +1,11 @@
 ---
-title: "Payment gateways"
+title: "Payment Gateways - Plugin-Based Gateway Integration"
 description: "OwnPay integrates payment gateways as plugins with a shared adapter contract, routing rules, fee logic, and manual offline payment methods."
+keywords: "payment gateways, gateway plugins, payment integration, gateway routing, offline payments"
+sidebarTitle: "Gateways"
 ---
 
-A **payment gateway** processes payments by accepting customer payment information, encrypting and transmitting it to the processor, receiving authorization from the bank, and returning the result to OwnPay.
+How does OwnPay route payments through different gateways? A **payment gateway** processes payments by accepting customer payment information, encrypting and transmitting it to the processor, receiving authorization from the bank, and returning the result to OwnPay.
 
 ## Gateway types
 
@@ -83,3 +85,9 @@ Gateways send webhooks when payments are authorized, captured, refunded, or disp
 - Track success rates
 - Monitor settlement times
 - Rotate API keys quarterly
+
+## Further reading
+
+- [Gateway setup](/user-guide/gateways/gateways) - Install and configure gateways in the admin dashboard
+- [Currencies](/user-guide/gateways/currencies) - Manage currencies and exchange rates
+- [Plugin system](/concepts/plugins) - Build custom gateway adapters

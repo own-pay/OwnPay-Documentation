@@ -55,7 +55,7 @@ These skills are in the global skills directory (not in `.agents/skills/`). Invo
 - Primary color: `#0F97ED` (OwnPay blue)
 - Font: `Inter`
 - GitHub repo: `own-pay/OwnPay-Documentation` (master branch)
-- Live URL: `https://ownpay.org/docs` (proxied via Cloudflare Worker from `ownpay.mintlify.site`)
+- Live URL: `https://ownpay.org/docs` (reverse proxied with `ownpay.mintlify.dev`)
 - Do NOT add `/docs` prefix to internal links - Mintlify appends it automatically
 - Config file: `docs.json` (NEVER use `mint.json` - it is deprecated)
 

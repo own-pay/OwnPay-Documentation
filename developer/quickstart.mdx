@@ -1,9 +1,11 @@
 ---
-title: "Developer Quickstart"
+title: "Developer Quickstart - Build Your First Payment Integration"
 description: "Get started with the OwnPay REST API in five minutes by creating an API key, making your first payment intent, and receiving webhooks."
+keywords: "OwnPay API, payment API integration, REST API quickstart, PHP payment SDK, Node.js payment SDK, webhook setup, developer quickstart"
+sidebarTitle: "Quickstart"
 ---
 
-Get started with OwnPay API integration in 5 minutes.
+Integrate the OwnPay API in 5 minutes. Assumes you have an OwnPay instance running and admin access to generate API keys.
 
 ## Step 1: Generate your API key
 
@@ -15,9 +17,9 @@ Get started with OwnPay API integration in 5 minutes.
 
 Your keys look like:
 
-```
-Public Key:  op_live_abc123xyz...
-Secret Key:  op_secret_def456...
+```text
+Public Key:  op_pub_abc123xyz...
+Secret Key:  op_sec_abc123xyz...
 ```
 
 <Warning>
@@ -37,9 +39,9 @@ composer require ownpay/php-sdk
 use OwnPay\SDK\Client;
 
 $client = new Client(
-    publicKey:  $_ENV['OWNPAY_PUBLIC_KEY'],
-    secretKey:  $_ENV['OWNPAY_SECRET_KEY'],
-    baseUrl:    'https://yourdomain.com/api/v1'
+    publicKey: $_ENV['OWNPAY_PUBLIC_KEY'],
+    secretKey: $_ENV['OWNPAY_SECRET_KEY'],
+    baseUrl: 'https://yourdomain.com/api/v1'
 );
 
 $payment = $client->payments()->create([
@@ -61,9 +63,9 @@ npm install ownpay
 import OwnPay from 'ownpay';
 
 const ownpay = new OwnPay({
-  publicKey:  process.env.OWNPAY_PUBLIC_KEY,
-  secretKey:  process.env.OWNPAY_SECRET_KEY,
-  baseUrl:    'https://yourdomain.com/api/v1'
+  publicKey: process.env.OWNPAY_PUBLIC_KEY,
+  secretKey: process.env.OWNPAY_SECRET_KEY,
+  baseUrl: 'https://yourdomain.com/api/v1'
 });
 
 const payment = await ownpay.payments.create({
@@ -79,7 +81,7 @@ const payment = await ownpay.payments.create({
 
 ```bash
 curl -X POST https://yourdomain.com/api/v1/payments \
-  -H "Authorization: Bearer op_live_xxx..." \
+  -H "Authorization: Bearer op_sec_your_secret_key" \
   -H "Content-Type: application/json" \
   -d '{
     "amount": 5000,

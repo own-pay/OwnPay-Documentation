@@ -1,6 +1,9 @@
 ---
-title: WHMCS Integration
-description: Install and configure the official OwnPay WHMCS payment gateway module to accept card and mobile wallet payments on hosting invoices.
+---
+title: "WHMCS Integration - Accept Payments on Hosting Invoices"
+description: "Install and configure the official OwnPay WHMCS payment gateway module to accept card and mobile wallet payments on hosting invoices."
+keywords: "WHMCS payment module, hosting invoices, WHMCS gateway, card payments, WHMCS integration"
+sidebarTitle: "WHMCS"
 ---
 
 # WHMCS Integration
@@ -57,7 +60,7 @@ Extract the archive. You will see a `modules` directory structure containing the
 
 Copy these files to your WHMCS root directory, preserving the folder structure:
 
-```
+```text
 whmcs-root/
   modules/
     gateways/
@@ -109,7 +112,7 @@ OwnPay uses webhooks to inform WHMCS instantly when a customer completes their p
 **Locate your callback URL**
 
 Your WHMCS callback URL is:
-```
+```text
 https://your-whmcs-domain.com/modules/gateways/callback/ownpay.php
 ```
 

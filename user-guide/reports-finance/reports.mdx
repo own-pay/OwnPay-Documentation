@@ -1,6 +1,8 @@
 ---
-title: "Reports"
+title: "Reports - Transaction Volume, Fees, and CSV Export"
 description: "Monitor business KPIs, analyze transaction volume, audit gateway fees, and export payment data as CSV or PDF reports per brand and date range."
+keywords: "payment reports, transaction volume, gateway fees, CSV export, PDF reports, payment analytics"
+sidebarTitle: "Reports"
 ---
 
 The Reports page compiles analytics for your active brand. It provides visual summary cards for key performance indicators (KPIs) like Total Revenue, Transactions Count, Average Transaction value, and Total Gateway Fees.
@@ -49,6 +51,14 @@ Displays detailed conversion metrics. If no transactions are registered in the s
 <Warning>
 Double-check that your base default currency matches your report expectations. If your brand context defaults to BDT, all amounts shown in the reports cards represent BDT values.
 </Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Report shows zero transactions | Date range filter too narrow or wrong brand context | Expand the date range and verify the correct brand is selected |
+| Amounts look wrong | Currency mismatch between brand and report | Verify the brand's default currency in **System > Settings** |
+| Chart not loading | Browser blocked JavaScript or large dataset timeout | Refresh the page; if persistent, narrow the date range |
 
 ## Related pages
 

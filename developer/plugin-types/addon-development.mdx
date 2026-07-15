@@ -1,6 +1,8 @@
 ---
-title: "Addon Plugin Development Guide"
+title: "Addon Plugin Development - Build General-Purpose Extensions"
 description: "Scaffold, register, and ship general-purpose addon plugins using OwnPay's plugin.yaml manifest, event hooks, filters, and capabilities."
+keywords: "addon plugin, plugin development, plugin.yaml, event hooks, plugin scaffolding"
+sidebarTitle: "Addon Dev"
 ---
 
 Addons are the general-purpose extension type in OwnPay. Unlike gateways (which implement `GatewayAdapterInterface`) or themes (which override checkout templates), addons extend the platform through event hooks, custom HTTP routes, cron jobs, admin menu entries, and database-backed functionality.
@@ -14,7 +16,7 @@ Addons are the general-purpose extension type in OwnPay. Unlike gateways (which 
 
 ## Directory structure
 
-```
+```text
 modules/addons/my-addon/
 +-- manifest.json           # Required. Plugin metadata.
 +-- Plugin.php              # Required. Entrypoint class implementing PluginInterface.

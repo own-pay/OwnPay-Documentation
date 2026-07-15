@@ -1,6 +1,8 @@
 ---
-title: "Event System"
+title: "Event System - Dispatchable Events and Queued Handlers"
 description: "OwnPay's event-driven plugin architecture with dispatchable events, listeners, queued handlers, and payload conventions for payments and refunds."
+keywords: "event system, payment events, event listeners, queued handlers, event-driven architecture"
+sidebarTitle: "Events"
 ---
 
 OwnPay's plugin system is built around a central event bus implemented in `OwnPay\Event\EventManager`. It provides two hook types - **actions** (fire-and-forget) and **filters** (pipeline mutation) - that allow plugins to extend and customise core behaviour without modifying any core files.

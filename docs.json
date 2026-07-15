@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "OwnPay",
-  "description": "Self-hosted, enterprise-grade payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.",
+  "description": "Self-hosted payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.",
   "feedback": {
     "thumbsRating": true,
     "suggestEdit": true,
@@ -11,7 +11,7 @@
   "colors": {
     "primary": "#0178C8",
     "light": "#7EC8FC",
-    "dark": "#102963"
+    "dark": "#4A6FA5"
   },
   "topbarCtaButton": {
     "type": "github",
@@ -56,40 +56,25 @@
     "timestamp": true
   },
   "navigation": {
-    "global": {
-      "languages": [
-        {
-          "language": "en",
-          "default": true,
-          "href": "/",
-          "todo": "For future language configurations (e.g. Spanish 'es'), translate MDX files into subdirectories (e.g. /es/...) and add the language configurations here."
-        }
-      ]
-    },
+    "global": {},
     "tabs": [
       {
         "tab": "Documentation",
         "icon": "book-open",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Get Started",
             "icon": "rocket",
             "pages": [
               "introduction",
               "demo",
               "quickstart",
-              "installation"
-            ]
-          },
-          {
-            "group": "User Guide",
-            "icon": "book-open",
-            "pages": [
+              "installation",
               "user-guide/dashboard"
             ]
           },
           {
-            "group": "People",
+            "group": "Manage People",
             "icon": "users",
             "pages": [
               "user-guide/people/brands",
@@ -99,19 +84,13 @@
             ]
           },
           {
-            "group": "Payments",
+            "group": "Payments & Gateways",
             "icon": "credit-card",
             "pages": [
               "user-guide/payments/payment-links",
               "user-guide/payments/transactions",
               "user-guide/payments/invoices",
-              "user-guide/payments/ledger"
-            ]
-          },
-          {
-            "group": "Gateways",
-            "icon": "landmark",
-            "pages": [
+              "user-guide/payments/ledger",
               "user-guide/gateways/gateways",
               "user-guide/gateways/currencies"
             ]
@@ -127,27 +106,21 @@
             ]
           },
           {
-            "group": "System",
+            "group": "Configuration",
             "icon": "settings",
             "pages": [
               "user-guide/system/settings",
               "user-guide/system/domains",
+              "user-guide/appearance/branding-settings",
+              "user-guide/appearance/themes",
+              "user-guide/appearance/landing-page",
               "user-guide/system/plugins",
               "user-guide/system/addons",
               "user-guide/system/system-update"
             ]
           },
           {
-            "group": "Appearance",
-            "icon": "palette",
-            "pages": [
-              "user-guide/appearance/branding-settings",
-              "user-guide/appearance/themes",
-              "user-guide/appearance/landing-page"
-            ]
-          },
-          {
-            "group": "Auth & Account",
+            "group": "Access & Security",
             "icon": "lock",
             "pages": [
               "user-guide/auth/login",
@@ -158,18 +131,12 @@
             ]
           },
           {
-            "group": "Reports",
+            "group": "Reports & Monitoring",
             "icon": "chart-bar",
             "pages": [
               "user-guide/reports-finance/reports",
               "user-guide/reports-finance/audit-log",
-              "user-guide/reports-finance/balance-verification"
-            ]
-          },
-          {
-            "group": "Other",
-            "icon": "ellipsis",
-            "pages": [
+              "user-guide/reports-finance/balance-verification",
               "user-guide/developers/developer-hub",
               "user-guide/public/checkout"
             ]
@@ -458,7 +425,7 @@
     "supportEmail": "support@ownpay.org"
   },
   "banner": {
-    "content": "OwnPay v0.2.0 is available. [See what's new](/docs/user-guide/changelog)",
+    "content": "OwnPay v0.2.0 is available. [See what's new](/user-guide/changelog)",
     "dismissible": true
   },
   "interaction": {

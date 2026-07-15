@@ -1,6 +1,8 @@
 ---
-title: "Brands"
+title: "Brands - Create and Configure White-Label Storefronts"
 description: "Create and configure white-label brand storefronts including custom domains, checkout templates, currency, and gateway assignments in OwnPay."
+keywords: "brands, white-label, storefronts, custom domains, brand configuration, multi-tenant"
+sidebarTitle: "Brands"
 ---
 
 OwnPay operates as a single-owner, multi-brand payment gateway system. The primary administrator can create and customize distinct brand identities (stores) that operate under their own domain hostnames, email support routes, visual color palettes, and CSS styles.
@@ -78,6 +80,15 @@ When a custom domain is mapped:
 <Warning>
 Ensure staff users are explicitly assigned to their brand. If they try to access a brand they are not assigned to, they will be blocked by system role access controls.
 </Warning>
+
+## Common mistakes and troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Custom domain shows 404 | DNS not verified or A record missing | Complete DNS setup and click **Verify** in **System > Domains** |
+| Checkout shows wrong logo/colors | Theme not applied to brand | Go to **Appearance > Themes** and assign a theme to the brand |
+| Staff can't access a brand | Staff not assigned to the brand | Edit the staff member and assign them to the correct brand |
+| Currency mismatch in reports | Default currency changed after transactions | Never change the default currency after processing payments |
 
 ## Related pages
 

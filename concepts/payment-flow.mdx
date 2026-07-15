@@ -1,13 +1,19 @@
 ---
-title: "Payment Flow Architecture"
+title: "Payment Flow - End-to-End Transaction Lifecycle"
 description: "End-to-end life cycle of a payment from intent creation, gateway redirect, callback handling, SMS verification, settlement, and webhook delivery."
+keywords: "payment flow, transaction lifecycle, payment processing, gateway redirect, payment settlement"
+sidebarTitle: "Payment Flow"
 ---
 
-Understanding how OwnPay processes payments from start to finish.
+What happens between when a customer clicks "Pay" and when funds appear in your ledger? This page traces the journey of a payment through OwnPay, including the states it passes through and the events it triggers.
 
-## The Complete Payment Flow
+<Info>
+To accept your first payment right now, follow the [Developer Quickstart](/developer/quickstart) instead.
+</Info>
 
-```
+## How a payment flows through OwnPay
+
+```text
 Customer         OwnPay           Gateway          Customer
                                                    Bank
    │                │                │               │
@@ -169,6 +175,12 @@ OwnPay supports multiple payment methods:
 - No sensitive card data stored on OwnPay servers
 - Webhook signatures for verification
 - Idempotency keys prevent duplicate charges
+
+## Further reading
+
+- [Transactions](/user-guide/payments/transactions) - View and filter transaction history in the admin dashboard
+- [Webhooks](/api/webhooks) - Receive real-time payment notifications on your server
+- [Gateways](/concepts/gateways) - Configure payment gateway adapters and routing rules
 
 ## Related Pages
 

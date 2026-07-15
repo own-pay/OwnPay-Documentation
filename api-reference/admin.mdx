@@ -1,13 +1,15 @@
 ---
-title: "Admin API"
+title: "Admin API Reference - SMS, Domains, and Device Management"
 description: "Admin API endpoints for managing SMS templates, outbound SMS queues, paired devices, and domain verification on the OwnPay master domain."
+keywords: "Admin API, SMS management, domain verification, device pairing, admin endpoints"
+sidebarTitle: "Admin API"
 ---
 
 The Admin API provides administrative endpoints for managing SMS templates, outbound SMS queues, paired devices, and domain verification. This API is only accessible on the master domain.
 
 ## Base URL
 
-```
+```text
 https://{master_domain}/api/admin/v1
 ```
 
@@ -19,7 +21,7 @@ https://{master_domain}/api/admin/v1
 
 All endpoints require a Bearer token with `admin` scope:
 
-```
+```http
 Authorization: Bearer YOUR_ADMIN_API_KEY
 ```
 

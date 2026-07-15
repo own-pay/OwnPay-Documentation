@@ -1,6 +1,8 @@
 ---
-title: "Performance and Scaling"
+title: "Performance and Scaling - Caching, Queues, and Optimization"
 description: "Optimize OwnPay with caching, database tuning, queue workers, and horizontal scaling strategies for high-volume, multi-brand payment deployments."
+keywords: "performance, scaling, caching, queue workers, database optimization, high-volume payments"
+sidebarTitle: "Performance"
 ---
 
 A technical guide to optimizing OwnPay performance and scaling for high-volume payment operations.
@@ -161,7 +163,7 @@ Default limits:
 
 ### Architecture 1: Single server (default)
 
-```
+```text
 +-- App Container (PHP-FPM + Nginx)
 |   +-- 20 max workers, 500 req/recycle
 |   +-- OPcache: 128MB + JIT
@@ -171,7 +173,7 @@ Default limits:
 
 ### Architecture 2: Dedicated database + app server
 
-```
+```text
 App Server                    DB Server
 +-- PHP-FPM 8.3    --------> MariaDB 10.11
 +-- Nginx                   innodb_buffer: 5G+
@@ -180,7 +182,7 @@ App Server                    DB Server
 
 ### Architecture 3: Horizontal scaling with load balancer
 
-```
+```text
 Load Balancer (Nginx/HAProxy)
     +-- App Server 1 (stateless)
     +-- App Server 2 (stateless)
