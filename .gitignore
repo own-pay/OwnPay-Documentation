@@ -29,6 +29,7 @@ skills-lock.json
 .vscode/scheduler-history/
 .vscode/copilot-cockpit-support/
 .github/hooks/
+.github/skills/
 .github/agents/todos/
 .github-scheduler-backups/
 .github/cockpit-prompt-backups/
