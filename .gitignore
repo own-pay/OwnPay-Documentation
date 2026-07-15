@@ -6,6 +6,10 @@ docs/superpowers/
 .mcp.json
 skills-lock.json
 *.log
+.devin/
+.remember/
+.vscode/
+
 
 # SDD scaffolding
 .superpowers/

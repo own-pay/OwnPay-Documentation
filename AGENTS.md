@@ -357,7 +357,7 @@ Before claiming victory on any documentation updates, run this validation pipeli
 Every commit made by an AI agent MUST include the OwnPay bot as a co-author. Add this trailer to every commit message:
 
 ```text
-Co-authored-by: OwnPay [bot] <bot@ownpay.org>
+Co-authored-by: OwnPay Bot <bot@ownpay.org>
 ```
 
 Example:
@@ -365,5 +365,5 @@ Example:
 ```bash
 git commit -m "Your commit message here
 
-Co-authored-by: OwnPay [bot] <bot@ownpay.org>"
+Co-authored-by: OwnPay Bot <bot@ownpay.org>"
 ```
