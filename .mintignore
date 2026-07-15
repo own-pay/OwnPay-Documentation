@@ -42,6 +42,18 @@ logs/
 .mcp.json
 skills-lock.json
 
+# Devin AI agent files
+.devin/
+
+# Copilot cockpit logs
+.copilot-cockpit-logs/
+
+# Remember memory files
+.remember/
+
+# GitHub (workflows needed for sync, but skills/metadata are not)
+.github/skills/
+
 # Development scripts
 scripts/
 
