@@ -415,7 +415,7 @@
   "variables": {
     "version": "0.2.0",
     "github": "https://github.com/own-pay/OwnPay",
-    "githubDocs": "https://github.com/own-pay/OwnPay-Documentation",
+    "githubDocs": "https://github.com/own-pay/ownpay-docs",
     "githubWordpress": "https://github.com/own-pay/OwnPay-WordPress",
     "githubWhmcs": "https://marketplace.whmcs.com/product/8845-ownpay-whmcs",
     "website": "https://ownpay.org",

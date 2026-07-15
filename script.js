@@ -293,12 +293,19 @@ function injectLlmsTxtLink() {
 
 // ===== Rewrite Native Issue Links Client-Side =====
 function rewriteNativeIssueLinks() {
-  const links = document.querySelectorAll('a[href*="OwnPay-Documentation/issues/new"]');
+  // Redirect docs repo issues to main OwnPay repo (docs repo should not have its own issues)
+  const selectors = [
+    'a[href*="OwnPay-Documentation/issues/new"]',
+    'a[href*="ownpay-docs/issues/new"]'
+  ];
+  const links = document.querySelectorAll(selectors.join(', '));
   links.forEach(link => {
-    const oldUrl = link.getAttribute('href');
-    if (oldUrl && oldUrl.includes('OwnPay-Documentation/issues/new')) {
-      const newUrl = oldUrl.replace('OwnPay-Documentation/issues/new', 'OwnPay/issues/new');
-      link.setAttribute('href', newUrl);
+    const href = link.getAttribute('href');
+    if (href) {
+      const newUrl = href
+        .replace('OwnPay-Documentation/issues/new', 'OwnPay/issues/new')
+        .replace('ownpay-docs/issues/new', 'OwnPay/issues/new');
+      if (newUrl !== href) link.setAttribute('href', newUrl);
     }
   });
 }
