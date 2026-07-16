@@ -113,6 +113,7 @@
 ### SDK Integrations
 
 - [PHP SDK](https://ownpay.org/docs/developer/integration/php.md): PHP SDK installation and usage.
+- [Laravel SDK](https://ownpay.org/docs/developer/integration/laravel.md): Laravel SDK with facade, webhook verification, and value objects.
 - [Node.js SDK](https://ownpay.org/docs/developer/integration/nodejs.md): Node.js SDK installation and usage.
 - [WooCommerce](https://ownpay.org/docs/developer/integration/woocommerce.md): WooCommerce plugin integration.
 - [WHMCS](https://ownpay.org/docs/developer/integration/whmcs.md): WHMCS billing platform integration.
