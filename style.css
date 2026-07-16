@@ -5,111 +5,84 @@ footer a[href*="mintlify.com"] {
   display: none !important;
 }
 
-/* Hide theme toggle in footer */
-footer [data-component-name="theme-toggle"],
-footer button[aria-label*="theme"],
-footer button[aria-label*="Theme"] {
+/* Hide ALL theme switch buttons in footer */
+footer button[aria-label*="Switch to system"],
+footer button[aria-label*="Switch to light"],
+footer button[aria-label*="Switch to dark"] {
   display: none !important;
 }
 
-/* Compact footer - override Tailwind utility classes */
-footer .py-16,
-footer .md\:py-20,
-footer .lg\:py-28,
-#footer .py-16,
-#footer .md\:py-20,
-#footer .lg\:py-28 {
-  padding-top: 1rem !important;
-  padding-bottom: 0 !important;
+/* Footer background */
+footer#footer {
+  background: #fafbfc;
+  border-top: 1px solid #e2e8f0;
 }
 
-footer .gap-12,
-#footer .gap-12 {
-  gap: 0.75rem !important;
+.dark footer#footer {
+  background: #0f172a;
+  border-top-color: #1e293b;
 }
 
-footer .px-8,
-#footer .px-8 {
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
+/* Footer container - max width and padding */
+footer#footer > div:first-child {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem 0;
 }
 
-/* Compact footer links */
-footer .flex.items-center.justify-between,
-#footer .flex.items-center.justify-between {
-  padding-bottom: 0 !important;
-  margin-bottom: 0 !important;
+/* Section headers - clean, minimal */
+footer#footer p.text-sm.font-semibold {
+  font-size: 14px !important;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 1rem !important;
 }
 
-footer .min-h-\[76px\],
-#footer .min-h-\[76px\] {
-  min-height: auto !important;
+.dark footer#footer p.text-sm.font-semibold {
+  color: #f1f5f9;
 }
 
-footer .gap-8,
-#footer .gap-8 {
-  gap: 0.5rem !important;
+/* Link columns grid - 3 columns */
+footer#footer [style*="grid-template-columns"] {
+  gap: 2rem !important;
 }
 
-@media (min-width: 768px) {
-  footer .gap-8,
-  #footer .gap-8 {
-    gap: 0.75rem !important;
-  }
+/* Links - clean spacing and hover */
+footer#footer [style*="grid-template-columns"] a {
+  font-size: 14px !important;
+  padding: 5px 0 !important;
+  transition: color 0.15s ease;
 }
 
-/* Smaller footer text - Mintlify uses div > a structure, not ul > li > a */
-footer ul li a,
-footer [style*="grid-template-columns"] a,
-#footer ul li a,
-#footer [style*="grid-template-columns"] a {
-  font-size: 13px !important;
-  line-height: 1.6 !important;
+footer#footer [style*="grid-template-columns"] a:hover {
+  color: #10b981 !important;
 }
 
-/* Section headers in footer - Mintlify uses <p> with font-semibold, not h4 */
-footer h4,
-footer p.text-sm.font-semibold,
-#footer h4,
-#footer p.text-sm.font-semibold {
-  font-size: 13px !important;
-  margin-bottom: 0.25rem !important;
+/* Footer description */
+footer#footer .footer-description {
+  display: none !important;
 }
 
-/* Compact footer top section on mobile */
-@media (max-width: 767px) {
-  footer .footer-description {
-    font-size: 12px !important;
-    margin-top: 0.25rem !important;
-    margin-bottom: 0.25rem !important;
-  }
-  footer .sr-only + svg,
-  footer .h-fit svg {
-    width: 16px !important;
-    height: 16px !important;
-  }
+/* Bottom bar - hide the Powered by Mintlify + theme switchers row */
+footer#footer > div:first-child > div:last-child {
+  display: none !important;
 }
 
-/* Community tagline - inline with bottom bar */
-footer::after {
+/* "Built by the Community" tagline */
+footer#footer::after {
   content: "Built by the Community, for the Community.";
   display: block;
   text-align: center;
   font-size: 12px;
-  color: #9ca3af;
-  padding: 0.5rem 0;
+  color: #94a3b8;
+  padding: 0 0 1.5rem;
   margin: 0;
+  border-top: 1px solid #e2e8f0;
 }
 
-/* Custom footer brand description injection */
-.footer-description {
-  font-size: 13px;
-  color: #6b7280;
-  line-height: 1.6;
-  font-weight: 400;
-}
-.dark .footer-description {
-  color: #9ca3af;
+.dark footer#footer::after {
+  color: #64748b;
+  border-top-color: #1e293b;
 }
 
 /* ===== Footer Overlap Fix ===== */
@@ -891,89 +864,169 @@ header,
 /* ===== Custom Footer for Custom Mode Page ===== */
 .custom-footer {
   margin-top: 4rem;
-  border-top: 1px solid #e5e7eb;
-  padding-top: 2.5rem;
-  padding-bottom: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 0;
+  padding-bottom: 0;
   width: 100%;
-}
-
-@media (min-width: 1024px) {
-  .custom-footer {
-    margin-top: 6rem;
-    padding-top: 4rem;
-    padding-bottom: 2rem;
-  }
+  background: #fafbfc;
 }
 
 .dark .custom-footer {
-  border-color: #1e293b;
+  border-top-color: #1e293b;
+  background: #0f172a;
 }
 
-.custom-footer-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
+/* Brand row - logo + socials */
+.custom-footer-brand-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-@media (min-width: 1024px) {
-  .custom-footer-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 2.5rem;
-    margin-bottom: 3.5rem;
+@media (min-width: 768px) {
+  .custom-footer-brand-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 }
 
-.custom-footer-col {
+/* Brand section */
+.custom-footer-brand {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-@media (min-width: 1024px) {
-  .custom-footer-col {
-    gap: 0.75rem;
+.custom-footer-logo-row img {
+  height: 24px;
+}
+
+/* Footer description - hidden to match docs pages */
+.custom-footer-desc {
+  display: none;
+}
+
+/* Custom footer grid - 3 columns */
+.custom-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+}
+
+@media (max-width: 767px) {
+  .custom-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 0 1.5rem 2rem;
   }
 }
 
+/* Custom footer columns */
+.custom-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Custom footer headings - match native footer */
 .custom-footer-heading {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  color: #102963;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
+  color: #0f172a;
+  margin-bottom: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .dark .custom-footer-heading {
-  color: #ffffff;
+  color: #f1f5f9;
 }
 
+/* Custom footer links - match native footer */
 .custom-footer-link {
-  font-size: 13px;
-  color: #4b5563;
+  display: block;
+  font-size: 14px;
+  color: #64748b;
+  padding: 6px 0;
   text-decoration: none !important;
-  transition: color 0.2s ease;
-  line-height: 1.4;
-}
-
-@media (min-width: 1024px) {
-  .custom-footer-link {
-    font-size: 13.5px;
-    line-height: 1.5;
-  }
+  transition: color 0.15s ease;
+  line-height: 1.5;
 }
 
 .custom-footer-link:hover {
-  color: #0178C8;
+  color: #0f172a;
 }
 
 .dark .custom-footer-link {
-  color: #9ca3af;
+  color: #94a3b8;
 }
 
 .dark .custom-footer-link:hover {
-  color: #7EC8FC;
+  color: #f1f5f9;
+}
+
+/* Custom footer bottom bar */
+.custom-footer-bottom {
+  border-top: 1px solid #e2e8f0;
+  padding: 1.5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 767px) {
+  .custom-footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    padding: 1.5rem;
+  }
+}
+
+.dark .custom-footer-bottom {
+  border-top-color: #1e293b;
+}
+
+/* Custom footer social icons */
+.custom-footer-socials {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.custom-footer-socials a {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: transparent;
+  color: #94a3b8;
+  transition: all 0.15s ease;
+}
+
+.custom-footer-socials a:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.dark .custom-footer-socials a:hover {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+/* Copyright text */
+.custom-footer-copyright {
+  font-size: 13px;
+  color: #94a3b8;
 }
 
 /* Bottom Bar */

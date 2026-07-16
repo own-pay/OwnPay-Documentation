@@ -273,57 +273,16 @@ mode: "custom"
 
   {/* Custom Footer Section */}
   <div className="custom-footer">
-    <div className="custom-footer-grid">
-      <div className="custom-footer-col">
-        <h4 className="custom-footer-heading">Resources</h4>
-        <a href="/docs/quickstart" className="custom-footer-link">Getting Started</a>
-        <a href="/docs/resources/architecture" className="custom-footer-link">Architecture</a>
-        <a href="/docs/resources/features" className="custom-footer-link">Features Reference</a>
-        <a href="/docs/resources/local-setup" className="custom-footer-link">Local Installation</a>
-        <a href="/docs/resources/glossary" className="custom-footer-link">Glossary</a>
-        <a href="/docs/advanced-topics/faq" className="custom-footer-link">FAQ</a>
-      </div>
-      <div className="custom-footer-col">
-        <h4 className="custom-footer-heading">Developer Hub</h4>
-        <a href="/docs/developer/quickstart" className="custom-footer-link">Quickstart Guide</a>
-        <a href="/docs/user-guide/developers/developer-hub" className="custom-footer-link">API Keys & Setup</a>
-        <a href="/docs/resources/ecosystem" className="custom-footer-link">SDK Integrations</a>
-        <a href="/docs/developer/plugins/events" className="custom-footer-link">Webhook System</a>
-        <a href="/docs/developer/plugins/overview" className="custom-footer-link">Plugin System</a>
-        <a href="/docs/api-reference/merchant" className="custom-footer-link">Merchant API</a>
-      </div>
-      <div className="custom-footer-col">
-        <h4 className="custom-footer-heading">User Guides</h4>
-        <a href="/docs/user-guide/dashboard" className="custom-footer-link">Admin Dashboard</a>
-        <a href="/docs/concepts/brands" className="custom-footer-link">Brand Isolation</a>
-        <a href="/docs/concepts/payment-flow" className="custom-footer-link">Payment Flow</a>
-        <a href="/docs/concepts/ledger" className="custom-footer-link">Double-entry Ledger</a>
-        <a href="/docs/advanced-topics/security-compliance" className="custom-footer-link">Security & Compliance</a>
-        <a href="/docs/advanced-topics/troubleshooting" className="custom-footer-link">Troubleshooting</a>
-      </div>
-      <div className="custom-footer-col">
-        <h4 className="custom-footer-heading">Community & Support</h4>
-        <a href="https://github.com/own-pay/OwnPay" target="_blank" className="custom-footer-link">GitHub Repository</a>
-        <a href="https://github.com/own-pay/OwnPay/issues/new" target="_blank" className="custom-footer-link">Raise an Issue</a>
-        <a href="https://github.com/own-pay/OwnPay/discussions" target="_blank" className="custom-footer-link">Discussions</a>
-        <a href="/docs/resources/contributing" className="custom-footer-link">Contributing Guide</a>
-        <a href="/docs/resources/roadmap" className="custom-footer-link">Product Roadmap</a>
-        <a href="/docs/user-guide/changelog" className="custom-footer-link">Release Changelog</a>
-      </div>
-    </div>
-
-    <div className="custom-footer-bottom">
+    {/* Brand and Socials */}
+    <div className="custom-footer-brand-row">
       <div className="custom-footer-brand">
         <div className="custom-footer-logo-row">
           <img src="/logo/light.svg" className="block dark:hidden" alt="OwnPay Logo" />
           <img src="/logo/dark.svg" className="hidden dark:block" alt="OwnPay Logo" />
         </div>
-        <p className="footer-description mt-2 max-w-xs text-left">
+        <p className="custom-footer-desc">
           Self-hosted payment orchestrator with multi-brand support, white-label domains, and 100+ payment gateways.
         </p>
-        <span className="custom-footer-copyright">
-          © 2026 OwnPay. Licensed under AGPL-3.0.
-        </span>
       </div>
       <div className="custom-footer-socials">
         <a href="https://github.com/own-pay/OwnPay" target="_blank" className="custom-footer-social-link">
@@ -343,6 +302,39 @@ mode: "custom"
           <span className="sr-only">Facebook</span>
         </a>
       </div>
+    </div>
+
+    {/* Link Grid */}
+    <div className="custom-footer-grid">
+      <div className="custom-footer-col">
+        <h4 className="custom-footer-heading">Product</h4>
+        <a href="/docs/quickstart" className="custom-footer-link">Quickstart</a>
+        <a href="/docs/installation" className="custom-footer-link">Installation</a>
+        <a href="/docs/resources/features" className="custom-footer-link">Features</a>
+        <a href="/docs/resources/roadmap" className="custom-footer-link">Roadmap</a>
+        <a href="/docs/user-guide/changelog" className="custom-footer-link">Changelog</a>
+      </div>
+      <div className="custom-footer-col">
+        <h4 className="custom-footer-heading">Developers</h4>
+        <a href="/docs/api-reference/merchant" className="custom-footer-link">API Reference</a>
+        <a href="/docs/developer/quickstart" className="custom-footer-link">SDK Integration</a>
+        <a href="/docs/developer/plugins/events" className="custom-footer-link">Webhooks</a>
+        <a href="/docs/developer/plugins/overview" className="custom-footer-link">Plugins</a>
+      </div>
+      <div className="custom-footer-col">
+        <h4 className="custom-footer-heading">Resources</h4>
+        <a href="/docs/resources/architecture" className="custom-footer-link">Architecture</a>
+        <a href="/docs/advanced-topics/security-compliance" className="custom-footer-link">Security</a>
+        <a href="/docs/advanced-topics/faq" className="custom-footer-link">FAQ</a>
+        <a href="/docs/resources/contributing" className="custom-footer-link">Contributing</a>
+      </div>
+    </div>
+
+    {/* Bottom Bar */}
+    <div className="custom-footer-bottom">
+      <span className="custom-footer-copyright">
+        © 2026 OwnPay. Licensed under AGPL-3.0.
+      </span>
     </div>
   </div>
 </div>
