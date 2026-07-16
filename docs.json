@@ -199,6 +199,7 @@
             "icon": "plug",
             "pages": [
               "developer/integration/php",
+              "developer/integration/laravel",
               "developer/integration/nodejs",
               "developer/integration/woocommerce",
               "developer/integration/whmcs"
